@@ -1,0 +1,512 @@
+# Appellations et profils types — Bourgogne, Beaujolais, Champagne, Alsace, Jura, Savoie.
+# structure : [corps, acidité, tanins, sucrosité], échelle 0-5.
+
+# ───────────── Bourgogne ─────────────
+- appellation: Chablis
+  region: Chablisien
+  lat: 47.814
+  lng: 3.798
+  profiles:
+    - color: blanc
+      grapes: {Chardonnay: 100}
+      aromas: {citron: 3, pomme verte: 2, coquille d'huître: 3, silex: 2, craie: 2, fleurs blanches: 1, iode: 1}
+      structure: [2, 5, 0, 1]
+      price: [15, 45]
+      aging: [3, 12]
+      temp: 10-11 °C
+      pairings: [huîtres, escargots, jambon persillé]
+      description: Chardonnay du nord sur marnes kimméridgiennes truffées de fossiles marins, élevé le plus souvent sans bois, d'une tension saline inimitable.
+
+- appellation: Gevrey-Chambertin
+  region: Côte de Nuits
+  lat: 47.226
+  lng: 4.968
+  profiles:
+    - color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {cerise noire: 3, mûre: 2, réglisse: 2, sous-bois: 2, cuir: 1, gibier: 1, violette: 1}
+      structure: [4, 4, 3, 1]
+      price: [45, 300]
+      aging: [8, 25]
+      temp: 16 °C
+      pairings: [bœuf bourguignon, coq au vin, époisses]
+      description: Le pinot noir le plus viril de la côte, sombre et structuré, qui évolue vers le sous-bois et le gibier.
+
+- appellation: Chambolle-Musigny
+  region: Côte de Nuits
+  lat: 47.185
+  lng: 4.954
+  profiles:
+    - color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {framboise: 3, violette: 3, cerise: 2, rose: 2, pivoine: 1, sous-bois: 1}
+      structure: [3, 4, 2, 1]
+      price: [60, 400]
+      aging: [8, 25]
+      temp: 16 °C
+      pairings: [pigeon, volaille de Bresse, filet de veau]
+      description: Le pinot de la dentelle, aérien et parfumé, sur des sols calcaires peu argileux. Plus de soie que de muscle.
+
+- appellation: Vosne-Romanée
+  region: Côte de Nuits
+  lat: 47.160
+  lng: 4.955
+  profiles:
+    - color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {cerise noire: 2, framboise: 2, rose: 2, cannelle: 2, réglisse: 1, sous-bois: 2, vanille: 1}
+      structure: [4, 4, 3, 1]
+      price: [70, 1000]
+      aging: [10, 30]
+      temp: 16 °C
+      pairings: [lièvre à la royale, filet de bœuf aux truffes]
+      description: Pinot noir d'une profondeur épicée et soyeuse, considéré comme l'un des sommets de la Bourgogne rouge.
+
+- appellation: Nuits-Saint-Georges
+  region: Côte de Nuits
+  lat: 47.137
+  lng: 4.949
+  profiles:
+    - color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {cerise noire: 3, cassis: 2, réglisse: 2, cuir: 1, sous-bois: 1, gibier: 1}
+      structure: [4, 4, 4, 1]
+      price: [40, 200]
+      aging: [8, 25]
+      temp: 16 °C
+      pairings: [civet, gibier, époisses]
+      description: Pinot noir robuste et terrien, plus tannique que ses voisins, aux arômes de fruits noirs et de cuir.
+
+- appellation: Pommard
+  region: Côte de Beaune
+  lat: 47.008
+  lng: 4.795
+  profiles:
+    - color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {cerise noire: 3, prune: 2, réglisse: 1, cuir: 2, gibier: 1, sous-bois: 1}
+      structure: [4, 4, 4, 1]
+      price: [40, 150]
+      aging: [8, 20]
+      temp: 16 °C
+      pairings: [bœuf bourguignon, gibier]
+      description: Le rouge le plus charpenté de la Côte de Beaune, sur argiles ferrugineuses, ferme dans sa jeunesse.
+
+- appellation: Volnay
+  region: Côte de Beaune
+  lat: 46.997
+  lng: 4.773
+  profiles:
+    - color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {framboise: 3, violette: 2, cerise: 2, groseille: 1, rose: 1, sous-bois: 1}
+      structure: [3, 4, 2, 1]
+      price: [40, 150]
+      aging: [6, 20]
+      temp: 16 °C
+      pairings: [volaille rôtie, veau aux morilles]
+      description: Le pinot féminin de la Côte de Beaune, délicat et floral, juste à côté de son voisin plus musclé.
+
+- appellation: Meursault
+  region: Côte de Beaune
+  lat: 46.977
+  lng: 4.770
+  profiles:
+    - color: blanc
+      grapes: {Chardonnay: 100}
+      aromas: {noisette: 3, beurre: 3, pain grillé: 2, pêche jaune: 2, amande: 1, citron: 1, vanille: 1}
+      structure: [4, 3, 0, 1]
+      price: [45, 250]
+      aging: [5, 20]
+      temp: 12-13 °C
+      pairings: [volaille à la crème, homard, comté affiné]
+      description: Chardonnay ample et beurré, aux arômes de noisette grillée, élevé sous bois avec une générosité qui n'exclut pas la fraîcheur.
+
+- appellation: Puligny-Montrachet
+  region: Côte de Beaune
+  lat: 46.947
+  lng: 4.750
+  profiles:
+    - color: blanc
+      grapes: {Chardonnay: 100}
+      aromas: {citron: 2, fleurs blanches: 2, amande: 2, pierre mouillée: 2, noisette: 1, pain grillé: 1, pêche blanche: 1}
+      structure: [4, 4, 0, 1]
+      price: [60, 500]
+      aging: [6, 20]
+      temp: 12 °C
+      pairings: [turbot, saint-jacques, langoustines]
+      description: Chardonnay de grande précision, plus tendu et floral que son voisin, d'une minéralité ciselée.
+
+- appellation: Corton-Charlemagne
+  region: Côte de Beaune
+  lat: 47.065
+  lng: 4.862
+  profiles:
+    - color: blanc
+      grapes: {Chardonnay: 100}
+      aromas: {citron: 2, pomme mûre: 2, noisette: 2, silex: 2, beurre: 1, miel: 1, cannelle: 1}
+      structure: [5, 4, 0, 1]
+      price: [120, 600]
+      aging: [10, 25]
+      temp: 12-13 °C
+      pairings: [homard, volaille truffée]
+      description: Grand cru de chardonnay puissant et minéral, sur une colline orientée plein ouest, lent à s'ouvrir.
+
+- appellation: Mercurey
+  region: Côte chalonnaise
+  lat: 46.840
+  lng: 4.720
+  profiles:
+    - color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {cerise: 3, framboise: 2, groseille: 1, réglisse: 1, sous-bois: 1}
+      structure: [3, 4, 3, 1]
+      price: [20, 45]
+      aging: [4, 12]
+      temp: 15-16 °C
+      pairings: [jambon persillé, volaille]
+      description: Pinot noir franc et fruité, plus rustique que ceux de la Côte d'Or et d'un excellent rapport qualité-prix.
+
+- appellation: Pouilly-Fuissé
+  region: Mâconnais
+  lat: 46.290
+  lng: 4.750
+  profiles:
+    - color: blanc
+      grapes: {Chardonnay: 100}
+      aromas: {pêche jaune: 2, ananas: 1, beurre: 2, amande: 2, acacia: 2, citron: 1, pain grillé: 1}
+      structure: [4, 3, 0, 1]
+      price: [20, 70]
+      aging: [4, 15]
+      temp: 11-12 °C
+      pairings: [sandre, poulet à la crème]
+      description: Chardonnay solaire sous les roches de Solutré et Vergisson, plus mûr et rond qu'au nord, avec une belle fraîcheur calcaire.
+
+- appellation: Mâcon-Villages
+  region: Mâconnais
+  lat: 46.310
+  lng: 4.830
+  profiles:
+    - color: blanc
+      grapes: {Chardonnay: 100}
+      aromas: {pomme mûre: 2, pêche blanche: 2, citron: 2, fleurs blanches: 2, beurre: 1}
+      structure: [3, 3, 0, 1]
+      price: [10, 22]
+      aging: [1, 5]
+      temp: 10-11 °C
+      pairings: [quiche, poissons, fromage de chèvre]
+      description: Chardonnay fruité et facile, peu ou pas boisé, porte d'entrée du blanc bourguignon.
+
+- appellation: Bourgogne Aligoté
+  region: Bourgogne
+  lat: 47.020
+  lng: 4.840
+  profiles:
+    - color: blanc
+      grapes: {Aligoté: 100}
+      aromas: {citron: 3, pomme verte: 2, aubépine: 1, pierre mouillée: 1}
+      structure: [2, 5, 0, 1]
+      price: [10, 25]
+      aging: [1, 5]
+      temp: 9-10 °C
+      pairings: [gougères, escargots, kir]
+      description: Blanc vif et citronné, longtemps réservé au kir, aujourd'hui revalorisé par des vignes anciennes.
+
+- appellation: Crémant de Bourgogne
+  region: Bourgogne
+  lat: 47.020
+  lng: 4.840
+  profiles:
+    - color: blanc
+      style: effervescent
+      grapes: {Chardonnay: 60, Pinot Noir: 35, Aligoté: 5}
+      aromas: {pomme verte: 2, citron: 2, brioche: 2, aubépine: 1, amande: 1}
+      structure: [2, 4, 0, 2]
+      price: [12, 25]
+      aging: [1, 5]
+      temp: 7-8 °C
+      pairings: [apéritif, gougères]
+      description: Effervescent de méthode traditionnelle au fruit précis, plus vineux qu'on ne l'attend.
+
+# ───────────── Beaujolais ─────────────
+- appellation: Beaujolais
+  region: Beaujolais
+  lat: 46.000
+  lng: 4.600
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {fraise: 2, framboise: 2, banane: 2, groseille: 1, pivoine: 1}
+      structure: [2, 4, 1, 1]
+      price: [7, 15]
+      aging: [0, 3]
+      temp: 13-14 °C
+      pairings: [charcuterie lyonnaise, saucisson, pique-nique]
+      description: Rouge léger et gouleyant, souvent vinifié en macération carbonique, qui exhale des notes de fruits rouges frais et de banane.
+
+- appellation: Morgon
+  region: Beaujolais
+  lat: 46.180
+  lng: 4.670
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {cerise: 3, griotte: 2, prune: 1, pivoine: 1, pierre mouillée: 1}
+      structure: [3, 4, 2, 1]
+      price: [12, 35]
+      aging: [3, 12]
+      temp: 14-15 °C
+      pairings: [andouillette, coq au vin, saucisson chaud]
+      description: Le cru le plus charnu du granit beaujolais ; autour de la Côte du Py, il « morgonne » en vieillissant vers des notes de cerise à l'eau-de-vie.
+
+- appellation: Fleurie
+  region: Beaujolais
+  lat: 46.190
+  lng: 4.700
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {framboise: 2, violette: 3, pivoine: 2, fraise: 2, rose: 1}
+      structure: [2, 4, 2, 1]
+      price: [12, 30]
+      aging: [2, 8]
+      temp: 14 °C
+      pairings: [volaille, saumon, quenelles]
+      description: Le cru le plus floral du Beaujolais, gracieux et soyeux sur granite rose.
+
+- appellation: Moulin-à-Vent
+  region: Beaujolais
+  lat: 46.190
+  lng: 4.740
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {cerise noire: 2, violette: 2, réglisse: 1, poivre noir: 1, prune: 2, sous-bois: 1}
+      structure: [4, 4, 3, 1]
+      price: [15, 40]
+      aging: [5, 15]
+      temp: 15 °C
+      pairings: [bœuf, gibier à plume]
+      description: Le cru de garde du Beaujolais, structuré sur granite riche en manganèse, qui peut évoquer un pinot noir avec l'âge.
+
+- appellation: Brouilly
+  region: Beaujolais
+  lat: 46.080
+  lng: 4.670
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {framboise: 3, fraise: 2, groseille: 2, prune: 1, pivoine: 1}
+      structure: [2, 4, 2, 1]
+      price: [10, 22]
+      aging: [1, 5]
+      temp: 14 °C
+      pairings: [charcuterie, tarte salée]
+      description: Le plus étendu des crus, fruité et franc, autour du mont du même nom.
+
+# ───────────── Champagne ─────────────
+- appellation: Champagne
+  region: Champagne
+  lat: 49.040
+  lng: 3.960
+  profiles:
+    - name: Champagne brut
+      color: blanc
+      style: effervescent
+      grapes: {Pinot Noir: 40, Pinot Meunier: 30, Chardonnay: 30}
+      aromas: {pomme verte: 2, brioche: 3, citron: 2, amande: 1, mie de pain: 2, craie: 1}
+      structure: [3, 4, 0, 2]
+      price: [25, 70]
+      aging: [2, 10]
+      temp: 8 °C
+      pairings: [apéritif, huîtres, gougères]
+      description: L'assemblage classique des trois cépages, vieilli de longs mois sur lattes, dont l'autolyse apporte brioche et mie de pain.
+    - name: Champagne blanc de blancs
+      color: blanc
+      style: effervescent
+      grapes: {Chardonnay: 100}
+      aromas: {citron: 3, craie: 3, fleurs blanches: 2, brioche: 2, noisette: 1, pomme verte: 1}
+      structure: [2, 5, 0, 1]
+      price: [35, 200]
+      aging: [3, 20]
+      temp: 8 °C
+      pairings: [caviar, saint-jacques crues, sushi]
+      description: Effervescent cent pour cent chardonnay, élancé et crayeux, d'une finesse aérienne.
+    - name: Champagne blanc de noirs
+      color: blanc
+      style: effervescent
+      grapes: {Pinot Noir: 70, Pinot Meunier: 30}
+      aromas: {fraise: 1, pomme mûre: 2, brioche: 2, cerise: 1, mie de pain: 2, noisette: 1}
+      structure: [4, 4, 0, 2]
+      price: [35, 120]
+      aging: [3, 15]
+      temp: 9 °C
+      pairings: [volaille, veau, chaource]
+      description: Effervescent blanc issu de raisins noirs, vineux et charnu, aux notes de fruits rouges discrets.
+    - name: Champagne rosé
+      color: rose
+      style: effervescent
+      grapes: {Pinot Noir: 50, Chardonnay: 30, Pinot Meunier: 20}
+      aromas: {fraise: 3, framboise: 2, groseille: 2, brioche: 1, rose: 1}
+      structure: [3, 4, 1, 2]
+      price: [40, 150]
+      aging: [2, 10]
+      temp: 8 °C
+      pairings: [saumon, desserts aux fruits rouges]
+      description: Effervescent rosé le plus souvent obtenu par assemblage de vin rouge, gourmand de petits fruits rouges.
+
+# ───────────── Alsace ─────────────
+- appellation: Alsace
+  region: Alsace
+  lat: 48.080
+  lng: 7.360
+  profiles:
+    - name: Alsace riesling
+      color: blanc
+      grapes: {Riesling: 100}
+      aromas: {citron vert: 3, pomme verte: 2, pêche blanche: 1, hydrocarbure: 2, pierre mouillée: 2, fleurs blanches: 1}
+      structure: [3, 5, 0, 1]
+      price: [12, 60]
+      aging: [5, 25]
+      temp: 9-10 °C
+      pairings: [choucroute, sandre, truite]
+      description: Blanc sec tranchant et minéral, d'une grande longévité ; avec l'âge apparaît la fameuse note d'hydrocarbure.
+    - name: Alsace gewurztraminer
+      color: blanc
+      grapes: {Gewurztraminer: 100}
+      aromas: {litchi: 3, rose: 3, gingembre: 2, mangue: 1, fleur d'oranger: 1, cannelle: 1}
+      structure: [4, 2, 0, 3]
+      price: [12, 45]
+      aging: [3, 15]
+      temp: 9-10 °C
+      pairings: [munster, cuisine thaï, foie gras]
+      description: Le plus exubérant des blancs, explosif de litchi et de rose, souvent avec une touche de sucre.
+    - name: Alsace pinot gris
+      color: blanc
+      grapes: {Pinot Gris: 100}
+      aromas: {poire: 2, pêche jaune: 2, fumé: 2, miel: 1, champignon: 1, amande: 1}
+      structure: [4, 3, 0, 2]
+      price: [12, 45]
+      aging: [3, 15]
+      temp: 10 °C
+      pairings: [volaille, baeckeoffe, champignons]
+      description: Blanc ample et capiteux, aux notes de sous-bois fumé et de fruits jaunes, du sec au moelleux.
+    - name: Alsace muscat
+      color: blanc
+      grapes: {Muscat à petits grains: 60, Muscat d'Alexandrie: 40}
+      aromas: {fleur d'oranger: 2, rose: 1, citron: 1, menthe: 1, pêche blanche: 1}
+      structure: [2, 3, 0, 1]
+      price: [10, 25]
+      aging: [1, 5]
+      temp: 8-9 °C
+      pairings: [asperges, apéritif]
+      description: Muscat vinifié sec, qui sent le raisin frais croqué, léger et floral ; rare et singulier.
+    - name: Alsace pinot noir
+      color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {cerise: 3, framboise: 2, griotte: 1, sous-bois: 1}
+      structure: [2, 4, 2, 1]
+      price: [12, 40]
+      aging: [2, 10]
+      temp: 14 °C
+      pairings: [tarte flambée, volaille]
+      description: Seul rouge du vignoble, léger et fruité, de plus en plus profond chez les meilleurs producteurs.
+
+- appellation: Crémant d'Alsace
+  region: Alsace
+  lat: 48.080
+  lng: 7.360
+  profiles:
+    - color: blanc
+      style: effervescent
+      grapes: {Pinot Blanc: 60, Riesling: 20, Chardonnay: 20}
+      aromas: {pomme verte: 2, poire: 1, citron: 2, brioche: 1, fleurs blanches: 1}
+      structure: [2, 4, 0, 2]
+      price: [9, 22]
+      aging: [1, 4]
+      temp: 7-8 °C
+      pairings: [apéritif, kougelhopf]
+      description: Effervescent alsacien frais et croquant, premier crémant de France en volume.
+
+# ───────────── Jura ─────────────
+- appellation: Château-Chalon
+  region: Jura
+  lat: 46.750
+  lng: 5.620
+  profiles:
+    - color: blanc
+      style: oxydatif
+      grapes: {Savagnin: 100}
+      aromas: {noix: 3, curry: 3, champignon: 2, amande: 2, pain grillé: 1, safran: 1}
+      structure: [4, 4, 0, 1]
+      price: [45, 120]
+      aging: [15, 100]
+      temp: 14-15 °C
+      pairings: [poulet aux morilles, comté vieux]
+      description: Vin jaune élevé plus de six ans sous un voile de levures sans ouillage, présenté en clavelin de 62 cl. Noix et curry en signature.
+
+- appellation: Arbois
+  region: Jura
+  lat: 46.900
+  lng: 5.770
+  profiles:
+    - color: rouge
+      grapes: {Poulsard: 60, Trousseau: 30, Pinot Noir: 10}
+      aromas: {groseille: 2, cerise: 2, fraise des bois: 2, poivre blanc: 1, sous-bois: 1, rose: 1}
+      structure: [1, 4, 1, 1]
+      price: [15, 40]
+      aging: [2, 10]
+      temp: 14 °C
+      pairings: [saucisse de Morteau, charcuterie]
+      description: Rouge pâle, presque rosé, aérien et épicé, typique des cépages jurassiens à peau fine.
+    - color: blanc
+      grapes: {Chardonnay: 60, Savagnin: 40}
+      aromas: {noix: 2, pomme mûre: 2, citron: 1, amande: 1, curry: 1, pierre mouillée: 1}
+      structure: [3, 4, 0, 1]
+      price: [15, 45]
+      aging: [4, 15]
+      temp: 12 °C
+      pairings: [comté, fondue, truite]
+      description: Blanc « tradition » souvent élevé sous voile, oxydatif léger avec des notes de noix fraîche.
+
+# ───────────── Savoie ─────────────
+- appellation: Vin de Savoie
+  region: Savoie
+  lat: 45.500
+  lng: 5.930
+  profiles:
+    - name: Vin de Savoie jacquère
+      color: blanc
+      grapes: {Jacquère: 100}
+      aromas: {citron: 2, pomme verte: 2, pierre mouillée: 2, fleurs blanches: 1, herbe coupée: 1}
+      structure: [1, 4, 0, 1]
+      price: [8, 15]
+      aging: [1, 3]
+      temp: 8 °C
+      pairings: [fondue, raclette, perche du lac]
+      description: Blanc de montagne léger et vif, peu alcoolisé, aux notes de pierre et de fleurs alpines.
+    - name: Vin de Savoie mondeuse
+      color: rouge
+      grapes: {Mondeuse: 100}
+      aromas: {poivre noir: 3, violette: 2, framboise: 2, mûre: 1, réglisse: 1}
+      structure: [3, 4, 3, 1]
+      price: [10, 25]
+      aging: [3, 10]
+      temp: 15 °C
+      pairings: [diots, tome de Savoie, gibier]
+      description: Rouge alpin poivré et violacé, au fruit éclatant et à l'acidité vive.
+
+- appellation: Roussette de Savoie
+  region: Savoie
+  lat: 45.750
+  lng: 5.830
+  profiles:
+    - color: blanc
+      grapes: {Altesse: 100}
+      aromas: {miel: 1, amande: 2, bergamote: 2, pêche blanche: 1, poire: 1, fleurs blanches: 1}
+      structure: [3, 4, 0, 1]
+      price: [12, 25]
+      aging: [3, 10]
+      temp: 10 °C
+      pairings: [beaufort, féra du lac]
+      description: Blanc plus ample de l'altesse, aux notes d'amande et de bergamote, qui gagne en miel avec l'âge.

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ appellation.name }}{% endblock %}
+{% block content %}
+<nav class="crumbs" aria-label="Fil d'Ariane">
+  {% for r in appellation.region.lineage %}<a href="{{ r.get_absolute_url }}">{{ r.name }}</a>{% if not forloop.last %}<span aria-hidden="true">/</span>{% endif %}{% endfor %}
+</nav>
+<h1>{{ appellation.name }}</h1>
+<p class="lede">{{ appellation.get_classification_display }} de {{ appellation.region.name }}{% if appellation.region.parent %}, en {{ appellation.region.parent.name }}{% endif %}.
+  {% for c in appellation.colors %}<span class="robe robe--{{ c }}" title="{{ c }}"></span> {% endfor %}</p>
+
+<div class="split section">
+  <div class="stack">
+    {% for p in profiles %}
+    <article class="panel">
+      <h2><span class="robe robe--{{ p.color }}"></span> <a href="{{ p.get_absolute_url }}">{{ p.name }}</a></h2>
+      <p>{{ p.description }}</p>
+      <div class="tags">
+        {% for pg in p.profile_grapes.all %}<a class="tag tag--grape" href="{{ pg.grape.get_absolute_url }}">{{ pg.grape.name }} {{ pg.share }} %</a>{% endfor %}
+      </div>
+      <div class="tags" style="margin-top:.5rem">
+        {% for pa in p.profile_aromas.all|slice:":6" %}<a class="tag tag--aroma" href="{{ pa.aroma.get_absolute_url }}">{{ pa.aroma.name }}</a>{% endfor %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  <aside class="stack">
+    <div class="panel">
+      <dl class="facts">
+        <dt>Classement</dt><dd>{{ appellation.get_classification_display }}</dd>
+        <dt>Région</dt><dd><a href="{{ appellation.region.get_absolute_url }}">{{ appellation.region.name }}</a></dd>
+        {% if appellation.inao_code %}<dt>Code INAO</dt><dd>{{ appellation.inao_code }}</dd>{% endif %}
+        {% if appellation.communes_count %}<dt>Communes</dt><dd>{{ appellation.communes_count }}</dd>{% endif %}
+        {% if appellation.wikidata_id %}<dt>Wikidata</dt><dd><a href="https://www.wikidata.org/wiki/{{ appellation.wikidata_id }}">{{ appellation.wikidata_id }}</a></dd>{% endif %}
+      </dl>
+    </div>
+    {% if nearby %}
+    <div class="panel"><h3>Voisines</h3>
+      <div class="tags">{% for a in nearby %}<a class="tag tag--appellation" href="{{ a.get_absolute_url }}">{{ a.name }}</a>{% endfor %}</div>
+    </div>
+    {% endif %}
+    <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=appellation:{{ appellation.slug }}">Voir dans le graphe</a>
+  </aside>
+</div>
+{% endblock %}

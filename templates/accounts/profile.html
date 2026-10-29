@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ user.username }}{% endblock %}
+{% block content %}
+<h1>{{ user.username }}</h1>
+<div class="kpis">
+  <div><strong>{{ stats.played }}</strong><span>parties terminées</span></div>
+  <div><strong>{{ stats.rate }} %</strong><span>de réussite</span></div>
+  <div><strong>{{ stats.avg|floatformat:0|default:"0" }}</strong><span>points en moyenne</span></div>
+</div>
+<div class="split">
+  <section>
+    <h2>Historique</h2>
+    {% if games %}
+    <table class="table">
+      <thead><tr><th>Date</th><th>Vin</th><th>Mode</th><th>Résultat</th><th class="num">Points</th></tr></thead>
+      <tbody>
+      {% for g in games %}
+      <tr>
+        <td class="small">{{ g.created_at|date:"j M Y" }}</td>
+        <td><span class="robe robe--{{ g.profile.color }}"></span> <a href="{{ g.get_absolute_url }}">{% if g.is_over %}{{ g.profile.name }}{% else %}Partie en cours{% endif %}</a></td>
+        <td class="small">{{ g.get_mode_display }}</td>
+        <td class="small">{{ g.get_status_display }}</td>
+        <td class="num">{% if g.is_over %}{{ g.score }}{% endif %}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="muted">Aucune partie pour l'instant. <a href="{% url 'blindtest:home' %}">Lancer un blind test</a></p>
+    {% endif %}
+  </section>
+  <aside class="panel">
+    <h3>Par région</h3>
+    {% for r in stats.regions %}
+    <div class="gauge">
+      <span class="gauge__label">{{ r.name }}</span>
+      <div><div class="bar"><span style="width: {{ r.rate }}%"></span></div><span class="small muted">{{ r.won }} sur {{ r.played }}</span></div>
+    </div>
+    {% empty %}<p class="small muted">Vos points forts et vos lacunes apparaîtront ici.</p>{% endfor %}
+  </aside>
+</div>
+{% endblock %}

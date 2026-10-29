@@ -1,0 +1,120 @@
+<div id="board" class="board{% if game.is_over %} is-over{% endif %}" data-suggest="{% url 'blindtest:suggest' %}">
+  <section class="sheet" aria-labelledby="sheet-title">
+    <h2 id="sheet-title" class="visually-hidden">Fiche de dégustation</h2>
+    <div class="sheet__robe">
+      <div class="glass glass--{{ sheet.color_key }}" aria-hidden="true"><div class="glass__disc"></div><div class="glass__meniscus"></div><div class="glass__light"></div></div>
+      <div>
+        <p class="sheet__kicker">L'œil</p>
+        <p class="sheet__big">{{ sheet.color }}</p>
+        <p class="muted">{{ sheet.style }}</p>
+      </div>
+    </div>
+
+    <div class="sheet__block">
+      <p class="sheet__kicker">Le nez</p>
+      <ul class="nose-notes">
+        {% for a in sheet.aromas %}
+        <li style="--hue: {{ a.hue }}"><span class="family-dot" style="background: {{ a.hue }}"></span>{{ a.name|capfirst }}
+          <span class="intensity" aria-label="intensité {{ a.intensity }} sur 3">{% for i in "123" %}<i class="{% if forloop.counter <= a.intensity %}is-on{% endif %}"></i>{% endfor %}</span></li>
+        {% endfor %}
+        {% if sheet.aromas_hidden %}<li class="muted small">{{ sheet.aromas_hidden }} autre{{ sheet.aromas_hidden|pluralize }} à découvrir</li>{% endif %}
+      </ul>
+    </div>
+
+    <div class="sheet__block">
+      <p class="sheet__kicker">La bouche</p>
+      {% include "partials/gauges.html" with structure=sheet.structure %}
+    </div>
+
+    {% if sheet.clues %}
+    <div class="sheet__block">
+      <p class="sheet__kicker">Indices</p>
+      <dl class="clues">
+        {% for c in sheet.clues %}<div class="clue clue--{{ c.key }}"><dt>{{ c.title }}</dt><dd>{{ c.body }}</dd></div>{% endfor %}
+      </dl>
+    </div>
+    {% endif %}
+    {% if sheet.next_clue and not game.is_over %}
+      <p class="small muted">Prochain indice au prochain essai manqué : {{ sheet.next_clue|lower }}.</p>
+    {% endif %}
+  </section>
+
+  <section class="play" aria-labelledby="label-title">
+    <div class="label-card{% if game.status == 'won' %} is-won{% endif %}">
+      <h2 id="label-title" class="visually-hidden">L'étiquette à reconstituer</h2>
+      {% for s in sheet.slots %}{% if s.key == "appellation" %}
+      <p class="label-card__appellation{% if s.show %} is-known{% endif %}{% if s.show and not s.found %} is-revealed{% endif %}">
+        {% if s.show %}{{ s.answer }}{% else %}<span class="blank" aria-label="Appellation à trouver">Appellation</span>{% endif %}</p>
+      {% endif %}{% endfor %}
+      <p class="label-card__mention">{{ game.profile.appellation.get_classification_display }}{% if game.is_over %}, {{ game.profile.get_color_display|lower }}{% endif %}</p>
+      <div class="label-card__rule" aria-hidden="true"></div>
+      <dl class="label-card__lines">
+        {% for s in sheet.slots %}{% if s.key != "appellation" %}
+        <div class="{% if s.found %}is-found{% elif s.show %}is-revealed{% endif %}">
+          <dt>{{ s.label }}</dt>
+          <dd>{% if s.show %}{{ s.answer }}{% else %}<span class="blank">à trouver</span>{% endif %}</dd>
+        </div>
+        {% endif %}{% endfor %}
+        {% if sheet.minor_grapes %}<div class="is-revealed"><dt>Complément</dt><dd>{{ sheet.minor_grapes|join:", " }}</dd></div>{% endif %}
+      </dl>
+    </div>
+
+    {% if game.is_over %}
+      <div class="outcome outcome--{{ game.status }}" role="status">
+        {% if game.status == "won" %}
+          <h2>Trouvé en {{ game.attempts_used }} essai{{ game.attempts_used|pluralize }}.</h2>
+        {% elif game.status == "lost" %}
+          <h2>Plus d'essais. Voici le vin.</h2>
+        {% else %}
+          <h2>Partie abandonnée.</h2>
+        {% endif %}
+        <p class="outcome__score"><strong>{{ game.score }}</strong> points</p>
+        <div class="hero__actions">
+          <a class="btn" href="{{ game.profile.get_absolute_url }}">Lire la fiche du vin</a>
+          {% if game.is_owner %}
+          <form method="post" action="{% url 'blindtest:start' %}">{% csrf_token %}<input type="hidden" name="mode" value="free">
+            <button class="btn btn--ghost" type="submit">Nouvelle partie libre</button></form>
+          {% endif %}
+        </div>
+      </div>
+    {% elif game.is_owner %}
+      <form class="guess-form" method="post" action="{% url 'blindtest:guess' game.public_id %}"
+            hx-post="{% url 'blindtest:guess' game.public_id %}" hx-target="#board" hx-swap="outerHTML">
+        {% csrf_token %}
+        <label class="label" for="guess-input">Votre proposition : région, appellation ou cépage</label>
+        <div class="guess-form__row">
+          <div class="combo">
+            <input id="guess-input" class="input input--big" name="q" type="text" required autocomplete="off" autofocus
+                   placeholder="Bourgogne, Chablis, chardonnay…" role="combobox" aria-expanded="false" aria-controls="guess-list">
+            <ul class="combo__list" id="guess-list" role="listbox" hidden></ul>
+          </div>
+          <input type="hidden" name="choice" value="">
+          <button class="btn" type="submit">Proposer</button>
+        </div>
+        {% if error %}<p class="guess-error" role="alert">{{ error }}</p>{% endif %}
+        <div class="attempts" aria-label="{{ game.attempts_left }} essais restants sur {{ game.max_attempts }}">
+          {% for i in ""|center:game.max_attempts %}<i class="{% if forloop.counter <= game.attempts_used %}is-used{% endif %}"></i>{% endfor %}
+          <span>{{ game.attempts_left }} essai{{ game.attempts_left|pluralize }} restant{{ game.attempts_left|pluralize }}</span>
+        </div>
+      </form>
+    {% endif %}
+
+    {% if guesses %}
+    <ol class="log" reversed>
+      {% for g in guesses reversed %}
+      <li class="log__item log__item--{{ g.verdict }}">
+        <span class="log__mark" aria-hidden="true"></span>
+        <div><strong>{{ g.label }}</strong> <span class="muted small">{{ g.get_verdict_display|lower }}{% if not g.counted %}, non compté{% endif %}</span>
+          <p>{{ g.feedback }}</p></div>
+      </li>
+      {% endfor %}
+    </ol>
+    {% endif %}
+
+    {% if game.is_owner and not game.is_over %}
+    <form method="post" action="{% url 'blindtest:give_up' game.public_id %}" class="give-up">{% csrf_token %}
+      <button class="linkish small" type="submit">Abandonner et voir la réponse</button>
+    </form>
+    {% endif %}
+  </section>
+</div>

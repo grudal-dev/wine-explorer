@@ -1,0 +1,458 @@
+# Appellations et profils types — Rhône, Provence, Languedoc-Roussillon, Corse.
+# structure : [corps, acidité, tanins, sucrosité], échelle 0-5.
+
+# ───────────── Vallée du Rhône ─────────────
+- appellation: Côte-Rôtie
+  region: Rhône septentrional
+  lat: 45.480
+  lng: 4.800
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 95, Viognier: 5}
+      aromas: {violette: 3, olive noire: 2, poivre noir: 2, mûre: 2, viande: 2, cassis: 1}
+      structure: [4, 4, 4, 1]
+      price: [45, 300]
+      aging: [8, 25]
+      temp: 16-17 °C
+      pairings: [pigeon, gibier, côte de veau]
+      description: Syrah des coteaux vertigineux de schistes, souvent cofermentée avec un peu de viognier, florale et fumée.
+
+- appellation: Condrieu
+  region: Rhône septentrional
+  lat: 45.460
+  lng: 4.770
+  profiles:
+    - color: blanc
+      grapes: {Viognier: 100}
+      aromas: {abricot: 3, pêche jaune: 3, violette: 1, fleurs blanches: 2, miel: 1, gingembre: 1}
+      structure: [4, 2, 0, 1]
+      price: [40, 120]
+      aging: [2, 8]
+      temp: 11-12 °C
+      pairings: [langoustines, cuisine épicée, picodon]
+      description: Blanc opulent et parfumé, aux arômes d'abricot et de pêche, le temple du viognier.
+
+- appellation: Hermitage
+  region: Rhône septentrional
+  lat: 45.070
+  lng: 4.850
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 100}
+      aromas: {cassis: 2, mûre: 3, poivre noir: 2, réglisse: 2, fumé: 1, cuir: 1, violette: 1}
+      structure: [5, 4, 5, 1]
+      price: [60, 400]
+      aging: [12, 40]
+      temp: 17 °C
+      pairings: [lièvre, chevreuil, bœuf braisé]
+      description: Syrah de la colline de granite qui surplombe le fleuve, monumentale et de très longue garde.
+
+- appellation: Crozes-Hermitage
+  region: Rhône septentrional
+  lat: 45.080
+  lng: 4.850
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 100}
+      aromas: {mûre: 2, framboise: 2, poivre noir: 2, violette: 2, réglisse: 1}
+      structure: [3, 4, 3, 1]
+      price: [15, 40]
+      aging: [3, 10]
+      temp: 16 °C
+      pairings: [grillades, caillette]
+      description: Syrah fruitée et poivrée des terrasses de la plaine, plus accessible que sa célèbre voisine.
+
+- appellation: Saint-Joseph
+  region: Rhône septentrional
+  lat: 45.040
+  lng: 4.830
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 100}
+      aromas: {framboise: 2, cassis: 2, poivre noir: 2, violette: 2, olive noire: 1}
+      structure: [3, 4, 3, 1]
+      price: [18, 50]
+      aging: [4, 12]
+      temp: 16 °C
+      pairings: [magret, charcuterie ardéchoise]
+      description: Syrah de la rive droite sur granite, fraîche et digeste, au fruit croquant.
+
+- appellation: Cornas
+  region: Rhône septentrional
+  lat: 44.960
+  lng: 4.850
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 100}
+      aromas: {mûre: 3, cassis: 2, poivre noir: 2, réglisse: 2, viande: 1, cacao: 1}
+      structure: [5, 4, 5, 1]
+      price: [35, 150]
+      aging: [10, 30]
+      temp: 17 °C
+      pairings: [civet, gigot, gibier]
+      description: Syrah sauvage et sombre, de terres brûlées par le soleil, fermée dans sa jeunesse.
+
+- appellation: Châteauneuf-du-Pape
+  region: Rhône méridional
+  lat: 44.056
+  lng: 4.833
+  profiles:
+    - color: rouge
+      grapes: {Grenache: 70, Syrah: 15, Mourvèdre: 10, Cinsault: 5}
+      aromas: {cerise noire: 2, framboise: 2, garrigue: 3, réglisse: 2, poivre noir: 1, figue sèche: 1, cuir: 1}
+      structure: [5, 3, 4, 1]
+      price: [35, 300]
+      aging: [8, 25]
+      temp: 16-17 °C
+      pairings: [daube provençale, agneau aux herbes, truffe]
+      description: Rouge chaleureux sur galets roulés, généreux et épicé, où le grenache domine un assemblage qui peut compter jusqu'à treize cépages.
+    - color: blanc
+      grapes: {Grenache Blanc: 40, Roussanne: 30, Clairette: 20, Bourboulenc: 10}
+      aromas: {pêche blanche: 2, fleurs blanches: 2, fenouil: 1, amande: 2, miel: 1, abricot: 1}
+      structure: [4, 2, 0, 1]
+      price: [40, 150]
+      aging: [3, 15]
+      temp: 12 °C
+      pairings: [bouillabaisse, volaille aux morilles]
+      description: Blanc ample et riche du sud, aux fleurs blanches et à l'anis, rare au regard de la production de rouge.
+
+- appellation: Gigondas
+  region: Rhône méridional
+  lat: 44.160
+  lng: 5.000
+  profiles:
+    - color: rouge
+      grapes: {Grenache: 75, Syrah: 15, Mourvèdre: 10}
+      aromas: {cerise noire: 2, mûre: 2, garrigue: 2, réglisse: 2, poivre noir: 1, laurier: 1}
+      structure: [5, 3, 4, 1]
+      price: [20, 60]
+      aging: [6, 15]
+      temp: 16-17 °C
+      pairings: [gibier, agneau, daube]
+      description: Grenache robuste au pied des Dentelles de Montmirail, frais d'altitude mais solaire.
+
+- appellation: Vacqueyras
+  region: Rhône méridional
+  lat: 44.140
+  lng: 4.980
+  profiles:
+    - color: rouge
+      grapes: {Grenache: 65, Syrah: 25, Mourvèdre: 10}
+      aromas: {mûre: 2, cerise noire: 2, garrigue: 2, poivre noir: 2, réglisse: 1}
+      structure: [4, 3, 4, 1]
+      price: [15, 40]
+      aging: [5, 12]
+      temp: 16 °C
+      pairings: [grillades, ratatouille]
+      description: Rouge méridional charnu et épicé, voisin plus rustique de Gigondas.
+
+- appellation: Tavel
+  region: Rhône méridional
+  lat: 43.990
+  lng: 4.700
+  profiles:
+    - color: rose
+      grapes: {Grenache: 60, Cinsault: 25, Syrah: 15}
+      aromas: {fraise: 2, framboise: 2, cerise: 2, groseille: 1, amande: 1, poivre blanc: 1}
+      structure: [4, 3, 2, 1]
+      price: [12, 35]
+      aging: [1, 6]
+      temp: 10-12 °C
+      pairings: [cuisine provençale, paella, couscous]
+      description: Rosé de gastronomie, foncé et vineux, à l'opposé des rosés pâles. Seule appellation du Rhône dédiée au rosé.
+
+- appellation: Côtes du Rhône
+  region: Vallée du Rhône
+  lat: 44.140
+  lng: 4.810
+  profiles:
+    - color: rouge
+      grapes: {Grenache: 60, Syrah: 25, Mourvèdre: 10, Carignan: 5}
+      aromas: {cerise: 2, framboise: 2, garrigue: 1, poivre noir: 2, réglisse: 1}
+      structure: [3, 3, 3, 1]
+      price: [7, 18]
+      aging: [2, 6]
+      temp: 15-16 °C
+      pairings: [pizza, grillades, plats mijotés]
+      description: Rouge fruité et épicé du quotidien, assemblage méridional porté par le grenache.
+
+- appellation: Muscat de Beaumes-de-Venise
+  region: Rhône méridional
+  lat: 44.120
+  lng: 5.030
+  profiles:
+    - color: blanc
+      style: mute
+      grapes: {Muscat à petits grains: 100}
+      aromas: {raisin sec: 1, fleur d'oranger: 3, abricot: 2, mangue: 1, miel: 2, rose: 1, litchi: 1}
+      structure: [4, 3, 0, 5]
+      price: [12, 30]
+      aging: [1, 5]
+      temp: 7-8 °C
+      pairings: [melon, desserts aux fruits, apéritif]
+      description: Vin doux naturel muté à l'alcool pendant la fermentation, intensément floral et fruité.
+
+# ───────────── Provence ─────────────
+- appellation: Côtes de Provence
+  region: Provence
+  lat: 43.490
+  lng: 6.360
+  profiles:
+    - color: rose
+      grapes: {Grenache: 50, Cinsault: 30, Syrah: 10, Rolle: 10}
+      aromas: {pêche blanche: 2, pamplemousse: 2, fraise: 1, groseille: 1, fleurs blanches: 1, iode: 1}
+      structure: [2, 3, 1, 1]
+      price: [10, 35]
+      aging: [0, 3]
+      temp: 8-10 °C
+      pairings: [salade niçoise, grillades de poisson, tapenade]
+      description: Le rosé pâle de référence, sec, délicat et désaltérant, obtenu par pressurage direct.
+
+- appellation: Bandol
+  region: Provence
+  lat: 43.140
+  lng: 5.750
+  profiles:
+    - color: rouge
+      grapes: {Mourvèdre: 75, Grenache: 15, Cinsault: 10}
+      aromas: {mûre: 2, cassis: 1, garrigue: 2, cuir: 2, réglisse: 2, gibier: 1, olive noire: 1, cacao: 1}
+      structure: [5, 3, 5, 1]
+      price: [25, 80]
+      aging: [10, 25]
+      temp: 17 °C
+      pairings: [daube, gibier, agneau de Sisteron]
+      description: Rouge de mourvèdre en terrasses face à la mer, sauvage et tannique, élevé au moins dix-huit mois en foudre.
+    - color: rose
+      grapes: {Mourvèdre: 50, Grenache: 30, Cinsault: 20}
+      aromas: {pêche jaune: 2, zeste d'orange: 2, fraise: 1, garrigue: 1, poivre blanc: 1}
+      structure: [3, 3, 1, 1]
+      price: [18, 45]
+      aging: [1, 6]
+      temp: 10 °C
+      pairings: [bouillabaisse, poissons grillés]
+      description: Rosé de caractère, plus structuré que la moyenne, capable de vieillir quelques années.
+
+- appellation: Cassis
+  region: Provence
+  lat: 43.210
+  lng: 5.540
+  profiles:
+    - color: blanc
+      grapes: {Marsanne: 40, Clairette: 35, Ugni Blanc: 25}
+      aromas: {citron: 2, fleurs blanches: 2, iode: 2, fenouil: 1, amande: 1, pêche blanche: 1}
+      structure: [3, 3, 0, 1]
+      price: [18, 35]
+      aging: [1, 5]
+      temp: 10 °C
+      pairings: [bouillabaisse, oursins, poissons de roche]
+      description: Blanc solaire et salin entre calanques et falaises calcaires, la référence locale pour les produits de la mer.
+
+# ───────────── Languedoc-Roussillon ─────────────
+- appellation: Pic Saint-Loup
+  region: Languedoc
+  lat: 43.780
+  lng: 3.800
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 50, Grenache: 35, Mourvèdre: 15}
+      aromas: {mûre: 2, cassis: 2, garrigue: 3, poivre noir: 2, olive noire: 1, réglisse: 1}
+      structure: [4, 4, 3, 1]
+      price: [15, 50]
+      aging: [4, 15]
+      temp: 16 °C
+      pairings: [agneau, taureau, grillades]
+      description: Le plus septentrional des grands rouges languedociens, frais grâce aux nuits fraîches sous la montagne, au fruit noir et à la garrigue.
+
+- appellation: Faugères
+  region: Languedoc
+  lat: 43.570
+  lng: 3.180
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 35, Grenache: 30, Mourvèdre: 20, Carignan: 15}
+      aromas: {mûre: 2, réglisse: 2, garrigue: 2, graphite: 2, cacao: 1, fumé: 1}
+      structure: [4, 3, 4, 1]
+      price: [12, 35]
+      aging: [4, 12]
+      temp: 16 °C
+      pairings: [gibier, cassoulet]
+      description: Rouge de schistes, sombre et fumé, au toucher velouté et à la finale minérale.
+
+- appellation: Saint-Chinian
+  region: Languedoc
+  lat: 43.420
+  lng: 2.950
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 35, Grenache: 35, Carignan: 20, Mourvèdre: 10}
+      aromas: {mûre: 2, prune: 2, garrigue: 2, réglisse: 1, cacao: 1, laurier: 1}
+      structure: [4, 3, 3, 1]
+      price: [10, 30]
+      aging: [3, 10]
+      temp: 16 °C
+      pairings: [daube, côtelettes]
+      description: Rouge languedocien entre schistes au nord et argilo-calcaires au sud, généreux et parfumé de garrigue.
+
+- appellation: Corbières
+  region: Languedoc
+  lat: 43.200
+  lng: 2.760
+  profiles:
+    - color: rouge
+      grapes: {Carignan: 40, Grenache: 30, Syrah: 30}
+      aromas: {mûre: 2, prune: 2, garrigue: 2, réglisse: 2, poivre noir: 1, laurier: 1}
+      structure: [4, 3, 3, 1]
+      price: [8, 25]
+      aging: [3, 10]
+      temp: 16 °C
+      pairings: [cassoulet, saucisse grillée]
+      description: Rouge rustique et solaire d'une mosaïque de terroirs, dominé par le vieux carignan.
+
+- appellation: Minervois
+  region: Languedoc
+  lat: 43.350
+  lng: 2.690
+  profiles:
+    - color: rouge
+      grapes: {Syrah: 40, Grenache: 35, Carignan: 25}
+      aromas: {cassis: 2, mûre: 2, garrigue: 2, réglisse: 1, poivre noir: 1, vanille: 1}
+      structure: [4, 3, 3, 1]
+      price: [8, 25]
+      aging: [3, 10]
+      temp: 16 °C
+      pairings: [grillades, ragoût]
+      description: Rouge chaleureux du piémont de la Montagne Noire, fruité et velouté.
+
+- appellation: Picpoul de Pinet
+  region: Languedoc
+  lat: 43.410
+  lng: 3.530
+  profiles:
+    - color: blanc
+      grapes: {Picpoul: 100}
+      aromas: {citron: 3, citron vert: 2, iode: 2, pomme verte: 1, fleurs blanches: 1}
+      structure: [2, 4, 0, 1]
+      price: [7, 14]
+      aging: [0, 2]
+      temp: 8 °C
+      pairings: [huîtres de Bouzigues, moules]
+      description: Blanc vif et salin face à l'étang de Thau, le compagnon naturel des coquillages.
+
+- appellation: Crémant de Limoux
+  region: Languedoc
+  lat: 43.050
+  lng: 2.220
+  profiles:
+    - color: blanc
+      style: effervescent
+      grapes: {Chardonnay: 50, Chenin Blanc: 30, Mauzac: 10, Pinot Noir: 10}
+      aromas: {pomme verte: 2, citron: 2, brioche: 2, fleurs blanches: 1, pêche blanche: 1}
+      structure: [2, 4, 0, 2]
+      price: [10, 22]
+      aging: [1, 4]
+      temp: 7-8 °C
+      pairings: [apéritif, poissons]
+      description: Effervescent d'altitude des contreforts pyrénéens, dans la région qui revendique l'une des plus anciennes traditions de vins effervescents.
+
+- appellation: Pays d'Oc
+  region: Languedoc-Roussillon
+  classification: IGP
+  lat: 43.600
+  lng: 3.500
+  profiles:
+    - color: rouge
+      grapes: {Merlot: 40, Cabernet Sauvignon: 40, Syrah: 20}
+      aromas: {cassis: 2, cerise noire: 2, prune: 1, vanille: 1, poivron vert: 1}
+      structure: [3, 3, 3, 1]
+      price: [5, 15]
+      aging: [1, 5]
+      temp: 16 °C
+      pairings: [burger, grillades, pâtes]
+      description: Rouge d'IGP de cépages internationaux, fruité et souple, souvent étiqueté au nom du cépage.
+
+- appellation: Collioure
+  region: Roussillon
+  lat: 42.530
+  lng: 3.080
+  profiles:
+    - color: rouge
+      grapes: {Grenache: 60, Syrah: 25, Mourvèdre: 15}
+      aromas: {mûre: 2, figue sèche: 1, garrigue: 2, réglisse: 2, graphite: 1, cacao: 1}
+      structure: [5, 3, 4, 1]
+      price: [15, 40]
+      aging: [4, 12]
+      temp: 16 °C
+      pairings: [anchois, agneau, cuisine catalane]
+      description: Rouge sec des terrasses de schistes plongeant dans la Méditerranée, sur le même terroir qu'un célèbre vin doux.
+
+- appellation: Banyuls
+  region: Roussillon
+  lat: 42.480
+  lng: 3.130
+  profiles:
+    - color: rouge
+      style: mute
+      grapes: {Grenache: 85, Grenache Gris: 10, Carignan: 5}
+      aromas: {pruneau: 3, cacao: 3, figue sèche: 2, café: 2, cerise noire: 2, noix: 1, réglisse: 1}
+      structure: [5, 2, 3, 5]
+      price: [15, 60]
+      aging: [5, 50]
+      temp: 14-16 °C
+      pairings: [fondant au chocolat, roquefort, canard aux cerises]
+      description: Vin doux naturel muté sur grain, l'un des rares vins à accompagner le chocolat noir.
+
+- appellation: Muscat de Rivesaltes
+  region: Roussillon
+  lat: 42.770
+  lng: 2.870
+  profiles:
+    - color: blanc
+      style: mute
+      grapes: {Muscat d'Alexandrie: 60, Muscat à petits grains: 40}
+      aromas: {fleur d'oranger: 2, mangue: 2, abricot: 2, citron: 1, menthe: 1, rose: 1}
+      structure: [4, 2, 0, 5]
+      price: [10, 20]
+      aging: [1, 4]
+      temp: 7-8 °C
+      pairings: [sorbet citron, tarte au citron, melon]
+      description: Vin doux naturel du Roussillon, exotique et frais, à boire jeune et bien froid.
+
+# ───────────── Corse ─────────────
+- appellation: Patrimonio
+  region: Corse
+  lat: 42.700
+  lng: 9.360
+  profiles:
+    - color: rouge
+      grapes: {Nielluccio: 90, Grenache: 10}
+      aromas: {cerise: 2, griotte: 2, garrigue: 2, réglisse: 1, poivre noir: 1, cuir: 1}
+      structure: [4, 4, 4, 1]
+      price: [15, 45]
+      aging: [4, 15]
+      temp: 16 °C
+      pairings: [figatellu, cabri, charcuterie corse]
+      description: Rouge du cap insulaire sur argilo-calcaire, structuré et parfumé de maquis.
+    - color: blanc
+      grapes: {Rolle: 100}
+      aromas: {citron: 2, pêche blanche: 2, fenouil: 2, amande: 1, iode: 1, fleurs blanches: 1}
+      structure: [3, 3, 0, 1]
+      price: [15, 35]
+      aging: [2, 8]
+      temp: 10-11 °C
+      pairings: [langouste, poissons grillés, brocciu]
+      description: Blanc de vermentinu ample et salin, aux notes d'anis et d'amande.
+
+- appellation: Ajaccio
+  region: Corse
+  lat: 41.920
+  lng: 8.740
+  profiles:
+    - color: rouge
+      grapes: {Sciaccarellu: 80, Grenache: 20}
+      aromas: {framboise: 2, poivre blanc: 3, garrigue: 2, fraise: 1, cuir: 1}
+      structure: [2, 4, 2, 1]
+      price: [15, 40]
+      aging: [3, 10]
+      temp: 15 °C
+      pairings: [civet de sanglier, charcuterie, poisson grillé]
+      description: Rouge pâle et poivré des arènes granitiques, élégant et délicat, d'une originalité réelle.

@@ -1,0 +1,59 @@
+{% load static %}<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Terroirs{% endblock %} · Terroirs</title>
+  <meta name="description" content="{% block description %}Explorer le vin français : appellations, cépages, arômes, blind test.{% endblock %}">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%237A1F3D'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  <a class="skip" href="#main">Aller au contenu</a>
+  <header class="topbar">
+    <a class="wordmark" href="{% url 'home' %}" aria-label="Terroirs, accueil">
+      <span class="wordmark__disc" aria-hidden="true"></span>Terroirs
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      {% with p=request.path %}
+      <a href="{% url 'explorer:explorer' %}" {% if p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}>Graphe</a>
+      <a href="{% url 'blindtest:home' %}" {% if p|slice:":11" == "/blind-test" %}aria-current="page"{% endif %}>Blind test</a>
+      <a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>Le Nez</a>
+      <a href="{% url 'catalog:index' %}" {% if p|slice:":10" == "/catalogue" %}aria-current="page"{% endif %}>Catalogue</a>
+      {% endwith %}
+    </nav>
+    <div class="account">
+      {% if user.is_authenticated %}
+        <a href="{% url 'accounts:profile' %}">{{ user.username }}</a>
+        <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}
+          <button class="linkish" type="submit">Se déconnecter</button>
+        </form>
+      {% else %}
+        <a href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">Se connecter</a>
+        <a class="btn btn--small" href="{% url 'accounts:signup' %}">Créer un compte</a>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if messages %}
+  <div class="flash" role="status">
+    {% for m in messages %}<p class="flash__item flash__item--{{ m.tags }}">{{ m }}</p>{% endfor %}
+  </div>
+  {% endif %}
+
+  <main id="main" class="{% block main_class %}page{% endblock %}">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}
+  <footer class="footer">
+    <p>Terroirs. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs.
+      <a href="{% url 'catalog:sources' %}">Sources et méthode</a></p>
+    <p>L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+  </footer>
+  {% endblock %}
+  <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

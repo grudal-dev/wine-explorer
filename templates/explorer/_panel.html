@@ -1,0 +1,39 @@
+<article class="node-card node-card--{{ kind }}">
+  <p class="small muted">{{ kind_label }}</p>
+  <h2>{% if kind == "profile" %}<span class="robe robe--{{ obj.color }}"></span> {% endif %}{{ obj.name|capfirst }}</h2>
+
+  {% if kind == "profile" %}
+    <p>{{ obj.description|truncatewords:40 }}</p>
+    {% include "partials/gauges.html" with structure=obj.structure %}
+    <dl class="facts" style="margin-top:1rem">
+      <dt>Prix</dt><dd>{{ obj.price_min }} – {{ obj.price_max }} €</dd>
+      <dt>Garde</dt><dd>{{ obj.aging_min }} à {{ obj.aging_max }} ans</dd>
+    </dl>
+  {% elif kind == "appellation" %}
+    <p class="muted">{{ obj.get_classification_display }}, {{ obj.region.name }}.</p>
+  {% elif kind == "region" %}
+    <p class="muted">{{ obj.description|default:obj.get_kind_display }}</p>
+  {% elif kind == "grape" %}
+    <p class="muted">Raisin {{ obj.get_skin_display|lower }}{% if obj.origin %}, berceau : {{ obj.origin }}{% endif %}.</p>
+  {% elif kind == "aroma" %}
+    <p class="muted">Famille : {{ obj.family.name|lower }}.</p>
+  {% endif %}
+
+  <div class="node-actions">
+    <button type="button" class="btn btn--small" data-focus="{{ node_id }}">Centrer ici</button>
+    <button type="button" class="btn btn--ghost btn--small" data-set-path="a" data-id="{{ node_id }}" data-label="{{ obj.name }}">Départ</button>
+    <button type="button" class="btn btn--ghost btn--small" data-set-path="b" data-id="{{ node_id }}" data-label="{{ obj.name }}">Arrivée</button>
+    {% if obj.get_absolute_url and kind != "family" %}<a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">Fiche</a>{% endif %}
+    {% if kind == "aroma" %}<a class="btn btn--ghost btn--small" href="{% url 'nose:nose' %}?a={{ obj.id }}">Le Nez</a>{% endif %}
+  </div>
+
+  {% for label, items, total in groups %}
+  <section class="node-links">
+    <h3>{{ label }} <span class="muted small">{{ total }}</span></h3>
+    <div class="tags">
+      {% for it in items %}<button type="button" class="tag tag--{{ it.type }}" data-select="{{ it.id }}">{{ it.label }}</button>{% endfor %}
+      {% if total > items|length %}<span class="small muted">et {{ total|add:"-14" }} autres</span>{% endif %}
+    </div>
+  </section>
+  {% endfor %}
+</article>

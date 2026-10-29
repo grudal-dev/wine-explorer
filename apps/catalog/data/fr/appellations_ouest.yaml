@@ -1,0 +1,461 @@
+# Appellations et profils types — Bordeaux, Vallée de la Loire, Sud-Ouest.
+# structure : [corps, acidité, tanins, sucrosité], échelle 0-5.
+# price : fourchette indicative en euros (bouteille 75 cl, caviste, 2024-2026).
+# aging : potentiel de garde indicatif en années.
+
+# ───────────── Bordeaux ─────────────
+- appellation: Pauillac
+  region: Médoc
+  lat: 45.199
+  lng: -0.748
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Sauvignon: 70, Merlot: 22, Cabernet Franc: 5, Petit Verdot: 3}
+      aromas: {cassis: 3, cèdre: 3, graphite: 2, mûre: 2, tabac: 2, vanille: 1, menthe: 1}
+      structure: [5, 3, 5, 1]
+      price: [45, 600]
+      aging: [12, 40]
+      temp: 17-18 °C
+      pairings: [agneau rôti, côte de bœuf, cèpes]
+      description: Rouge de graves profondes, charpenté et droit, au fruit noir serré par des tanins fermes qui demandent de la patience. Le bois de cèdre et la mine de crayon signent l'élevage et le terroir.
+
+- appellation: Margaux
+  region: Médoc
+  lat: 45.040
+  lng: -0.676
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Sauvignon: 60, Merlot: 35, Petit Verdot: 5}
+      aromas: {cassis: 3, violette: 3, framboise: 2, cèdre: 2, réglisse: 1, vanille: 1}
+      structure: [4, 3, 4, 1]
+      price: [35, 700]
+      aging: [10, 30]
+      temp: 17-18 °C
+      pairings: [filet de bœuf, pigeon, carré d'agneau]
+      description: Le plus floral des grands rouges de la rive gauche, soyeux et parfumé, où la violette se mêle au fruit noir. Une élégance qui cache une vraie capacité de garde.
+
+- appellation: Saint-Julien
+  region: Médoc
+  lat: 45.155
+  lng: -0.740
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Sauvignon: 65, Merlot: 30, Cabernet Franc: 5}
+      aromas: {cassis: 3, cèdre: 2, mûre: 2, tabac: 2, réglisse: 1, graphite: 1}
+      structure: [4, 3, 4, 1]
+      price: [40, 300]
+      aging: [10, 30]
+      temp: 17-18 °C
+      pairings: [entrecôte bordelaise, gibier à plume]
+      description: Entre puissance et finesse, un rouge harmonieux et régulier, au fruit noir net et au boisé de cèdre bien fondu.
+
+- appellation: Saint-Estèphe
+  region: Médoc
+  lat: 45.262
+  lng: -0.773
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Sauvignon: 55, Merlot: 40, Cabernet Franc: 5}
+      aromas: {cassis: 3, mûre: 2, réglisse: 2, cuir: 1, cèdre: 2, prune: 1}
+      structure: [5, 3, 5, 1]
+      price: [30, 250]
+      aging: [12, 35]
+      temp: 17-18 °C
+      pairings: [daube, côte de bœuf, fromages affinés]
+      description: Un rouge plus rustique et terrien au nord du Médoc, aux sols argileux, tannique dans sa jeunesse, qui gagne en profondeur avec les années.
+
+- appellation: Pessac-Léognan
+  region: Graves
+  lat: 44.730
+  lng: -0.600
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Sauvignon: 55, Merlot: 40, Cabernet Franc: 5}
+      aromas: {cassis: 2, fumé: 3, tabac: 2, graphite: 2, cerise noire: 2, cèdre: 1}
+      structure: [4, 3, 4, 1]
+      price: [30, 500]
+      aging: [10, 30]
+      temp: 17 °C
+      pairings: [pigeonneau, magret, lamproie]
+      description: Rouge de graves aux portes de la ville, reconnaissable à ses notes fumées et tabac blond qui enveloppent un fruit noir mûr.
+    - color: blanc
+      grapes: {Sauvignon Blanc: 60, Sémillon: 40}
+      aromas: {pamplemousse: 2, citron: 2, buis: 1, pain grillé: 2, cire d'abeille: 2, pêche blanche: 1, silex: 1}
+      structure: [4, 4, 0, 1]
+      price: [30, 400]
+      aging: [5, 20]
+      temp: 11-12 °C
+      pairings: [turbot au beurre blanc, homard, volaille à la crème]
+      description: Blanc sec de grande garde élevé en barrique, mariant la vivacité des agrumes à la texture cireuse et au grillé. Il se patine magnifiquement.
+
+- appellation: Graves
+  region: Graves
+  lat: 44.650
+  lng: -0.360
+  profiles:
+    - color: rouge
+      grapes: {Merlot: 50, Cabernet Sauvignon: 45, Cabernet Franc: 5}
+      aromas: {cerise noire: 2, cassis: 2, fumé: 2, tabac: 1, réglisse: 1}
+      structure: [3, 3, 3, 1]
+      price: [12, 35]
+      aging: [4, 12]
+      temp: 16-17 °C
+      pairings: [rôti de veau, charcuterie fine]
+      description: Rouge souple et accessible, au fruit noir sur un fond légèrement fumé caractéristique des sols de graves.
+    - color: blanc
+      grapes: {Sémillon: 55, Sauvignon Blanc: 45}
+      aromas: {citron: 2, pêche blanche: 2, cire d'abeille: 1, buis: 1, acacia: 1}
+      structure: [3, 3, 0, 1]
+      price: [12, 30]
+      aging: [2, 8]
+      temp: 10-11 °C
+      pairings: [poissons grillés, fromage de chèvre]
+      description: Blanc sec rond et frais, entre fruit blanc et agrumes, avec une pointe de cire qui annonce le sémillon.
+
+- appellation: Saint-Émilion Grand Cru
+  region: Libournais
+  lat: 44.894
+  lng: -0.155
+  profiles:
+    - color: rouge
+      grapes: {Merlot: 70, Cabernet Franc: 25, Cabernet Sauvignon: 5}
+      aromas: {prune: 3, cerise noire: 2, framboise: 1, vanille: 2, réglisse: 2, cacao: 1, truffe: 1}
+      structure: [4, 3, 4, 1]
+      price: [25, 800]
+      aging: [8, 30]
+      temp: 17 °C
+      pairings: [canard, lamproie, agneau confit]
+      description: Rouge velouté sur un plateau calcaire, ample et charnu, au fruit noir mûr adouci par le merlot. Avec l'âge, il glisse vers la truffe et le sous-bois.
+
+- appellation: Pomerol
+  region: Libournais
+  lat: 44.930
+  lng: -0.200
+  profiles:
+    - color: rouge
+      grapes: {Merlot: 85, Cabernet Franc: 15}
+      aromas: {prune: 3, truffe: 2, cacao: 2, violette: 1, mûre: 2, vanille: 1, cuir: 1}
+      structure: [4, 3, 3, 1]
+      price: [50, 3000]
+      aging: [8, 30]
+      temp: 17 °C
+      pairings: [filet de bœuf aux truffes, gibier, champignons]
+      description: Rouge suave et opulent sur argile et crasse de fer, d'une texture veloutée rare, aux notes de truffe et de chocolat noir.
+
+- appellation: Entre-deux-Mers
+  region: Entre-deux-Mers
+  lat: 44.780
+  lng: -0.350
+  profiles:
+    - color: blanc
+      grapes: {Sauvignon Blanc: 55, Sémillon: 35, Muscadelle: 10}
+      aromas: {pamplemousse: 3, citron: 2, herbe coupée: 2, buis: 1, fleurs blanches: 1}
+      structure: [2, 4, 0, 1]
+      price: [7, 15]
+      aging: [1, 3]
+      temp: 8-10 °C
+      pairings: [huîtres, fruits de mer, salade de chèvre]
+      description: Blanc sec vif et désaltérant entre deux fleuves, d'un fruit croquant d'agrumes et d'herbe fraîche, à boire jeune.
+
+- appellation: Bordeaux Supérieur
+  region: Bordeaux
+  lat: 44.840
+  lng: -0.450
+  profiles:
+    - color: rouge
+      grapes: {Merlot: 65, Cabernet Sauvignon: 25, Cabernet Franc: 10}
+      aromas: {cerise noire: 2, prune: 2, cassis: 2, réglisse: 1, poivron vert: 1}
+      structure: [3, 3, 3, 1]
+      price: [8, 20]
+      aging: [3, 8]
+      temp: 16 °C
+      pairings: [entrecôte, hachis parmentier]
+      description: Rouge de tous les jours, fruité et souple, avec une trame tannique modérée et une pointe végétale de cabernet.
+
+- appellation: Sauternes
+  region: Sauternais
+  lat: 44.535
+  lng: -0.345
+  profiles:
+    - color: blanc
+      style: liquoreux
+      grapes: {Sémillon: 80, Sauvignon Blanc: 15, Muscadelle: 5}
+      aromas: {abricot: 3, miel: 3, safran: 2, fruits confits: 3, ananas: 1, vanille: 1, zeste d'orange: 2}
+      structure: [5, 3, 0, 5]
+      price: [25, 400]
+      aging: [10, 50]
+      temp: 8-10 °C
+      pairings: [foie gras, roquefort, tarte aux abricots]
+      description: Liquoreux né de la pourriture noble dans les brumes d'automne, riche et confit, que l'acidité tient en équilibre. L'un des vins blancs les plus longs à vieillir.
+
+# ───────────── Vallée de la Loire ─────────────
+- appellation: Muscadet Sèvre et Maine
+  region: Pays nantais
+  lat: 47.160
+  lng: -1.270
+  profiles:
+    - color: blanc
+      grapes: {Melon de Bourgogne: 100}
+      aromas: {citron: 2, pomme verte: 2, iode: 3, coquille d'huître: 2, mie de pain: 2, fleurs blanches: 1}
+      structure: [2, 4, 0, 1]
+      price: [8, 25]
+      aging: [1, 10]
+      temp: 8-10 °C
+      pairings: [huîtres, moules, sole meunière]
+      description: Blanc sec d'une grande pureté près de l'océan, élevé sur lies fines qui lui donnent une touche de mie de pain et un perlant léger. Iodé et salin.
+
+- appellation: Savennières
+  region: Anjou-Saumur
+  lat: 47.380
+  lng: -0.660
+  profiles:
+    - color: blanc
+      grapes: {Chenin Blanc: 100}
+      aromas: {coing: 3, cire d'abeille: 2, pomme mûre: 2, miel: 1, pierre mouillée: 2, tilleul: 1}
+      structure: [4, 5, 0, 1]
+      price: [20, 90]
+      aging: [5, 25]
+      temp: 11-12 °C
+      pairings: [sandre au beurre blanc, volaille aux morilles]
+      description: Blanc sec austère et racé sur schistes, d'une acidité tranchante et d'une texture presque tannique. Il réclame de l'air et du temps.
+
+- appellation: Coteaux du Layon
+  region: Anjou-Saumur
+  lat: 47.330
+  lng: -0.600
+  profiles:
+    - color: blanc
+      style: liquoreux
+      grapes: {Chenin Blanc: 100}
+      aromas: {coing: 3, abricot: 2, miel: 3, ananas: 1, fruits confits: 2, tilleul: 1, safran: 1}
+      structure: [4, 4, 0, 5]
+      price: [15, 60]
+      aging: [8, 40]
+      temp: 8-10 °C
+      pairings: [foie gras, tarte tatin, bleus]
+      description: Liquoreux ligérien où le chenin botrytisé allie richesse confite et acidité vibrante, beaucoup plus frais qu'il n'y paraît.
+
+- appellation: Cabernet d'Anjou
+  region: Anjou-Saumur
+  lat: 47.470
+  lng: -0.550
+  profiles:
+    - color: rose
+      style: moelleux
+      grapes: {Cabernet Franc: 70, Cabernet Sauvignon: 30}
+      aromas: {fraise: 3, framboise: 2, groseille: 2, rose: 1}
+      structure: [2, 3, 1, 3]
+      price: [6, 14]
+      aging: [1, 3]
+      temp: 8 °C
+      pairings: [cuisine asiatique, desserts aux fruits rouges]
+      description: Rosé tendre et légèrement sucré, gourmand de fruits rouges, à servir bien frais en apéritif.
+
+- appellation: Saumur-Champigny
+  region: Anjou-Saumur
+  lat: 47.260
+  lng: -0.070
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Franc: 100}
+      aromas: {framboise: 3, cerise: 2, violette: 2, poivron vert: 1, réglisse: 1, craie: 1}
+      structure: [3, 4, 3, 1]
+      price: [10, 35]
+      aging: [3, 12]
+      temp: 14-15 °C
+      pairings: [rillons, charcuterie, volaille rôtie]
+      description: Rouge friand sur tuffeau, juteux et frais, aux tanins fins, qui se boit légèrement rafraîchi.
+
+- appellation: Chinon
+  region: Touraine
+  lat: 47.170
+  lng: 0.240
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Franc: 100}
+      aromas: {framboise: 2, cassis: 2, violette: 2, poivron vert: 2, graphite: 1, réglisse: 1}
+      structure: [3, 4, 3, 1]
+      price: [10, 40]
+      aging: [4, 20]
+      temp: 15-16 °C
+      pairings: [rillettes, pot-au-feu, fromage de chèvre]
+      description: Rouge ligérien au fruit croquant et à la pointe végétale typique du cabernet franc, léger sur sables, plus sérieux sur coteaux de tuffeau.
+
+- appellation: Bourgueil
+  region: Touraine
+  lat: 47.280
+  lng: 0.170
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Franc: 100}
+      aromas: {framboise: 2, cassis: 3, poivron vert: 2, violette: 1, réglisse: 1, sous-bois: 1}
+      structure: [3, 4, 3, 1]
+      price: [10, 30]
+      aging: [4, 15]
+      temp: 15-16 °C
+      pairings: [andouillette, rôti de porc]
+      description: Le cousin plus charpenté de la rive droite de la Loire, au cassis appuyé et aux tanins un peu rustiques dans la jeunesse.
+
+- appellation: Vouvray
+  region: Touraine
+  lat: 47.410
+  lng: 0.800
+  profiles:
+    - color: blanc
+      grapes: {Chenin Blanc: 100}
+      aromas: {coing: 2, poire: 2, pomme mûre: 2, miel: 1, acacia: 2, craie: 1}
+      structure: [3, 5, 0, 2]
+      price: [12, 45]
+      aging: [5, 30]
+      temp: 10-11 °C
+      pairings: [rillettes, poissons de Loire, cuisine épicée douce]
+      description: Blanc de chenin sur tuffeau, du sec au demi-sec selon l'année, toujours porté par une acidité lumineuse et des notes de coing et d'acacia.
+
+- appellation: Sancerre
+  region: Centre-Loire
+  lat: 47.330
+  lng: 2.840
+  profiles:
+    - color: blanc
+      grapes: {Sauvignon Blanc: 100}
+      aromas: {pamplemousse: 3, citron: 2, buis: 2, silex: 2, bourgeon de cassis: 2, herbe coupée: 1, craie: 1}
+      structure: [3, 5, 0, 1]
+      price: [15, 50]
+      aging: [2, 10]
+      temp: 9-10 °C
+      pairings: [crottin de Chavignol, sandre, asperges]
+      description: Sauvignon ciselé sur silex et terres blanches, tendu et minéral, au nez d'agrumes et de bourgeon de cassis.
+    - color: rouge
+      grapes: {Pinot Noir: 100}
+      aromas: {cerise: 3, framboise: 2, griotte: 1, pivoine: 1, craie: 1}
+      structure: [2, 4, 2, 1]
+      price: [15, 40]
+      aging: [3, 10]
+      temp: 14-15 °C
+      pairings: [volaille, saumon grillé]
+      description: Pinot noir septentrional léger et digeste, aux fruits rouges acidulés et aux tanins délicats.
+
+- appellation: Pouilly-Fumé
+  region: Centre-Loire
+  lat: 47.290
+  lng: 2.950
+  profiles:
+    - color: blanc
+      grapes: {Sauvignon Blanc: 100}
+      aromas: {silex: 3, fumé: 2, pamplemousse: 2, citron vert: 2, buis: 1, fleurs blanches: 1}
+      structure: [3, 5, 0, 1]
+      price: [15, 80]
+      aging: [3, 12]
+      temp: 9-10 °C
+      pairings: [saint-jacques, chèvre frais, poissons fumés]
+      description: Sauvignon de la rive droite, plus ample et plus fumé, où la pierre à fusil domine le fruit.
+
+- appellation: Crémant de Loire
+  region: Anjou-Saumur
+  lat: 47.260
+  lng: -0.080
+  profiles:
+    - color: blanc
+      style: effervescent
+      grapes: {Chenin Blanc: 60, Chardonnay: 25, Cabernet Franc: 15}
+      aromas: {pomme verte: 2, coing: 1, brioche: 2, citron: 2, acacia: 1}
+      structure: [2, 4, 0, 2]
+      price: [10, 25]
+      aging: [1, 5]
+      temp: 7-8 °C
+      pairings: [apéritif, gougères]
+      description: Effervescent de méthode traditionnelle élevé dans les caves de tuffeau, frais et fruité, avec une pointe briochée.
+
+# ───────────── Sud-Ouest ─────────────
+- appellation: Cahors
+  region: Sud-Ouest
+  lat: 44.450
+  lng: 1.440
+  profiles:
+    - color: rouge
+      grapes: {Malbec: 85, Merlot: 10, Tannat: 5}
+      aromas: {mûre: 3, prune: 2, violette: 2, réglisse: 2, cacao: 1, cuir: 1}
+      structure: [5, 3, 5, 1]
+      price: [10, 60]
+      aging: [8, 25]
+      temp: 16-17 °C
+      pairings: [cassoulet, confit de canard, truffe noire]
+      description: Le « vin noir », d'une couleur d'encre, puissant et tannique sur les causses et les terrasses du Lot.
+
+- appellation: Madiran
+  region: Sud-Ouest
+  lat: 43.550
+  lng: -0.060
+  profiles:
+    - color: rouge
+      grapes: {Tannat: 70, Cabernet Franc: 20, Cabernet Sauvignon: 10}
+      aromas: {mûre: 3, cassis: 2, réglisse: 2, cacao: 2, pruneau: 1, poivre noir: 1}
+      structure: [5, 4, 5, 1]
+      price: [10, 50]
+      aging: [8, 25]
+      temp: 16-17 °C
+      pairings: [garbure, magret, daube]
+      description: L'un des rouges les plus tanniques de France, sombre et dense, qu'il faut attendre ou carafer longuement.
+
+- appellation: Jurançon
+  region: Sud-Ouest
+  lat: 43.290
+  lng: -0.390
+  profiles:
+    - color: blanc
+      style: moelleux
+      grapes: {Petit Manseng: 70, Gros Manseng: 30}
+      aromas: {ananas: 3, mangue: 2, fruit de la passion: 2, miel: 2, zeste d'orange: 1, gingembre: 1, cannelle: 1}
+      structure: [4, 5, 0, 4]
+      price: [15, 50]
+      aging: [5, 25]
+      temp: 9-10 °C
+      pairings: [foie gras, fromage de brebis, curry doux]
+      description: Moelleux pyrénéen issu de raisins passerillés sur souche, exotique et épicé, d'une fraîcheur remarquable.
+
+- appellation: Monbazillac
+  region: Sud-Ouest
+  lat: 44.790
+  lng: 0.490
+  profiles:
+    - color: blanc
+      style: liquoreux
+      grapes: {Sémillon: 70, Muscadelle: 15, Sauvignon Blanc: 15}
+      aromas: {abricot: 2, miel: 3, fruits confits: 2, coing: 1, cire d'abeille: 1}
+      structure: [4, 3, 0, 5]
+      price: [10, 35]
+      aging: [5, 25]
+      temp: 8-9 °C
+      pairings: [foie gras, desserts aux fruits jaunes]
+      description: Liquoreux botrytisé du Périgord, miellé et confit, plus abordable que ses cousins girondins.
+
+- appellation: Gaillac
+  region: Sud-Ouest
+  lat: 43.900
+  lng: 1.900
+  profiles:
+    - color: rouge
+      grapes: {Duras: 40, Fer Servadou: 35, Syrah: 25}
+      aromas: {cassis: 2, poivre noir: 3, framboise: 2, réglisse: 1, viande: 1}
+      structure: [3, 3, 3, 1]
+      price: [8, 25]
+      aging: [3, 10]
+      temp: 15-16 °C
+      pairings: [saucisse de Toulouse, cassoulet]
+      description: Rouge de cépages autochtones, poivré et fruité, original et souvent très bon rapport qualité-prix.
+
+- appellation: Côtes de Gascogne
+  region: Sud-Ouest
+  classification: IGP
+  lat: 43.700
+  lng: 0.200
+  profiles:
+    - color: blanc
+      grapes: {Colombard: 50, Ugni Blanc: 30, Gros Manseng: 20}
+      aromas: {pamplemousse: 3, fruit de la passion: 2, citron vert: 2, buis: 1, ananas: 1}
+      structure: [2, 4, 0, 1]
+      price: [5, 10]
+      aging: [1, 2]
+      temp: 7-8 °C
+      pairings: [apéritif, salades, poissons frits]
+      description: Blanc d'IGP explosif d'agrumes et d'exotisme, léger et désaltérant, sur les terres de l'armagnac.

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ grape.name }}{% endblock %}
+{% block content %}
+<nav class="crumbs"><a href="{% url 'catalog:grapes' %}">Cépages</a></nav>
+<h1>{{ grape.name }}</h1>
+<p class="lede">Raisin {{ grape.get_skin_display|lower }}{% if grape.origin %}, berceau : {{ grape.origin }}{% endif %}.
+  {% if grape.synonyms %}Aussi appelé {{ grape.synonyms|join:", " }}.{% endif %}</p>
+<div class="split section">
+  <div>
+    <h2>Où le trouver</h2>
+    <ul class="wine-list">
+      {% for l in links %}
+      <li><span class="robe robe--{{ l.profile.color }}"></span><a href="{{ l.profile.get_absolute_url }}">{{ l.profile.name }}</a>
+        <span class="meta">{{ l.share }} %</span></li>
+      {% empty %}<li class="muted">Pas encore de profil avec ce cépage.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <aside class="stack">
+    {% if aromas %}<div class="panel"><h3>Arômes associés</h3>
+      <div class="tags">{% for a in aromas %}<a class="tag tag--aroma" href="{{ a.get_absolute_url }}">{{ a.name }}</a>{% endfor %}</div></div>{% endif %}
+    <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=grape:{{ grape.slug }}">Voir dans le graphe</a>
+  </aside>
+</div>
+{% endblock %}

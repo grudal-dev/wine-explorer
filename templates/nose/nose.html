@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Le Nez{% endblock %}
+{% block content %}
+<h1>Le Nez</h1>
+<p class="lede">Décrivez ce que vous sentez dans le verre. À chaque descripteur ajouté, nous recalculons les cinq vins les plus probables.</p>
+
+<div class="nose" id="nose" data-api="{% url 'nose:api_aromas' %}">
+  <form id="nose-form" class="nose__input" method="get" action="{% url 'nose:nose' %}"
+        hx-get="{% url 'nose:nose' %}" hx-target="#results" hx-trigger="change, submit" hx-push-url="true">
+    <div class="panel">
+      <label class="label" for="aroma-input">Ajouter un descripteur</label>
+      <div class="combo">
+        <input id="aroma-input" class="input input--big" name="q" type="text" autocomplete="off"
+               placeholder="cassis, sous-bois, pierre à fusil…" role="combobox" aria-expanded="false" aria-controls="aroma-list">
+        <ul class="combo__list" id="aroma-list" role="listbox" hidden></ul>
+      </div>
+      <noscript><button class="btn" type="submit" style="margin-top:.6rem">Chercher</button></noscript>
+
+      <div class="chips" id="chips" aria-live="polite">
+        {% for a in selected %}
+          <span class="chip" style="--hue: {{ a.family.color }}"><input type="hidden" name="a" value="{{ a.id }}">{{ a.name }}
+            <button type="button" class="chip__x" aria-label="Retirer {{ a.name }}">×</button></span>
+        {% endfor %}
+        {% for f in selected_families %}
+          <span class="chip chip--family" style="--hue: {{ f.color }}"><input type="hidden" name="f" value="{{ f.id }}">{{ f.name }}
+            <button type="button" class="chip__x" aria-label="Retirer {{ f.name }}">×</button></span>
+        {% endfor %}
+      </div>
+      <p class="small muted chips-empty" {% if has_query %}hidden{% endif %}>Aucun descripteur pour l'instant. Tapez-en un, ou piochez dans la roue ci-dessous.</p>
+
+      <fieldset class="checks checks--inline">
+        <legend class="label">Couleur, si vous la connaissez</legend>
+        {% for key, label in colors %}
+        <label class="check"><input type="checkbox" name="c" value="{{ key }}" {% if key in chosen_colors %}checked{% endif %}>
+          <span class="robe robe--{{ key }}"></span>{{ label }}</label>
+        {% endfor %}
+      </fieldset>
+      <button type="button" class="linkish small" id="nose-reset">Tout effacer</button>
+    </div>
+
+    <details class="wheel" open>
+      <summary>La roue des arômes</summary>
+      <div class="wheel__grid">
+        {% for f in families %}
+        <div class="wheel__family" style="--hue: {{ f.color }}">
+          <button type="button" class="wheel__fam" data-add-family="{{ f.id }}" data-label="{{ f.name }}" data-hue="{{ f.color }}"
+                  title="Ajouter toute la famille">{{ f.name }}</button>
+          <div class="wheel__aromas">
+            {% for a in f.aromas.all %}<button type="button" data-add-aroma="{{ a.id }}" data-label="{{ a.name }}" data-hue="{{ f.color }}">{{ a.name }}</button>{% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </details>
+  </form>
+
+  <section id="results" class="nose__results" aria-live="polite">
+    {% include "nose/_results.html" %}
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/combo.js' %}" defer></script>
+<script src="{% static 'js/nose.js' %}" defer></script>
+{% endblock %}

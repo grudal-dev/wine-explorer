@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% if game.is_over %}{{ game.profile.name }}{% else %}Vin mystère{% endif %}{% endblock %}
+{% block content %}
+<nav class="crumbs"><a href="{% url 'blindtest:home' %}">Blind test</a><span aria-hidden="true">/</span><span>{{ game.get_mode_display }}{% if game.day %} du {{ game.day|date:"j F Y" }}{% endif %}</span></nav>
+{% include "blindtest/_board.html" %}
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/combo.js' %}" defer></script>
+<script src="{% static 'js/blindtest.js' %}" defer></script>
+{% endblock %}

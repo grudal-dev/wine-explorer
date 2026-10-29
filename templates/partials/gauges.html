@@ -1,0 +1,8 @@
+<div class="gauges">
+{% for label, value in structure %}
+  <div class="gauge" role="img" aria-label="{{ label }} : {{ value }} sur 5">
+    <span class="gauge__label">{{ label }}</span>
+    <span class="gauge__track">{% for i in "12345" %}<i class="gauge__tick{% if forloop.counter <= value %} is-on{% endif %}"></i>{% endfor %}</span>
+  </div>
+{% endfor %}
+</div>

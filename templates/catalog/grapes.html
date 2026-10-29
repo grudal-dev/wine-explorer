@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Cépages{% endblock %}
+{% block content %}
+<h1>Cépages</h1>
+<p class="lede">{{ grapes|length }} cépages, du cabernet sauvignon au sciaccarellu.</p>
+{% regroup grapes by get_skin_display as skins %}
+{% for skin in skins %}
+<section class="section">
+  <h2>Raisins {{ skin.grouper|lower }}s</h2>
+  <div class="tags">{% for g in skin.list %}<a class="tag tag--grape" href="{{ g.get_absolute_url }}">{{ g.name }}{% if g.n %} <span class="muted">{{ g.n }}</span>{% endif %}</a>{% endfor %}</div>
+</section>
+{% endfor %}
+{% endblock %}

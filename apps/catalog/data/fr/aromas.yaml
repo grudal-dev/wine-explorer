@@ -1,0 +1,144 @@
+# Roue des arômes : familles (avec couleur d'affichage) et descripteurs.
+# Les synonymes servent à la saisie libre dans « Le Nez » et le blind test.
+families:
+  - name: Agrumes
+    color: "#D9B42B"
+    aromas:
+      - {name: citron, synonyms: [citron jaune, lemon]}
+      - {name: citron vert, synonyms: [lime]}
+      - {name: pamplemousse, synonyms: [pomelo]}
+      - {name: orange}
+      - {name: zeste d'orange, synonyms: [écorce d'orange]}
+      - {name: mandarine}
+      - {name: bergamote}
+  - name: Fruits blancs et jaunes
+    color: "#C9B25A"
+    aromas:
+      - {name: pomme verte, synonyms: [pomme granny]}
+      - {name: pomme mûre, synonyms: [pomme, pomme cuite]}
+      - {name: poire}
+      - {name: coing}
+      - {name: pêche blanche, synonyms: [pêche]}
+      - {name: pêche jaune}
+      - {name: abricot}
+  - name: Fruits exotiques
+    color: "#E0A030"
+    aromas:
+      - {name: ananas}
+      - {name: mangue}
+      - {name: fruit de la passion, synonyms: [passion, maracuja]}
+      - {name: litchi, synonyms: [lychee]}
+      - {name: banane}
+  - name: Fruits rouges
+    color: "#C2334D"
+    aromas:
+      - {name: fraise}
+      - {name: fraise des bois}
+      - {name: framboise}
+      - {name: groseille}
+      - {name: cerise, synonyms: [cerise rouge]}
+      - {name: griotte, synonyms: [cerise acidulée]}
+      - {name: grenade}
+  - name: Fruits noirs
+    color: "#5A2246"
+    aromas:
+      - {name: cassis}
+      - {name: mûre}
+      - {name: myrtille}
+      - {name: cerise noire, synonyms: [burlat]}
+      - {name: prune, synonyms: [quetsche]}
+      - {name: olive noire, synonyms: [tapenade]}
+  - name: Fruits secs et confits
+    color: "#9A6B3C"
+    aromas:
+      - {name: amande, synonyms: [amande fraîche, amande grillée]}
+      - {name: noisette}
+      - {name: noix, synonyms: [noix verte]}
+      - {name: figue sèche, synonyms: [figue]}
+      - {name: raisin sec, synonyms: [raisins secs]}
+      - {name: pruneau}
+      - {name: fruits confits, synonyms: [écorce confite, orange confite]}
+  - name: Floral
+    color: "#B57BB0"
+    aromas:
+      - {name: fleurs blanches}
+      - {name: aubépine}
+      - {name: acacia}
+      - {name: fleur d'oranger}
+      - {name: tilleul}
+      - {name: rose, synonyms: [pétale de rose]}
+      - {name: violette}
+      - {name: pivoine}
+      - {name: chèvrefeuille}
+  - name: Végétal
+    color: "#6E8B3D"
+    aromas:
+      - {name: herbe coupée, synonyms: [herbe, gazon]}
+      - {name: buis}
+      - {name: bourgeon de cassis, synonyms: [feuille de cassis]}
+      - {name: poivron vert, synonyms: [poivron]}
+      - {name: fougère}
+      - {name: menthe, synonyms: [menthol]}
+      - {name: eucalyptus}
+      - {name: foin, synonyms: [paille]}
+  - name: Garrigue et herbes
+    color: "#7D8A5A"
+    aromas:
+      - {name: garrigue, synonyms: [maquis]}
+      - {name: thym}
+      - {name: romarin}
+      - {name: laurier}
+      - {name: fenouil, synonyms: [anis vert]}
+  - name: Épices
+    color: "#A4502A"
+    aromas:
+      - {name: poivre noir, synonyms: [poivre]}
+      - {name: poivre blanc}
+      - {name: réglisse}
+      - {name: cannelle}
+      - {name: clou de girofle, synonyms: [girofle]}
+      - {name: muscade}
+      - {name: gingembre}
+      - {name: safran}
+      - {name: curry}
+  - name: Boisé et torréfié
+    color: "#6B4A35"
+    aromas:
+      - {name: vanille}
+      - {name: chêne, synonyms: [boisé, bois]}
+      - {name: cèdre, synonyms: [boîte à cigare]}
+      - {name: pain grillé, synonyms: [toast, grillé]}
+      - {name: fumé, synonyms: [fumée]}
+      - {name: café, synonyms: [moka]}
+      - {name: cacao, synonyms: [chocolat, chocolat noir]}
+      - {name: caramel}
+      - {name: tabac}
+  - name: Pâtisserie et lactique
+    color: "#C8A27A"
+    aromas:
+      - {name: brioche, synonyms: [viennoiserie]}
+      - {name: beurre, synonyms: [beurre frais]}
+      - {name: mie de pain, synonyms: [pain frais, levure]}
+      - {name: crème, synonyms: [crème fraîche]}
+      - {name: miel}
+      - {name: cire d'abeille, synonyms: [cire]}
+  - name: Minéral
+    color: "#7F8C99"
+    aromas:
+      - {name: silex, synonyms: [pierre à fusil]}
+      - {name: craie, synonyms: [calcaire]}
+      - {name: coquille d'huître, synonyms: [huître]}
+      - {name: iode, synonyms: [embruns, salin]}
+      - {name: graphite, synonyms: [mine de crayon]}
+      - {name: hydrocarbure, synonyms: [pétrole, pétrolé]}
+      - {name: pierre mouillée, synonyms: [pierre chaude]}
+  - name: Sous-bois et animal
+    color: "#5C5145"
+    aromas:
+      - {name: sous-bois}
+      - {name: champignon, synonyms: [morille]}
+      - {name: truffe}
+      - {name: cuir}
+      - {name: gibier, synonyms: [venaison]}
+      - {name: viande, synonyms: [viandé, lard fumé]}
+      - {name: feuille morte, synonyms: [humus]}

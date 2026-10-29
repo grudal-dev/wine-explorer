@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{{ profile.name }}{% endblock %}
+{% block content %}
+{% with app=profile.appellation region=profile.appellation.region %}
+<nav class="crumbs" aria-label="Fil d'Ariane">
+  {% for r in region.lineage %}<a href="{{ r.get_absolute_url }}">{{ r.name }}</a><span aria-hidden="true">/</span>{% endfor %}
+  <a href="{{ app.get_absolute_url }}">{{ app.name }}</a>
+</nav>
+<div class="wine-head">
+  <div class="glass glass--{{ profile.color }}" aria-hidden="true"><div class="glass__disc"></div><div class="glass__meniscus"></div></div>
+  <div>
+    <h1>{{ profile.name }}</h1>
+    <p class="muted">{{ profile.get_color_display }}, {{ profile.get_style_display|lower }}. {{ app.get_classification_display }}.</p>
+  </div>
+</div>
+
+<div class="split">
+  <div>
+    <p class="lede">{{ profile.description }}</p>
+    <section class="section">
+      <h2>Au nez</h2>
+      <ul class="aroma-list">
+        {% for pa in profile.profile_aromas.all %}
+        <li>
+          <span class="family-dot" style="background: {{ pa.aroma.family.color }}" title="{{ pa.aroma.family.name }}"></span>
+          <a href="{{ pa.aroma.get_absolute_url }}">{{ pa.aroma.name|capfirst }}</a>
+          <span class="intensity" aria-label="{{ pa.get_intensity_display }}">{% for i in "123" %}<i class="{% if forloop.counter <= pa.intensity %}is-on{% endif %}"></i>{% endfor %}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="section">
+      <h2>Encépagement typique</h2>
+      {% for pg in profile.profile_grapes.all %}
+      <div class="gauge gauge--wide">
+        <a class="gauge__label" href="{{ pg.grape.get_absolute_url }}">{{ pg.grape.name }}</a>
+        <div><div class="bar"><span style="width: {{ pg.share }}%"></span></div><span class="small muted">{{ pg.share }} %</span></div>
+      </div>
+      {% endfor %}
+    </section>
+  </div>
+  <aside class="stack">
+    <div class="panel">
+      <h3>En bouche</h3>
+      {% include "partials/gauges.html" with structure=profile.structure %}
+    </div>
+    <div class="panel">
+      <dl class="facts">
+        <dt>Prix indicatif</dt><dd>{{ profile.price_min }} – {{ profile.price_max }} €</dd>
+        <dt>Garde</dt><dd>{{ profile.aging_min }} à {{ profile.aging_max }} ans</dd>
+        <dt>Service</dt><dd>{{ profile.serving_temp }}</dd>
+        <dt>Accords</dt><dd>{{ profile.pairings|join:", "|capfirst }}</dd>
+      </dl>
+    </div>
+    <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=profile:{{ profile.slug }}">Voir dans le graphe</a>
+  </aside>
+</div>
+
+{% if siblings or neighbours %}
+<section class="section grid grid--2">
+  {% if siblings %}
+  <div><h2>Même appellation</h2>
+    <ul class="wine-list">{% for p in siblings %}<li><span class="robe robe--{{ p.color }}"></span><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+  <div><h2>Au nez, il rappelle</h2>
+    <ul class="wine-list">{% for p in neighbours %}<li><span class="robe robe--{{ p.color }}"></span><a href="{{ p.get_absolute_url }}">{{ p.name }}</a><span class="meta">{{ p.shared }} arôme{{ p.shared|pluralize }} en commun</span></li>{% endfor %}</ul>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+{% endblock %}

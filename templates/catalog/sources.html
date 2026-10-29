@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Sources et méthode{% endblock %}
+{% block content %}
+<h1>Sources et méthode</h1>
+<div class="stack" style="max-width: 70ch">
+  <p class="lede">Le jeu de données de référence est volontairement réduit et propre : chaque profil type a été rédigé
+    et vérifié à la main, puis validé automatiquement au chargement (cépages, arômes et régions doivent exister,
+    l'encépagement doit totaliser 100 %).</p>
+  <h2>Ce que contient la base</h2>
+  <p>Des <strong>profils types</strong> : ce que l'on attend d'une appellation dans une couleur et un style. Ce ne sont
+    pas des bouteilles précises. Les prix et potentiels de garde sont des fourchettes indicatives, les coordonnées
+    géographiques correspondent à une commune centrale de l'appellation.</p>
+  <h2>Sources ouvertes prévues</h2>
+  <p><strong>INAO, via data.gouv.fr</strong> : le jeu « Aires et produits AOC/AOP et IGP », sous Licence Ouverte 2.0,
+    liste les appellations, leurs produits et les communes rattachées. La commande <code>import_inao</code> enrichit
+    les appellations avec leur identifiant officiel et leur nombre de communes.</p>
+  <p><strong>Wikidata</strong> (CC0) : identifiants et coordonnées des appellations et cépages, via la commande
+    <code>import_wikidata</code>. C'est aussi la voie la plus simple pour ouvrir la base au monde entier.</p>
+  <h2>Le Nez : comment sont calculées les probabilités</h2>
+  <p>Un classifieur bayésien naïf compare vos descripteurs aux arômes pondérés de chaque profil. Un descripteur absent
+    d'un profil mais de la même famille qu'un de ses arômes garde une vraisemblance partielle : la framboise n'est pas
+    la fraise, mais elle en est proche. Les scores sont ensuite normalisés en probabilités sur l'ensemble des profils.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Arômes{% endblock %}
+{% block content %}
+<h1>La roue des arômes</h1>
+<p class="lede">Les descripteurs utilisés dans les fiches, le blind test et Le Nez, regroupés en {{ families|length }} familles.</p>
+<div class="grid grid--3 section">
+{% for f in families %}
+  <section class="panel">
+    <h3><span class="family-dot" style="display:inline-block;background:{{ f.color }}"></span> {{ f.name }}</h3>
+    <div class="tags">{% for a in f.aromas.all %}<a class="tag" href="{{ a.get_absolute_url }}">{{ a.name }}{% if a.n %} <span class="muted">{{ a.n }}</span>{% endif %}</a>{% endfor %}</div>
+  </section>
+{% endfor %}
+</div>
+{% endblock %}

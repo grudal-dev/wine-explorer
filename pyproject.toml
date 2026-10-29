@@ -1,0 +1,13 @@
+[project]
+name = "terroirs"
+version = "0.1.0"
+description = "Explorer le monde du vin : graphe, blind test et nez."
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["*/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "DJ"]

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ region.name }}{% endblock %}
+{% block content %}
+{% if region.parent %}<nav class="crumbs"><a href="{{ region.parent.get_absolute_url }}">{{ region.parent.name }}</a></nav>{% endif %}
+<h1>{{ region.name }}</h1>
+{% if region.description %}<p class="lede">{{ region.description }}</p>{% endif %}
+{% if children %}
+<div class="tags">{% for c in children %}<a class="tag tag--region" href="{{ c.get_absolute_url }}">{{ c.name }}</a>{% endfor %}</div>
+{% endif %}
+<div class="split section">
+  <div>
+    <h2>Appellations</h2>
+    <ul class="wine-list">
+      {% for a in appellations %}
+      <li>{% for c in a.colors %}<span class="robe robe--{{ c }}"></span>{% endfor %}
+        <a href="{{ a.get_absolute_url }}">{{ a.name }}</a>
+        <span class="meta">{% if a.region != region %}{{ a.region.name }}, {% endif %}{{ a.n }} profil{{ a.n|pluralize }}</span></li>
+      {% empty %}<li class="muted">Aucune appellation pour l'instant.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <aside class="stack">
+    <div class="panel"><h3>Cépages les plus présents</h3>
+      <div class="tags">{% for g in grapes %}<a class="tag tag--grape" href="{{ g.get_absolute_url }}">{{ g.name }}</a>{% endfor %}</div>
+    </div>
+    <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=region:{{ region.slug }}">Voir dans le graphe</a>
+  </aside>
+</div>
+{% endblock %}

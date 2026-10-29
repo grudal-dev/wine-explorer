@@ -1,0 +1,83 @@
+# Régions et sous-régions viticoles françaises.
+# Coordonnées : centre approximatif, pour la carte et les indices de distance.
+country: {code: FR, name: France}
+regions:
+  - name: Bordeaux
+    lat: 44.84
+    lng: -0.45
+    description: Le plus vaste vignoble de vins fins, partagé par la Gironde entre rive gauche (cabernet) et rive droite (merlot).
+    children:
+      - {name: Médoc, lat: 45.15, lng: -0.80}
+      - {name: Graves, lat: 44.65, lng: -0.45}
+      - {name: Libournais, lat: 44.92, lng: -0.20}
+      - {name: Entre-deux-Mers, lat: 44.75, lng: -0.25}
+      - {name: Sauternais, lat: 44.53, lng: -0.33}
+  - name: Bourgogne
+    lat: 47.05
+    lng: 4.75
+    description: Mosaïque de climats où le pinot noir et le chardonnay expriment chaque parcelle.
+    children:
+      - {name: Chablisien, lat: 47.81, lng: 3.80}
+      - {name: Côte de Nuits, lat: 47.18, lng: 4.95}
+      - {name: Côte de Beaune, lat: 47.00, lng: 4.79}
+      - {name: Côte chalonnaise, lat: 46.80, lng: 4.70}
+      - {name: Mâconnais, lat: 46.35, lng: 4.78}
+  - name: Beaujolais
+    lat: 46.10
+    lng: 4.65
+    description: Le royaume du gamay sur granite, des primeurs gouleyants aux crus de garde.
+  - name: Champagne
+    lat: 49.10
+    lng: 4.05
+    description: Craie, climat frais et assemblages pour le plus célèbre des effervescents.
+    children:
+      - {name: Montagne de Reims, lat: 49.17, lng: 4.08}
+      - {name: Côte des Blancs, lat: 48.96, lng: 4.00}
+      - {name: Vallée de la Marne, lat: 49.07, lng: 3.85}
+  - name: Alsace
+    lat: 48.20
+    lng: 7.35
+    description: Vins de cépage au pied des Vosges, protégés de la pluie, souvent aromatiques.
+  - name: Vallée de la Loire
+    lat: 47.35
+    lng: 0.70
+    description: Mille kilomètres de fleuve et de styles, du muscadet océanique aux sauvignons du Centre.
+    children:
+      - {name: Pays nantais, lat: 47.15, lng: -1.35}
+      - {name: Anjou-Saumur, lat: 47.30, lng: -0.40}
+      - {name: Touraine, lat: 47.30, lng: 0.60}
+      - {name: Centre-Loire, lat: 47.30, lng: 2.85}
+  - name: Vallée du Rhône
+    lat: 44.80
+    lng: 4.85
+    description: La syrah au nord sur les coteaux de granite, les assemblages solaires au sud.
+    children:
+      - {name: Rhône septentrional, lat: 45.20, lng: 4.82}
+      - {name: Rhône méridional, lat: 44.15, lng: 4.85}
+  - name: Provence
+    lat: 43.45
+    lng: 6.10
+    description: Capitale mondiale du rosé pâle, avec quelques rouges et blancs de caractère.
+  - name: Languedoc-Roussillon
+    lat: 43.30
+    lng: 3.00
+    description: Un amphithéâtre de garrigues et de schistes, terre de renouveau et de vins doux naturels.
+    children:
+      - {name: Languedoc, lat: 43.50, lng: 3.20}
+      - {name: Roussillon, lat: 42.65, lng: 2.85}
+  - name: Sud-Ouest
+    lat: 44.00
+    lng: 0.50
+    description: Un conservatoire de cépages autochtones, du tannat au manseng.
+  - name: Jura
+    lat: 46.80
+    lng: 5.70
+    description: Vignoble confidentiel, berceau du vin jaune et des vins sous voile.
+  - name: Savoie
+    lat: 45.55
+    lng: 6.00
+    description: Vins d'altitude vifs et légers, au pied des Alpes.
+  - name: Corse
+    lat: 42.20
+    lng: 9.05
+    description: L'île de beauté, ses cépages insulaires et ses arènes granitiques.

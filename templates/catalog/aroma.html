@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ aroma.name|capfirst }}{% endblock %}
+{% block content %}
+<nav class="crumbs"><a href="{% url 'catalog:aromas' %}">Arômes</a><span aria-hidden="true">/</span><span>{{ aroma.family.name }}</span></nav>
+<h1>{{ aroma.name|capfirst }}</h1>
+<p class="lede">Famille : {{ aroma.family.name|lower }}.{% if aroma.synonyms %} Aussi décrit comme {{ aroma.synonyms|join:", " }}.{% endif %}</p>
+<div class="split section">
+  <div>
+    <h2>Vins qui l'expriment</h2>
+    <ul class="wine-list">
+      {% for l in links %}
+      <li><span class="robe robe--{{ l.profile.color }}"></span><a href="{{ l.profile.get_absolute_url }}">{{ l.profile.name }}</a>
+        <span class="meta">{{ l.get_intensity_display }}</span></li>
+      {% empty %}<li class="muted">Aucun profil ne le cite encore. Il reste utile dans Le Nez, par sa famille.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <aside class="stack">
+    <a class="btn" href="{% url 'nose:nose' %}?a={{ aroma.id }}">Chercher les vins qui sentent {{ aroma.name }}</a>
+    <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=aroma:{{ aroma.slug }}">Voir dans le graphe</a>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Catalogue{% endblock %}
+{% block content %}
+<h1>Catalogue</h1>
+<p class="lede">Les appellations françaises de la base, rangées par région. Consultez aussi les
+  <a href="{% url 'catalog:grapes' %}">cépages</a> et la <a href="{% url 'catalog:aromas' %}">roue des arômes</a>.</p>
+
+<div class="section">
+{% for region in regions %}
+  <section class="region-block">
+    <div>
+      <h2><a href="{{ region.get_absolute_url }}">{{ region.name }}</a></h2>
+      <p class="muted small">{{ region.description }}</p>
+    </div>
+    <div>
+      {% if region.appellations.all %}
+      <div class="sub tags">
+        {% for a in region.appellations.all %}<a class="tag tag--appellation" href="{{ a.get_absolute_url }}">{{ a.name }}</a>{% endfor %}
+      </div>
+      {% endif %}
+      {% for sub in region.children.all %}{% if sub.appellations.all %}
+      <div class="sub">
+        <h3><a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a></h3>
+        <div class="tags">
+          {% for a in sub.appellations.all %}<a class="tag tag--appellation" href="{{ a.get_absolute_url }}">{{ a.name }}</a>{% endfor %}
+        </div>
+      </div>
+      {% endif %}{% endfor %}
+    </div>
+  </section>
+{% endfor %}
+</div>
+{% endblock %}

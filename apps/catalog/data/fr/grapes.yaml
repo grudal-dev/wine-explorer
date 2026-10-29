@@ -1,0 +1,55 @@
+# Cépages : nom, couleur de baie (noir/blanc/gris), synonymes, berceau.
+- {name: Cabernet Sauvignon, skin: noir, origin: Bordeaux, synonyms: [Cabernet]}
+- {name: Merlot, skin: noir, origin: Bordeaux}
+- {name: Cabernet Franc, skin: noir, origin: Bordeaux / Loire, synonyms: [Breton, Bouchet]}
+- {name: Petit Verdot, skin: noir, origin: Bordeaux}
+- {name: Malbec, skin: noir, origin: Cahors, synonyms: [Côt, Auxerrois]}
+- {name: Pinot Noir, skin: noir, origin: Bourgogne, synonyms: [Pinot]}
+- {name: Pinot Meunier, skin: noir, origin: Champagne, synonyms: [Meunier]}
+- {name: Gamay, skin: noir, origin: Bourgogne / Beaujolais}
+- {name: Syrah, skin: noir, origin: Rhône septentrional, synonyms: [Shiraz, Sérine]}
+- {name: Grenache, skin: noir, origin: Espagne / Méditerranée, synonyms: [Grenache noir, Garnacha]}
+- {name: Mourvèdre, skin: noir, origin: Espagne / Provence, synonyms: [Monastrell, Mataro]}
+- {name: Cinsault, skin: noir, origin: Languedoc}
+- {name: Carignan, skin: noir, origin: Espagne / Languedoc, synonyms: [Carignane]}
+- {name: Tannat, skin: noir, origin: Madiran}
+- {name: Fer Servadou, skin: noir, origin: Sud-Ouest, synonyms: [Braucol, Mansois]}
+- {name: Duras, skin: noir, origin: Gaillac}
+- {name: Nielluccio, skin: noir, origin: Corse, synonyms: [Sangiovese]}
+- {name: Sciaccarellu, skin: noir, origin: Corse, synonyms: [Sciaccarello]}
+- {name: Poulsard, skin: noir, origin: Jura, synonyms: [Ploussard]}
+- {name: Trousseau, skin: noir, origin: Jura}
+- {name: Mondeuse, skin: noir, origin: Savoie}
+- {name: Chardonnay, skin: blanc, origin: Bourgogne}
+- {name: Sauvignon Blanc, skin: blanc, origin: Loire / Bordeaux, synonyms: [Sauvignon, Blanc fumé]}
+- {name: Sémillon, skin: blanc, origin: Bordeaux}
+- {name: Muscadelle, skin: blanc, origin: Bordeaux}
+- {name: Chenin Blanc, skin: blanc, origin: Anjou, synonyms: [Chenin, Pineau de la Loire]}
+- {name: Melon de Bourgogne, skin: blanc, origin: Bourgogne / Pays nantais, synonyms: [Melon, Muscadet]}
+- {name: Riesling, skin: blanc, origin: Rhin}
+- {name: Gewurztraminer, skin: gris, origin: Tyrol / Alsace, synonyms: [Gewürztraminer, Traminer aromatique]}
+- {name: Pinot Gris, skin: gris, origin: Bourgogne / Alsace, synonyms: [Pinot Grigio]}
+- {name: Pinot Blanc, skin: blanc, origin: Bourgogne / Alsace}
+- {name: Sylvaner, skin: blanc, origin: Europe centrale}
+- {name: Muscat à petits grains, skin: blanc, origin: Méditerranée, synonyms: [Muscat blanc, Muscat de Frontignan]}
+- {name: Muscat d'Alexandrie, skin: blanc, origin: Méditerranée}
+- {name: Viognier, skin: blanc, origin: Rhône septentrional}
+- {name: Marsanne, skin: blanc, origin: Rhône septentrional}
+- {name: Roussanne, skin: blanc, origin: Rhône septentrional}
+- {name: Grenache Blanc, skin: blanc, origin: Méditerranée}
+- {name: Clairette, skin: blanc, origin: Provence / Languedoc}
+- {name: Bourboulenc, skin: blanc, origin: Rhône méridional}
+- {name: Picpoul, skin: blanc, origin: Languedoc, synonyms: [Piquepoul]}
+- {name: Rolle, skin: blanc, origin: Ligurie / Provence, synonyms: [Vermentino, Vermentinu]}
+- {name: Ugni Blanc, skin: blanc, origin: Italie / Charentes, synonyms: [Trebbiano]}
+- {name: Colombard, skin: blanc, origin: Charentes / Gascogne}
+- {name: Gros Manseng, skin: blanc, origin: Béarn}
+- {name: Petit Manseng, skin: blanc, origin: Béarn}
+- {name: Savagnin, skin: blanc, origin: Jura, synonyms: [Naturé]}
+- {name: Jacquère, skin: blanc, origin: Savoie}
+- {name: Aligoté, skin: blanc, origin: Bourgogne}
+- {name: Mauzac, skin: blanc, origin: Gaillac / Limoux}
+- {name: Altesse, skin: blanc, origin: Savoie, synonyms: [Roussette]}
+- {name: Grenache Gris, skin: gris, origin: Roussillon}
+- {name: Macabeu, skin: blanc, origin: Espagne / Roussillon, synonyms: [Macabeo, Viura]}
+- {name: Len de l'El, skin: blanc, origin: Gaillac, synonyms: [Loin de l'œil]}

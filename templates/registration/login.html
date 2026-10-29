@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Connexion{% endblock %}
+{% block content %}
+<div class="auth">
+  <h1>Connexion</h1>
+  <p class="muted">Les parties jouées sans compte sur cet appareil vous seront rattachées.</p>
+  <form method="post">{% csrf_token %}
+    {% include "partials/form_fields.html" %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="btn" type="submit">Se connecter</button>
+  </form>
+  <p class="small" style="margin-top:1.5rem">Pas encore de compte ? <a href="{% url 'accounts:signup' %}">Créer un compte</a></p>
+</div>
+{% endblock %}

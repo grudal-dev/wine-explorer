@@ -1,0 +1,38 @@
+{% load humanize %}
+{% if unknown %}<p class="guess-error">Descripteur{{ unknown|pluralize }} non reconnu{{ unknown|pluralize }} : {{ unknown|join:", " }}.</p>{% endif %}
+{% if not has_query %}
+  <div class="nose-empty">
+    <h2>Cinq vins vous attendent</h2>
+    <p class="muted">Commencez par l'arôme le plus net. Deux ou trois descripteurs suffisent souvent à reconnaître une appellation.</p>
+  </div>
+{% elif not result.results %}
+  <p class="muted">Aucun profil ne correspond avec ces couleurs. Décochez une couleur pour élargir.</p>
+{% else %}
+  <h2 class="results-title">Les cinq vins les plus probables</h2>
+  <p class="small muted">Parmi {{ result.considered }} profils types.</p>
+  <ol class="ranking">
+    {% for r in result.results %}
+    <li class="ranking__item">
+      <div class="ranking__head">
+        <span class="ranking__pct">{% widthratio r.probability 1 100 %} %</span>
+        <div>
+          <h3><span class="robe robe--{{ r.profile.color }}"></span> <a href="{{ r.profile.url }}">{{ r.profile.name }}</a></h3>
+          <p class="small muted">{{ r.profile.region }}, {{ r.profile.style_label|lower }}. {{ r.profile.grapes|join:", " }}.</p>
+        </div>
+      </div>
+      <div class="ranking__bar" aria-hidden="true"><span style="width: {% widthratio r.probability 1 100 %}%"></span></div>
+      <ul class="matches">
+        {% for m in r.matches %}
+          <li class="match match--{{ m.match }}">{{ m.name }}<span class="visually-hidden"> :
+            {% if m.match == "exact" %}présent{% elif m.match == "family" %}famille proche{% else %}absent{% endif %}</span></li>
+        {% endfor %}
+      </ul>
+      {% if r.suggest %}
+      <p class="small refine">Pour confirmer, cherchez aussi :
+        {% for s in r.suggest %}<button type="button" class="linkish" data-suggest-aroma="{{ s }}">{{ s }}</button>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  <p class="small muted legend-line"><span class="match match--exact">présent</span> <span class="match match--family">famille proche</span> <span class="match match--none">absent</span></p>
+{% endif %}

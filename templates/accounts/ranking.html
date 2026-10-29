@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Classement{% endblock %}
+{% block content %}
+<h1>Classement</h1>
+<div class="grid grid--2 section">
+  <section class="panel">
+    <h2>Défi du {{ day|date:"j F" }}</h2>
+    {% if today %}
+    <table class="table"><thead><tr><th>#</th><th>Joueur</th><th>Résultat</th><th class="num">Points</th></tr></thead><tbody>
+      {% for g in today %}<tr><td class="num">{{ forloop.counter }}</td><td>{{ g.user.username }}</td><td class="small">{{ g.get_status_display }}</td><td class="num">{{ g.score }}</td></tr>{% endfor %}
+    </tbody></table>
+    {% else %}<p class="muted">Personne n'a encore terminé le défi du jour.</p>{% endif %}
+  </section>
+  <section class="panel">
+    <h2>Depuis le début</h2>
+    {% if all_time %}
+    <table class="table"><thead><tr><th>#</th><th>Joueur</th><th class="num">Parties</th><th class="num">Victoires</th><th class="num">Total</th></tr></thead><tbody>
+      {% for r in all_time %}<tr><td class="num">{{ forloop.counter }}</td><td>{{ r.user__username }}</td><td class="num">{{ r.played }}</td><td class="num">{{ r.won }}</td><td class="num">{{ r.total }}</td></tr>{% endfor %}
+    </tbody></table>
+    {% else %}<p class="muted">Aucune partie terminée pour l'instant.</p>{% endif %}
+  </section>
+</div>
+{% endblock %}

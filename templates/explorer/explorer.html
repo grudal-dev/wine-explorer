@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Graphe{% endblock %}
+{% block main_class %}page--full{% endblock %}
+{% block body_class %}is-app{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+<div class="explorer" id="explorer"
+     data-api="{% url 'explorer:api_graph' %}"
+     data-search="{% url 'explorer:api_search' %}"
+     data-path="{% url 'explorer:api_path' %}"
+     data-node="{% url 'explorer:node' 'X' %}"
+     data-focus="{{ focus }}">
+
+  <aside class="explorer__rail" aria-label="Réglages du graphe">
+    <div class="rail-group">
+      <label class="label" for="node-search">Trouver une entité</label>
+      <div class="combo" data-combo="search">
+        <input id="node-search" class="input" type="search" placeholder="Pauillac, syrah, violette…" autocomplete="off"
+               role="combobox" aria-expanded="false" aria-controls="node-search-list">
+        <ul class="combo__list" id="node-search-list" role="listbox" hidden></ul>
+      </div>
+    </div>
+
+    <div class="rail-group">
+      <span class="label">Vue</span>
+      <div class="segmented" role="radiogroup" aria-label="Vue prédéfinie">
+        {% for p in presets %}
+        <button type="button" role="radio" data-preset="{{ p.key }}" data-types="{{ p.types|join:',' }}" title="{{ p.help }}"
+                aria-checked="{% if forloop.counter == 2 %}true{% else %}false{% endif %}">{{ p.label }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <form id="graph-form" class="rail-group" autocomplete="off">
+      <fieldset class="checks">
+        <legend class="label">Entités affichées</legend>
+        {% for key, label in types %}
+        <label class="check"><input type="checkbox" name="types" value="{{ key }}"> <span class="swatch swatch--{{ key }}"></span>{{ label }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <fieldset class="checks">
+        <legend class="label">Couleur du vin</legend>
+        {% for key, label in colors %}
+        <label class="check"><input type="checkbox" name="colors" value="{{ key }}"> <span class="robe robe--{{ key }}"></span>{{ label }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <div class="field">
+        <label for="f-region">Région</label>
+        <select id="f-region" name="region" class="input">
+          <option value="">Toute la France</option>
+          {% for r in roots %}<option value="{{ r.slug }}">{{ r.name }}</option>{% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="f-price">Prix d'entrée maximal : <output id="f-price-out">sans limite</output></label>
+        <input id="f-price" name="price_max" type="range" min="5" max="100" step="5" value="100">
+      </div>
+
+      <div class="field">
+        <label for="f-int">Arômes : intensité minimale <output id="f-int-out">2</output></label>
+        <input id="f-int" name="min_intensity" type="range" min="1" max="3" step="1" value="2">
+      </div>
+
+      <div class="field">
+        <label for="f-share">Cépages : part minimale <output id="f-share-out">10 %</output></label>
+        <input id="f-share" name="min_share" type="range" min="0" max="60" step="5" value="10">
+      </div>
+
+      <div class="field">
+        <label for="f-layout">Disposition</label>
+        <select id="f-layout" class="input">
+          <option value="fcose">Organique</option>
+          <option value="concentric">Concentrique</option>
+          <option value="breadthfirst">Arborescente</option>
+          <option value="circle">Cercle</option>
+        </select>
+      </div>
+    </form>
+
+    <div class="rail-group">
+      <span class="label">Relier deux entités</span>
+      <p class="small muted">Choisissez un départ et une arrivée : le chemin le plus court s'affiche.</p>
+      <div class="path-slots">
+        <button type="button" class="slot-btn" data-path-slot="a">Départ : <strong>à choisir</strong></button>
+        <button type="button" class="slot-btn" data-path-slot="b">Arrivée : <strong>à choisir</strong></button>
+      </div>
+      <ol class="path-result" id="path-result" hidden></ol>
+    </div>
+  </aside>
+
+  <section class="explorer__stage" aria-label="Graphe">
+    <div class="stage-bar">
+      <p id="graph-stats" class="small muted" aria-live="polite">Chargement…</p>
+      <div class="stage-bar__actions">
+        <button type="button" class="btn btn--ghost btn--small" id="btn-unfocus" hidden>Tout afficher</button>
+        <button type="button" class="btn btn--ghost btn--small" id="btn-fit">Recadrer</button>
+        <button type="button" class="btn btn--ghost btn--small" id="btn-png">Exporter en PNG</button>
+      </div>
+    </div>
+    <div id="cy" class="cy"></div>
+    <div class="legend" aria-hidden="true">
+      {% for key, label in types %}<span><i class="swatch swatch--{{ key }}"></i>{{ label }}</span>{% endfor %}
+    </div>
+  </section>
+
+  <aside class="explorer__panel" id="node-panel" aria-live="polite">
+    <div class="panel-empty">
+      <h2>Cliquez sur un nœud</h2>
+      <p class="muted">Sa fiche s'affiche ici, avec ses liens. Double-cliquez pour centrer le graphe sur son voisinage.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendor/cytoscape.min.js' %}" defer></script>
+<script src="{% static 'vendor/layout-base.js' %}" defer></script>
+<script src="{% static 'vendor/cose-base.js' %}" defer></script>
+<script src="{% static 'vendor/cytoscape-fcose.js' %}" defer></script>
+<script src="{% static 'js/combo.js' %}" defer></script>
+<script src="{% static 'js/explorer.js' %}" defer></script>
+{% endblock %}
