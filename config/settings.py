@@ -29,7 +29,10 @@ if not SECRET_KEY:
     if DEBUG:
         SECRET_KEY = "dev-insecure-key-change-me"
     else:
-        raise RuntimeError("DJANGO_SECRET_KEY doit être défini quand DJANGO_DEBUG est désactivé.")
+        raise RuntimeError(
+            "DJANGO_SECRET_KEY manquant. En développement : copiez .env.example en .env "
+            "(il active DJANGO_DEBUG=true). En production : définissez DJANGO_SECRET_KEY."
+        )
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
