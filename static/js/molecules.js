@@ -149,6 +149,7 @@
     const label = rootNode.nonempty() ? rootNode.data("label") : slug;
     if (push) pushTrail(id, label, kind);
     renderStats(data.stats, kind);
+    renderSources(data.references || []);
     history.replaceState(null, "", `${location.pathname}?depart=${encodeURIComponent(id)}${state.common ? "&commun=1" : ""}`);
     openPanel(id);
   }
@@ -162,6 +163,36 @@
     if (!s.molecules && kind === "profile") text = "Aucune molécule spécifique pour ce vin dans nos sources.";
     if (s.hidden_common && !state.common) text += ` ${s.hidden_common} lien${s.hidden_common > 1 ? "s" : ""} du socle commun masqué${s.hidden_common > 1 ? "s" : ""}.`;
     stats.textContent = text;
+  }
+
+  // ── Sources du graphe affiché ──────────────────────────────────────────
+  const sourcesEl = document.getElementById("mol-sources");
+  function renderSources(refs) {
+    sourcesEl.innerHTML = "";
+    if (!refs.length) {
+      sourcesEl.innerHTML = '<li class="muted">Aucun lien sourcé dans cette vue.</li>';
+      return;
+    }
+    refs.forEach((r) => {
+      const li = document.createElement("li");
+      const head = document.createElement("span");
+      head.textContent = `${r.authors}${r.year ? ` (${r.year})` : ""}. `;
+      li.appendChild(head);
+      const title = document.createElement(r.link ? "a" : "span");
+      title.textContent = r.title;
+      if (r.link) { title.href = r.link; title.target = "_blank"; title.rel = "noopener"; }
+      li.appendChild(title);
+      if (r.container) {
+        const c = document.createElement("em");
+        c.textContent = `. ${r.container}`;
+        li.appendChild(c);
+      }
+      const n = document.createElement("span");
+      n.className = "muted";
+      n.textContent = ` · ${r.links} lien${r.links > 1 ? "s" : ""}`;
+      li.appendChild(n);
+      sourcesEl.appendChild(li);
+    });
   }
 
   // ── Parcours (fil d'Ariane du jeu) ─────────────────────────────────────
@@ -211,6 +242,15 @@
   cy.on("mouseover", "node", (e) => { cy.container().style.cursor = "pointer"; if (!cy.$(":selected").length) highlight(e.target); });
   cy.on("mouseout", "node", () => { cy.container().style.cursor = ""; if (!cy.$(":selected").length) clearHighlight(); });
 
+  document.getElementById("mol-goto-sources").addEventListener("click", (e) => {
+    e.preventDefault();
+    // On fait défiler le seul panneau latéral, pas la page (sur mobile, la page elle-même).
+    const panel = root.querySelector(".explorer__panel");
+    const target = document.getElementById("graph-sources-title");
+    const behavior = reduceMotion ? "auto" : "smooth";
+    if (panel.scrollHeight > panel.clientHeight) panel.scrollTo({ top: target.offsetTop - panel.offsetTop - 12, behavior });
+    else target.scrollIntoView({ behavior, block: "start" });
+  });
   document.getElementById("mol-panel").addEventListener("click", (e) => {
     const b = e.target.closest("[data-start]");
     if (b) { e.preventDefault(); load(b.dataset.start); }

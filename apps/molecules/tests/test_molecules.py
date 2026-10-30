@@ -112,6 +112,12 @@ class GraphAndViewTests(TestCase):
         with_common = graph.build("profile", "cote-rotie-rouge", common=True)
         self.assertIn("molecule:acetate-disoamyle", {e["data"]["id"] for e in with_common["elements"]})
 
+    def test_graph_lists_its_sources(self):
+        refs = {r["key"]: r for r in graph.build("profile", "cote-rotie-rouge")["references"]}
+        self.assertIn("wood2008", refs)  # Syrah → rotundone, et rotundone → poivre noir
+        self.assertGreaterEqual(refs["wood2008"]["links"], 2)
+        self.assertTrue(refs["wood2008"]["link"].startswith("https://doi.org/"))
+
     def test_source_graph_is_capped(self):
         g = graph.build("source", "chene")
         self.assertLessEqual(g["stats"]["profiles"], graph.MAX_PROFILES)

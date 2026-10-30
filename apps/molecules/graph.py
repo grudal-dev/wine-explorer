@@ -17,7 +17,7 @@ from django.db.models import Count
 from apps.catalog.models import WineProfile
 from apps.catalog.text import normalize
 
-from .models import Basis, Molecule, NaturalSource, Occurrence, ProfileMolecule
+from .models import Basis, Molecule, NaturalSource, Occurrence, ProfileMolecule, Reference
 
 KIND_COLORS = {
     "epice": "#A4502A", "herbe": "#7D8A5A", "fleur": "#B57BB0", "fruit": "#C2334D",
@@ -37,6 +37,10 @@ class Data:
     by_molecule_profiles: dict[str, list[tuple]] = field(default_factory=lambda: defaultdict(list))
     by_molecule_sources: dict[str, list[str]] = field(default_factory=lambda: defaultdict(list))
     by_source: dict[str, list[str]] = field(default_factory=lambda: defaultdict(list))
+    # Références qui justifient chaque arête, et notices bibliographiques.
+    link_refs: dict[tuple[str, str], set[str]] = field(default_factory=lambda: defaultdict(set))
+    occ_refs: dict[tuple[str, str], str] = field(default_factory=dict)
+    refs: dict[str, dict] = field(default_factory=dict)
 
 
 def data_version() -> tuple:
@@ -72,10 +76,18 @@ def _data(version: tuple) -> Data:
         only_universal = all(r["basis"] == Basis.UNIVERSAL for r in pm.reasons)
         row = (pm.molecule.slug, pm.strength, pm.basis, only_universal)
         d.by_profile[pm.profile.slug].append(row)
+        d.link_refs[(pm.profile.slug, pm.molecule.slug)] = {r["ref"] for r in pm.reasons if r.get("ref")}
         d.by_molecule_profiles[pm.molecule.slug].append((pm.profile.slug, pm.strength, pm.basis, only_universal))
-    for occ in Occurrence.objects.select_related("molecule", "source").only("molecule__slug", "source__slug"):
+    for occ in Occurrence.objects.select_related("molecule", "source", "reference").only(
+        "molecule__slug", "source__slug", "reference__key"
+    ):
         d.by_molecule_sources[occ.molecule.slug].append(occ.source.slug)
+        if occ.reference_id:
+            d.occ_refs[(occ.molecule.slug, occ.source.slug)] = occ.reference.key
         d.by_source[occ.source.slug].append(occ.molecule.slug)
+    for r in Reference.objects.all():
+        d.refs[r.key] = {"key": r.key, "short": r.short, "authors": r.authors, "year": r.year,
+                         "title": r.title, "container": r.container, "link": r.link}
     for rows in d.by_profile.values():
         rows.sort(key=lambda r: (-r[1], molecules[r[0]]["label"]))
     for rows in d.by_molecule_profiles.values():
@@ -193,11 +205,26 @@ def build(kind: str, slug: str, common: bool = False) -> dict | None:
         n["data"]["degree"] = degree[nid]
     ordered = sorted(nodes.values(), key=lambda n: (n["data"]["layer"], -n["data"].get("strength", 0),
                                                    -n["data"]["degree"], n["data"]["label"]))
+    # Sources de ce graphe : celles des arêtes affichées, avec le nombre de liens qu'elles appuient.
+    cited: dict[str, int] = defaultdict(int)
+    for e in edges:
+        a, b = e["data"]["source"].split(":", 1)[1], e["data"]["target"].split(":", 1)[1]
+        if e["data"]["kind"] == "contains":
+            keys = d.link_refs.get((a, b), set())
+        else:
+            keys = {d.occ_refs[(a, b)]} if (a, b) in d.occ_refs else set()
+        for k in keys:
+            cited[k] += 1
+    references = sorted(
+        ({**d.refs[k], "links": n} for k, n in cited.items() if k in d.refs),
+        key=lambda r: (-r["links"], r["authors"], r["year"] or 0),
+    )
     counts = defaultdict(int)
     for n in nodes.values():
         counts[n["data"]["type"]] += 1
     return {
         "elements": ordered + edges,
+        "references": references,
         "stats": {
             "profiles": counts["profile"], "molecules": counts["molecule"], "sources": counts["source"],
             "hidden_common": hidden_common, "truncated": truncated,

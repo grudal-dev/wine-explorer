@@ -540,3 +540,8 @@ button.tag { cursor: pointer; font-family: inherit; }
 .mol-section .reasons { margin-top: .5rem; }
 @media (max-width: 1100px) { .mol-hint { display: none; } }
 @media (max-width: 720px) { .mol-columns { display: none; } .mol-stats { max-width: none; right: 1rem; } }
+.graph-sources { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); scroll-margin-top: 1rem; }
+.graph-sources h3 { font-size: var(--step-1); margin-bottom: .3rem; }
+.biblio--compact { padding-left: 1.2rem; gap: .5rem; font-size: .78rem; line-height: 1.45; }
+.biblio--compact a { color: var(--ink); text-decoration-color: var(--rule); }
+.biblio--compact a:hover { color: var(--garnet); }

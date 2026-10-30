@@ -66,6 +66,7 @@
     <div class="stage-bar">
       <ol class="trail" id="mol-trail" aria-label="Votre parcours"></ol>
       <div class="stage-bar__actions">
+        <a class="btn btn--ghost btn--small" href="#graph-sources-title" id="mol-goto-sources">Sources</a>
         <button type="button" class="btn btn--ghost btn--small" id="mol-fit">Recadrer</button>
         <button type="button" class="btn btn--ghost btn--small" id="mol-png">Exporter en PNG</button>
       </div>
@@ -77,12 +78,20 @@
     <p class="mol-stats small muted" id="mol-stats" aria-live="polite">Chargement…</p>
   </section>
 
-  <aside class="explorer__panel" id="mol-panel" aria-live="polite">
-    <div class="panel-empty">
-      <h2>Cliquez sur une molécule</h2>
-      <p class="muted">Sa formule, son odeur, la raison de sa présence dans ce vin et les éléments naturels où on la
-        retrouve s'affichent ici.</p>
+  <aside class="explorer__panel">
+    <div id="mol-panel" aria-live="polite">
+      <div class="panel-empty">
+        <h2>Cliquez sur une molécule</h2>
+        <p class="muted">Sa formule, son odeur, la raison de sa présence dans ce vin et les éléments naturels où on la
+          retrouve s'affichent ici.</p>
+      </div>
     </div>
+    <section class="graph-sources" aria-labelledby="graph-sources-title">
+      <h3 id="graph-sources-title">Sources de ce graphe</h3>
+      <p class="small muted">Les publications qui justifient les liens affichés, de la plus citée à la moins citée.</p>
+      <ol class="biblio biblio--compact" id="mol-sources"></ol>
+      <p class="small"><a href="{% url 'molecules:bibliography' %}">Méthode et bibliographie complète</a></p>
+    </section>
   </aside>
 </div>
 {% endblock %}
