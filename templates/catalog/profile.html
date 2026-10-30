@@ -38,6 +38,22 @@
       </div>
       {% endfor %}
     </section>
+    {% if molecules %}
+    <section class="section mol-section">
+      <h2>Ses molécules</h2>
+      <p class="small muted">Déduites de son encépagement, de son style et de son nez, chacune avec sa source.</p>
+      <ul class="reasons">
+        {% for pm in molecules %}
+        <li class="reason reason--{{ pm.basis }}">
+          <span class="reason__dots" aria-label="force {{ pm.strength }} sur 3">{% for i in "123" %}<i class="{% if forloop.counter <= pm.strength %}is-on{% endif %}"></i>{% endfor %}</span>
+          <a href="{{ pm.molecule.get_absolute_url }}">{{ pm.molecule.display_name }}</a>
+          <span class="small muted">{{ pm.molecule.odor }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      <p style="margin-top:1rem"><a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}?depart=profile:{{ profile.slug }}">Du verre à la nature{% if molecules_total > molecules|length %} ({{ molecules_total }} molécules){% endif %}</a></p>
+    </section>
+    {% endif %}
   </div>
   <aside class="stack">
     <div class="panel">

@@ -20,6 +20,7 @@
       <a href="{% url 'explorer:explorer' %}" {% if p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}>Graphe</a>
       <a href="{% url 'blindtest:home' %}" {% if p|slice:":11" == "/blind-test" %}aria-current="page"{% endif %}>Blind test</a>
       <a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>Le Nez</a>
+      <a href="{% url 'molecules:explorer' %}" {% if p|slice:":10" == "/molecules" %}aria-current="page"{% endif %}>Molécules</a>
       <a href="{% url 'catalog:index' %}" {% if p|slice:":10" == "/catalogue" %}aria-current="page"{% endif %}>Catalogue</a>
       {% endwith %}
     </nav>

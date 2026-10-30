@@ -1,0 +1,157 @@
+{
+  "1-8-cineole": {
+    "formula": "C10H18O",
+    "inchikey": "WEEGYLXZBRQIMU-UHFFFAOYSA-N",
+    "molar_mass": 154.25
+  },
+  "1-octen-3-ol": {
+    "formula": "C8H16O",
+    "inchikey": "VSMOENVRRABVKN-UHFFFAOYSA-N",
+    "molar_mass": 128.21
+  },
+  "2-furfurylthiol": {
+    "formula": "C5H6OS",
+    "inchikey": "ZFFTZDQKIXPDAF-UHFFFAOYSA-N",
+    "molar_mass": 114.17
+  },
+  "2-phenylethanol": {
+    "formula": "C8H10O",
+    "inchikey": "WRMNZCZEMHIOCP-UHFFFAOYSA-N",
+    "molar_mass": 122.17
+  },
+  "3-sulfanylhexanol": {
+    "formula": "C6H14OS",
+    "inchikey": "TYZFMFVWHZKYSE-UHFFFAOYSA-N",
+    "molar_mass": 134.24
+  },
+  "4-mmp": {
+    "formula": "C6H12OS",
+    "inchikey": "QRNZMFDCKKEPSX-UHFFFAOYSA-N",
+    "molar_mass": 132.23
+  },
+  "acetate-de-3-sulfanylhexyle": {
+    "formula": "C8H16O2S",
+    "inchikey": "JUCARGIKESIVLB-UHFFFAOYSA-N",
+    "molar_mass": 176.28
+  },
+  "acetate-disoamyle": {
+    "formula": "C7H14O2",
+    "inchikey": "MLFHJEHSLIIPHL-UHFFFAOYSA-N",
+    "molar_mass": 130.19
+  },
+  "benzaldehyde": {
+    "formula": "C7H6O",
+    "inchikey": "HUMNYLRZRPPJDN-UHFFFAOYSA-N",
+    "molar_mass": 106.12
+  },
+  "benzenemethanethiol": {
+    "formula": "C7H8S",
+    "inchikey": "UENWRTRMUIOCKN-UHFFFAOYSA-N",
+    "molar_mass": 124.21
+  },
+  "beta-damascenone": {
+    "formula": "C13H18O",
+    "inchikey": "POIARNZEYGURDG-UHFFFAOYSA-N",
+    "molar_mass": 190.29
+  },
+  "beta-ionone": {
+    "formula": "C13H20O",
+    "inchikey": "PSQYTAPXSHCGMF-UHFFFAOYSA-N",
+    "molar_mass": 192.3
+  },
+  "diacetyle": {
+    "formula": "C4H6O2",
+    "inchikey": "QSJXEFYPDANLFS-UHFFFAOYSA-N",
+    "molar_mass": 86.09
+  },
+  "eugenol": {
+    "formula": "C10H12O2",
+    "inchikey": "RRAFCDWBNXTKKO-UHFFFAOYSA-N",
+    "molar_mass": 164.2
+  },
+  "furaneol": {
+    "formula": "C6H8O3",
+    "inchikey": "INAXVXBDKKUCGI-UHFFFAOYSA-N",
+    "molar_mass": 128.13
+  },
+  "gaiacol": {
+    "formula": "C7H8O2",
+    "inchikey": "LHGVFZTZFXWLCP-UHFFFAOYSA-N",
+    "molar_mass": 124.14
+  },
+  "gamma-nonalactone": {
+    "formula": "C9H16O2",
+    "inchikey": "OALYTRUKMRCXNH-UHFFFAOYSA-N",
+    "molar_mass": 156.22
+  },
+  "geraniol": {
+    "formula": "C10H18O",
+    "inchikey": "GLZPCOQZEFWAFX-UHFFFAOYSA-N",
+    "molar_mass": 154.25
+  },
+  "hexanoate-dethyle": {
+    "formula": "C8H16O2",
+    "inchikey": "SHZIWNPUGXLXDT-UHFFFAOYSA-N",
+    "molar_mass": 144.21
+  },
+  "ibmp": {
+    "formula": "C9H14N2O",
+    "inchikey": "UXFSPRAGHGMRSQ-UHFFFAOYSA-N",
+    "molar_mass": 166.22
+  },
+  "linalol": {
+    "formula": "C10H18O",
+    "inchikey": "CDOSHBSSFJOMGT-UHFFFAOYSA-N",
+    "molar_mass": 154.25
+  },
+  "oxyde-de-rose-cis": {
+    "formula": "C10H18O",
+    "inchikey": "CZCBTSFUTPZVKJ-UHFFFAOYSA-N",
+    "molar_mass": 154.25
+  },
+  "phenylacetaldehyde": {
+    "formula": "C8H8O",
+    "inchikey": "DTUQWGWMVIHBKE-UHFFFAOYSA-N",
+    "molar_mass": 120.15
+  },
+  "piperitone": {
+    "formula": "C10H16O",
+    "inchikey": "YSTPAHQEHQSRJD-UHFFFAOYSA-N",
+    "molar_mass": 152.24
+  },
+  "rotundone": {
+    "formula": "C15H22O",
+    "inchikey": "NUWMTBMCSQWPDG-UHFFFAOYSA-N",
+    "molar_mass": 218.34
+  },
+  "sotolon": {
+    "formula": "C6H8O3",
+    "inchikey": "UNYNVICDCJHOPO-UHFFFAOYSA-N",
+    "molar_mass": 128.13
+  },
+  "sulfure-de-dimethyle": {
+    "formula": "C2H6S",
+    "inchikey": "QMMFVYPAHWMCMS-UHFFFAOYSA-N",
+    "molar_mass": 62.14
+  },
+  "tdn": {
+    "formula": "C13H16",
+    "inchikey": "RTUMCNDCAVLXEP-UHFFFAOYSA-N",
+    "molar_mass": 172.27
+  },
+  "vanilline": {
+    "formula": "C8H8O3",
+    "inchikey": "MWOOGOJBHIARFG-UHFFFAOYSA-N",
+    "molar_mass": 152.15
+  },
+  "whisky-lactone": {
+    "formula": "C9H16O2",
+    "inchikey": "WNVCMFHPRIBNCW-UHFFFAOYSA-N",
+    "molar_mass": 156.22
+  },
+  "z-3-hexen-1-ol": {
+    "formula": "C6H12O",
+    "inchikey": "UFLHIIWVXFIJGU-ARJAWSKDSA-N",
+    "molar_mass": 100.16
+  }
+}

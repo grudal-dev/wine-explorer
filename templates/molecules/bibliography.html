@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Molécules : méthode et sources{% endblock %}
+{% block content %}
+<nav class="crumbs" aria-label="Fil d'Ariane"><a href="{% url 'molecules:explorer' %}">Molécules</a></nav>
+<h1>Méthode et sources</h1>
+<div class="stack" style="max-width: 72ch">
+  <p class="lede">Un vin contient des centaines de composés volatils ; quelques dizaines seulement comptent pour son
+    nez. Cette section retient une trentaine de molécules dont le rôle est établi par la recherche en œnologie, et ne
+    les relie à un vin, ou à un élément naturel, que si une publication le justifie.</p>
+
+  <h2>Comment une molécule est rattachée à un vin</h2>
+  <p>Nos fiches décrivent des <strong>profils types</strong>, pas des bouteilles analysées. Le lien vin → molécule est
+    donc <em>déduit</em> par des règles explicites, chacune adossée à une référence :</p>
+  <ul>
+    <li><strong>Marqueur du cépage</strong> : le cépage représente au moins 15 % de l'encépagement et la littérature
+      l'associe à la molécule (rotundone de la Syrah, thiols du Sauvignon, oxyde de rose du Gewurztraminer…).</li>
+    <li><strong>Style de vinification</strong> : le sotolon des vins jaunes, la γ-nonalactone des liquoreux botrytisés.</li>
+    <li><strong>Couleur</strong> : le diacétyle de la fermentation malolactique, presque systématique en rouge.</li>
+    <li><strong>Descripteur du nez</strong> : le profil cite un arôme classiquement attribué à la molécule (vanille et
+      vanilline, violette et β-ionone). C'est le lien le plus hypothétique : il ne dépasse jamais « probable ».</li>
+    <li><strong>Socle commun</strong> : quelques esters et alcools de fermentation présents dans tous les vins. Ils
+      sont masqués par défaut dans le graphe.</li>
+  </ul>
+  <p>Chaque lien reçoit une force de 1 à 3 (plausible, probable, marqueur établi) : la plus élevée de ses
+    justifications. Toutes les justifications restent affichées, avec leur source.</p>
+
+  <h2>Les éléments naturels</h2>
+  <p>Une molécule n'est reliée à une plante, un fruit, une épice ou un aliment que si une étude l'y a identifiée.
+    Certaines n'existent guère qu'en bouteille, comme le TDN des vieux Rieslings ou le benzèneméthanethiol du silex :
+    elles restent sans lien naturel plutôt que d'en inventer un.</p>
+
+  <h2>Limites</h2>
+  <p>Les seuils de perception sont indicatifs : ils varient selon le vin, la méthode et le dégustateur. Une molécule
+    présente sous son seuil peut quand même jouer, en renforçant ou en masquant ses voisines. Les structures sont
+    dessinées sans stéréochimie, et la formule brute est calculée à partir de la structure.</p>
+
+  <h2>Les {{ references|length }} références</h2>
+  <ol class="biblio">
+    {% for r in references %}{% include "molecules/_reference.html" with r=r %}{% endfor %}
+  </ol>
+</div>
+{% endblock %}

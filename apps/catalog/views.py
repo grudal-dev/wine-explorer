@@ -59,8 +59,13 @@ def profile_detail(request, slug):
         .annotate(shared=Count("profile_aromas"))
         .order_by("-shared", "name")[:6]
     )
+    molecules = [
+        pm for pm in profile.profile_molecules.select_related("molecule")
+        if any(r["basis"] != "universal" for r in pm.reasons)
+    ]
     return render(request, "catalog/profile.html", {
-        "profile": profile, "siblings": siblings, "neighbours": neighbours,
+        "profile": profile, "siblings": siblings, "neighbours": neighbours, "molecules": molecules[:8],
+        "molecules_total": len(molecules),
     })
 
 
@@ -124,7 +129,10 @@ def aroma_detail(request, slug):
         .select_related("profile__appellation__region__parent")
         .order_by("-intensity", "profile__name")
     )
-    return render(request, "catalog/aroma.html", {"aroma": aroma, "links": links})
+    return render(request, "catalog/aroma.html", {
+        "aroma": aroma, "links": links,
+        "molecules": aroma.molecules.all(), "natural_sources": aroma.natural_sources.all(),
+    })
 
 
 def sources(request):

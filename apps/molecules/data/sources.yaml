@@ -1,0 +1,67 @@
+# Éléments naturels où l'on retrouve les molécules du vin.
+# kind : epice, herbe, fleur, fruit, legume, plante, arbre, champignon, aliment
+# aroma : descripteur du catalogue portant (à peu près) le même nom, pour relier les deux mondes.
+
+- {name: poivre noir, kind: epice, latin: Piper nigrum, aroma: poivre noir,
+   description: "Baie séchée du poivrier. Le poivre noir et le blanc renferment de la rotundone à des teneurs environ 10 000 fois supérieures à celles d'un vin très poivré."}
+- {name: marjolaine, kind: herbe, latin: Origanum majorana}
+- {name: origan, kind: herbe, latin: Origanum vulgare}
+- {name: romarin, kind: herbe, latin: Salvia rosmarinus, aroma: romarin}
+- {name: basilic, kind: herbe, latin: Ocimum basilicum}
+- {name: thym, kind: herbe, latin: Thymus vulgaris, aroma: thym}
+- {name: souchet rond, kind: plante, latin: Cyperus rotundus,
+   description: "Herbe des zones tropicales dont les tubercules ont donné son nom à la rotundone, isolée là bien avant d'être trouvée dans le vin."}
+- {name: poivron vert, kind: legume, latin: Capsicum annuum, aroma: poivron vert,
+   description: "Son odeur caractéristique tient presque entièrement à une seule molécule, l'IBMP, logée dans la chair du fruit."}
+- {name: buis, kind: plante, latin: Buxus sempervirens, aroma: buis}
+- {name: genêt à balais, kind: plante, latin: Cytisus scoparius}
+- {name: houblon, kind: plante, latin: Humulus lupulus,
+   description: "Les houblons aromatiques du Nouveau Monde doivent une partie de leur parfum de cassis et de fruit tropical à la 4-MMP, la même molécule que le Sauvignon."}
+- {name: fruit de la passion, kind: fruit, latin: Passiflora edulis, aroma: fruit de la passion,
+   description: "Le 3-sulfanylhexanol et son acétate ont d'abord été identifiés dans le fruit de la passion jaune, avant le Sauvignon."}
+- {name: rose de Damas, kind: fleur, latin: Rosa × damascena, aroma: rose,
+   description: "Son essence (rose de Bulgarie) réunit plusieurs molécules du vin : β-damascénone, β-ionone, oxyde de rose, géraniol et 2-phényléthanol. Les plus rares sont les plus odorantes."}
+- {name: litchi, kind: fruit, latin: Litchi chinensis, aroma: litchi,
+   description: "Partage avec le Gewurztraminer une dizaine de composés odorants, dont l'oxyde de rose cis, le plus actif."}
+- {name: framboise, kind: fruit, latin: Rubus idaeus, aroma: framboise}
+- {name: coriandre, kind: epice, latin: Coriandrum sativum,
+   description: "Ses graines doivent leur parfum au linalol, au point que la molécule a longtemps été appelée coriandrol."}
+- {name: lavande, kind: fleur, latin: Lavandula angustifolia}
+- {name: laurier noble, kind: herbe, latin: Laurus nobilis, aroma: laurier}
+- {name: fleur d'oranger, kind: fleur, latin: Citrus sinensis, aroma: fleur d'oranger}
+- {name: violette, kind: fleur, latin: Viola odorata, aroma: violette,
+   description: "Les ionones tirent leur nom de la violette (ion en grec) : la β-ionone porte la note de violette du Pinot noir, de la Syrah ou du Malbec."}
+- {name: clou de girofle, kind: epice, latin: Syzygium aromaticum, aroma: clou de girofle}
+- {name: vanille, kind: epice, latin: Vanilla planifolia, aroma: vanille,
+   description: "La gousse fermentée et séchée concentre la vanilline. Dans le vin, la même molécule vient du chêne chauffé."}
+- {name: chêne, kind: arbre, latin: "Quercus petraea, Q. robur, Q. alba", aroma: chêne,
+   description: "Le bois de tonnellerie apporte au vin des lactones (noix de coco), de la vanilline, de l'eugénol et, une fois brûlé, des phénols fumés. On y a même trouvé de la rotundone."}
+- {name: bois brûlé, kind: arbre, aroma: fumé,
+   description: "La combustion de la lignine du bois produit gaïacol et dérivés, qui donnent l'odeur de fumée. La chauffe des barriques fait la même chose, à petite échelle."}
+- {name: café torréfié, kind: aliment, latin: Coffea arabica, aroma: café}
+- {name: fenugrec, kind: epice, latin: Trigonella foenum-graecum,
+   description: "Ses graines doivent leur odeur de curry et de sirop d'érable au sotolon, la molécule signature du vin jaune."}
+- {name: livèche, kind: herbe, latin: Levisticum officinale,
+   description: "Le « céleri perpétuel » des potagers, à l'odeur d'arôme Maggi : sotolon, β-damascénone et furanéol en sont les odorants clés."}
+- {name: lactaire helvus, kind: champignon, latin: Lactarius helvus,
+   description: "Champignon des forêts humides qui, séché, sent le fenugrec : il contient lui aussi du sotolon."}
+- {name: eucalyptus, kind: arbre, latin: "Eucalyptus spp.", aroma: eucalyptus,
+   description: "Ses feuilles concentrent le 1,8-cinéole. Quand des eucalyptus bordent une vigne, la molécule passe dans le vin par l'air et par les feuilles tombées dans la vendange."}
+- {name: menthe, kind: herbe, latin: "Mentha spp.", aroma: menthe}
+- {name: truffe noire, kind: champignon, latin: Tuber melanosporum, aroma: truffe,
+   description: "La truffe du Périgord doit sa note soufrée au sulfure de diméthyle, la même molécule que celle du bouquet des grands bordeaux âgés."}
+- {name: champignon de Paris, kind: champignon, latin: Agaricus bisporus, aroma: champignon,
+   description: "Le 1-octén-3-ol, ou « alcool de champignon », représente à lui seul près des trois quarts des volatils du champignon cru."}
+- {name: banane, kind: fruit, latin: Musa acuminata, aroma: banane}
+- {name: jacquier, kind: fruit, latin: Artocarpus heterophyllus}
+- {name: ananas, kind: fruit, latin: Ananas comosus, aroma: ananas}
+- {name: fraise, kind: fruit, latin: Fragaria × ananassa, aroma: fraise}
+- {name: beurre, kind: aliment, aroma: beurre,
+   description: "Le diacétyle, produit par les bactéries lactiques, est la molécule clé du goût de beurre, comme celui des chardonnays ayant fait leur malolactique."}
+- {name: miel, kind: aliment, aroma: miel}
+- {name: tomate, kind: legume, latin: Solanum lycopersicum}
+- {name: cacao torréfié, kind: aliment, latin: Theobroma cacao, aroma: cacao}
+- {name: amande amère, kind: fruit, latin: Prunus dulcis var. amara, aroma: amande,
+   description: "En broyant l'amande, l'amygdaline se scinde en benzaldéhyde, d'où l'odeur d'amande amère et de noyau de cerise."}
+- {name: herbe fraîchement coupée, kind: plante, latin: Poaceae, aroma: herbe coupée,
+   description: "Toute feuille froissée libère en quelques secondes des composés en C6, dont le (Z)-3-hexén-1-ol, ou « alcool de feuille »."}

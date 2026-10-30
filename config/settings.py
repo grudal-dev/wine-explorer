@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "apps.explorer",
     "apps.blindtest",
     "apps.nose",
+    "apps.molecules",
     "apps.accounts",
 ]
 

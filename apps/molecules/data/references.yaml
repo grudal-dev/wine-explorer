@@ -1,0 +1,361 @@
+# Bibliographie de la section Molécules.
+# Chaque lien vin → molécule et molécule → élément naturel cite une de ces clés.
+# Privilégier les articles d'origine (identification de la molécule) et les revues
+# en accès ouvert (OENO One, Vitis, PMC, AWRI). Le DOI prime sur l'URL pour le lien.
+
+# ── Revues générales ────────────────────────────────────────────────────────
+- key: delafuente2020
+  authors: de-la-Fuente-Blanco, Ferreira
+  year: 2020
+  title: Gas Chromatography Olfactometry (GC-O) for the (Semi)Quantitative Screening of Wine Aroma
+  container: Foods, 9(12), 1892
+  doi: 10.3390/foods9121892
+  note: Revue, avec la liste des odorants détectés dans le vin par GC-olfactométrie.
+- key: escudero2010
+  authors: Escudero, Ferreira
+  year: 2010
+  title: "Chemical systems behind wine aroma perception: overview, genesis and evolution"
+  container: Macrowine 2010, IVES Conference Series
+  url: https://ives-openscience.eu/47369
+  note: Socle aromatique commun à tous les vins (éthanol et 27 composés de fermentation).
+- key: smith2015
+  authors: Smith, Schulkin, Kassara, Barter, Solomon et al.
+  year: 2015
+  title: Applying the latest understanding of grape composition
+  container: Wine & Viticulture Journal, 30(6), 33-35 (AWRI)
+  url: https://www.awri.com.au/wp-content/uploads/2013/01/1774-smith-WVJ-30-6-2015.pdf
+- key: surburg2016
+  authors: Surburg, Panten
+  year: 2016
+  title: Common Fragrance and Flavor Materials (6e édition)
+  container: Wiley-VCH
+  note: Ouvrage de référence sur l'origine naturelle des molécules odorantes courantes.
+- key: marais1983
+  authors: Marais
+  year: 1983
+  title: "Terpenes in the aroma of grapes and wines: a review"
+  container: South African Journal of Enology and Viticulture, 4(2), 49-58
+  doi: 10.21548/4-2-2370
+- key: robinson2006
+  authors: Robinson
+  year: 2006
+  title: The Oxford Companion to Wine, article « sotolon »
+  container: Oxford University Press
+  url: https://origin.ckbk.com/reference/wine05383c19s001e253
+
+# ── Rotundone ───────────────────────────────────────────────────────────────
+- key: wood2008
+  authors: Wood, Siebert, Parker, Capone, Elsey, Pollnitz, Herderich et al.
+  year: 2008
+  title: "From Wine to Pepper: Rotundone, an Obscure Sesquiterpene, Is a Potent Spicy Aroma Compound"
+  container: Journal of Agricultural and Food Chemistry, 56(10), 3738-3744
+  doi: 10.1021/jf800183k
+- key: geffroy2020
+  authors: Geffroy, Kleiber, Jacques
+  year: 2020
+  title: "May peppery wines be the spice of life? A review of research on the 'pepper' aroma and the sesquiterpenoid rotundone"
+  container: OENO One, 54, 245-262
+  url: https://oeno-one.eu/article/view/2947
+- key: genthner2021
+  authors: Genthner-Kreger, Cadwallader
+  year: 2021
+  title: Identification of rotundone as an important contributor to the flavor of oak-aged spirits
+  container: Molecules, 26(14), 4368
+  doi: 10.3390/molecules26144368
+- key: geffroy2014
+  authors: Geffroy, Dufourcq, Carcenac, Siebert, Herderich, Serrano
+  year: 2014
+  title: Effect of ripeness and viticultural techniques on the rotundone concentration in red wine made from Vitis vinifera L. cv. Duras
+  container: Australian Journal of Grape and Wine Research, 20
+  url: https://www.awri.com.au/wp-content/uploads/2011/07/Technical_Review_Issue_214_Barter.pdf
+  note: Étude menée dans le Gaillacois, réputé pour le caractère poivré du Duras (synthèse AWRI, Technical Review 214).
+- key: barter2015
+  authors: Barter
+  year: 2015
+  title: Mapping the origins of high rotundone and pepper flavour in Shiraz
+  container: AWRI Technical Review, 214
+  url: https://www.awri.com.au/wp-content/uploads/2011/07/Technical_Review_Issue_214_Barter.pdf
+
+# ── Thiols variétaux ────────────────────────────────────────────────────────
+- key: darriet1995
+  authors: Darriet, Tominaga, Lavigne, Boidron, Dubourdieu
+  year: 1995
+  title: "Identification of a powerful aromatic component of Vitis vinifera L. var. Sauvignon wines: 4-mercapto-4-methylpentan-2-one"
+  container: Flavour and Fragrance Journal, 10, 385-392
+- key: tominaga1995
+  authors: Tominaga, Masneuf, Dubourdieu
+  year: 1995
+  title: A S-cysteine conjugate, precursor of aroma of White Sauvignon
+  container: Journal International des Sciences de la Vigne et du Vin (OENO One)
+  url: https://oeno-one.eu/article/view/1123
+  note: La 4-MMP, responsable des nuances « buis » ou « genêt » du Sauvignon.
+- key: tominaga1996
+  authors: Tominaga, Darriet, Dubourdieu
+  year: 1996
+  title: Identification de l'acétate de 3-mercaptohexanol, composé à forte odeur de buis, intervenant dans l'arôme des vins de Sauvignon
+  container: Vitis, 35(4), 207-210
+  doi: 10.5073/vitis.1996.35.207-210
+- key: tominaga1998
+  authors: Tominaga, Furrer, Henry, Dubourdieu
+  year: 1998
+  title: Identification of new volatile thiols in the aroma of Vitis vinifera L. var. Sauvignon blanc wines
+  container: Flavour and Fragrance Journal, 13, 159-162
+- key: tominaga2000b
+  authors: Tominaga, Baltenweck-Guyot, Peyrot des Gachons, Dubourdieu
+  year: 2000
+  title: Contribution of volatile thiols to the aromas of white wines made from several Vitis vinifera grape varieties
+  container: American Journal of Enology and Viticulture, 51(2), 178-181
+- key: bouchilloux1998
+  authors: Bouchilloux, Darriet, Henry, Lavigne, Dubourdieu
+  year: 1998
+  title: Identification of volatile and powerful odorous thiols in Bordeaux red wine varieties
+  container: Journal of Agricultural and Food Chemistry, 46, 3095-3099
+- key: murat2003
+  authors: Murat, Tominaga, Saucier, Glories, Dubourdieu
+  year: 2003
+  title: Effect of anthocyanins on stability of the key odorous compound 3-mercaptohexan-1-ol in Bordeaux rosé wines
+  container: American Journal of Enology and Viticulture, 54, 135-138
+- key: engel1991
+  authors: Engel, Tressl
+  year: 1991
+  title: Identification of new sulfur-containing volatiles in yellow passion fruits (Passiflora edulis f. flavicarpa)
+  container: Journal of Agricultural and Food Chemistry
+  url: https://agris.fao.org/search/en/records/65dfcc317c7033e84beef73c
+- key: reglitz2018
+  authors: Reglitz, Lemke, Steinhaus, Hanke
+  year: 2018
+  title: On the behavior of the important hop odorant 4-mercapto-4-methylpentan-2-one (4MMP) during dry hopping and during storage of dry hopped beer
+  container: BrewingScience, 71
+- key: tominaga1997
+  authors: Tominaga, Dubourdieu
+  year: 1997
+  title: Identification of 4-mercapto-4-methylpentan-2-one from the box tree (Buxus sempervirens L.) and broom (Sarothamnus scoparius (L.) Koch)
+  container: Flavour and Fragrance Journal, 12, 373-376
+
+# ── Pyrazines ───────────────────────────────────────────────────────────────
+- key: buttery1969
+  authors: Buttery, Seifert, Guadagni, Ling
+  year: 1969
+  title: Characterization of some volatile constituents of bell peppers
+  container: Journal of Agricultural and Food Chemistry, 17
+- key: roujou2000
+  authors: Roujou de Boubée, Van Leeuwen, Dubourdieu
+  year: 2000
+  title: Organoleptic impact of 2-methoxy-3-isobutylpyrazine on red Bordeaux and Loire wines. Effect of environmental conditions on concentrations in grapes during ripening
+  container: Journal of Agricultural and Food Chemistry, 48
+  url: https://www.sigmaaldrich.com/FR/fr/tech-docs/paper/224846
+- key: koch2010
+  authors: Koch, Doyle, Matthews, Williams, Ebeler
+  year: 2010
+  title: 2-Methoxy-3-isobutylpyrazine in grape berries and its dependence on genotype
+  container: Phytochemistry, 71(17-18), 2190-2198
+  note: IBMP quantifiable seulement dans le Cabernet franc, le Cabernet-Sauvignon, le Merlot, le Sauvignon blanc et le Sémillon (29 cépages testés).
+
+# ── Terpènes ────────────────────────────────────────────────────────────────
+- key: guth1997
+  authors: Guth
+  year: 1997
+  title: Quantitative and sensory studies of character impact odorants of different white wine varieties
+  container: Journal of Agricultural and Food Chemistry, 45, 3027-3032
+- key: ong1999
+  authors: Ong, Acree
+  year: 1999
+  title: Similarities in the aroma chemistry of Gewürztraminer variety wines and lychee (Litchi chinensis Sonn.) fruit
+  container: Journal of Agricultural and Food Chemistry, 47, 665-670
+- key: cotton2015
+  authors: Cotton
+  year: 2015
+  title: "β-Damascenone: a rose by any other name… (Molecule of the Month)"
+  container: University of Bristol, School of Chemistry
+  url: https://www.chm.bris.ac.uk/motm/damascenone/damascenoneh.htm
+  note: Composition odorante de l'huile de rose de Damas d'après Kováts et Ohloff.
+- key: capone2011
+  authors: Capone, Van Leeuwen, Taylor, Jeffery, Pardon, Elsey, Sefton
+  year: 2011
+  title: Evolution and occurrence of 1,8-cineole (eucalyptol) in Australian wine
+  container: Journal of Agricultural and Food Chemistry, 59(3), 953-959
+- key: capone2012
+  authors: Capone, Jeffery, Sefton
+  year: 2012
+  title: Vineyard and fermentation studies to elucidate the origin of 1,8-cineole in Australian red wine
+  container: Journal of Agricultural and Food Chemistry, 60, 2281-2287
+  url: https://www.awri.com.au/wp-content/uploads/eucalyptus_character_in_wine.pdf
+- key: picard2016
+  authors: Picard, Lytra, Tempere, Barbe, de Revel, Marchand
+  year: 2016
+  title: Identification of piperitone as an aroma compound contributing to the positive mint nuances perceived in aged red Bordeaux wines
+  container: Journal of Agricultural and Food Chemistry, 64, 451-460
+- key: csiro2019
+  authors: CSIRO
+  title: "Australian essential oil woody-plant species profile: broad-leaved peppermint (Eucalyptus dives)"
+  container: CSIRO Australian Tree Seed Centre
+  url: https://www.csiro.au/-/media/NFandC/Collections/Files/ATSC/Eucalyptus-dives.pdf
+- key: ravid1994
+  authors: Ravid, Putievsky, Katzir
+  year: 1994
+  title: Enantiomeric distribution of piperitone in essential oils
+  container: Flavour and Fragrance Journal, 9
+  note: (+)-pipéritone dans les menthes, (–)-pipéritone dans les eucalyptus.
+
+# ── Norisoprénoïdes ─────────────────────────────────────────────────────────
+- key: blank1993
+  authors: Blank, Schieberle
+  year: 1993
+  title: Analysis of the seasoning-like flavour substances of a commercial lovage extract (Levisticum officinale Koch.)
+  container: Flavour and Fragrance Journal, 8(4), 191-195
+  doi: 10.1002/ffj.2730080405
+- key: ruisinger2012
+  authors: Ruisinger, Schieberle
+  year: 2012
+  title: Characterization of the key aroma compounds in rape honey by means of the molecular sensory science concept
+  container: Journal of Agricultural and Food Chemistry, 60(17), 4186-4194
+  url: https://portal.fis.tum.de/en/publications/characterization-of-the-key-aroma-compounds-in-rape-honey-by-mean/
+
+# ── Bois, torréfaction, réduction ───────────────────────────────────────────
+- key: ortega2007
+  authors: Ortega-Heras, González-Sanjosé, González-Huerta
+  year: 2007
+  title: Consideration of the influence of aging process, type of wine and oenological classic parameters on the levels of wood volatile compounds present in red wines
+  note: Whisky-lactones, vanilline, eugénol, gaïacol extraits du bois dans douze vins rouges élevés en fût.
+  url: https://agris.fao.org/search/fr/records/65deb0d24c5aef494fdd54e2
+- key: ets_oak
+  authors: ETS Laboratories
+  title: Oak aroma compounds (fiche d'analyse)
+  container: Cornell eCommons
+  url: https://ecommons.cornell.edu/server/api/core/bitstreams/819af7bb-7e4f-4bc7-8658-fc90e196d490/content
+  note: Eugénol, principal arôme du clou de girofle, présent dans le chêne brut ; vanilline et lactones du chêne.
+- key: tominaga2000a
+  authors: Tominaga, Blanchard, Darriet, Dubourdieu
+  year: 2000
+  title: A powerful aromatic volatile thiol, 2-furanmethanethiol, exhibiting roast coffee aroma in wines made from several Vitis vinifera grape varieties
+  container: Journal of Agricultural and Food Chemistry, 48(5), 1799-1802
+- key: blanchard2001
+  authors: Blanchard, Tominaga, Dubourdieu
+  year: 2001
+  title: Formation of furfurylthiol exhibiting a strong coffee aroma during oak barrel fermentation from furfural released by toasted staves
+  container: Journal of Agricultural and Food Chemistry, 49(10), 4833-4835
+- key: infowine_2fm
+  authors: Infowine
+  title: Evolution of toasted aromas in red wine during barrel maturation
+  container: Infowine, revue internet de viticulture et d'œnologie
+  url: https://www.infowine.com/en/evolution-of-toasted-aromas-in-red-wine-during-barrel-maturation/
+  note: Le 2-furaneméthanethiol, identifié dès 1926 dans le café torréfié.
+- key: tominaga2003
+  authors: Tominaga, Guimbertau, Dubourdieu
+  year: 2003
+  title: Contribution of benzenemethanethiol to smoky aroma of certain Vitis vinifera L. wines
+  container: Journal of Agricultural and Food Chemistry, 51(5), 1373-1376
+  doi: 10.1021/jf020756c
+- key: nandorfy2023
+  authors: Espinase Nandorfy et al.
+  year: 2023
+  title: The role of potent thiols in « empyreumatic » flint/struck-match/mineral odours in Chardonnay wine
+  container: Australian Journal of Grape and Wine Research
+  url: https://doaj.org/article/a7c0eb4d66c74713aea97ad88f93daf5
+  note: Le 2-furylméthanethiol, principal responsable des notes de silex et d'allumette du Chardonnay.
+
+# ── Vieillissement, oxydation, botrytis ─────────────────────────────────────
+- key: pham1995
+  authors: Pham, Guichard, Schlich, Charpentier
+  year: 1995
+  title: Optimal conditions for the formation of sotolon from α-ketobutyric acid in the French « Vin Jaune »
+  container: Journal of Agricultural and Food Chemistry, 43
+  note: 120 à 268 µg/L de sotolon dans le vin jaune, formés pendant six ans sous voile.
+- key: rapior2000
+  authors: Rapior, Fons, Bessière
+  year: 2000
+  title: The fenugreek odor of Lactarius helvus
+  container: Mycologia, 92(2), 305-308
+- key: picard2015
+  authors: Picard et al.
+  year: 2015
+  title: Involvement of dimethyl sulfide and several polyfunctional thiols in the aromatic expression of the aging bouquet of red Bordeaux wines
+  container: Journal of Agricultural and Food Chemistry, 63(40), 8879-8889
+  doi: 10.1021/acs.jafc.5b03977
+- key: deed2024
+  authors: Miller, Barker, Pilkington, Deed
+  year: 2024
+  title: "Impact of Botrytis cinerea on γ-nonalactone concentration: analysis of New Zealand white wines using SIDA-SPE-GC-MS"
+  container: OENO One, 58(4)
+  url: https://oeno-one.eu/article/view/8080
+
+# ── Fermentation ────────────────────────────────────────────────────────────
+- key: nielsen1999
+  authors: Nielsen, Richelieu
+  year: 1999
+  title: Control of flavor development in wine during and after malolactic fermentation by Oenococcus oeni
+  container: Applied and Environmental Microbiology, 65
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC91089/
+- key: bartowsky2004
+  authors: Bartowsky, Henschke
+  year: 2004
+  title: The 'buttery' attribute of wine — diacetyl — desirability, spoilage and beyond
+  container: International Journal of Food Microbiology, 96
+  doi: 10.1016/j.ijfoodmicro.2004.05.013
+- key: lloyd2015
+  authors: Lloyd
+  year: 2015
+  title: Varietal thiols and green characters
+  container: AWRI, 15th Australian Wine Industry Technical Conference
+  url: https://www.awri.com.au/wp-content/uploads/2013/08/lloyd-W07-AWITC15.pdf
+
+# ── Occurrences dans les aliments et les plantes ────────────────────────────
+- key: tokitomo2005
+  authors: Tokitomo, Steinhaus, Büttner, Schieberle
+  year: 2005
+  title: Odor-active constituents in fresh pineapple (Ananas comosus [L.] Merr.) by quantitative and sensory evaluation
+  container: Bioscience, Biotechnology, and Biochemistry, 69(7), 1323-1330
+  doi: 10.1271/bbb.69.1323
+- key: zheng2012
+  authors: Zheng, Sun, Liu, Lv, Yang, Zhao, Wei
+  year: 2012
+  title: Aroma volatile compounds from two fresh pineapple varieties in China
+  container: International Journal of Molecular Sciences, 13, 7383
+  url: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3397533/
+- key: haag2021
+  authors: Haag, Hoffmann, Krautwurst
+  year: 2021
+  title: Key food furanones Furaneol and sotolone specifically activate distinct odorant receptors
+  container: Journal of Agricultural and Food Chemistry, 69, 10999-11005
+  url: https://mediatum.ub.tum.de/doc/1640051/document.pdf
+- key: myers1970
+  authors: Myers et al.
+  year: 1970
+  title: L-leucine as a precursor of isoamyl alcohol and isoamyl acetate, volatile aroma constituents of banana fruit discs
+  container: Phytochemistry, 9(8), 1693-1700
+- key: ong2008
+  authors: Ong et al.
+  year: 2008
+  title: Analysis of volatile compounds in five jackfruit (Artocarpus heterophyllus L.) cultivars using SPME and GC-TOFMS
+  container: Journal of Food Composition and Analysis, 21(5), 416-422
+- key: sigma_paa
+  authors: Sigma-Aldrich
+  title: Phenylacetaldehyde, fiche produit W287407
+  container: Merck / Sigma-Aldrich
+  url: https://b2b.sigmaaldrich.com/KR/ko/product/aldrich/w287407
+  note: Odorant important de la tomate et de la rose, identifié aussi dans les fèves de cacao torréfiées et le miel.
+- key: campo2017
+  authors: Campo, Marco, Oria, Blanco, Venturini
+  year: 2017
+  title: What is the best method for preserving the genuine black truffle (Tuber melanosporum) aroma? An olfactometric and sensory approach
+  container: LWT – Food Science and Technology, 80, 84-91
+  doi: 10.1016/j.lwt.2017.02.009
+- key: xiao2015
+  authors: Xiao, Liu, He, Li, Tang et al.
+  year: 2015
+  title: Aroma improvement by repeated freeze-thaw treatment during Tuber melanosporum fermentation
+  container: Scientific Reports, 5, 17120
+  doi: 10.1038/srep17120
+  note: 1-octén-3-ol (note champignon) et 2-phényléthanol dans la truffe noire du Périgord.
+- key: wurzenberger1984
+  authors: Wurzenberger, Grosch
+  year: 1984
+  title: Enzymic formation of 1-octen-3-one and 1-octen-3-ol in mushroom (Agaricus bisporus)
+  container: Journal of Agricultural and Food Chemistry, 32(2), 283-286
+  doi: 10.1021/jf00122a037
+- key: ucdavis_almond
+  authors: Mitchell (UC Davis)
+  title: Understanding the chemistry of almond flavor
+  container: University of California, Davis
+  url: https://mitchell.ucdavis.edu/sites/g/files/dgvnsk916/files/inline-files/Understanding%20the%20Chemistry%20of%20Almond%20Flavor.pdf
+  note: La benzaldéhyde, issue de l'amygdaline, est l'odorant dominant de l'amande.

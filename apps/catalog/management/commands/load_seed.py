@@ -46,8 +46,10 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--country", default="fr", help="Dossier de données (défaut : fr).")
         parser.add_argument("--check", action="store_true", help="Valider sans écrire en base.")
+        parser.add_argument("--skip-molecules", action="store_true",
+                            help="Ne pas recharger la section Molécules (load_molecules).")
 
-    def handle(self, *args, country, check, **options):
+    def handle(self, *args, country, check, skip_molecules=False, **options):
         folder = DATA_DIR / country
         if not folder.is_dir():
             raise CommandError(f"Dossier de données introuvable : {folder}")
@@ -73,6 +75,11 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(
             f"Jeu de données {verb} : " + ", ".join(f"{v} {k}" for k, v in stats.items())
         ))
+        if not check and not skip_molecules:
+            # Les liens vin → molécule dépendent des profils : on les recalcule.
+            from django.core.management import call_command
+
+            call_command("load_molecules", stdout=self.stdout)
 
     # ------------------------------------------------------------------
     def _read(self, path: Path):

@@ -1,8 +1,9 @@
 # Terroirs
 
 Une application Django pour explorer le vin français : un graphe parcourable des régions, appellations,
-cépages et arômes, un blind test façon jeu de déduction, et « Le Nez », qui propose les cinq vins les plus
-probables à partir de descripteurs olfactifs.
+cépages et arômes, un blind test façon jeu de déduction, « Le Nez », qui propose les cinq vins les plus
+probables à partir de descripteurs olfactifs, et « Molécules », qui relie chaque vin aux molécules de son nez
+puis aux plantes, fruits et épices où on les retrouve.
 
 ## Démarrage rapide
 
@@ -11,7 +12,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env            # DJANGO_DEBUG=true pour le développement
 python manage.py migrate
-python manage.py load_seed      # charge le jeu de données France
+python manage.py load_seed      # charge le jeu de données France, puis la section Molécules
 python manage.py createsuperuser
 python manage.py runserver
 ```
@@ -29,6 +30,7 @@ docker compose up --build       # http://localhost:8000
 | **Graphe** (`/graphe/`) | Graphe Cytoscape des entités. Vues prédéfinies, choix des types de nœuds, filtres (couleur, région, prix, intensité des arômes, part des cépages), quatre dispositions, recherche, centrage sur le voisinage (double-clic), **plus court chemin entre deux entités**, fiche latérale (HTMX), export PNG. L'URL garde l'état : une vue se partage. |
 | **Blind test** (`/blind-test/`) | Un profil type mystère : robe, structure en bouche, premiers arômes. Le joueur saisit librement régions, appellations ou cépages (autocomplétion, accents et synonymes tolérés) pour reconstituer l'étiquette. Retour par essai : trouvé, proche (bonne région, cépage minoritaire), raté avec distance et direction. Chaque essai manqué dévoile un indice (arômes, garde, prix, accords, commentaire masqué, initiale, forme du nom). Défi du jour commun à tous et parties libres. |
 | **Le Nez** (`/le-nez/`) | Saisie de descripteurs (ou familles) en puces, ou par la roue des arômes. Top 5 des profils avec probabilités, arômes retrouvés, proches ou absents, et suggestions de descripteurs pour départager. |
+| **Molécules** (`/molecules/`) | Graphe en trois colonnes **vin → molécules → éléments naturels**. On part d'un vin, d'une molécule ou d'un élément naturel (recherche, suggestions, vin au hasard) ; double-cliquer sur un nœud repart de lui et le parcours s'affiche en fil d'Ariane. Chaque lien vin → molécule montre pourquoi (cépage, style, couleur, descripteur) avec sa force et sa référence. Fiches molécule (formule développée, formule brute, odeur, seuil, vins, sources), fiches élément naturel, bibliographie. |
 | **Catalogue** (`/catalogue/`) | Fiches des régions, appellations, profils types, cépages et arômes. |
 | **Comptes** (`/compte/`) | Inscription, connexion, historique, réussite par région, classement du jour et général. Les parties jouées sans compte sont rattachées à la connexion. |
 
@@ -42,6 +44,9 @@ apps/catalog/           modèles du vin, jeu de données, imports, recherche flo
 apps/explorer/          construction du graphe, filtres, plus court chemin, API JSON
 apps/blindtest/         moteur de jeu (engine.py), parties et essais
 apps/nose/              classifieur bayésien naïf avec repli par famille
+apps/molecules/         molécules, éléments naturels, bibliographie, règles vin → molécule, graphe
+  data/*.yaml           molecules.yaml (règles et occurrences), sources.yaml, references.yaml
+  data/computed.json    formule brute et masse molaire calculées par RDKit
 apps/accounts/          inscription, profil, classement
 templates/, static/     HTML, CSS, JS ; Cytoscape, HTMX et polices servis en local
 ```
@@ -99,3 +104,32 @@ Les tests passent sous SQLite et PostgreSQL 16.
 - Ouvrir le monde : un dossier `data/<pays>/` par pays, `load_seed --country it`.
 - Traduction anglaise : `LANGUAGES` et `LocaleMiddleware` sont en place, les chaînes restent à extraire avec `gettext`.
 - Niveaux de difficulté au blind test (région donnée d'emblée, moins d'essais).
+
+## Molécules : données et méthode
+
+31 molécules odorantes dont le rôle dans le vin est établi (rotundone, thiols variétaux, méthoxypyrazine,
+terpènes, norisoprénoïdes, composés du bois, sotolon…), 42 éléments naturels et 58 références (articles
+d'origine, revues en accès ouvert : OENO One, Vitis, AWRI, PMC). Rien n'est relié sans source.
+
+Les profils types ne sont pas des bouteilles analysées : le lien vin → molécule est **déduit** au chargement
+par des règles écrites dans `apps/molecules/data/molecules.yaml` :
+
+| Règle | Exemple | Force |
+|---|---|---|
+| cépage à au moins 15 % de l'encépagement | Syrah → rotundone (Wood et al. 2008) | jusqu'à 3 |
+| style de vinification | vin jaune → sotolon (Pham et al. 1995) | jusqu'à 3 |
+| couleur | rouge → diacétyle de la malolactique | 1 |
+| descripteur du profil | violette → β-ionone | 2 au plus |
+| socle commun | esters de fermentation, tous les vins | 1, masqué par défaut |
+
+Chaque lien garde toutes ses justifications (`ProfileMolecule.reasons`). `load_molecules` échoue sur toute
+référence, tout cépage, arôme ou élément naturel inconnu, comme `load_seed`.
+
+```bash
+python manage.py load_molecules --check   # valider les YAML
+pip install rdkit && python manage.py render_molecules   # après ajout d'une molécule : SVG + computed.json
+```
+
+RDKit n'est nécessaire qu'à `render_molecules` : les SVG de `static/molecules/` et `computed.json` sont
+versionnés.
+

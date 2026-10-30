@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ molecule.display_name }}{% endblock %}
+{% block description %}{{ molecule.display_name }} : odeur de {{ molecule.odor }}. Les vins qui la contiennent et les éléments naturels où on la retrouve.{% endblock %}
+{% block content %}
+<nav class="crumbs" aria-label="Fil d'Ariane"><a href="{% url 'molecules:explorer' %}">Molécules</a><span aria-hidden="true">/</span><a href="{% url 'molecules:list' %}">Toutes les molécules</a><span aria-hidden="true">/</span><span>{{ family_label }}</span></nav>
+
+<div class="mol-head">
+  <figure class="structure">
+    <img src="{% static molecule.structure_static %}" alt="Formule développée de {{ molecule.name }}" width="320" height="220">
+  </figure>
+  <div>
+    <h1>{{ molecule.display_name }}</h1>
+    <p class="lede">Odeur : {{ molecule.odor }}.</p>
+    <dl class="facts">
+      <dt>Famille</dt><dd>{{ family_label }}</dd>
+      <dt>Origine dans le vin</dt><dd>{{ molecule.get_origin_display }}</dd>
+      {% if molecule.formula %}<dt>Formule brute</dt><dd>{{ molecule.formula_html|safe }}{% if molecule.molar_mass %} · {{ molecule.molar_mass|floatformat:2 }} g/mol{% endif %}</dd>{% endif %}
+      {% if molecule.threshold %}<dt>Seuil de perception</dt><dd>{{ molecule.threshold }}</dd>{% endif %}
+      {% if molecule.synonyms %}<dt>Aussi appelée</dt><dd>{{ molecule.synonyms|join:", " }}</dd>{% endif %}
+      <dt>SMILES</dt><dd><code>{{ molecule.smiles }}</code></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="split section">
+  <div>
+    <p class="lede">{{ molecule.description }}</p>
+
+    <section class="section">
+      <h2>Dans quels vins</h2>
+      {% if links %}
+      <ul class="wine-list wine-list--reasons">
+        {% for l in links %}
+        <li>
+          <span class="robe robe--{{ l.profile.color }}"></span>
+          <div>
+            <a href="{{ l.profile.get_absolute_url }}">{{ l.profile.name }}</a>
+            <p class="small muted">{% for r in l.reasons_full %}{{ r.label }}{% if r.reference %} (<a class="cite" href="{{ r.reference.link|default:'#' }}" {% if r.reference.link %}target="_blank" rel="noopener"{% endif %}>{{ r.reference.short }}</a>){% endif %}{% if not forloop.last %} · {% endif %}{% endfor %}</p>
+          </div>
+          <span class="meta reason__dots" aria-label="force {{ l.strength }} sur 3">{% for i in "123" %}<i class="{% if forloop.counter <= l.strength %}is-on{% endif %}"></i>{% endfor %}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="muted">Aucun profil type n'y est rattaché par une règle spécifique.</p>
+      {% endif %}
+      {% if common_count %}<p class="small muted">Elle fait aussi partie du socle commun de fermentation de {{ common_count }} autre{{ common_count|pluralize }} profil{{ common_count|pluralize }}.</p>{% endif %}
+    </section>
+  </div>
+
+  <aside class="stack">
+    <div class="panel">
+      <h3>On la retrouve dans la nature</h3>
+      {% for o in molecule.occurrences.all %}
+      <div class="occ">
+        <a href="{{ o.source.get_absolute_url }}"><strong>{{ o.source.name|capfirst }}</strong></a>{% if o.source.latin_name %} <span class="latin">{{ o.source.latin_name }}</span>{% endif %}
+        {% if o.note %}<p class="small muted">{{ o.note }}</p>{% endif %}
+        {% if o.reference %}<p class="small"><a class="cite" href="{{ o.reference.link|default:'#' }}" {% if o.reference.link %}target="_blank" rel="noopener"{% endif %}>{{ o.reference.short }}</a></p>{% endif %}
+      </div>
+      {% empty %}
+      <p class="small muted">Aucun élément naturel documenté dans nos sources : cette molécule naît surtout dans le vin, pendant la fermentation ou le vieillissement.</p>
+      {% endfor %}
+    </div>
+    {% if molecule.aromas.all %}
+    <div class="panel">
+      <h3>Descripteurs évoqués</h3>
+      <div class="tags">{% for a in molecule.aromas.all %}<a class="tag tag--aroma" href="{{ a.get_absolute_url }}">{{ a.name }}</a>{% endfor %}</div>
+    </div>
+    {% endif %}
+    <a class="btn" href="{% url 'molecules:explorer' %}?depart=molecule:{{ molecule.slug }}">Voir dans le graphe</a>
+    <a class="btn btn--ghost" href="{{ molecule.pubchem_url }}" target="_blank" rel="noopener">Ouvrir dans PubChem</a>
+  </aside>
+</div>
+
+<section class="section">
+  <h2>Sources</h2>
+  <ol class="biblio">
+    {% for r in bibliography %}{% include "molecules/_reference.html" with r=r %}{% endfor %}
+  </ol>
+</section>
+{% endblock %}

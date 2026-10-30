@@ -468,3 +468,75 @@ button.tag { cursor: pointer; font-family: inherit; }
 
 [hidden] { display: none !important; }
 .gauge--wide { grid-template-columns: 10rem 1fr; }
+
+/* ── Molécules ────────────────────────────────────────────── */
+:root { --verdigris: #2E6E6A; --verdigris-wash: #DDEAE8; }
+.tag--molecule { background: var(--verdigris-wash); border-color: transparent; color: var(--verdigris); }
+.tag--source { background: var(--olive-wash); border-color: transparent; color: #3F4D1F; }
+.tag--profile { background: var(--paper); }
+.tag[aria-current="step"] { box-shadow: inset 0 0 0 1.5px currentColor; }
+.mol-title { font-size: var(--step-3); margin-bottom: .35rem; }
+.mol-random { margin-top: .5rem; }
+.basis-legend { list-style: none; padding: 0; margin: 0 0 .5rem; display: grid; gap: .35rem; font-size: var(--step--1); }
+.basis-legend li { display: flex; align-items: center; gap: .55rem; }
+.basis { display: inline-block; width: 1.6rem; height: 4px; border-radius: 2px; flex: none; }
+.basis--grape { background: #7F9248; }
+.basis--style { background: var(--slate); }
+.basis--color { background: #8DA2BA; }
+.basis--aroma { background: #C99A3D; }
+.basis--universal { background: repeating-linear-gradient(90deg, #B9B9AF 0 5px, transparent 5px 8px); }
+
+.mol-explorer .explorer__stage { position: relative; }
+.mol-columns { position: absolute; top: 3.1rem; left: 0; right: 0; height: 1.6rem; pointer-events: none; z-index: 2; }
+.mol-columns span { position: absolute; transform: translateX(-50%); font: italic 400 var(--step-0)/1 var(--serif);
+  color: var(--ink-2); background: rgba(248,248,244,.9); padding: .2rem .5rem; border-radius: 3px; white-space: nowrap; }
+.mol-stats { position: absolute; left: 1rem; bottom: .7rem; margin: 0; background: rgba(248,248,244,.9); padding: .3rem .6rem; border-radius: var(--radius-s); max-width: 60%; }
+.mol-hint { position: absolute; right: 1rem; bottom: .7rem; margin: 0; color: var(--ink-3); }
+.trail { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; list-style: none; margin: 0; padding: 0; min-width: 0; }
+.trail li { display: inline-flex; align-items: center; gap: .25rem; }
+.trail li + li::before { content: "→"; color: var(--ink-3); font-size: var(--step--1); }
+
+.structure { margin: 0; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-m); padding: .6rem; }
+.structure img { display: block; width: 100%; height: auto; }
+.structure figcaption { text-align: center; font-size: var(--step--1); color: var(--ink-2); margin-top: .2rem; }
+.structure--panel { margin: .6rem 0 1rem; }
+.mol-card h2 { margin-bottom: .2rem; }
+.mol-card__text { font-size: var(--step--1); color: var(--ink-2); margin-top: 1rem; }
+.latin { font-style: italic; color: var(--ink-2); }
+.reasons { list-style: none; padding: 0; margin: 0; display: grid; gap: .45rem; }
+.reason { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: .55rem; font-size: var(--step--1); }
+.reason .linkish { color: var(--ink); font-weight: 500; text-align: left; }
+.reason__dots { display: inline-flex; gap: 2px; }
+.reason__dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); }
+.reason__dots i.is-on { background: var(--verdigris); }
+.reason--grape .reason__dots i.is-on { background: #7F9248; }
+.reason--style .reason__dots i.is-on { background: var(--slate); }
+.reason--aroma .reason__dots i.is-on { background: #C99A3D; }
+.cite { font-size: var(--step--1); color: var(--ink-2); text-decoration-style: dotted; white-space: nowrap; }
+.occ-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+.occ-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .5rem; }
+.occ + .occ { margin-top: .9rem; padding-top: .9rem; border-top: 1px solid var(--rule); }
+.occ p { margin: .15rem 0 0; }
+
+.mol-head { display: grid; grid-template-columns: minmax(220px, 340px) 1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+.mol-head h1 { margin-bottom: .3rem; }
+.mol-head .facts { margin-top: 1rem; }
+.mol-head code { font-size: var(--step--1); word-break: break-all; }
+@media (max-width: 760px) { .mol-head { grid-template-columns: 1fr; } .mol-head .structure { max-width: 320px; } }
+.wine-list--reasons li { align-items: flex-start; }
+.wine-list--reasons li > div { flex: 1; }
+.wine-list--reasons p { margin: .15rem 0 0; }
+.wine-list li > div p { margin: .15rem 0 0; }
+.hexa { width: .95rem; height: .85rem; flex: none; background: var(--verdigris); clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); align-self: center; }
+.mol-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
+.mol-tile { display: grid; gap: .2rem; align-content: start; padding: .8rem .9rem 1rem; background: var(--paper); border: 1px solid var(--rule);
+  border-radius: var(--radius-m); text-decoration: none; color: var(--ink); }
+.mol-tile:hover { border-color: var(--verdigris); color: var(--ink); }
+.mol-tile img { width: 100%; height: auto; margin-bottom: .3rem; }
+.mol-tile strong { font: 600 var(--step-1)/1.2 var(--serif); }
+.mol-tile__meta { color: var(--ink-3); margin-top: .3rem; }
+.biblio { padding-left: 1.4rem; display: grid; gap: .6rem; font-size: var(--step--1); }
+.biblio li { max-width: 80ch; }
+.mol-section .reasons { margin-top: .5rem; }
+@media (max-width: 1100px) { .mol-hint { display: none; } }
+@media (max-width: 720px) { .mol-columns { display: none; } .mol-stats { max-width: none; right: 1rem; } }

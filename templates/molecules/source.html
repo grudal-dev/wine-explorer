@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ source.name|capfirst }}{% endblock %}
+{% block description %}Les molécules que {{ source.name }} partage avec le vin, et les vins qui en contiennent.{% endblock %}
+{% block content %}
+<nav class="crumbs" aria-label="Fil d'Ariane"><a href="{% url 'molecules:explorer' %}">Molécules</a><span aria-hidden="true">/</span><a href="{% url 'molecules:list' %}#nature">Éléments naturels</a><span aria-hidden="true">/</span><span>{{ source.get_kind_display }}</span></nav>
+<h1>{{ source.name|capfirst }}</h1>
+<p class="lede">{% if source.latin_name %}<span class="latin">{{ source.latin_name }}</span>. {% endif %}{{ source.description }}</p>
+
+<div class="split section">
+  <div>
+    <h2>Molécules partagées avec le vin</h2>
+    <ul class="wine-list">
+      {% for o in source.occurrences.all %}
+      <li>
+        <span class="hexa" aria-hidden="true"></span>
+        <div>
+          <a href="{{ o.molecule.get_absolute_url }}">{{ o.molecule.display_name }}</a>
+          <p class="small muted">{{ o.molecule.odor|capfirst }}.{% if o.note %} {{ o.note }}{% endif %}
+            {% if o.reference %}(<a class="cite" href="{{ o.reference.link|default:'#' }}" {% if o.reference.link %}target="_blank" rel="noopener"{% endif %}>{{ o.reference.short }}</a>){% endif %}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <section class="section">
+      <h2>Les vins qui la rappellent</h2>
+      {% if wines %}
+      <ul class="wine-list">
+        {% for w in wines %}
+        <li><span class="robe robe--{{ w.profile.color }}"></span><a href="{{ w.profile.get_absolute_url }}">{{ w.profile.name }}</a>
+          <span class="meta">{% for m in w.molecules %}{{ m.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span></li>
+        {% endfor %}
+      </ul>
+      {% if n_wines > wines|length %}<p class="small muted">Et {{ n_wines|add:"-15" }} autres dans le graphe.</p>{% endif %}
+      {% else %}<p class="muted">Ces molécules relèvent du socle commun : elles ne distinguent aucun vin en particulier.</p>{% endif %}
+    </section>
+  </div>
+  <aside class="stack">
+    <a class="btn" href="{% url 'molecules:explorer' %}?depart=source:{{ source.slug }}">Voir dans le graphe</a>
+    {% if source.aroma %}<a class="btn btn--ghost" href="{{ source.aroma.get_absolute_url }}">Le descripteur « {{ source.aroma.name }} »</a>{% endif %}
+  </aside>
+</div>
+{% endblock %}

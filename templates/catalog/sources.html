@@ -16,6 +16,9 @@
     les appellations avec leur identifiant officiel et leur nombre de communes.</p>
   <p><strong>Wikidata</strong> (CC0) : identifiants et coordonnées des appellations et cépages, via la commande
     <code>import_wikidata</code>. C'est aussi la voie la plus simple pour ouvrir la base au monde entier.</p>
+  <h2>Molécules</h2>
+  <p>La section <a href="{% url 'molecules:explorer' %}">Molécules</a> a sa propre méthode et sa bibliographie :
+    <a href="{% url 'molecules:bibliography' %}">règles de rattachement et références</a>.</p>
   <h2>Le Nez : comment sont calculées les probabilités</h2>
   <p>Un classifieur bayésien naïf compare vos descripteurs aux arômes pondérés de chaque profil. Un descripteur absent
     d'un profil mais de la même famille qu'un de ses arômes garde une vraisemblance partielle : la framboise n'est pas

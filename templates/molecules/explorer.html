@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Molécules{% endblock %}
+{% block description %}Du verre à la nature : les molécules odorantes d'un vin et les plantes, fruits ou épices où on les retrouve.{% endblock %}
+{% block main_class %}page--full{% endblock %}
+{% block body_class %}is-app{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+<div class="explorer mol-explorer" id="mol-explorer"
+     data-api="{% url 'molecules:api_graph' %}"
+     data-search="{% url 'molecules:api_search' %}"
+     data-panel="{% url 'molecules:panel' 'X' %}"
+     data-start="{{ start }}"
+     data-random="{{ random_ids|join:',' }}">
+
+  <aside class="explorer__rail" aria-label="Choisir un point de départ">
+    <div class="rail-group">
+      <h1 class="mol-title">Molécules</h1>
+      <p class="small muted">Du verre à la nature : les molécules qui font le nez d'un vin, et les plantes, fruits
+        ou épices où on les retrouve. Chaque lien est sourcé.</p>
+    </div>
+
+    <div class="rail-group">
+      <label class="label" for="mol-search">Partir d'un vin, d'une molécule ou d'un élément naturel</label>
+      <div class="combo">
+        <input id="mol-search" class="input" type="search" placeholder="Côte-Rôtie, rotundone, truffe…" autocomplete="off"
+               role="combobox" aria-expanded="false" aria-controls="mol-search-list">
+        <ul class="combo__list" id="mol-search-list" role="listbox" hidden></ul>
+      </div>
+      <button type="button" class="btn btn--ghost btn--small mol-random" id="mol-random">Un vin au hasard</button>
+    </div>
+
+    <div class="rail-group">
+      <span class="label">Points de départ</span>
+      <div class="tags">
+        {% for s in starters %}
+        <button type="button" class="tag tag--{{ s.kind }}" data-start="{{ s.id }}">{% if s.kind == "source" %}<i class="tag__dot"></i>{% endif %}{{ s.label }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="rail-group">
+      <label class="check"><input type="checkbox" id="mol-common"> Montrer le socle commun</label>
+      <p class="small muted">Esters et alcools de fermentation présents dans presque tous les vins. Masqués par défaut :
+        ils ne disent rien d'un vin en particulier.</p>
+    </div>
+
+    <div class="rail-group">
+      <span class="label">Pourquoi un vin contient une molécule</span>
+      <ul class="basis-legend">
+        <li><i class="basis basis--grape"></i>Marqueur de son cépage</li>
+        <li><i class="basis basis--style"></i>Son style de vinification</li>
+        <li><i class="basis basis--color"></i>Sa couleur (fermentation malolactique…)</li>
+        <li><i class="basis basis--aroma"></i>Un descripteur de son nez</li>
+        <li><i class="basis basis--universal"></i>Socle commun des vins</li>
+      </ul>
+      <p class="small muted">L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible.</p>
+      <p class="small muted">Cliquez sur un nœud pour lire sa fiche, double-cliquez pour repartir de lui.</p>
+    </div>
+
+    <p class="small"><a href="{% url 'molecules:list' %}">Les {{ counts.molecules }} molécules et {{ counts.sources }} éléments naturels</a><br>
+      <a href="{% url 'molecules:bibliography' %}">Méthode et {{ counts.references }} sources</a></p>
+  </aside>
+
+  <section class="explorer__stage" aria-label="Graphe vin, molécules, nature">
+    <div class="stage-bar">
+      <ol class="trail" id="mol-trail" aria-label="Votre parcours"></ol>
+      <div class="stage-bar__actions">
+        <button type="button" class="btn btn--ghost btn--small" id="mol-fit">Recadrer</button>
+        <button type="button" class="btn btn--ghost btn--small" id="mol-png">Exporter en PNG</button>
+      </div>
+    </div>
+    <div class="mol-columns" aria-hidden="true">
+      <span data-col="0">Le vin</span><span data-col="1">Les molécules</span><span data-col="2">La nature</span>
+    </div>
+    <div id="mol-cy" class="cy"></div>
+    <p class="mol-stats small muted" id="mol-stats" aria-live="polite">Chargement…</p>
+  </section>
+
+  <aside class="explorer__panel" id="mol-panel" aria-live="polite">
+    <div class="panel-empty">
+      <h2>Cliquez sur une molécule</h2>
+      <p class="muted">Sa formule, son odeur, la raison de sa présence dans ce vin et les éléments naturels où on la
+        retrouve s'affichent ici.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendor/cytoscape.min.js' %}" defer></script>
+<script src="{% static 'js/combo.js' %}" defer></script>
+<script src="{% static 'js/molecules.js' %}" defer></script>
+{% endblock %}

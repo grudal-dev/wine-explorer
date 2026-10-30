@@ -18,6 +18,13 @@
   <aside class="stack">
     <a class="btn" href="{% url 'nose:nose' %}?a={{ aroma.id }}">Chercher les vins qui sentent {{ aroma.name }}</a>
     <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=aroma:{{ aroma.slug }}">Voir dans le graphe</a>
+    {% if molecules or natural_sources %}
+    <div class="panel">
+      {% if molecules %}<h3>Les molécules derrière ce descripteur</h3>
+      <div class="tags">{% for m in molecules %}<a class="tag tag--molecule" href="{{ m.get_absolute_url }}">{{ m.name }}</a>{% endfor %}</div>{% endif %}
+      {% for s in natural_sources %}<p class="small" style="margin-top:.8rem"><a href="{{ s.get_absolute_url }}">{{ s.name|capfirst }}, côté nature</a></p>{% endfor %}
+    </div>
+    {% endif %}
   </aside>
 </div>
 {% endblock %}
