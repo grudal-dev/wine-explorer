@@ -1,8 +1,8 @@
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
-from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
 
+from apps.catalog.cache import cache_json
 from apps.catalog.models import (
     Appellation,
     Aroma,
@@ -110,4 +110,4 @@ def node_panel(request, node_id: str):
     })
 
 
-api_graph = cache_page(60 * 5)(api_graph)
+api_graph = cache_json(60 * 5, "graph")(api_graph)
