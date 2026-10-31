@@ -65,3 +65,9 @@
    description: "En broyant l'amande, l'amygdaline se scinde en benzaldéhyde, d'où l'odeur d'amande amère et de noyau de cerise."}
 - {name: herbe fraîchement coupée, kind: plante, latin: Poaceae, aroma: herbe coupée,
    description: "Toute feuille froissée libère en quelques secondes des composés en C6, dont le (Z)-3-hexén-1-ol, ou « alcool de feuille »."}
+- {name: cannelle, kind: epice, latin: Cinnamomum verum, aroma: cannelle}
+- {name: pomme, kind: fruit, latin: Malus domestica, aroma: pomme mûre}
+- {name: pin, kind: arbre, latin: "Pinus spp."}
+- {name: cardamome, kind: epice, latin: Elettaria cardamomum}
+- {name: massoia, kind: arbre, latin: Cryptocarya massoy,
+   description: "Arbre de Nouvelle-Guinée dont l'écorce, au parfum de noix de coco, a donné son nom à la lactone massoia, retrouvée dans les Merlot et Cabernet trop mûrs."}

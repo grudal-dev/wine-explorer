@@ -1,0 +1,33 @@
+<svg role="img" aria-label="Formule de éthanal" version='1.1' baseProfile='full'
+              xmlns='http://www.w3.org/2000/svg'
+                      xmlns:rdkit='http://www.rdkit.org/xml'
+                      xmlns:xlink='http://www.w3.org/1999/xlink'
+                  xml:space='preserve'
+width='320px' height='220px' viewBox='0 0 320 220'>
+<!-- END OF HEADER -->
+<path class='bond-0 atom-0 atom-1' d='M 192.0,106.1 L 162.6,123.1' style='fill:none;fill-rule:evenodd;stroke:#23262F;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-1 atom-1 atom-2' d='M 162.6,123.1 L 151.7,116.9' style='fill:none;fill-rule:evenodd;stroke:#23262F;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-1 atom-1 atom-2' d='M 151.7,116.9 L 140.9,110.6' style='fill:none;fill-rule:evenodd;stroke:#7A1F3D;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-1 atom-1 atom-2' d='M 162.6,117.3 L 154.3,112.5' style='fill:none;fill-rule:evenodd;stroke:#23262F;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-1 atom-1 atom-2' d='M 154.3,112.5 L 143.4,106.2' style='fill:none;fill-rule:evenodd;stroke:#7A1F3D;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 164.1,122.3 L 162.6,123.1 L 162.0,122.8' style='fill:none;stroke:#23262F;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path class='atom-2' d='M 127.8 104.0
+Q 127.8 100.5, 129.5 98.6
+Q 131.2 96.7, 134.4 96.7
+Q 137.6 96.7, 139.3 98.6
+Q 141.0 100.5, 141.0 104.0
+Q 141.0 107.5, 139.3 109.5
+Q 137.6 111.5, 134.4 111.5
+Q 131.2 111.5, 129.5 109.5
+Q 127.8 107.5, 127.8 104.0
+M 134.4 109.9
+Q 136.6 109.9, 137.8 108.4
+Q 139.0 106.9, 139.0 104.0
+Q 139.0 101.2, 137.8 99.7
+Q 136.6 98.3, 134.4 98.3
+Q 132.2 98.3, 131.0 99.7
+Q 129.8 101.1, 129.8 104.0
+Q 129.8 106.9, 131.0 108.4
+Q 132.2 109.9, 134.4 109.9
+' fill='#7A1F3D'/>
+</svg>

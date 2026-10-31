@@ -15,7 +15,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils.text import slugify
 
-from apps.catalog.models import Aroma, Color, Grape, Style, WineProfile
+from apps.catalog.models import Aroma, AromaFamily, Color, Grape, Style, WineProfile
 from apps.catalog.text import normalize
 from apps.molecules.models import (
     BASIS_ORDER,
@@ -32,10 +32,12 @@ from apps.molecules.models import (
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 MIN_SHARE = 15
+WIKIDATA_FILE = DATA_DIR / "wikidata_occurrences.json"
 
 MOLECULE_KEYS = {
     "name", "name_en", "synonyms", "family", "origin", "smiles", "odor", "threshold", "refs",
     "aromas", "aroma_ref", "aroma_max", "universal", "description", "wine", "nature",
+    "families", "family_ref",
 }
 RULE_KEYS = {"grapes", "styles", "colors", "all", "strength", "ref", "min_share"}
 
@@ -82,6 +84,7 @@ class Command(BaseCommand):
         computed_path = DATA_DIR / "computed.json"
         computed = json.loads(computed_path.read_text(encoding="utf-8")) if computed_path.exists() else {}
 
+        families = {normalize(f.name): f for f in AromaFamily.objects.all()}
         grapes = {}
         for g in Grape.objects.all():
             for label in [g.name, *g.synonyms]:
@@ -173,15 +176,29 @@ class Command(BaseCommand):
                         raise ValueError(f"{name}: couleurs inconnues {bad}")
                     r["colors"] = rule["colors"]
                 parsed.append(r)
+            fam_ids = set()
+            for label in item.get("families", []):
+                fam = families.get(normalize(label))
+                if fam is None:
+                    raise KeyError(f"famille aromatique inconnue « {label} » ({name})")
+                fam_ids.add(fam.pk)
+            family_ref = item.get("family_ref") or aroma_ref
+            if fam_ids:
+                self._ref(refs, family_ref, name)
             molecules.append(mol)
-            rules.append((mol, parsed, {a.pk for a in mol_aromas}, aroma_ref, item.get("aroma_max", 2)))
+            rules.append({
+                "mol": mol, "parsed": parsed, "aromas": {a.pk for a in mol_aromas}, "aroma_ref": aroma_ref,
+                "aroma_max": item.get("aroma_max", 2), "families": fam_ids, "family_ref": family_ref,
+            })
 
         Molecule.objects.exclude(slug__in=seen_slugs).delete()
+        n_imported = self._load_wikidata(refs, sources)
         n_links = self._link_profiles(rules)
         return {
             "molécules": len(molecules),
             "éléments naturels": len(sources),
-            "occurrences": Occurrence.objects.count(),
+            "occurrences": Occurrence.objects.filter(imported=False).count(),
+            "occurrences importées de Wikidata": n_imported,
             "références": len(refs),
             "liens vin → molécule": n_links,
         }
@@ -235,18 +252,64 @@ class Command(BaseCommand):
                 },
             )
             out[normalize(item["name"])] = src
-        NaturalSource.objects.exclude(pk__in=[s.pk for s in out.values()]).delete()
+        NaturalSource.objects.filter(imported=False).exclude(pk__in=[s.pk for s in out.values()]).delete()
         return out
+
+    def _load_wikidata(self, refs: dict, sources: dict) -> int:
+        """Occurrences importées par import_wikidata_occurrences (fichier versionné, peut être vide)."""
+        from apps.molecules.management.commands import load_molecules as module
+
+        path = module.WIKIDATA_FILE
+        data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+        ref = refs.get("wikidata_lotus")
+        by_latin = {s.latin_name.split(",")[0].strip().lower(): s for s in sources.values() if s.latin_name}
+        kept_sources, n = set(), 0
+        mols = {m.slug: m for m in Molecule.objects.all()}
+        for slug, entry in data.items():
+            mol = mols.get(slug)
+            if mol is None:
+                continue  # molécule retirée depuis l'import
+            for t in entry.get("taxa", []):
+                src = by_latin.get(t["latin"].lower())
+                if src is None:
+                    src, _ = NaturalSource.objects.update_or_create(
+                        wikidata_id=t["qid"], imported=True,
+                        defaults={"name": t["label"], "slug": f"wd-{t['qid'].lower()}",
+                                  "kind": NaturalSource.Kind.ESPECE, "latin_name": t["latin"]},
+                    )
+                    kept_sources.add(src.pk)
+                elif not src.wikidata_id:
+                    src.wikidata_id = t["qid"]
+                    src.save(update_fields=["wikidata_id"])
+                # Une occurrence vérifiée à la main n'est jamais écrasée par l'import.
+                _, created = Occurrence.objects.get_or_create(
+                    molecule=mol, source=src,
+                    defaults={"imported": True, "reference": ref, "note": f"Wikidata {entry.get('wikidata', '')}"},
+                )
+                n += created
+        NaturalSource.objects.filter(imported=True).exclude(pk__in=kept_sources).delete()
+        return n
 
     def _link_profiles(self, rules) -> int:
         """Applique les règles à chaque profil et enregistre les liens justifiés."""
         ProfileMolecule.objects.all().delete()
-        profiles = WineProfile.objects.prefetch_related("profile_grapes__grape", "profile_aromas__aroma")
+        # Descripteurs « expliqués » par au moins une molécule : le repli par famille ne sert qu'aux autres.
+        explained = set().union(*(r["aromas"] for r in rules)) if rules else set()
+        profiles = WineProfile.objects.prefetch_related("profile_grapes__grape", "profile_aromas__aroma__family")
         links = []
         for p in profiles:
             shares = {pg.grape_id: (pg.share, pg.grape.name) for pg in p.profile_grapes.all()}
             p_aromas = {pa.aroma_id: (pa.intensity, pa.aroma.name) for pa in p.profile_aromas.all()}
-            for mol, parsed, mol_aromas, aroma_ref, aroma_max in rules:
+            p_families: dict[int, list[str]] = {}
+            fam_names = {}
+            for pa in p.profile_aromas.all():
+                if pa.aroma_id in explained:
+                    continue
+                p_families.setdefault(pa.aroma.family_id, []).append(pa.aroma.name)
+                fam_names[pa.aroma.family_id] = pa.aroma.family.name
+            for rule in rules:
+                mol, parsed, mol_aromas = rule["mol"], rule["parsed"], rule["aromas"]
+                aroma_ref, aroma_max = rule["aroma_ref"], rule["aroma_max"]
                 reasons = []
                 for r in parsed:
                     if r.get("all"):
@@ -270,6 +333,14 @@ class Command(BaseCommand):
                     reasons.append({"basis": Basis.AROMA, "strength": strength,
                                     "label": f"Au nez : {aname} ({('discret', 'présent', 'dominant')[intensity - 1]})",
                                     "ref": aroma_ref})
+                # Repli par famille : pour les descripteurs qu'aucune molécule n'explique (réglisse,
+                # citron…), et seulement si aucun descripteur précis ne relie déjà la molécule.
+                if not any(r["basis"] == Basis.AROMA for r in reasons):
+                    for fid in sorted(rule["families"] & p_families.keys()):
+                        cited = ", ".join(p_families[fid][:3])
+                        reasons.append({"basis": Basis.FAMILY, "strength": 1,
+                                        "label": f"Famille {fam_names[fid].lower()} au nez ({cited})",
+                                        "ref": rule["family_ref"]})
                 if not reasons:
                     continue
                 reasons.sort(key=lambda x: (-x["strength"], BASIS_ORDER.index(x["basis"])))

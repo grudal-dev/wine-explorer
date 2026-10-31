@@ -73,6 +73,7 @@ class Origin(models.TextChoices):
     MALOLACTIQUE = "malolactique", "Fermentation malolactique"
     BOIS = "bois", "Élevage sous bois"
     VIEILLISSEMENT = "vieillissement", "Vieillissement et oxydation"
+    MICRO = "micro", "Levures d'altération (Brettanomyces)"
     ENVIRONNEMENT = "environnement", "Environnement de la vigne"
 
 
@@ -142,6 +143,7 @@ class NaturalSource(SluggedModel):
         ARBRE = "arbre", "Arbre et bois"
         CHAMPIGNON = "champignon", "Champignon"
         ALIMENT = "aliment", "Aliment transformé"
+        ESPECE = "espece", "Espèce recensée (Wikidata)"
 
     kind = models.CharField("nature", max_length=12, choices=Kind.choices)
     latin_name = models.CharField("nom scientifique", max_length=160, blank=True)
@@ -151,6 +153,10 @@ class NaturalSource(SluggedModel):
         help_text="Descripteur du vin portant le même nom, s'il existe.",
     )
     molecules = models.ManyToManyField(Molecule, through="Occurrence", related_name="sources")
+    wikidata_id = models.CharField(max_length=20, blank=True)
+    imported = models.BooleanField(
+        "importé", default=False, help_text="Créé par l'import Wikidata, sans vérification manuelle."
+    )
 
     class Meta(SluggedModel.Meta):
         verbose_name = "élément naturel"
@@ -169,6 +175,9 @@ class Occurrence(models.Model):
     reference = models.ForeignKey(
         Reference, null=True, blank=True, on_delete=models.SET_NULL, related_name="occurrences"
     )
+    imported = models.BooleanField(
+        "importée", default=False, help_text="Issue de Wikidata (P703), non vérifiée une à une."
+    )
 
     class Meta:
         unique_together = [("molecule", "source")]
@@ -185,10 +194,11 @@ class Basis(models.TextChoices):
     STYLE = "style", "Style de vinification"
     COLOR = "color", "Couleur du vin"
     AROMA = "aroma", "Descripteur du profil"
+    FAMILY = "family", "Famille aromatique du profil"
     UNIVERSAL = "universal", "Socle commun des vins"
 
 
-BASIS_ORDER = [Basis.GRAPE, Basis.STYLE, Basis.COLOR, Basis.AROMA, Basis.UNIVERSAL]
+BASIS_ORDER = [Basis.GRAPE, Basis.STYLE, Basis.COLOR, Basis.AROMA, Basis.FAMILY, Basis.UNIVERSAL]
 
 
 class ProfileMolecule(models.Model):

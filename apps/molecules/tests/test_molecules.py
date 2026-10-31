@@ -45,7 +45,8 @@ class DataIntegrityTests(TestCase):
         used = {r["ref"] for pm in ProfileMolecule.objects.all() for r in pm.reasons}
         used |= set(Occurrence.objects.values_list("reference__key", flat=True))
         used |= set(Molecule.references.through.objects.values_list("reference__key", flat=True))
-        self.assertEqual(set(Reference.objects.values_list("key", flat=True)) - used, set())
+        unused = set(Reference.objects.values_list("key", flat=True)) - used
+        self.assertEqual(unused - {"wikidata_lotus"}, set())  # cité dès qu'un import a eu lieu
 
     def test_check_mode_does_not_write(self):
         Molecule.objects.all().delete()
@@ -93,6 +94,96 @@ class RuleTests(TestCase):
         self.assertEqual(beaujolais.basis, Basis.AROMA)  # la « banane » prime sur le socle commun
 
 
+class CoverageTests(TestCase):
+    """Les trois chantiers du 31/10 : plus de molécules, repli par famille, import Wikidata."""
+
+    @classmethod
+    def setUpTestData(cls):
+        call_command("load_seed", stdout=StringIO())
+
+    def setUp(self):
+        graph.reset()
+
+    def test_every_wine_has_a_full_graph(self):
+        for p in WineProfile.objects.all():
+            with self.subTest(wine=p.slug):
+                self.assertGreaterEqual(graph.build("profile", p.slug)["stats"]["molecules"], graph.AUTO_COMMON_BELOW)
+
+    def test_new_markers(self):
+        def strength(p, m):
+            return ProfileMolecule.objects.get(profile__slug=p, molecule__slug=m).strength
+        self.assertEqual(strength("volnay-rouge", "cinnamate-dethyle"), 2)
+        self.assertEqual(strength("meursault-blanc", "pyrrolemethanethiol"), 2)
+        self.assertEqual(strength("chateau-chalon-blanc", "ethanal"), 3)
+        self.assertGreaterEqual(strength("pauillac-rouge", "4-mmp"), 1)
+
+    def test_family_fallback(self):
+        link = ProfileMolecule.objects.get(profile__slug="bandol-rouge", molecule__slug="4-ethylphenol")
+        self.assertEqual(link.basis, Basis.AROMA)  # « cuir » est cité : pas de repli par famille
+        fam = ProfileMolecule.objects.filter(basis=Basis.FAMILY)
+        self.assertTrue(fam.exists())
+        for pm in fam:
+            self.assertEqual(pm.strength, 1)
+            self.assertFalse(any(r["basis"] == Basis.AROMA for r in pm.reasons))
+        with_fam = graph.build("profile", "cahors-rouge")["stats"]["molecules"]
+        without = graph.build("profile", "cahors-rouge", family=False, common=False)["stats"]["molecules"]
+        self.assertGreater(with_fam, without)
+
+    def test_auto_common(self):
+        g = graph.build("profile", "cote-rotie-rouge", family=False)
+        sparse = graph.build("profile", "cote-rotie-rouge", family=False, common=False)["stats"]["molecules"]
+        self.assertEqual(g["stats"]["common"], sparse < graph.AUTO_COMMON_BELOW)
+
+    def test_wikidata_import_roundtrip(self):
+        import tempfile
+        from unittest import mock
+
+        from apps.molecules.management.commands import import_wikidata_occurrences as imp
+        from apps.molecules.management.commands import load_molecules as loader
+
+        def fake_sparql(query, timeout=60):
+            if "linalool" not in query:
+                return {"results": {"bindings": []}}
+            row = lambda q, latin, fr: {  # noqa: E731
+                "mol": {"value": "http://www.wikidata.org/entity/Q410888"},
+                "taxon": {"value": f"http://www.wikidata.org/entity/{q}"},
+                "latin": {"value": latin}, "labelFr": {"value": fr},
+            }
+            return {"results": {"bindings": [
+                row("Q42340", "Coriandrum sativum", "Coriandre"),   # déjà connu : rattaché, pas dupliqué
+                row("Q1", "Ocimum tenuiflorum", "Basilic sacré"),
+                row("Q1", "Ocimum tenuiflorum", "Basilic sacré"),   # doublon ignoré
+                row("Q2", "Abies alba", "Abies alba"),
+            ]}}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "wd.json"
+            with mock.patch.object(imp, "sparql", fake_sparql), mock.patch.object(imp, "OUTPUT", out), \
+                    mock.patch.object(imp.time, "sleep", lambda s: None):
+                call_command("import_wikidata_occurrences", stdout=StringIO())
+            data = json.loads(out.read_text())
+            labels = [t["label"] for t in data["linalol"]["taxa"]]
+            self.assertEqual(labels, ["Basilic sacré", "Coriandre", "Abies alba"])
+            with mock.patch.object(loader, "WIKIDATA_FILE", out):
+                call_command("load_molecules", stdout=StringIO())
+        tulsi = NaturalSource.objects.get(wikidata_id="Q1")
+        self.assertTrue(tulsi.imported)
+        self.assertEqual(tulsi.kind, NaturalSource.Kind.ESPECE)
+        self.assertTrue(Occurrence.objects.get(source=tulsi, molecule__slug="linalol").imported)
+        # La coriandre, déjà vérifiée à la main, n'est ni dupliquée ni marquée importée.
+        self.assertEqual(NaturalSource.objects.filter(name__iexact="coriandre").count(), 1)
+        self.assertFalse(Occurrence.objects.get(source__slug="coriandre", molecule__slug="linalol").imported)
+        graph.reset()
+        g = graph.build("molecule", "linalol")
+        ids = {e["data"]["id"] for e in g["elements"]}
+        self.assertIn(f"source:{tulsi.slug}", ids)
+        self.assertNotIn(f"source:{tulsi.slug}",
+                         {e["data"]["id"] for e in graph.build("molecule", "linalol", imported=False)["elements"]})
+        # Un rechargement sans fichier d'import retire les espèces importées.
+        call_command("load_molecules", stdout=StringIO())
+        self.assertFalse(NaturalSource.objects.filter(imported=True).exists())
+
+
 class GraphAndViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -107,7 +198,7 @@ class GraphAndViewTests(TestCase):
         self.assertEqual(nodes["profile:cote-rotie-rouge"]["layer"], 0)
         self.assertEqual(nodes["molecule:rotundone"]["layer"], 1)
         self.assertEqual(nodes["source:poivre-noir"]["layer"], 2)
-        self.assertNotIn("molecule:acetate-disoamyle", nodes)  # socle commun masqué
+        self.assertNotIn("molecule:acetate-disoamyle", nodes)  # assez de molécules propres : socle masqué
         self.assertGreater(g["stats"]["hidden_common"], 0)
         with_common = graph.build("profile", "cote-rotie-rouge", common=True)
         self.assertIn("molecule:acetate-disoamyle", {e["data"]["id"] for e in with_common["elements"]})

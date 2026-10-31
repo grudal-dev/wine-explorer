@@ -359,3 +359,122 @@
   container: University of California, Davis
   url: https://mitchell.ucdavis.edu/sites/g/files/dgvnsk916/files/inline-files/Understanding%20the%20Chemistry%20of%20Almond%20Flavor.pdf
   note: La benzaldéhyde, issue de l'amygdaline, est l'odorant dominant de l'amande.
+
+# ── Ajouts du 31/10/2026 : couverture des arômes et cépages orphelins ──────
+- key: roland2011
+  authors: Roland, Schneider, Razungles, Cavelier
+  year: 2011
+  title: "Varietal thiols in wine: discovery, analysis and applications"
+  container: Chemical Reviews, 111, 7355-7376
+  doi: 10.1021/cr100205b
+  note: Thiols variétaux recensés dans le Grenache, le Merlot, le Cabernet-Sauvignon et les rosés de Provence.
+- key: rigou2014
+  authors: Rigou, Triay, Razungles
+  year: 2014
+  title: Influence of volatile thiols in the development of blackcurrant aroma in red wine
+  container: Food Chemistry, 142, 242-248
+  doi: 10.1016/j.foodchem.2013.07.024
+  note: La 4-MMP est très bien corrélée à l'arôme de cassis des vins rouges.
+- key: moio1995
+  authors: Moio, Etiévant
+  year: 1995
+  title: Ethyl anthranilate, ethyl cinnamate, 2,3-dihydrocinnamate, and methyl anthranilate. Four important odorants identified in Pinot noir wines of Burgundy
+  container: American Journal of Enology and Viticulture, 46(3), 392-398
+  url: https://hal.inrae.fr/hal-02711389
+- key: chatonnet1992
+  authors: Chatonnet, Dubourdieu, Boidron, Pons
+  year: 1992
+  title: The origin of ethylphenols in wines
+  container: Journal of the Science of Food and Agriculture, 60, 165-178
+- key: pineau2009
+  authors: Pineau, Barbe, Van Leeuwen, Dubourdieu
+  year: 2009
+  title: Examples of perceptive interactions involved in specific « red- » and « black-berry » aromas in red wines
+  container: Journal of Agricultural and Food Chemistry, 57(9), 3702-3708
+  url: https://hal.archives-ouvertes.fr/hal-02667035
+  note: Propanoate, 2-méthylpropanoate et 2-méthylbutanoate d'éthyle pour les fruits noirs ; butanoate, hexanoate et octanoate d'éthyle pour les fruits rouges.
+- key: falcao2012
+  authors: Falcão, Lytra, Darriet, Barbe
+  year: 2012
+  title: Identification of ethyl 2-hydroxy-4-methylpentanoate in red wines, a compound involved in blackberry aroma
+  container: Food Chemistry, 132(1), 230-236
+  doi: 10.1016/j.foodchem.2011.10.061
+- key: pons2013
+  authors: Pons, Lavigne, Darriet, Dubourdieu
+  year: 2013
+  title: Role of 3-methyl-2,4-nonanedione in the flavor of aged red wines
+  container: Journal of Agricultural and Food Chemistry, 61(30), 7373-7380
+- key: pons2017
+  authors: Pons, Allamy, Lavigne, Dubourdieu, Darriet
+  year: 2017
+  title: Study of the contribution of massoia lactone to the aroma of Merlot and Cabernet Sauvignon musts and wines
+  container: Food Chemistry
+  doi: 10.1016/j.foodchem.2017.03.151
+- key: allamy2023
+  authors: Allamy, van Leeuwen et al.
+  year: 2023
+  title: "Impact of harvest date on aroma compound composition of Merlot and Cabernet-Sauvignon must and wine in a context of climate change: a focus on cooked fruit molecular markers"
+  container: OENO One
+  url: https://doaj.org/article/465d6168c4b04fb6ad6d319c5c75a265
+- key: gros2017
+  authors: Gros, Lavigne, Thibaud, Gammacurta, Moine, Dubourdieu, Darriet, Marchal
+  year: 2017
+  title: "Toward a molecular understanding of the typicality of Chardonnay wines: identification of powerful aromatic compounds reminiscent of hazelnut"
+  container: Journal of Agricultural and Food Chemistry, 65(5), 1058-1069
+  doi: 10.1021/acs.jafc.6b04516
+  note: Deux pyrroleméthanethiols, seuils de 0,7 et 1,4 ng/L, jamais observés jusqu'ici dans un produit naturel.
+- key: francis2015
+  authors: Francis
+  year: 2015
+  title: Wine aroma compounds (atelier W07)
+  container: AWRI, 15th Australian Wine Industry Technical Conference
+  url: https://www.awri.com.au/wp-content/uploads/2013/08/francis-W07-AWITC15.pdf
+  note: Seuils des monoterpènes (nérol, géraniol, α-terpinéol, citronellol, lactone du vin) et des esters.
+- key: tomasino2022
+  authors: Chigo-Hernandez, DuBois, Tomasino
+  year: 2022
+  title: Aroma perception of rose oxide, linalool and α-terpineol combinations in Gewürztraminer wine
+  container: Fermentation, 8(1), 30
+  doi: 10.3390/fermentation8010030
+- key: dossantos2000
+  authors: Dos Santos, Feuillat, Charpentier
+  year: 2000
+  title: "Flor yeast metabolism in a model system similar to cellar ageing of the French « Vin Jaune »"
+  container: Vitis, 39(3), 129-134
+  url: https://ojs.openagrar.de/index.php/VITIS/article/view/4627
+- key: guittin2023
+  authors: Guittin, Maçna, Picou, Perez, Barreau, Poitou, Sablayrolles, Mouret, Farines
+  year: 2023
+  title: "New online monitoring approaches to describe and understand the kinetics of acetaldehyde concentration during wine alcoholic fermentation"
+  container: Fermentation, 9(3), 299
+  url: https://www.mdpi.com/2311-5637/9/3/299
+- key: chemicalbook_ec
+  authors: ChemicalBook
+  title: Ethyl cinnamate (CAS 103-36-6), fiche produit
+  container: ChemicalBook, base de données
+  url: https://chemicalbook.com/CASEN_103-36-6.htm
+  note: Présent dans l'huile essentielle de cannelle et le styrax ; signalé dans la fraise, la cerise, le coing.
+- key: flavordb_terpineol
+  authors: FlavorDB (IIIT Delhi)
+  title: alpha-Terpineol, fiche molécule
+  container: FlavorDB2, base de données
+  url: https://cosylab.iiitd.edu.in/flavordb2/molecules_details?id=17100
+- key: wikipedia_massoia
+  authors: Wikipédia (en)
+  title: Massoia lactone
+  container: Wikipedia
+  url: https://en.wikipedia.org/wiki/Massoia_lactone
+  note: Extraite de l'écorce du massoia (Cryptocarya massoy), présente aussi dans l'osmanthe odorant.
+- key: wikidata_lotus
+  authors: Wikidata, initiative LOTUS
+  title: Propriété P703 « trouvé dans le taxon »
+  container: Wikidata (CC0)
+  url: https://www.wikidata.org/wiki/Property:P703
+  note: Occurrences importées automatiquement, non vérifiées une à une.
+- key: awri311
+  authors: Francis et al. (AWRI)
+  year: 2016
+  title: Identification and origin of volatile compounds responsible for important wine sensory attributes (rapport final AWRI 3.1.1)
+  container: Wine Australia
+  url: https://www.wineaustralia.com/getmedia/365ab13d-b233-437e-88a7-36b6a681a4c6/Final-Report-3-1-1
+  note: Le caractère « abricot » du Viognier relié aux monoterpènes géraniol, linalol et nérol.

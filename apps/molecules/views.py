@@ -66,6 +66,7 @@ def explorer(request):
             "molecules": Molecule.objects.count(),
             "sources": NaturalSource.objects.count(),
             "references": Reference.objects.count(),
+            "imported": Occurrence.objects.filter(imported=True).count(),
         },
     })
 
@@ -74,8 +75,11 @@ def explorer(request):
 def api_graph(request):
     kind = request.GET.get("kind", "")
     slug = request.GET.get("slug", "")
-    common = request.GET.get("commun") in {"1", "true", "on"}
-    result = graph.build(kind, slug, common=common)
+    raw = request.GET.get("commun", "auto")
+    common = None if raw == "auto" else raw in {"1", "true", "on"}
+    family = request.GET.get("famille", "1") not in {"0", "false", "off"}
+    imported = request.GET.get("wikidata", "1") not in {"0", "false", "off"}
+    result = graph.build(kind, slug, common=common, family=family, imported=imported)
     if result is None:
         return JsonResponse({"error": "Entité inconnue."}, status=404)
     return JsonResponse(result)

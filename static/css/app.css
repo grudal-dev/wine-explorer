@@ -545,3 +545,7 @@ button.tag { cursor: pointer; font-family: inherit; }
 .biblio--compact { padding-left: 1.2rem; gap: .5rem; font-size: .78rem; line-height: 1.45; }
 .biblio--compact a { color: var(--ink); text-decoration-color: var(--rule); }
 .biblio--compact a:hover { color: var(--garnet); }
+.basis--family { background: repeating-linear-gradient(90deg, #D9C08E 0 2px, transparent 2px 5px); }
+.reason--family .reason__dots i.is-on { background: #D9C08E; }
+.tag--imported { background: transparent; border: 1px dashed #8FA58A; }
+.badge-imported { display: inline-block; font-size: var(--step--1); color: var(--ink-2); background: var(--paper); border: 1px dashed var(--ink-3); border-radius: 3px; padding: .1rem .45rem; }

@@ -12,6 +12,8 @@
   const stats = document.getElementById("mol-stats");
   const trailEl = document.getElementById("mol-trail");
   const commonBox = document.getElementById("mol-common");
+  const familyBox = document.getElementById("mol-family");
+  const wikiBox = document.getElementById("mol-wikidata");
   const columns = root.querySelectorAll(".mol-columns [data-col]");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -23,7 +25,8 @@
   };
     const TYPE_LABEL = { profile: "vin", molecule: "molécule", source: "élément naturel" };
 
-  const state = { start: "", trail: [], common: false };
+  const state = { start: "", trail: [], common: false, family: true, wikidata: true };
+  const query = () => `${state.common ? "&commun=1" : ""}${state.family ? "" : "&famille=0"}${state.wikidata ? "" : "&wikidata=0"}`;
 
   const cy = cytoscape({
     container: document.getElementById("mol-cy"),
@@ -47,6 +50,8 @@
       { selector: "node[type='molecule'][?universal]", style: { "background-color": "#7FA3A0" }},
       { selector: "node[type='source']", style: { "shape": "round-rectangle", "width": 16, "height": 16,
         "background-color": "data(hue)", "font-style": "italic" }},
+      { selector: "node[type='source'][?imported]", style: { "background-opacity": 0.35, "border-width": 1.5,
+        "border-style": "dashed", "border-color": "#56662D" }},
       { selector: "node[?root]", style: { "width": 34, "height": 34, "font-size": 15, "font-weight": 600,
         "border-width": 3, "border-color": C.garnet, "z-index": 5 }},
       { selector: "node[type='molecule'][?root]", style: { "width": 40, "height": 35 }},
@@ -61,7 +66,11 @@
       { selector: "edge[basis='color']", style: { "line-color": C.color }},
       { selector: "edge[basis='aroma']", style: { "line-color": C.aroma }},
       { selector: "edge[basis='universal']", style: { "line-color": C.universal, "line-style": "dashed" }},
+      { selector: "edge[basis='family']", style: { "line-color": "#D9C08E", "line-style": "dotted", "width": 1.6 }},
       { selector: "edge[kind='found_in']", style: { "line-color": "#9DB8B5" }},
+      { selector: "edge[kind='found_in'][tier='imported']", style: { "line-style": "dashed", "opacity": 0.6 }},
+      { selector: "node[type='molecule'][tier='family']", style: { "background-color": "#6E9894", "font-weight": 400 }},
+      { selector: "node[type='molecule'][tier='universal']", style: { "background-color": "#A9C2BF", "font-weight": 400, "color": "#5B5F69" }},
       { selector: ".faded", style: { "opacity": 0.12, "text-opacity": 0.25 }},
       { selector: "node.hl", style: { "border-width": 3, "border-color": C.ink }},
       { selector: "edge.hl", style: { "opacity": 1, "z-index": 9 }},
@@ -82,7 +91,7 @@
     const layers = [[], [], []];
     cy.nodes().forEach((n) => layers[n.data("layer")].push(n));
     const top = 70;
-    const usable = Math.max(H - top - 70, 200);
+    const usable = Math.max(H - top - 105, 200);
     const positions = {};
     let overflow = W < 760;
     layers.forEach((nodes, i) => {
@@ -91,7 +100,7 @@
         nodes.sort((a, b) => meanRank(a, rank) - meanRank(b, rank));
       }
       const ideal = i === 1 ? 74 : 46;
-      const gap = nodes.length > 1 ? Math.max(Math.min(ideal, usable / (nodes.length - 1)), i === 1 ? 40 : 24) : 0;
+      const gap = nodes.length > 1 ? Math.max(Math.min(ideal, usable / (nodes.length - 1)), i === 1 ? 48 : 24) : 0;
       if (gap * (nodes.length - 1) > usable) overflow = true;
       const h = (nodes.length - 1) * gap;
       nodes.forEach((n, k) => { positions[n.id()] = { x: colX[i], y: top + usable / 2 + k * gap - h / 2 }; });
@@ -129,7 +138,7 @@
     stats.textContent = "Chargement…";
     let data;
     try {
-      data = await Combo.getJSON(`${API}?kind=${kind}&slug=${encodeURIComponent(slug)}${state.common ? "&commun=1" : ""}`);
+      data = await Combo.getJSON(`${API}?kind=${kind}&slug=${encodeURIComponent(slug)}${query()}`);
     } catch (err) {
       stats.textContent = "Impossible de charger ce graphe.";
       return;
@@ -150,7 +159,7 @@
     if (push) pushTrail(id, label, kind);
     renderStats(data.stats, kind);
     renderSources(data.references || []);
-    history.replaceState(null, "", `${location.pathname}?depart=${encodeURIComponent(id)}${state.common ? "&commun=1" : ""}`);
+    history.replaceState(null, "", `${location.pathname}?depart=${encodeURIComponent(id)}${query()}`);
     openPanel(id);
   }
 
@@ -161,7 +170,9 @@
     if (kind !== "source") parts.push(`${s.sources} élément${s.sources > 1 ? "s" : ""} naturel${s.sources > 1 ? "s" : ""}`);
     let text = parts.join(", ") + ".";
     if (!s.molecules && kind === "profile") text = "Aucune molécule spécifique pour ce vin dans nos sources.";
-    if (s.hidden_common && !state.common) text += ` ${s.hidden_common} lien${s.hidden_common > 1 ? "s" : ""} du socle commun masqué${s.hidden_common > 1 ? "s" : ""}.`;
+    if (s.hidden_common) text += ` ${s.hidden_common} lien${s.hidden_common > 1 ? "s" : ""} masqué${s.hidden_common > 1 ? "s" : ""} (socle commun ou familles).`;
+    else if (s.common && !state.common && kind === "profile") text += " Socle commun ajouté : ce vin a peu de molécules propres.";
+    if (s.hidden_sources) text += ` ${s.hidden_sources} élément${s.hidden_sources > 1 ? "s" : ""} naturel${s.hidden_sources > 1 ? "s" : ""} de plus dans les fiches.`;
     stats.textContent = text;
   }
 
@@ -264,6 +275,8 @@
     load(pick);
   });
   commonBox.addEventListener("change", () => { state.common = commonBox.checked; if (state.start) load(state.start, { push: false }); });
+  familyBox.addEventListener("change", () => { state.family = familyBox.checked; if (state.start) load(state.start, { push: false }); });
+  if (wikiBox) wikiBox.addEventListener("change", () => { state.wikidata = wikiBox.checked; if (state.start) load(state.start, { push: false }); });
 
   document.getElementById("mol-fit").addEventListener("click", () => layoutColumns());
   window.addEventListener("resize", () => { clearTimeout(window.__molResize); window.__molResize = setTimeout(layoutColumns, 200); });
@@ -283,7 +296,11 @@
   // ── Démarrage ──────────────────────────────────────────────────────────
   const params = new URLSearchParams(location.search);
   state.common = params.get("commun") === "1";
+  state.family = params.get("famille") !== "0";
   commonBox.checked = state.common;
+  familyBox.checked = state.family;
+  state.wikidata = params.get("wikidata") !== "0";
+  if (wikiBox) wikiBox.checked = state.wikidata;
   const first = params.get("depart") || root.dataset.start;
   if (first) load(first);
   else stats.textContent = "Choisissez un point de départ.";

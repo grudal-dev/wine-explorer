@@ -40,9 +40,17 @@
     </div>
 
     <div class="rail-group">
-      <label class="check"><input type="checkbox" id="mol-common"> Montrer le socle commun</label>
-      <p class="small muted">Esters et alcools de fermentation présents dans presque tous les vins. Masqués par défaut :
-        ils ne disent rien d'un vin en particulier.</p>
+      <label class="check"><input type="checkbox" id="mol-family" checked> Liens par famille d'arômes</label>
+      <p class="small muted">Quand aucun cépage ni descripteur précis ne la désigne, une molécule peut être reliée par
+        la famille d'arômes du vin (fruits noirs, boisé…). Lien le plus faible, en pointillé.</p>
+      {% if counts.imported %}
+      <label class="check"><input type="checkbox" id="mol-wikidata" checked> Espèces importées de Wikidata</label>
+      <p class="small muted">{{ counts.imported }} occurrences issues de Wikidata (P703, initiative LOTUS), non vérifiées
+        une à une. Encadrées en pointillé.</p>
+      {% endif %}
+      <label class="check"><input type="checkbox" id="mol-common"> Toujours montrer le socle commun</label>
+      <p class="small muted">Esters et alcools de fermentation présents dans tous les vins. Ajoutés d'office, en pâle,
+        quand un vin a peu de molécules propres.</p>
     </div>
 
     <div class="rail-group">
@@ -52,6 +60,7 @@
         <li><i class="basis basis--style"></i>Son style de vinification</li>
         <li><i class="basis basis--color"></i>Sa couleur (fermentation malolactique…)</li>
         <li><i class="basis basis--aroma"></i>Un descripteur de son nez</li>
+        <li><i class="basis basis--family"></i>Une famille d'arômes de son nez</li>
         <li><i class="basis basis--universal"></i>Socle commun des vins</li>
       </ul>
       <p class="small muted">L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible.</p>

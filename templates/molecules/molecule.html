@@ -54,7 +54,7 @@
       <h3>On la retrouve dans la nature</h3>
       {% for o in molecule.occurrences.all %}
       <div class="occ">
-        <a href="{{ o.source.get_absolute_url }}"><strong>{{ o.source.name|capfirst }}</strong></a>{% if o.source.latin_name %} <span class="latin">{{ o.source.latin_name }}</span>{% endif %}
+        <a href="{{ o.source.get_absolute_url }}"><strong>{{ o.source.name|capfirst }}</strong></a>{% if o.imported %} <span class="badge-imported">Wikidata, non vérifié</span>{% endif %}{% if o.source.latin_name %} <span class="latin">{{ o.source.latin_name }}</span>{% endif %}
         {% if o.note %}<p class="small muted">{{ o.note }}</p>{% endif %}
         {% if o.reference %}<p class="small"><a class="cite" href="{{ o.reference.link|default:'#' }}" {% if o.reference.link %}target="_blank" rel="noopener"{% endif %}>{{ o.reference.short }}</a></p>{% endif %}
       </div>

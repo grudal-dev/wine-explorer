@@ -4,6 +4,7 @@
 {% block content %}
 <nav class="crumbs" aria-label="Fil d'Ariane"><a href="{% url 'molecules:explorer' %}">Molécules</a><span aria-hidden="true">/</span><a href="{% url 'molecules:list' %}#nature">Éléments naturels</a><span aria-hidden="true">/</span><span>{{ source.get_kind_display }}</span></nav>
 <h1>{{ source.name|capfirst }}</h1>
+{% if source.imported %}<p class="badge-imported">Espèce importée automatiquement depuis Wikidata (P703, initiative LOTUS) : occurrences non vérifiées une à une.{% if source.wikidata_id %} <a href="https://www.wikidata.org/wiki/{{ source.wikidata_id }}" target="_blank" rel="noopener">Voir sur Wikidata</a>{% endif %}</p>{% endif %}
 <p class="lede">{% if source.latin_name %}<span class="latin">{{ source.latin_name }}</span>. {% endif %}{{ source.description }}</p>
 
 <div class="split section">

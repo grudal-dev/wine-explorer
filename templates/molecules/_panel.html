@@ -34,7 +34,7 @@
   <section class="node-links">
     <h3>On la retrouve dans</h3>
     <div class="tags">
-      {% for o in occ %}<button type="button" class="tag tag--source" data-start="source:{{ o.source.slug }}" title="{{ o.note|default:o.source.latin_name }}"><i class="tag__dot"></i>{{ o.source.name }}</button>{% endfor %}
+      {% for o in occ %}<button type="button" class="tag tag--source{% if o.imported %} tag--imported{% endif %}" data-start="source:{{ o.source.slug }}" title="{% if o.imported %}Importé de Wikidata, non vérifié · {% endif %}{{ o.note|default:o.source.latin_name }}"><i class="tag__dot"></i>{{ o.source.name }}</button>{% endfor %}
     </div>
   </section>
   {% else %}
@@ -49,7 +49,7 @@
   </div>
 
 {% elif kind == "source" %}
-  <p class="small muted">Élément naturel · {{ obj.get_kind_display }}</p>
+  <p class="small muted">Élément naturel · {{ obj.get_kind_display }}{% if obj.imported %} · importé de Wikidata, non vérifié{% endif %}</p>
   <h2>{{ obj.name|capfirst }}</h2>
   {% if obj.latin_name %}<p class="latin">{{ obj.latin_name }}</p>{% endif %}
   {% if obj.description %}<p>{{ obj.description }}</p>{% endif %}

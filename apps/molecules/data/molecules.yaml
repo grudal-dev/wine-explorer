@@ -13,6 +13,9 @@
 #                 colors: [..]   couleur du profil
 #                 all: true      tous les profils (socle commun de fermentation)
 #               chaque règle porte strength (1 plausible, 2 probable, 3 marqueur) et ref.
+#   families    familles aromatiques du catalogue (repli) : un profil qui cite un arôme de
+#               la famille reçoit la molécule avec la force 1, base « famille »
+#   family_ref  référence du repli par famille (défaut : aroma_ref)
 #   nature      occurrences dans des éléments naturels : {source, ref, note}
 #
 # Un profil reçoit la molécule si au moins une règle s'applique ; la force retenue est
@@ -77,14 +80,16 @@
   odor: buis, bourgeon de cassis, genêt
   threshold: 0,8 ng/L en solution modèle, 3 ng/L dans le vin
   refs: [darriet1995, tominaga1995]
-  aromas: [buis, bourgeon de cassis]
+  aromas: [buis, bourgeon de cassis, cassis]
   description: >
     Le premier thiol variétal identifié dans le Sauvignon, en 1993-1995 à Bordeaux. Absent du
     raisin sous forme libre, il y est lié à la cystéine ou au glutathion et c'est la levure qui
     le libère pendant la fermentation. Quelques nanogrammes par litre suffisent pour la note de
-    buis ; au-delà, elle tourne au « pipi de chat ».
+    buis ; au-delà, elle tourne au « pipi de chat ». Dans les rouges, c'est elle qui porte une
+    bonne part de l'arôme de cassis.
   wine:
     - {grapes: [Sauvignon Blanc], strength: 3, ref: darriet1995}
+    - {grapes: [Cabernet Sauvignon, Merlot], strength: 1, ref: rigou2014}
   nature:
     - {source: buis, ref: tominaga1997}
     - {source: genêt à balais, ref: tominaga1997}
@@ -100,6 +105,7 @@
   threshold: 60 ng/L en solution modèle
   refs: [tominaga1998, tominaga2000b, bouchilloux1998]
   aromas: [pamplemousse, fruit de la passion]
+  families: [Agrumes, Fruits exotiques]
   description: >
     Le thiol le plus répandu : présent dans le Sauvignon, les Manseng, le Colombard, le
     Sémillon, mais aussi dans les rouges bordelais et les rosés, où il porte une partie du
@@ -109,6 +115,7 @@
     - {grapes: [Sauvignon Blanc], strength: 3, ref: tominaga1998}
     - {grapes: [Petit Manseng, Gros Manseng, Colombard, Sémillon], strength: 2, ref: tominaga2000b}
     - {grapes: [Merlot, Cabernet Sauvignon], strength: 1, ref: bouchilloux1998}
+    - {grapes: [Grenache], strength: 1, ref: roland2011}
     - {colors: [rose], strength: 1, ref: murat2003}
   nature:
     - {source: fruit de la passion, ref: engel1991}
@@ -143,6 +150,7 @@
   threshold: 25 µg/L environ dans le vin
   refs: [marais1983]
   aromas: [fleur d'oranger, bergamote]
+  families: [Floral]
   description: >
     Le terpène dominant des Muscats, qui donne leur goût de raisin frais. Il est présent dans
     la peau, en grande partie lié à des sucres, et se libère pendant la fermentation et
@@ -150,6 +158,7 @@
   wine:
     - {grapes: ["Muscat à petits grains", "Muscat d'Alexandrie"], strength: 3, ref: marais1983}
     - {grapes: [Gewurztraminer, Riesling], strength: 2, ref: marais1983}
+    - {grapes: [Viognier], strength: 1, ref: awri311}
   nature:
     - {source: coriandre, ref: surburg2016}
     - {source: lavande, ref: surburg2016}
@@ -163,7 +172,8 @@
   origin: raisin
   smiles: CC(C)=CCCC(C)=CCO
   odor: rose, géranium, agrumes
-  refs: [marais1983]
+  threshold: 30 µg/L dans le vin
+  refs: [marais1983, francis2015]
   aromas: [rose]
   aroma_max: 1
   description: >
@@ -223,6 +233,7 @@
   refs: [smith2015, escudero2010]
   aromas: [pomme mûre, miel]
   aroma_max: 1
+  families: [Fruits secs et confits]
   universal: true
   description: >
     Issue de la dégradation des caroténoïdes du raisin, elle se trouve dans presque tous les
@@ -264,6 +275,8 @@
   threshold: 1,1 µg/L dans un Merlot
   refs: [capone2011, capone2012]
   aromas: [eucalyptus, menthe]
+  families: [Garrigue et herbes]
+  family_ref: capone2012
   description: >
     Une molécule venue d'à côté de la vigne : les eucalyptus. Elle passe dans les raisins par
     l'air et surtout par les feuilles tombées dans la vendange, puis s'extrait pendant la
@@ -301,6 +314,7 @@
   refs: [lloyd2015]
   aromas: [herbe coupée]
   aroma_max: 1
+  families: [Végétal]
   description: >
     Les composés en C6 naissent dès que la baie est écrasée, par oxydation enzymatique des
     acides gras. Rarement au-dessus de leur seuil dans le vin, ils accompagnent les notes
@@ -317,7 +331,6 @@
   origin: fermentation
   smiles: CC(C)CCOC(C)=O
   odor: banane, bonbon anglais, poire
-  threshold: 30 µg/L dans le vin
   refs: [escudero2010, delafuente2020]
   aromas: [banane]
   universal: true
@@ -342,6 +355,8 @@
   refs: [escudero2010, delafuente2020]
   aromas: [pomme verte, ananas]
   aroma_max: 1
+  families: [Fruits blancs et jaunes]
+  family_ref: pineau2009
   universal: true
   description: >
     Un des esters éthyliques qui composent le fond fruité commun à tous les vins. Seul, il
@@ -383,6 +398,8 @@
   threshold: 0,2 à 2,8 mg/L selon le vin
   refs: [nielsen1999, bartowsky2004]
   aromas: [beurre, crème]
+  families: [Pâtisserie et lactique]
+  family_ref: bartowsky2004
   description: >
     Produit par les bactéries lactiques à partir de l'acide citrique pendant la fermentation
     malolactique. Presque tous les rouges la font ; parmi les blancs, ce sont surtout les
@@ -404,6 +421,7 @@
   threshold: 320 µg/L dans le vin rouge
   refs: [ortega2007, ets_oak]
   aromas: [vanille]
+  families: [Boisé et torréfié]
   description: >
     Libérée par la dégradation de la lignine quand la douelle est chauffée. Les fûts neufs et
     le chêne américain en donnent le plus ; l'extraction ralentit nettement après un an de
@@ -440,6 +458,7 @@
   refs: [ets_oak]
   aromas: [clou de girofle, cannelle]
   aroma_max: 1
+  families: [Épices, Boisé et torréfié]
   description: >
     Le principal arôme du clou de girofle, déjà présent dans le chêne brut et renforcé par le
     séchage à l'air et la chauffe. Il apporte au vin élevé en barrique sa note épicée.
@@ -496,6 +515,7 @@
   threshold: 0,3 ng/L en solution hydroalcoolique
   refs: [tominaga2003]
   aromas: [silex, fumé]
+  families: [Minéral]
   description: >
     Le thiol du « silex » : produit par la levure, il donne aux chardonnays et aux sauvignons
     leurs notes de pierre à fusil, présentes à des teneurs des dizaines de fois supérieures à
@@ -588,6 +608,7 @@
   odor: truffe, sous-bois, olive noire
   refs: [picard2015]
   aromas: [truffe, sous-bois]
+  families: [Sous-bois et animal]
   description: >
     Le parfum de truffe des grands vins âgés. Son précurseur, la S-méthylméthionine du raisin,
     se dégrade lentement en bouteille, à l'abri de l'oxygène. Avec deux thiols, il signe le
@@ -621,10 +642,275 @@
   smiles: O=Cc1ccccc1
   odor: amande amère, noyau de cerise, massepain
   refs: [delafuente2020]
-  aromas: [amande]
+  aromas: [amande, cerise, griotte]
   aroma_max: 1
   description: >
     L'odeur du noyau et de l'amande amère. Rarement au-dessus de son seuil dans le vin, elle
     sert surtout de précurseur au benzèneméthanethiol, la molécule du silex.
   nature:
     - {source: amande amère, ref: ucdavis_almond}
+
+# ════════════════════════ Ajouts : arômes et cépages orphelins ════════════════════════
+
+- name: butanoate d'éthyle
+  name_en: ethyl butanoate
+  synonyms: [butyrate d'éthyle]
+  family: ester
+  origin: fermentation
+  smiles: CCCC(=O)OCC
+  odor: fruits rouges, fraise, pomme
+  threshold: 20 µg/L dans le vin
+  refs: [pineau2009, francis2015]
+  aromas: [fraise, framboise, groseille, cerise]
+  aroma_max: 1
+  families: [Fruits rouges]
+  universal: true
+  description: >
+    Ester de fermentation présent dans tous les vins. Dans les rouges, des teneurs supérieures
+    à la moyenne orientent le fruit vers les baies rouges, en synergie avec l'hexanoate et
+    l'octanoate d'éthyle : aucun n'est perceptible seul, l'ensemble l'est.
+  wine:
+    - {all: true, strength: 1, ref: escudero2010}
+  nature:
+    - {source: ananas, ref: zheng2012}
+
+- name: 2-méthylbutanoate d'éthyle
+  name_en: ethyl 2-methylbutanoate
+  family: ester
+  origin: fermentation
+  smiles: CCC(C)C(=O)OCC
+  odor: fruits noirs, pomme, ananas
+  threshold: 18 µg/L dans le vin
+  refs: [pineau2009, francis2015]
+  aromas: [mûre, cerise noire, prune]
+  aroma_max: 1
+  families: [Fruits noirs]
+  description: >
+    Un des esters ramifiés qui, avec le propanoate et le 2-méthylpropanoate d'éthyle, orientent
+    le fruit des vins rouges vers les baies noires. Sa teneur augmente lentement pendant les
+    premières années de bouteille.
+  wine:
+    - {colors: [rouge], strength: 1, ref: pineau2009}
+  nature:
+    - {source: ananas, ref: tokitomo2005, note: "Odorant d'impact de l'ananas frais, avec le furanéol."}
+
+- name: leucate d'éthyle
+  name_en: ethyl 2-hydroxy-4-methylpentanoate
+  synonyms: [2-hydroxy-4-méthylpentanoate d'éthyle]
+  family: ester
+  origin: fermentation
+  smiles: CCOC(=O)C(O)CC(C)C
+  odor: mûre fraîche, fruits noirs
+  threshold: 900 µg/L dans un vin rouge désaromatisé
+  refs: [falcao2012]
+  aromas: [mûre, cassis]
+  aroma_max: 1
+  families: [Fruits noirs]
+  description: >
+    Identifié en 2012 dans les bordeaux rouges : présent vers 400 µg/L, sous son seuil, il agit
+    comme exhausteur naturel des notes de mûre fraîche, en interaction avec le butanoate
+    d'éthyle.
+  wine:
+    - {colors: [rouge], strength: 1, ref: falcao2012}
+
+- name: cinnamate d'éthyle
+  name_en: ethyl cinnamate
+  family: ester
+  origin: fermentation
+  smiles: CCOC(=O)C=Cc1ccccc1
+  odor: cannelle, balsamique, fruits rouges
+  threshold: 17 à 40 µg/L
+  refs: [moio1995]
+  aromas: [cannelle]
+  description: >
+    L'un des quatre odorants identifiés comme caractéristiques des Pinot noir de Bourgogne. Sa
+    note de cannelle peut apparaître dans un pinot qui n'a jamais vu le bois : l'épice vient
+    alors du raisin et de la fermentation, pas du fût.
+  wine:
+    - {grapes: [Pinot Noir], strength: 2, ref: moio1995}
+  nature:
+    - {source: cannelle, ref: chemicalbook_ec}
+    - {source: fraise, ref: chemicalbook_ec}
+
+- name: 4-éthylphénol
+  name_en: 4-ethylphenol
+  family: phenol
+  origin: micro
+  smiles: CCc1ccc(O)cc1
+  odor: cuir, écurie, sueur de cheval
+  threshold: 368 à 605 µg/L dans un Cabernet
+  refs: [chatonnet1992]
+  aromas: [cuir, gibier]
+  aroma_max: 1
+  families: [Sous-bois et animal]
+  description: >
+    La signature des levures Brettanomyces, qui transforment l'acide p-coumarique du raisin.
+    À faible dose, elle se fond dans les notes de cuir des vieux rouges ; au-delà, c'est un
+    défaut franc. Le « cuir » d'un descripteur peut aussi avoir d'autres origines.
+
+- name: 4-éthylgaïacol
+  name_en: 4-ethylguaiacol
+  family: phenol
+  origin: micro
+  smiles: CCc1ccc(O)c(OC)c1
+  odor: lard fumé, clou de girofle, fumée
+  threshold: 47 µg/L environ
+  refs: [chatonnet1992]
+  aromas: [viande, fumé]
+  aroma_max: 1
+  description: >
+    Le compagnon du 4-éthylphénol, issu de l'acide férulique : plus épicé et fumé, il évoque le
+    lard grillé. On le trouve aussi en petite quantité dans le bois de chêne chauffé.
+
+- name: MND
+  name_en: 3-methyl-2,4-nonanedione
+  synonyms: [3-méthyl-2,4-nonanedione]
+  family: cetone
+  origin: vieillissement
+  smiles: CCCCCC(=O)C(C)C(C)=O
+  odor: pruneau, figue sèche, anis
+  threshold: 62 ng/L dans le vin rouge
+  refs: [pons2013, allamy2023]
+  aromas: [pruneau, figue sèche, raisin sec]
+  families: [Fruits secs et confits]
+  description: >
+    Marqueur du vieillissement prématuré des rouges : elle remplace le fruit frais par le
+    pruneau. Elle dépasse toujours son seuil dans les vins oxydés et se forme davantage avec des
+    raisins vendangés tard.
+  wine:
+    - {styles: [mute], strength: 1, ref: pons2013}
+
+- name: lactone massoia
+  name_en: massoia lactone
+  synonyms: [C10 massoia lactone]
+  family: lactone
+  origin: raisin
+  smiles: CCCCCC1CC=CC(=O)O1
+  odor: noix de coco, figue sèche
+  threshold: 11 µg/L en solution modèle
+  refs: [pons2017, allamy2023]
+  aromas: [figue sèche, pruneau]
+  aroma_max: 1
+  description: >
+    Identifiée en 2017 dans les Merlot et Cabernet-Sauvignon marqués par des notes de fruits
+    secs : on la trouve surtout dans les raisins surmûris, d'où un lien direct avec les
+    vendanges tardives et le réchauffement.
+  wine:
+    - {grapes: [Merlot, Cabernet Sauvignon], strength: 1, ref: pons2017}
+  nature:
+    - {source: massoia, ref: wikipedia_massoia}
+
+- name: α-terpinéol
+  name_en: alpha-terpineol
+  synonyms: [alpha-terpinéol]
+  family: terpene
+  origin: raisin
+  smiles: CC1=CCC(CC1)C(C)(C)O
+  odor: lilas, fleurs blanches, pin
+  threshold: 250 µg/L dans le vin
+  refs: [marais1983, francis2015, tomasino2022]
+  aromas: [fleurs blanches, tilleul]
+  aroma_max: 1
+  families: [Floral]
+  description: >
+    Terpène des Muscats et du Gewurztraminer, qui se forme aussi en bouteille à partir du
+    linalol et du géraniol : la note florale des vins aromatiques glisse avec l'âge vers le
+    lilas et la résine.
+  wine:
+    - {grapes: ["Muscat à petits grains", "Muscat d'Alexandrie", Gewurztraminer], strength: 2, ref: tomasino2022}
+  nature:
+    - {source: pin, ref: flavordb_terpineol}
+    - {source: cardamome, ref: flavordb_terpineol}
+    - {source: marjolaine, ref: flavordb_terpineol}
+
+- name: citronellol
+  name_en: citronellol
+  family: terpene
+  origin: raisin
+  smiles: CC(CCO)CCC=C(C)C
+  odor: rose, citronnelle
+  threshold: 100 µg/L dans le vin
+  refs: [francis2015, tomasino2022]
+  aromas: [rose]
+  aroma_max: 1
+  description: >
+    Alcool terpénique à odeur de rose, abondant dans les Muscats et le Gewurztraminer jeunes.
+    C'est le constituant majoritaire de l'essence de rose, même s'il n'en est pas le plus
+    odorant.
+  wine:
+    - {grapes: ["Muscat à petits grains", "Muscat d'Alexandrie", Gewurztraminer], strength: 2, ref: tomasino2022}
+  nature:
+    - {source: rose de Damas, ref: cotton2015, note: "Plus du tiers de l'essence de rose de Bulgarie."}
+
+- name: nérol
+  name_en: nerol
+  family: terpene
+  origin: raisin
+  smiles: CC(C)=CCC/C(C)=C\CO
+  odor: rose, fleur d'oranger
+  threshold: 300 µg/L dans le vin
+  refs: [marais1983, francis2015]
+  aromas: [rose, fleur d'oranger]
+  aroma_max: 1
+  description: >
+    Isomère du géraniol, l'un des trois terpènes qui font le goût « muscaté ». Il tient son nom
+    de l'essence de néroli, tirée de la fleur d'oranger amer.
+  wine:
+    - {grapes: ["Muscat à petits grains", "Muscat d'Alexandrie"], strength: 2, ref: marais1983}
+  nature:
+    - {source: rose de Damas, ref: cotton2015}
+
+- name: lactone du vin
+  name_en: wine lactone
+  synonyms: [wine lactone]
+  family: lactone
+  origin: vieillissement
+  smiles: CC1C(=O)OC2C=C(C)CCC12
+  odor: noix de coco, citron vert, boisé
+  threshold: 0,01 µg/L
+  refs: [smith2015, francis2015]
+  aromas: [citron vert]
+  aroma_max: 1
+  description: >
+    L'une des molécules les plus puissantes du vin : un centième de microgramme par litre suffit.
+    Elle donne la note de citron vert et de noix de coco des Rieslings et se renforce avec l'âge.
+    Elle fut d'abord isolée… dans l'urine de koala, en 1975.
+  wine:
+    - {grapes: [Riesling], strength: 2, ref: smith2015}
+
+- name: pyrroleméthanethiol
+  name_en: 1-methylpyrrole-2-methanethiol
+  synonyms: [1-méthylpyrrole-2-méthanethiol]
+  family: thiol
+  origin: fermentation
+  smiles: Cn1cccc1CS
+  odor: noisette
+  threshold: 0,7 ng/L en vin modèle
+  refs: [gros2017]
+  aromas: [noisette]
+  description: >
+    Identifiés à Bordeaux en 2017, deux pyrroleméthanethiols expliquent la note de noisette des
+    Chardonnay, où ils dépassent leur seuil. Ils n'ont encore jamais été trouvés dans un produit
+    naturel : la noisette du verre ne doit rien à la noisette de l'arbre.
+  wine:
+    - {grapes: [Chardonnay], strength: 2, ref: gros2017}
+
+- name: éthanal
+  name_en: acetaldehyde
+  synonyms: [acétaldéhyde]
+  family: aldehyde
+  origin: vieillissement
+  smiles: CC=O
+  odor: pomme blette, noix, herbe coupée
+  threshold: 100 à 125 mg/L (forme libre)
+  refs: [dossantos2000, guittin2023]
+  aromas: [noix, pomme mûre]
+  aroma_max: 1
+  description: >
+    Produit par les levures du voile pendant les six ans d'élevage du vin jaune, il en fait la
+    note de pomme blette et de noix, et sert de matière première au sotolon. Ailleurs, à forte
+    dose, c'est le signe d'une oxydation.
+  wine:
+    - {styles: [oxydatif], strength: 3, ref: dossantos2000}
+  nature:
+    - {source: pomme, ref: guittin2023}

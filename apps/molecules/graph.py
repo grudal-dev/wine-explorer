@@ -22,9 +22,11 @@ from .models import Basis, Molecule, NaturalSource, Occurrence, ProfileMolecule,
 KIND_COLORS = {
     "epice": "#A4502A", "herbe": "#7D8A5A", "fleur": "#B57BB0", "fruit": "#C2334D",
     "legume": "#6E8B3D", "plante": "#56662D", "arbre": "#6B4A35", "champignon": "#5C5145",
-    "aliment": "#C8A27A",
+    "aliment": "#C8A27A", "espece": "#8FA58A",
 }
 MAX_PROFILES = 18
+MAX_SOURCES_PER_MOLECULE = 4   # en partant d'un vin ; la fiche de la molécule les liste toutes
+AUTO_COMMON_BELOW = 6          # socle commun ajouté d'office sous ce nombre de molécules
 
 
 @dataclass
@@ -40,7 +42,18 @@ class Data:
     # Références qui justifient chaque arête, et notices bibliographiques.
     link_refs: dict[tuple[str, str], set[str]] = field(default_factory=lambda: defaultdict(set))
     occ_refs: dict[tuple[str, str], str] = field(default_factory=dict)
+    occ_imported: set[tuple[str, str]] = field(default_factory=set)
     refs: dict[str, dict] = field(default_factory=dict)
+
+
+def link_tier(reasons: list[dict]) -> str:
+    """« universal » : socle commun seul ; « family » : repli par famille ; sinon « specific »."""
+    bases = {r["basis"] for r in reasons}
+    if bases <= {Basis.UNIVERSAL}:
+        return "universal"
+    if bases <= {Basis.UNIVERSAL, Basis.FAMILY}:
+        return "family"
+    return "specific"
 
 
 def data_version() -> tuple:
@@ -66,32 +79,42 @@ def _data(version: tuple) -> Data:
     }
     sources = {
         s.slug: {"slug": s.slug, "label": s.name, "kind": s.kind, "kind_label": s.get_kind_display(),
-                 "hue": KIND_COLORS[s.kind], "url": s.get_absolute_url()}
+                 "hue": KIND_COLORS[s.kind], "url": s.get_absolute_url(), "imported": s.imported}
         for s in NaturalSource.objects.all()
     }
     d = Data(profiles, molecules, sources)
     for pm in ProfileMolecule.objects.select_related("profile", "molecule").only(
         "strength", "basis", "reasons", "profile__slug", "molecule__slug"
     ):
-        only_universal = all(r["basis"] == Basis.UNIVERSAL for r in pm.reasons)
-        row = (pm.molecule.slug, pm.strength, pm.basis, only_universal)
-        d.by_profile[pm.profile.slug].append(row)
+        tier = link_tier(pm.reasons)
+        d.by_profile[pm.profile.slug].append((pm.molecule.slug, pm.strength, pm.basis, tier))
+        d.by_molecule_profiles[pm.molecule.slug].append((pm.profile.slug, pm.strength, pm.basis, tier))
         d.link_refs[(pm.profile.slug, pm.molecule.slug)] = {r["ref"] for r in pm.reasons if r.get("ref")}
-        d.by_molecule_profiles[pm.molecule.slug].append((pm.profile.slug, pm.strength, pm.basis, only_universal))
-    for occ in Occurrence.objects.select_related("molecule", "source", "reference").only(
-        "molecule__slug", "source__slug", "reference__key"
-    ):
+    # Ordre des éléments naturels d'une molécule : celui qui porte le même nom qu'un de ses
+    # descripteurs (poivre noir pour la rotundone), puis ceux qu'une note commente, puis les autres.
+    mol_aromas: dict[int, set[int]] = defaultdict(set)
+    for mid, aid in Molecule.aromas.through.objects.values_list("molecule_id", "aroma_id"):
+        mol_aromas[mid].add(aid)
+    occs = list(Occurrence.objects.select_related("molecule", "source", "reference").only(
+        "molecule__slug", "source__slug", "source__aroma_id", "source__name", "reference__key", "imported", "note"
+    ))
+    occs.sort(key=lambda o: (o.imported, o.source.aroma_id not in mol_aromas[o.molecule_id], not o.note,
+                             o.source.name))
+    for occ in occs:
         d.by_molecule_sources[occ.molecule.slug].append(occ.source.slug)
+        if occ.imported:
+            d.occ_imported.add((occ.molecule.slug, occ.source.slug))
         if occ.reference_id:
             d.occ_refs[(occ.molecule.slug, occ.source.slug)] = occ.reference.key
         d.by_source[occ.source.slug].append(occ.molecule.slug)
     for r in Reference.objects.all():
         d.refs[r.key] = {"key": r.key, "short": r.short, "authors": r.authors, "year": r.year,
                          "title": r.title, "container": r.container, "link": r.link}
+    tier_rank = {"specific": 0, "family": 1, "universal": 2}
     for rows in d.by_profile.values():
-        rows.sort(key=lambda r: (-r[1], molecules[r[0]]["label"]))
+        rows.sort(key=lambda r: (tier_rank[r[3]], -r[1], molecules[r[0]]["label"]))
     for rows in d.by_molecule_profiles.values():
-        rows.sort(key=lambda r: (-r[1], profiles[r[0]]["label"]))
+        rows.sort(key=lambda r: (tier_rank[r[3]], -r[1], profiles[r[0]]["label"]))
     return d
 
 
@@ -113,43 +136,70 @@ def _node(kind: str, info: dict, layer: int, **extra) -> dict:
         payload["universal"] = info["universal"]
     elif kind == "source":
         payload["hue"] = info["hue"]
+        payload["imported"] = info.get("imported", False)
     payload.update(extra)
     return {"group": "nodes", "data": payload}
 
 
-def _edge(a: str, b: str, kind: str, strength: int = 1, basis: str = "") -> dict:
+def _edge(a: str, b: str, kind: str, strength: int = 1, basis: str = "", tier: str = "specific") -> dict:
     return {"group": "edges", "data": {
         "id": f"{a}>{b}", "source": a, "target": b, "kind": kind, "strength": strength, "basis": basis,
+        "tier": tier,
     }}
 
 
-def build(kind: str, slug: str, common: bool = False) -> dict | None:
-    """Éléments Cytoscape pour l'entité de départ. ``common`` inclut le socle commun."""
+def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
+          imported: bool = True) -> dict | None:
+    """Éléments Cytoscape pour l'entité de départ.
+
+    ``family`` inclut les liens déduits d'une seule famille d'arômes (affichés en retrait).
+    ``common`` : True ou False force le socle commun ; None (défaut) l'ajoute d'office quand
+    un vin a peu de molécules propres, pour qu'aucun graphe ne soit vide.
+    """
     d = data()
     nodes: dict[str, dict] = {}
     edges: list[dict] = []
     hidden_common = 0
+    hidden_sources = 0
     truncated = 0
 
+    if common is None:
+        if kind == "profile":
+            own = [r for r in d.by_profile.get(slug, []) if r[3] == "specific" or (r[3] == "family" and family)]
+            common = len(own) < AUTO_COMMON_BELOW
+        else:
+            common = False
+
+    def sources_of(mslug: str) -> list[str]:
+        return [x for x in d.by_molecule_sources.get(mslug, [])
+                if imported or (mslug, x) not in d.occ_imported]
+
     def keep(row) -> bool:
-        return common or not row[3]
+        tier = row[3]
+        return (tier == "specific") or (tier == "family" and family) or (tier == "universal" and common)
 
     if kind == "profile":
         if slug not in d.profiles:
             return None
         pid = f"profile:{slug}"
         nodes[pid] = _node("profile", d.profiles[slug], 0, root=True)
-        for mslug, strength, basis, only_u in d.by_profile.get(slug, []):
-            if not keep((mslug, strength, basis, only_u)):
+        for row in d.by_profile.get(slug, []):
+            mslug, strength, basis, tier = row
+            if not keep(row):
                 hidden_common += 1
                 continue
             mid = f"molecule:{mslug}"
-            nodes[mid] = _node("molecule", d.molecules[mslug], 1, strength=strength)
-            edges.append(_edge(pid, mid, "contains", strength, basis))
-            for sslug in d.by_molecule_sources.get(mslug, []):
+            nodes[mid] = _node("molecule", d.molecules[mslug], 1, strength=strength, tier=tier)
+            edges.append(_edge(pid, mid, "contains", strength, basis, tier))
+            srcs = sources_of(mslug)
+            # Les éléments déjà présents (partagés par plusieurs molécules) passent en premier.
+            srcs = sorted(srcs, key=lambda x: (f"source:{x}" not in nodes, srcs.index(x)))
+            hidden_sources += max(0, len(srcs) - MAX_SOURCES_PER_MOLECULE)
+            for sslug in srcs[:MAX_SOURCES_PER_MOLECULE]:
                 sid = f"source:{sslug}"
                 nodes.setdefault(sid, _node("source", d.sources[sslug], 2))
-                edges.append(_edge(mid, sid, "found_in"))
+                edges.append(_edge(mid, sid, "found_in",
+                                   tier="imported" if (mslug, sslug) in d.occ_imported else "specific"))
 
     elif kind == "molecule":
         if slug not in d.molecules:
@@ -159,14 +209,15 @@ def build(kind: str, slug: str, common: bool = False) -> dict | None:
         rows = [r for r in d.by_molecule_profiles.get(slug, []) if keep(r)]
         hidden_common = len(d.by_molecule_profiles.get(slug, [])) - len(rows)
         truncated = max(0, len(rows) - MAX_PROFILES)
-        for pslug, strength, basis, _ in rows[:MAX_PROFILES]:
+        for pslug, strength, basis, tier in rows[:MAX_PROFILES]:
             pid = f"profile:{pslug}"
             nodes[pid] = _node("profile", d.profiles[pslug], 0)
-            edges.append(_edge(pid, mid, "contains", strength, basis))
-        for sslug in d.by_molecule_sources.get(slug, []):
+            edges.append(_edge(pid, mid, "contains", strength, basis, tier))
+        for sslug in sources_of(slug):
             sid = f"source:{sslug}"
             nodes[sid] = _node("source", d.sources[sslug], 2)
-            edges.append(_edge(mid, sid, "found_in"))
+            tier = "imported" if (slug, sslug) in d.occ_imported else "specific"
+            edges.append(_edge(mid, sid, "found_in", tier=tier))
 
     elif kind == "source":
         if slug not in d.sources:
@@ -177,23 +228,30 @@ def build(kind: str, slug: str, common: bool = False) -> dict | None:
         best: dict[str, tuple[int, str]] = {}
         per_profile: dict[str, list[tuple]] = defaultdict(list)
         for mslug in d.by_source.get(slug, []):
+            if not imported and (mslug, slug) in d.occ_imported:
+                continue
             mid = f"molecule:{mslug}"
             nodes[mid] = _node("molecule", d.molecules[mslug], 1)
-            edges.append(_edge(mid, sid, "found_in"))
+            tier = "imported" if (mslug, slug) in d.occ_imported else "specific"
+            edges.append(_edge(mid, sid, "found_in", tier=tier))
             for row in d.by_molecule_profiles.get(mslug, []):
                 if not keep(row):
                     continue
-                pslug, strength, basis, _ = row
-                per_profile[pslug].append((mslug, strength, basis))
+                pslug, strength, basis, tier = row
+                per_profile[pslug].append((mslug, strength, basis, tier))
                 if pslug not in best or strength > best[pslug][0]:
                     best[pslug] = (strength, basis)
-        ranked = sorted(best, key=lambda p: (-best[p][0], -len(per_profile[p]), d.profiles[p]["label"]))
+        def rank(p):
+            specific = sum(r[3] == "specific" for r in per_profile[p])
+            return (-best[p][0], -specific, -len(per_profile[p]), d.profiles[p]["label"])
+
+        ranked = sorted(best, key=rank)
         truncated = max(0, len(ranked) - MAX_PROFILES)
         for pslug in ranked[:MAX_PROFILES]:
             pid = f"profile:{pslug}"
             nodes[pid] = _node("profile", d.profiles[pslug], 0)
-            for mslug, strength, basis in per_profile[pslug]:
-                edges.append(_edge(pid, f"molecule:{mslug}", "contains", strength, basis))
+            for mslug, strength, basis, tier in per_profile[pslug]:
+                edges.append(_edge(pid, f"molecule:{mslug}", "contains", strength, basis, tier))
     else:
         return None
 
@@ -203,8 +261,10 @@ def build(kind: str, slug: str, common: bool = False) -> dict | None:
         degree[e["data"]["target"]] += 1
     for nid, n in nodes.items():
         n["data"]["degree"] = degree[nid]
-    ordered = sorted(nodes.values(), key=lambda n: (n["data"]["layer"], -n["data"].get("strength", 0),
-                                                   -n["data"]["degree"], n["data"]["label"]))
+    tier_rank = {"specific": 0, "family": 1, "universal": 2}
+    ordered = sorted(nodes.values(), key=lambda n: (
+        n["data"]["layer"], tier_rank.get(n["data"].get("tier", "specific"), 0), -n["data"].get("strength", 0),
+        -n["data"]["degree"], n["data"]["label"]))
     # Sources de ce graphe : celles des arêtes affichées, avec le nombre de liens qu'elles appuient.
     cited: dict[str, int] = defaultdict(int)
     for e in edges:
@@ -227,7 +287,8 @@ def build(kind: str, slug: str, common: bool = False) -> dict | None:
         "references": references,
         "stats": {
             "profiles": counts["profile"], "molecules": counts["molecule"], "sources": counts["source"],
-            "hidden_common": hidden_common, "truncated": truncated,
+            "hidden_common": hidden_common, "truncated": truncated, "hidden_sources": hidden_sources,
+            "common": bool(common), "family": family,
         },
     }
 

@@ -107,9 +107,11 @@ Les tests passent sous SQLite et PostgreSQL 16.
 
 ## Molécules : données et méthode
 
-31 molécules odorantes dont le rôle dans le vin est établi (rotundone, thiols variétaux, méthoxypyrazine,
-terpènes, norisoprénoïdes, composés du bois, sotolon…), 42 éléments naturels et 58 références (articles
-d'origine, revues en accès ouvert : OENO One, Vitis, AWRI, PMC). Rien n'est relié sans source.
+45 molécules odorantes dont le rôle dans le vin est établi (rotundone, thiols variétaux, méthoxypyrazine,
+terpènes, norisoprénoïdes, esters des fruits rouges et noirs, composés du bois, phénols des Brettanomyces,
+sotolon, MND…), 47 éléments naturels et 77 références (articles d'origine, revues en accès ouvert : OENO One,
+Vitis, AWRI, PMC). Rien n'est relié sans source. Deux tiers des mentions d'arômes des profils sont reliées à
+une molécule précise ; les autres (réglisse, citron, garrigue…) passent par le repli par famille.
 
 Les profils types ne sont pas des bouteilles analysées : le lien vin → molécule est **déduit** au chargement
 par des règles écrites dans `apps/molecules/data/molecules.yaml` :
@@ -120,7 +122,12 @@ par des règles écrites dans `apps/molecules/data/molecules.yaml` :
 | style de vinification | vin jaune → sotolon (Pham et al. 1995) | jusqu'à 3 |
 | couleur | rouge → diacétyle de la malolactique | 1 |
 | descripteur du profil | violette → β-ionone | 2 au plus |
-| socle commun | esters de fermentation, tous les vins | 1, masqué par défaut |
+| famille d'arômes (repli) | réglisse, non expliquée → molécules des épices | 1, en pointillé |
+| socle commun | esters de fermentation, tous les vins | 1, ajouté d'office si un vin a moins de 6 molécules |
+
+Le repli par famille ne sert que pour les descripteurs qu'aucune molécule n'explique, et jamais quand un
+descripteur précis relie déjà la molécule. Dans le graphe, un vin affiche au moins six molécules ; au plus
+quatre éléments naturels par molécule, les autres restent dans les fiches.
 
 Chaque lien garde toutes ses justifications (`ProfileMolecule.reasons`). `load_molecules` échoue sur toute
 référence, tout cépage, arôme ou élément naturel inconnu, comme `load_seed`.
@@ -129,6 +136,18 @@ référence, tout cépage, arôme ou élément naturel inconnu, comme `load_seed
 python manage.py load_molecules --check   # valider les YAML
 pip install rdkit && python manage.py render_molecules   # après ajout d'une molécule : SVG + computed.json
 ```
+
+### Occurrences importées de Wikidata
+
+```bash
+python manage.py import_wikidata_occurrences   # interroge Wikidata (P703, initiative LOTUS, CC0)
+python manage.py load_molecules                # charge data/wikidata_occurrences.json
+```
+
+L'import retrouve chaque molécule par son InChIKey (ou son nom anglais) et garde au plus six espèces par
+molécule, parmi celles qui ont un nom français et un article sur Wikipédia en français. Le résultat est un
+fichier versionné, relu avant commit. Ces occurrences sont marquées « importées, non vérifiées », encadrées
+en pointillé dans le graphe et désactivables ; une occurrence saisie à la main n'est jamais écrasée.
 
 RDKit n'est nécessaire qu'à `render_molecules` : les SVG de `static/molecules/` et `computed.json` sont
 versionnés.
