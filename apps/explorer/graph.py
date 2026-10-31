@@ -1,6 +1,7 @@
 """Construction et filtrage du graphe des entités du vin.
 
-Nœuds : région, appellation, profil, cépage, arôme, famille aromatique.
+Nœuds : région, appellation, profil, cépage, arôme, famille aromatique,
+molécule et élément naturel (section Molécules).
 Arêtes :
     région       → région parente     (« fait partie de »)
     appellation  → région             (« située en »)
@@ -8,6 +9,9 @@ Arêtes :
     profil       → cépage             (part d'encépagement)
     profil       → arôme              (intensité 1-3)
     arôme        → famille            (« appartient à »)
+    profil       → molécule           (force 1-3 du lien déduit)
+    molécule     → arôme              (« évoque »)
+    molécule     → élément naturel    (« trouvée dans »)
 
 Quand les profils sont masqués, les appellations sont reliées directement aux
 cépages et arômes avec des poids agrégés : la vue reste lisible sans perdre
@@ -23,7 +27,7 @@ from functools import lru_cache
 from apps.catalog.index import data_version
 from apps.catalog.models import Appellation, Aroma, Color, Region, WineProfile
 
-NODE_TYPES = ("region", "appellation", "profile", "grape", "aroma", "family")
+NODE_TYPES = ("region", "appellation", "profile", "grape", "aroma", "family", "molecule", "source")
 TYPE_LABELS = {
     "region": "Régions",
     "appellation": "Appellations",
@@ -31,6 +35,8 @@ TYPE_LABELS = {
     "grape": "Cépages",
     "aroma": "Arômes",
     "family": "Familles d'arômes",
+    "molecule": "Molécules",
+    "source": "Éléments naturels",
 }
 EDGE_LABELS = {
     "part_of": "fait partie de",
@@ -39,6 +45,9 @@ EDGE_LABELS = {
     "grape": "assemble",
     "aroma": "exprime",
     "family": "appartient à",
+    "molecule": "contient",
+    "evokes": "évoque",
+    "found_in": "trouvée dans",
 }
 
 
@@ -57,6 +66,7 @@ class Edge:
     target: str
     kind: str
     weight: float = 1.0
+    tier: str = "specific"
 
     @property
     def id(self) -> str:
@@ -134,11 +144,49 @@ def _full_graph(version: tuple) -> WineGraph:
         if aid in nodes:
             edges.append(Edge(aid, fid, "family"))
 
+    _add_molecules(nodes, edges)
     return WineGraph(nodes, edges)
 
 
+def _add_molecules(nodes: dict[str, Node], edges: list[Edge]) -> None:
+    """Molécules et éléments naturels, s'ils sont chargés (load_molecules)."""
+    from apps.molecules.graph import KIND_COLORS, link_tier
+    from apps.molecules.models import Molecule, NaturalSource, Occurrence, ProfileMolecule
+
+    for m in Molecule.objects.prefetch_related("aromas"):
+        mid = nid("molecule", m.slug)
+        nodes[mid] = Node(mid, "molecule", m.name, m.get_absolute_url(), {"universal": m.universal})
+        for a in m.aromas.all():
+            aid = nid("aroma", a.slug)
+            if aid in nodes:
+                edges.append(Edge(mid, aid, "evokes"))
+    for s in NaturalSource.objects.all():
+        sid = nid("source", s.slug)
+        nodes[sid] = Node(sid, "source", s.name, s.get_absolute_url(),
+                          {"hue": KIND_COLORS.get(s.kind, "#8FA58A"), "imported": s.imported})
+    for o in Occurrence.objects.select_related("molecule", "source").only("molecule__slug", "source__slug"):
+        edges.append(Edge(nid("molecule", o.molecule.slug), nid("source", o.source.slug), "found_in"))
+    for pm in ProfileMolecule.objects.select_related("profile", "molecule").only(
+        "strength", "reasons", "profile__slug", "molecule__slug"
+    ):
+        pid = nid("profile", pm.profile.slug)
+        if pid in nodes:
+            e = Edge(pid, nid("molecule", pm.molecule.slug), "molecule", pm.strength)
+            e.tier = link_tier(pm.reasons)
+            edges.append(e)
+
+
+def _version() -> tuple:
+    try:
+        from apps.molecules.graph import data_version as molecules_version
+
+        return (*data_version(), *molecules_version())
+    except Exception:  # noqa: BLE001 - section Molécules absente ou non migrée
+        return data_version()
+
+
 def full_graph() -> WineGraph:
-    return _full_graph(data_version())
+    return _full_graph(_version())
 
 
 # ----------------------------------------------------------------------------
@@ -150,6 +198,7 @@ class GraphQuery:
     price_max: int | None = None
     min_intensity: int = 2
     min_share: int = 10
+    min_strength: int = 2
     focus: str = ""
     depth: int = 2
 
@@ -172,6 +221,7 @@ class GraphQuery:
             price_max=int(price) if price and price.isdigit() else None,
             min_intensity=as_int("min_intensity", 2, 1, 3),
             min_share=as_int("min_share", 10, 0, 100),
+            min_strength=as_int("min_strength", 2, 1, 3),
             focus=params.get("focus", ""),
             depth=as_int("depth", 2, 1, 4),
         )
@@ -211,6 +261,8 @@ def build_view(q: GraphQuery) -> dict:
         if e.kind == "aroma" and e.weight < q.min_intensity:
             continue
         if e.kind == "grape" and e.weight * 100 < q.min_share:
+            continue
+        if e.kind == "molecule" and (e.weight < q.min_strength or e.tier == "universal"):
             continue
         app_id = profiles[e.source].attrs["appellation"]
         used_apps.add(app_id)
@@ -263,6 +315,17 @@ def build_view(q: GraphQuery) -> dict:
             if e.kind == "family" and e.source in present:
                 add(e)
                 present.add(e.target)
+    # Molécules visibles : on ajoute les arômes qu'elles évoquent (s'ils sont déjà là) et leurs
+    # éléments naturels (rattachés aux seules molécules visibles, comme les familles aux arômes).
+    if "molecule" in show:
+        for e in g.edges:
+            if e.source not in present:
+                continue
+            if e.kind == "evokes" and e.target in present:
+                add(e)
+            elif e.kind == "found_in" and "source" in show:
+                add(e)
+                present.add(e.target)
     edge_list = [e for e in edges.values() if e.source in present and e.target in present]
 
     # 3. Focus : voisinage à profondeur n.
@@ -290,6 +353,8 @@ def build_view(q: GraphQuery) -> dict:
         data = {"id": n.id, "label": n.label, "type": n.type, "degree": degree[n.id]}
         if "hue" in n.attrs:
             data["hue"] = n.attrs["hue"]
+        if n.type == "source" and n.attrs.get("imported"):
+            data["imported"] = True
         if n.type == "profile":
             data["wine"] = n.attrs["color"]
         if n.type == "grape":
@@ -323,7 +388,9 @@ def shortest_path(a: str, b: str) -> list[dict] | None:
         if cur == b:
             break
         for nb, edge in adj[cur]:
-            # On évite de traverser les familles : chemins plus parlants.
+            # On évite de traverser les familles et les liens moléculaires faibles : chemins plus parlants.
+            if edge.kind == "molecule" and edge.tier != "specific":
+                continue
             if nb not in prev and (g.nodes[nb].type != "family" or nb == b):
                 prev[nb] = (cur, edge)
                 queue.append(nb)

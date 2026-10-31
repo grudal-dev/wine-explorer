@@ -12,6 +12,7 @@ from apps.catalog.models import (
     Region,
     WineProfile,
 )
+from apps.molecules.models import Molecule, NaturalSource
 
 from .graph import (
     NODE_TYPES,
@@ -30,6 +31,9 @@ PRESETS = [
      "help": "Quels cépages pour quelles appellations."},
     {"key": "aromes", "label": "Arômes", "types": ["appellation", "aroma", "family"],
      "help": "Les descripteurs dominants de chaque appellation."},
+    {"key": "molecules", "label": "Molécules", "types": ["appellation", "molecule", "aroma", "source"],
+     "help": "Les molécules de chaque appellation, les arômes qu'elles évoquent et les éléments naturels "
+             "qui les partagent."},
     {"key": "complet", "label": "Tout", "types": list(NODE_TYPES),
      "help": "Profils types et toutes leurs relations. Dense : filtrez ou centrez sur un nœud."},
 ]
@@ -67,11 +71,13 @@ def api_path(request):
 SINGULAR = {
     "region": "Région", "appellation": "Appellation", "profile": "Profil type",
     "grape": "Cépage", "aroma": "Arôme", "family": "Famille d'arômes",
+    "molecule": "Molécule", "source": "Élément naturel",
 }
 
 MODELS = {
     "region": Region, "appellation": Appellation, "profile": WineProfile,
     "grape": Grape, "aroma": Aroma, "family": AromaFamily,
+    "molecule": Molecule, "source": NaturalSource,
 }
 
 

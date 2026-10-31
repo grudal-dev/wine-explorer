@@ -17,6 +17,10 @@
     <p class="muted">Raisin {{ obj.get_skin_display|lower }}{% if obj.origin %}, berceau : {{ obj.origin }}{% endif %}.</p>
   {% elif kind == "aroma" %}
     <p class="muted">Famille : {{ obj.family.name|lower }}.</p>
+  {% elif kind == "molecule" %}
+    <p class="muted">{{ obj.get_family_display }} · {{ obj.get_origin_display|lower }}. Odeur : {{ obj.odor }}.</p>
+  {% elif kind == "source" %}
+    <p class="muted">{{ obj.get_kind_display }}{% if obj.latin_name %}, <em>{{ obj.latin_name }}</em>{% endif %}.{% if obj.imported %} Importé de Wikidata, non vérifié.{% endif %}</p>
   {% endif %}
 
   <div class="node-actions">
@@ -25,6 +29,7 @@
     <button type="button" class="btn btn--ghost btn--small" data-set-path="b" data-id="{{ node_id }}" data-label="{{ obj.name }}">Arrivée</button>
     {% if obj.get_absolute_url and kind != "family" %}<a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">Fiche</a>{% endif %}
     {% if kind == "aroma" %}<a class="btn btn--ghost btn--small" href="{% url 'nose:nose' %}?a={{ obj.id }}">Le Nez</a>{% endif %}
+    {% if kind == "molecule" or kind == "source" or kind == "profile" %}<a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}?depart={{ node_id }}">Du verre à la nature</a>{% endif %}
   </div>
 
   {% for label, items, total in groups %}

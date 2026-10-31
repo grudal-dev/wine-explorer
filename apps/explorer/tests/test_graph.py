@@ -68,3 +68,32 @@ class GraphTests(TestCase):
         self.assertEqual(self.client.get(reverse("explorer:node", args=["grape:syrah"])).status_code, 200)
         self.assertEqual(self.client.get(reverse("explorer:node", args=["grape:nope"])).status_code, 404)
         self.assertEqual(self.client.get(reverse("explorer:explorer")).status_code, 200)
+
+
+class MoleculeLayerTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        call_command("load_seed", stdout=StringIO())
+
+    def test_molecule_preset(self):
+        view = build_view(q("types=appellation&types=molecule&types=aroma&types=source"))
+        nodes = {e["data"]["id"]: e["data"] for e in view["elements"] if e["group"] == "nodes"}
+        edges = {(e["data"]["source"], e["data"]["target"], e["data"]["kind"])
+                 for e in view["elements"] if e["group"] == "edges"}
+        self.assertIn(("appellation:cote-rotie", "molecule:rotundone", "molecule"), edges)
+        self.assertIn(("molecule:rotundone", "source:poivre-noir", "found_in"), edges)
+        self.assertIn(("molecule:rotundone", "aroma:poivre-noir", "evokes"), edges)
+        self.assertTrue(all(s in nodes and t in nodes for s, t, _ in edges))
+
+    def test_strength_filter(self):
+        def n_mol(strength):
+            v = build_view(q(f"types=profile&types=molecule&min_strength={strength}"))
+            return sum(1 for e in v["elements"] if e["group"] == "edges" and e["data"]["kind"] == "molecule")
+        self.assertGreater(n_mol(1), n_mol(2))
+        self.assertGreater(n_mol(2), n_mol(3))
+
+    def test_path_through_molecules_and_panel(self):
+        path = shortest_path("appellation:cote-rotie", "source:poivre-noir")
+        self.assertEqual([s["node"]["id"] for s in path][-2:], ["molecule:rotundone", "source:poivre-noir"])
+        for node in ("molecule:rotundone", "source:poivre-noir"):
+            self.assertEqual(self.client.get(reverse("explorer:node", args=[node])).status_code, 200)

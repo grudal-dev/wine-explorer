@@ -52,3 +52,41 @@ class PredictorTests(TestCase):
         self.assertNotContains(r, "<html")
         r = self.client.get(reverse("nose:api_aromas"), {"q": "fruits rou"})
         self.assertEqual(r.json()["results"][0]["kind"], "family")
+
+
+class SensoryTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        call_command("load_seed", stdout=StringIO())
+
+    def top(self, aromas=(), senses=(), **kw):
+        return [r["profile"]["name"] for r in predict(ids(*aromas), senses=list(senses), **kw)["results"]]
+
+    def test_mouth_alone_is_enough(self):
+        self.assertTrue(all("Champagne" in n or "Crémant" in n for n in self.top(senses=["bulles"])[:3]))
+        sweet = {"Monbazillac blanc", "Sauternes blanc", "Coteaux du Layon blanc"}
+        self.assertIn(self.top(["miel"], ["liquoreux"])[0], sweet)
+
+    def test_mouth_reorders_aromas(self):
+        light = self.top(["cassis"], ["leger", "tanins-soyeux"])
+        big = self.top(["cassis"], ["puissant", "astringent"])
+        self.assertNotEqual(light[0], big[0])
+        self.assertIn("Pauillac rouge", big[:3])
+
+    def test_one_term_per_axis(self):
+        from apps.nose import sensory
+        self.assertEqual([t.key for t in sensory.clean(["leger", "vif", "puissant"])], ["puissant", "vif"])
+
+    def test_explanations(self):
+        res = predict(ids("cassis"), senses=["tannique"])["results"][0]
+        sense = [m for m in res["matches"] if m.get("sense")][0]
+        self.assertEqual(sense["name"], "tannique")
+        self.assertIn("tanins", sense["actual"])
+
+    def test_free_text_and_api(self):
+        r = self.client.get(reverse("nose:nose"), {"q": "litchi, nerveux, pétillant"})
+        self.assertContains(r, 'name="s" value="vif"')
+        self.assertContains(r, 'name="s" value="bulles"')
+        api = self.client.get(reverse("nose:api_aromas"), {"q": "tanni"}).json()["results"]
+        self.assertIn("sense", {x["kind"] for x in api})
+        self.assertEqual(self.client.get(reverse("nose:api_aromas"), {"q": "vif"}).json()["results"][0]["pk"], "vif")

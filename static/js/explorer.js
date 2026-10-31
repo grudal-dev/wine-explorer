@@ -18,12 +18,12 @@
 
   const COLORS = {
     region: "#3B5878", appellation: "#7A1F3D", grape: "#56662D",
-    aroma: "#B07D22", family: "#8A6A3A", ink: "#23262F", rule: "#C9C9BF",
+    aroma: "#B07D22", family: "#8A6A3A", ink: "#23262F", rule: "#C9C9BF", molecule: "#2E6E6A",
     rouge: "#6B1730", blanc: "#D9C36A", rose: "#E59A8E",
   };
   const TYPE_LABELS = {
     region: "régions", appellation: "appellations", profile: "profils",
-    grape: "cépages", aroma: "arômes", family: "familles",
+    grape: "cépages", aroma: "arômes", family: "familles", molecule: "molécules", source: "éléments naturels",
   };
 
   const state = { focus: root.dataset.focus || "", depth: 2, path: { a: null, b: null } };
@@ -54,12 +54,21 @@
       { selector: "node[type='aroma']", style: { "background-color": "data(hue)", "font-style": "italic" }},
       { selector: "node[type='family']", style: { "background-color": "data(hue)", "shape": "hexagon",
         "width": 34, "height": 34, "font-size": 12, "font-weight": 600 }},
+      { selector: "node[type='molecule']", style: { "background-color": COLORS.molecule, "shape": "hexagon",
+        "width": "mapData(degree, 0, 30, 16, 40)", "height": "mapData(degree, 0, 30, 14, 35)" }},
+      { selector: "node[type='source']", style: { "background-color": "data(hue)", "shape": "round-rectangle",
+        "width": 14, "height": 14, "font-style": "italic" }},
+      { selector: "node[type='source'][?imported]", style: { "background-opacity": 0.35, "border-width": 1.5,
+        "border-style": "dashed", "border-color": "#56662D" }},
       { selector: "edge", style: {
         "width": 1, "line-color": COLORS.rule, "curve-style": "haystack", "haystack-radius": 0.4, "opacity": 0.75,
       }},
       { selector: "edge[kind='grape']", style: { "width": "mapData(weight, 0, 3, 1, 5)", "line-color": "#A7B38A" }},
       { selector: "edge[kind='aroma']", style: { "width": "mapData(weight, 1, 9, 1, 4)", "line-color": "#D8C49A" }},
       { selector: "edge[kind='part_of'], edge[kind='located_in']", style: { "line-color": "#9FB0C3" }},
+      { selector: "edge[kind='molecule']", style: { "width": "mapData(weight, 1, 9, 1, 4)", "line-color": "#8FB5B1" }},
+      { selector: "edge[kind='evokes']", style: { "line-color": "#D9C08E", "line-style": "dashed" }},
+      { selector: "edge[kind='found_in']", style: { "line-color": "#A7B38A" }},
       { selector: ".faded", style: { "opacity": 0.12, "text-opacity": 0 }},
       { selector: "node.hl", style: { "border-width": 3, "border-color": COLORS.ink, "z-index": 10 }},
       { selector: "edge.hl", style: { "line-color": COLORS.ink, "opacity": 1, "z-index": 9 }},
@@ -79,13 +88,13 @@
         idealEdgeLength: 70, edgeElasticity: 0.35, nodeSeparation: 80, packComponents: true };
     }
     if (name === "concentric") {
-      const order = { region: 6, family: 5, appellation: 4, grape: 3, profile: 2, aroma: 1 };
+      const order = { region: 7, family: 6, appellation: 5, grape: 4, profile: 3, molecule: 2, aroma: 1, source: 0 };
       return { ...base, name: "concentric", minNodeSpacing: 12,
         concentric: (n) => order[n.data("type")] || 0, levelWidth: () => 1 };
     }
     if (name === "breadthfirst") {
       return { ...base, name: "breadthfirst", spacingFactor: 0.9, directed: false,
-        roots: cy.nodes("[type='region'], [type='family']").filter((n) => n.degree() > 0) };
+        roots: cy.nodes("[type='region'], [type='family'], [type='source']").filter((n) => n.degree() > 0) };
     }
     if (name === "fcose") return { ...base, name: "cose" };
     return { ...base, name };
@@ -107,6 +116,7 @@
     if (fd.get("price_max") && fd.get("price_max") !== "100") p.set("price_max", fd.get("price_max"));
     p.set("min_intensity", fd.get("min_intensity"));
     p.set("min_share", fd.get("min_share"));
+    p.set("min_strength", fd.get("min_strength"));
     if (state.focus) { p.set("focus", state.focus); p.set("depth", state.depth); }
     return p;
   }
@@ -122,6 +132,7 @@
     if (p.get("price_max")) form.price_max.value = p.get("price_max");
     if (p.get("min_intensity")) form.min_intensity.value = p.get("min_intensity");
     if (p.get("min_share")) form.min_share.value = p.get("min_share");
+    if (p.get("min_strength")) form.min_strength.value = p.get("min_strength");
     if (p.get("focus")) state.focus = p.get("focus");
     syncOutputs();
     syncPreset();
@@ -132,6 +143,8 @@
     document.getElementById("f-price-out").textContent = price === "100" ? "sans limite" : `${price} €`;
     document.getElementById("f-int-out").textContent = form.min_intensity.value;
     document.getElementById("f-share-out").textContent = `${form.min_share.value} %`;
+    document.getElementById("f-strength-out").textContent =
+      { 1: "plausible", 2: "probable", 3: "marqueur établi" }[form.min_strength.value];
   }
 
   function syncPreset() {

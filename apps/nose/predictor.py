@@ -12,6 +12,9 @@ n_f  : nombre d'arômes de la famille
 T_p  : somme des intensités du profil
 N    : nombre total d'arômes
 
+Les descripteurs sensoriels (bouche, style, voir sensory.py) ajoutent un terme
+gaussien par axe : exp(-(valeur du profil - cible)² / 2σ²), avec un plancher.
+
 Les log-vraisemblances sont tempérées avant le softmax pour que les
 probabilités affichées restent lisibles (un vrai sommelier hésite aussi).
 """
@@ -25,6 +28,8 @@ from functools import lru_cache
 
 from apps.catalog.index import data_version
 from apps.catalog.models import Aroma, AromaFamily, WineProfile
+
+from . import sensory
 
 ALPHA = 0.6   # poids du repli par famille
 BETA = 0.05   # lissage global
@@ -71,6 +76,7 @@ def _model(version: tuple) -> _Model:
             "grapes": [pg.grape.name for pg in p.profile_grapes.all()],
             "weights": weights,
             "family_weights": dict(fam_w),
+            "structure": {"body": p.body, "acidity": p.acidity, "tannin": p.tannin, "sweetness": p.sweetness},
             "total": sum(weights.values()) or 1,
         })
     return _Model(
@@ -87,14 +93,30 @@ def model() -> _Model:
     return _model(data_version())
 
 
+def _sense_term(p: dict, t: sensory.Term) -> tuple[float, dict]:
+    """Log-vraisemblance d'un descripteur sensoriel pour un profil, et son explication."""
+    if t.axis == "style":
+        ok = p["style"] == t.style
+        prob = sensory.STYLE_MATCH if ok else sensory.STYLE_MISS
+        return math.log(prob), {"name": t.label, "match": "exact" if ok else "none", "intensity": 0,
+                                "sense": True, "actual": p["style_label"]}
+    value = p["structure"][t.axis]
+    d = value - t.target
+    prob = math.exp(-(d * d) / (2 * sensory.SIGMA ** 2)) * (1 - sensory.FLOOR) + sensory.FLOOR
+    match = "exact" if abs(d) <= 0.75 else ("family" if abs(d) <= 1.5 else "none")
+    return math.log(prob), {"name": t.label, "match": match, "intensity": 0, "sense": True,
+                            "actual": f"{sensory.AXES[t.axis].lower()} {value}/5"}
+
+
 def predict(aroma_ids: list[int], family_ids: list[int] | None = None, *,
-            colors: list[str] | None = None, top: int = 5) -> dict:
+            colors: list[str] | None = None, senses: list[str] | None = None, top: int = 5) -> dict:
     """Retourne le top `top` des profils avec probabilités et explications."""
     m = model()
     aroma_ids = [a for a in dict.fromkeys(aroma_ids) if a in m.aroma_family]
     family_ids = [f for f in dict.fromkeys(family_ids or []) if f in m.family_size]
+    terms = sensory.clean(senses or [])
     candidates = [p for p in m.profiles if not colors or p["color"] in colors]
-    if not candidates or not (aroma_ids or family_ids):
+    if not candidates or not (aroma_ids or family_ids or terms):
         return {"results": [], "considered": len(candidates)}
 
     n_fam = len(m.family_size)
@@ -121,9 +143,13 @@ def predict(aroma_ids: list[int], family_ids: list[int] | None = None, *,
                 "match": "family" if p["family_weights"].get(f) else "none",
                 "intensity": 0,
             })
+        for t in terms:
+            term_ll, detail = _sense_term(p, t)
+            ll += term_ll
+            details.append(detail)
         scored.append((ll, p, details))
 
-    n_terms = len(aroma_ids) + len(family_ids)
+    n_terms = len(aroma_ids) + len(family_ids) + len(terms)
     temp = TEMPERATURE * math.sqrt(n_terms)
     best = max(s[0] for s in scored)
     exps = [math.exp((s[0] - best) / temp) for s in scored]
@@ -143,6 +169,7 @@ def predict(aroma_ids: list[int], family_ids: list[int] | None = None, *,
                 "region", "appellation", "grapes")},
             "matches": details,
             "exact": sum(1 for d in details if d["match"] == "exact"),
+            "structure": p["structure"],
             "suggest": unmatched_profile,
         })
     return {"results": results, "considered": len(candidates)}

@@ -59,10 +59,12 @@ class Command(BaseCommand):
         if not check:
             from django.core.cache import cache
 
+            from apps.explorer import graph as explorer_graph
             from apps.molecules import graph
 
             cache.clear()
             graph.reset()
+            explorer_graph.reset()
         verb = "validée" if check else "chargée"
         self.stdout.write(self.style.SUCCESS(
             f"Section Molécules {verb} : " + ", ".join(f"{v} {k}" for k, v in stats.items())

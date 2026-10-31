@@ -549,3 +549,20 @@ button.tag { cursor: pointer; font-family: inherit; }
 .reason--family .reason__dots i.is-on { background: #D9C08E; }
 .tag--imported { background: transparent; border: 1px dashed #8FA58A; }
 .badge-imported { display: inline-block; font-size: var(--step--1); color: var(--ink-2); background: var(--paper); border: 1px dashed var(--ink-3); border-radius: 3px; padding: .1rem .45rem; }
+.swatch--molecule { background: var(--verdigris); clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); border-radius: 0; }
+.swatch--source { background: var(--olive); border-radius: 3px; }
+
+/* Le Nez : la bouche */
+.mouth { margin-top: 1.25rem; }
+.mouth__title { font-size: var(--step-1); margin-bottom: .2rem; }
+.mouth__grid { display: grid; gap: .55rem; margin-top: .8rem; }
+.mouth__row { display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; gap: .6rem; }
+.mouth__axis { font-size: var(--step--1); color: var(--ink-2); }
+.mouth__terms { display: flex; flex-wrap: wrap; gap: .3rem; }
+.mouth__terms button { border: 1px solid var(--rule); background: var(--paper); border-radius: 999px; padding: .2rem .65rem;
+  font: 400 var(--step--1)/1.3 var(--sans); cursor: pointer; color: var(--ink); }
+.mouth__terms button:hover { border-color: var(--ink-3); }
+.mouth__terms button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.chip--sense { --hue: #23262F; font-family: var(--sans); font-size: var(--step-0); }
+.match__actual { color: var(--ink-3); }
+@media (max-width: 560px) { .mouth__row { grid-template-columns: 1fr; gap: .25rem; } }

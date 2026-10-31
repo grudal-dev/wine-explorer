@@ -3,7 +3,7 @@
 {% if not has_query %}
   <div class="nose-empty">
     <h2>Cinq vins vous attendent</h2>
-    <p class="muted">Commencez par l'arôme le plus net. Deux ou trois descripteurs suffisent souvent à reconnaître une appellation.</p>
+    <p class="muted">Commencez par l'arôme le plus net, puis ajoutez la bouche : un vin vif et léger ou puissant et tannique, ça départage vite. Deux ou trois descripteurs suffisent souvent à reconnaître une appellation.</p>
   </div>
 {% elif not result.results %}
   <p class="muted">Aucun profil ne correspond avec ces couleurs. Décochez une couleur pour élargir.</p>
@@ -23,7 +23,7 @@
       <div class="ranking__bar" aria-hidden="true"><span style="width: {% widthratio r.probability 1 100 %}%"></span></div>
       <ul class="matches">
         {% for m in r.matches %}
-          <li class="match match--{{ m.match }}">{{ m.name }}<span class="visually-hidden"> :
+          <li class="match match--{{ m.match }}{% if m.sense %} match--sense{% endif %}"{% if m.sense %} title="Ce vin : {{ m.actual }}"{% endif %}>{{ m.name }}{% if m.sense %} <span class="match__actual">({{ m.actual }})</span>{% endif %}<span class="visually-hidden"> :
             {% if m.match == "exact" %}présent{% elif m.match == "family" %}famille proche{% else %}absent{% endif %}</span></li>
         {% endfor %}
       </ul>
