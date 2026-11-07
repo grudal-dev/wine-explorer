@@ -37,6 +37,17 @@
     </div>
   </header>
 
+  {% if molecules_missing %}
+  <div class="flash" role="alert">
+    <p class="flash__item flash__item--warning">
+      <strong>La section Molécules n'est pas chargée</strong> dans cette base de données : le graphe et
+      la page Molécules restent vides. Dans le dossier du projet, lancez
+      <code>{% if molecules_unmigrated %}python manage.py migrate && {% endif %}python manage.py load_seed</code>,
+      puis rechargez la page.
+    </p>
+  </div>
+  {% endif %}
+
   {% if messages %}
   <div class="flash" role="status">
     {% for m in messages %}<p class="flash__item flash__item--{{ m.tags }}">{{ m }}</p>{% endfor %}

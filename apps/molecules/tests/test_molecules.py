@@ -252,3 +252,56 @@ class GraphAndViewTests(TestCase):
         self.assertEqual(self.client.get(reverse("molecules:api_graph") + "?kind=profile&slug=x").status_code, 404)
         self.assertEqual(self.client.get(reverse("molecules:panel", args=["autre:x"])).status_code, 404)
         self.assertEqual(self.client.get(reverse("molecules:molecule", args=["inexistante"])).status_code, 404)
+
+
+class MissingDataTests(TestCase):
+    """Code à jour mais `load_seed` pas relancé : le site doit le dire, pas afficher un graphe vide."""
+
+    @classmethod
+    def setUpTestData(cls):
+        call_command("load_seed", "--skip-molecules", stdout=StringIO())
+
+    def setUp(self):
+        from django.core.cache import cache
+
+        cache.clear()
+
+    def test_banner_when_molecules_not_loaded(self):
+        with self.settings(DEBUG=True):
+            html = self.client.get(reverse("molecules:explorer")).content.decode()
+        self.assertIn("La section Molécules n'est pas chargée", html)
+        self.assertIn("python manage.py load_seed", html)
+
+    def test_no_banner_in_production(self):
+        with self.settings(DEBUG=False):
+            html = self.client.get(reverse("molecules:explorer")).content.decode()
+        self.assertNotIn("pas chargée", html)
+
+    def test_graph_api_refreshed_after_loading(self):
+        url = reverse("explorer:api_graph") + "?types=appellation&types=molecule"
+        before = self.client.get(url).json()["stats"]["by_type"]["molecule"]
+        self.assertEqual(before, 0)
+        # Comme un `load_seed` lancé dans un autre terminal : le cache mémoire du serveur n'est pas vidé.
+        from unittest import mock
+
+        from django.core.cache import cache
+
+        with mock.patch.object(cache, "clear"):
+            call_command("load_molecules", stdout=StringIO())
+        after = self.client.get(url).json()["stats"]["by_type"]["molecule"]
+        self.assertGreater(after, 0)
+        with self.settings(DEBUG=True):
+            html = self.client.get(reverse("molecules:explorer")).content.decode()
+        self.assertNotIn("pas chargée", html)
+
+
+class DiagnosticTests(TestCase):
+    def test_reports_and_repairs_missing_molecules(self):
+        call_command("load_seed", "--skip-molecules", stdout=StringIO())
+        out = StringIO()
+        call_command("diagnostic", stdout=out)
+        self.assertIn("ne sont pas chargées dans CETTE base", out.getvalue())
+        out = StringIO()
+        call_command("diagnostic", "--reparer", stdout=out)
+        self.assertGreater(ProfileMolecule.objects.count(), 0)
+        self.assertIn("0 vin(s) sans molécule", out.getvalue())

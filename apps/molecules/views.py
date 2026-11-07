@@ -4,9 +4,9 @@ from collections import defaultdict
 from django.db.models import Count, Prefetch
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
 
+from apps.catalog.cache import cache_json
 from apps.catalog.models import WineProfile
 
 from . import graph
@@ -85,7 +85,7 @@ def api_graph(request):
     return JsonResponse(result)
 
 
-api_graph = cache_page(60 * 5)(api_graph)
+api_graph = cache_json(60 * 5, "molgraph")(api_graph)
 
 
 @require_GET
