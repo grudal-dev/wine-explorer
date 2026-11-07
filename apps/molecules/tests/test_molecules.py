@@ -293,3 +293,15 @@ class MissingDataTests(TestCase):
         with self.settings(DEBUG=True):
             html = self.client.get(reverse("molecules:explorer")).content.decode()
         self.assertNotIn("pas chargée", html)
+
+
+class DiagnosticTests(TestCase):
+    def test_reports_and_repairs_missing_molecules(self):
+        call_command("load_seed", "--skip-molecules", stdout=StringIO())
+        out = StringIO()
+        call_command("diagnostic", stdout=out)
+        self.assertIn("ne sont pas chargées dans CETTE base", out.getvalue())
+        out = StringIO()
+        call_command("diagnostic", "--reparer", stdout=out)
+        self.assertGreater(ProfileMolecule.objects.count(), 0)
+        self.assertIn("0 vin(s) sans molécule", out.getvalue())

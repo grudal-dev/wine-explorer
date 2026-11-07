@@ -13,6 +13,7 @@ pip install -r requirements.txt
 cp .env.example .env            # DJANGO_DEBUG=true pour le développement
 python manage.py migrate
 python manage.py load_seed      # charge le jeu de données France, puis la section Molécules
+python manage.py diagnostic     # si un vin n'a pas de molécules : base utilisée, contenu, réparation (--reparer)
 python manage.py createsuperuser
 python manage.py runserver
 ```
