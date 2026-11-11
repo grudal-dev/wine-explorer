@@ -1,0 +1,32 @@
+# Cépages italiens. Ceux qui existent déjà dans data/fr/grapes.yaml (merlot, chardonnay…) n'y sont pas répétés.
+# Pinot nero, moscato et cannonau sont des alias de cépages français (voir data/fr/grapes.yaml).
+- {name: Nebbiolo, skin: noir, origin: Piémont, synonyms: [Spanna, Chiavennasca]}
+- {name: Vespolina, skin: noir, origin: Haut-Piémont}
+- {name: Barbera, skin: noir, origin: Piémont}
+- {name: Dolcetto, skin: noir, origin: Piémont}
+- {name: Sangiovese, skin: noir, origin: Toscane, synonyms: [Sangioveto, Prugnolo Gentile]}
+- {name: Corvina, skin: noir, origin: Vénétie}
+- {name: Corvinone, skin: noir, origin: Vénétie}
+- {name: Rondinella, skin: noir, origin: Vénétie}
+- {name: Aglianico, skin: noir, origin: Campanie / Basilicate}
+- {name: Primitivo, skin: noir, origin: Pouilles / Croatie, synonyms: [Zinfandel, Tribidrag]}
+- {name: Negroamaro, skin: noir, origin: Pouilles}
+- {name: Malvasia Nera, skin: noir, origin: Pouilles}
+- {name: Nerello Mascalese, skin: noir, origin: Sicile}
+- {name: Nerello Cappuccio, skin: noir, origin: Sicile}
+- {name: Montepulciano, skin: noir, origin: Abruzzes}
+- {name: Sagrantino, skin: noir, origin: Ombrie}
+- {name: Lagrein, skin: noir, origin: Haut-Adige}
+- {name: Lambrusco di Sorbara, skin: noir, origin: Émilie-Romagne, synonyms: [Lambrusco]}
+- {name: Cortese, skin: blanc, origin: Piémont}
+- {name: Arneis, skin: blanc, origin: Roero}
+- {name: Garganega, skin: blanc, origin: Vénétie}
+- {name: Glera, skin: blanc, origin: Vénétie / Frioul, synonyms: [Prosecco]}
+- {name: Fiano, skin: blanc, origin: Campanie}
+- {name: Greco, skin: blanc, origin: Campanie, synonyms: [Greco di Tufo]}
+- {name: Verdicchio, skin: blanc, origin: Marches}
+- {name: Carricante, skin: blanc, origin: Etna}
+- {name: Friulano, skin: blanc, origin: Frioul, synonyms: [Tocai Friulano]}
+- {name: Ribolla Gialla, skin: blanc, origin: Frioul}
+- {name: Vernaccia di San Gimignano, skin: blanc, origin: Toscane, synonyms: [Vernaccia]}
+- {name: Vermentino, skin: blanc, origin: Ligurie / Sardaigne}

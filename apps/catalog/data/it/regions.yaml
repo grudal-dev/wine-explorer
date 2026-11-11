@@ -1,0 +1,91 @@
+# Régions et sous-régions viticoles italiennes (noms français usuels).
+# Coordonnées : centre approximatif, pour la carte et les indices de distance.
+country: {code: IT, name: Italie}
+regions:
+  - name: Piémont
+    lat: 44.70
+    lng: 8.00
+    description: Le pays du nebbiolo et du barbera, au pied des Alpes, entre brumes d'automne et collines de Langhe.
+    children:
+      - {name: Langhe, lat: 44.65, lng: 8.00}
+      - {name: Roero, lat: 44.78, lng: 7.95}
+      - {name: Monferrato, lat: 44.98, lng: 8.30}
+      - {name: Haut-Piémont, lat: 45.62, lng: 8.37}
+  - name: Toscane
+    lat: 43.40
+    lng: 11.20
+    description: Terre du sangiovese, des collines du Chianti aux plages de la Maremme où s'installent les cépages bordelais.
+    children:
+      - {name: Chianti, lat: 43.50, lng: 11.30}
+      - {name: Montalcino, lat: 43.05, lng: 11.49}
+      - {name: Montepulciano, lat: 43.10, lng: 11.78}
+      - {name: Maremme, lat: 43.23, lng: 10.60}
+      - {name: San Gimignano, lat: 43.47, lng: 11.04}
+  - name: Vénétie
+    lat: 45.60
+    lng: 11.60
+    description: La plus grande région productrice d'Italie, de l'Amarone aux bulles de prosecco.
+    children:
+      - {name: Valpolicella, lat: 45.53, lng: 10.87}
+      - {name: Soave, lat: 45.42, lng: 11.25}
+      - {name: Conegliano-Valdobbiadene, lat: 45.90, lng: 12.09}
+  - name: Lombardie
+    lat: 45.60
+    lng: 9.90
+    description: Au pied des Alpes lombardes, des bulles élaborées par la méthode traditionnelle.
+    children:
+      - {name: Franciacorta, lat: 45.60, lng: 10.00}
+  - name: Trentin-Haut-Adige
+    lat: 46.50
+    lng: 11.30
+    description: Vignobles de montagne aux nuits fraîches, où les blancs gardent une grande précision.
+  - name: Frioul-Vénétie Julienne
+    lat: 46.00
+    lng: 13.40
+    description: Région frontalière du nord-est, réputée pour ses blancs de cépage.
+    children:
+      - {name: Collio, lat: 45.96, lng: 13.58}
+  - name: Émilie-Romagne
+    lat: 44.60
+    lng: 11.00
+    description: Pays du parmesan et du lambrusco, des vins pétillants faits pour la table.
+  - name: Marches
+    lat: 43.50
+    lng: 13.20
+    description: Côte adriatique de collines, patrie du verdicchio.
+  - name: Ombrie
+    lat: 42.90
+    lng: 12.60
+    description: Cœur vert de l'Italie, où le sagrantino donne l'un des rouges les plus tanniques du monde.
+  - name: Abruzzes
+    lat: 42.20
+    lng: 14.10
+    description: Entre Apennins et Adriatique, le pays du montepulciano.
+  - name: Campanie
+    lat: 40.90
+    lng: 14.80
+    description: Cépages antiques de l'arrière-pays napolitain, sur sols volcaniques.
+    children:
+      - {name: Irpinie, lat: 40.98, lng: 14.95}
+  - name: Basilicate
+    lat: 40.90
+    lng: 15.80
+    description: Les pentes du volcan éteint Vulture, terre de l'aglianico.
+  - name: Pouilles
+    lat: 40.90
+    lng: 17.00
+    description: Le talon de la botte, chaud et sec, aux rouges généreux.
+    children:
+      - {name: Salento, lat: 40.35, lng: 18.00}
+  - name: Sicile
+    lat: 37.60
+    lng: 14.20
+    description: La plus grande île de la Méditerranée, entre soleil et pentes volcaniques.
+    children:
+      - {name: Etna, lat: 37.75, lng: 15.00}
+  - name: Sardaigne
+    lat: 40.10
+    lng: 9.00
+    description: Île de vents et de granite, aux vins marqués par la chaleur et le sel.
+    children:
+      - {name: Gallura, lat: 40.90, lng: 9.30}

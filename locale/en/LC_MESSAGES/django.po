@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Terroirs VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-11 17:15+0100\n"
+"POT-Creation-Date: 2026-11-12 00:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -336,6 +336,9 @@ msgstr "Give up and see the answer"
 msgid "Abandonnée"
 msgstr "Abandoned"
 
+msgid "Abruzzes"
+msgstr "Abruzzo"
+
 msgid "Accords"
 msgstr "Food pairings"
 
@@ -344,6 +347,13 @@ msgstr "Acidity"
 
 msgid "Adresse e-mail"
 msgstr "Email address"
+
+msgid ""
+"Aglianico des pentes d'un volcan éteint, plus ensoleillé et plus souple que celui de Campanie, mais tout "
+"aussi sérieux."
+msgstr ""
+"Aglianico from the slopes of an extinct volcano, sunnier and suppler than the Campanian version, but just "
+"as serious."
 
 msgid "Agrumes"
 msgstr "Citrus"
@@ -436,6 +446,12 @@ msgstr "Aromas: minimum intensity"
 msgid "Arômes associés"
 msgstr "Associated aromas"
 
+msgid "Assemblage blanc des collines de marnes et de grès, structuré et complexe, à la frontière slovène."
+msgstr "A white blend from hills of marl and sandstone on the Slovenian border, structured and complex."
+
+msgid "Assemblage bordelais sous le soleil de la côte toscane, né des « super toscans » et devenu un classique."
+msgstr "A Bordeaux-style blend under the sun of the Tuscan coast, born of the \"Super Tuscans\" and now a classic."
+
 msgid "Au nez"
 msgstr "On the nose"
 
@@ -445,6 +461,9 @@ msgstr "On the nose: %(aroma)s (%(level)s)"
 
 msgid "Au nez, il rappelle"
 msgstr "On the nose, it recalls"
+
+msgid "Au pied des Alpes lombardes, des bulles élaborées par la méthode traditionnelle."
+msgstr "At the foot of the Lombard Alps, sparkling wines made by the traditional method."
 
 msgid "Aucun chemin entre ces deux entités."
 msgstr "No path between these two entities."
@@ -529,6 +548,9 @@ msgstr ""
 msgid "Barème"
 msgstr "Scoring"
 
+msgid "Basilicate"
+msgstr "Basilicata"
+
 msgid "Beaujolais"
 msgstr "Beaujolais"
 
@@ -541,6 +563,13 @@ msgstr "White"
 
 msgid "Blanc ample et capiteux, aux notes de sous-bois fumé et de fruits jaunes, du sec au moelleux."
 msgstr "Full, heady white with notes of smoky undergrowth and yellow fruit, from dry to medium-sweet."
+
+msgid ""
+"Blanc ample et minéral des sols soufrés d'un village de l'Irpinie, plus structuré que la plupart des blancs"
+" du Sud."
+msgstr ""
+"A broad, mineral white from the sulphurous soils of an Irpinian village, more structured than most southern"
+" whites."
 
 msgid "Blanc ample et riche du sud, aux fleurs blanches et à l'anis, rare au regard de la production de rouge."
 msgstr "Full, rich southern white with white flowers and aniseed, rare compared with the red production."
@@ -555,8 +584,23 @@ msgstr ""
 "Chenin white on tuffeau limestone, dry to off-dry depending on the year, always carried by a luminous "
 "acidity and notes of quince and acacia."
 
+msgid "Blanc de l'Adriatique tendu et amer en finale, qui prend de la profondeur avec quelques années."
+msgstr "A taut Adriatic white with a bitter finish, which gains depth with a few years."
+
+msgid "Blanc de l'Irpinie dont la noisette signe le cépage, qui gagne en cire et en miel avec l'âge."
+msgstr "A white whose hazelnut character is the signature of the grape, gaining wax and honey notes with age."
+
+msgid "Blanc de la garganega sur sols volcaniques, entre fleurs blanches et amande, qui vieillit avec distinction."
+msgstr "A garganega white from volcanic soils, between white flowers and almond, which ages gracefully."
+
 msgid "Blanc de montagne léger et vif, peu alcoolisé, aux notes de pierre et de fleurs alpines."
 msgstr "Light, crisp mountain white, low in alcohol, with notes of stone and alpine flowers."
+
+msgid "Blanc de montagne précis et équilibré, fruit de grands écarts de température entre le jour et la nuit."
+msgstr "A precise, balanced mountain white, shaped by large temperature swings between day and night."
+
+msgid "Blanc de sable aux arômes de poire et d'amande, rond mais frais, autrefois surnommé « le petit rebelle »."
+msgstr "A white from sandy soils with pear and almond aromas, round yet fresh, once nicknamed \"the little rascal\"."
 
 msgid "Blanc de vermentinu ample et salin, aux notes d'anis et d'amande."
 msgstr "Full, saline Vermentinu white with notes of aniseed and almond."
@@ -566,6 +610,9 @@ msgstr "Opulent, perfumed white with apricot and peach aromas, the temple of Vio
 
 msgid "Blanc plus ample de l'altesse, aux notes d'amande et de bergamote, qui gagne en miel avec l'âge."
 msgstr "Fuller white from Altesse, with notes of almond and bergamot, gaining honey with age."
+
+msgid "Blanc sarde sur granite, salin et citronné, le seul de l'île classé en DOCG."
+msgstr "A Sardinian white on granite, saline and lemony, the only one on the island ranked DOCG."
 
 msgid ""
 "Blanc sec austère et racé sur schistes, d'une acidité tranchante et d'une texture presque tannique. Il "
@@ -601,10 +648,19 @@ msgstr ""
 "Crisp, thirst-quenching dry white from between two rivers, with crunchy citrus and fresh-grass fruit, to "
 "drink young."
 
+msgid "Blanc sec, tendu et minéral, issu du seul cortese sur les argiles blanches de l'Alessandrino."
+msgstr "A dry, taut, mineral white made from cortese alone on the white clays of the Alessandria hills."
+
 msgid ""
 "Blanc solaire et salin entre calanques et falaises calcaires, la référence locale pour les produits de la "
 "mer."
 msgstr "Sunny, saline white between rocky inlets and limestone cliffs, the local reference for seafood."
+
+msgid "Blanc toscan sec et tendu, à la finale légèrement amère d'amande, cultivé autour de la ville aux tours."
+msgstr "A dry, taut Tuscan white with a slightly bitter almond finish, grown around the town of towers."
+
+msgid "Blanc vertical et salin, cultivé jusqu'à 1 000 mètres d'altitude, qui vieillit remarquablement bien."
+msgstr "A vertical, saline white grown up to 1,000 metres above sea level, which ages remarkably well."
 
 msgid "Blanc vif et citronné, longtemps réservé au kir, aujourd'hui revalorisé par des vignes anciennes."
 msgstr "Crisp, lemony white, long reserved for kir, now revived by old vines."
@@ -661,6 +717,12 @@ msgstr "Yes, it is a %(appellation)s!"
 
 msgid "Cahors"
 msgstr "Cahors"
+
+msgid "Campanie"
+msgstr "Campania"
+
+msgid "Campanie / Basilicate"
+msgstr "Campania / Basilicata"
 
 msgid "Capitale mondiale du rosé pâle, avec quelques rouges et blancs de caractère."
 msgstr "World capital of pale rosé, with a few reds and whites of character."
@@ -723,11 +785,11 @@ msgstr ""
 
 msgid ""
 "Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, "
-"même coin de France. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à "
-"la main."
+"même coin de vignoble. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à"
+" la main."
 msgstr ""
 "Each dot is a wine. Two neighbouring dots are alike: same aromas, same grapes, same palate, same corner of "
-"France. The positions are learned by a neural network on the graph, not drawn by hand."
+"the vineyard. The positions are learned by a neural network on the graph, not drawn by hand."
 
 msgid ""
 "Chardonnay ample et beurré, aux arômes de noisette grillée, élevé sous bois avec une générosité qui "
@@ -774,6 +836,9 @@ msgstr "Search"
 msgid "Chercher les vins qui sentent %(aroma_name)s"
 msgstr "Find wines that smell of %(aroma_name)s"
 
+msgid "Chianti"
+msgstr "Chianti"
+
 msgid "Choisir un point de départ"
 msgstr "Choose a starting point"
 
@@ -819,6 +884,9 @@ msgstr "Click a molecule"
 msgid "Code INAO"
 msgstr "INAO code"
 
+msgid "Collio"
+msgstr "Collio"
+
 msgid "Colorer les vins par"
 msgstr "Colour wines by"
 
@@ -862,6 +930,9 @@ msgstr "Key compound in most fermented dairy products."
 
 msgid "Concentrique"
 msgstr "Concentric"
+
+msgid "Conegliano-Valdobbiadene"
+msgstr "Conegliano-Valdobbiadene"
 
 msgid "Connexion"
 msgstr "Log in"
@@ -908,11 +979,17 @@ msgstr "Grapes"
 msgid "Cépages : part minimale"
 msgstr "Grapes: minimum share"
 
+msgid "Cépages antiques de l'arrière-pays napolitain, sur sols volcaniques."
+msgstr "Ancient grape varieties of the Neapolitan hinterland, on volcanic soils."
+
 msgid "Cépages les plus présents"
 msgstr "Most common grapes"
 
 msgid "Cétone"
 msgstr "Ketone"
+
+msgid "Côte adriatique de collines, patrie du verdicchio."
+msgstr "A hilly Adriatic coast, home of verdicchio."
 
 msgid "Côte chalonnaise"
 msgstr "Côte Chalonnaise"
@@ -928,6 +1005,9 @@ msgstr "Côte des Blancs"
 
 msgid "Côte-Rôtie, rotundone, truffe…"
 msgstr "Côte-Rôtie, rotundone, truffle…"
+
+msgid "Cœur vert de l'Italie, où le sagrantino donne l'un des rouges les plus tanniques du monde."
+msgstr "The green heart of Italy, where sagrantino makes one of the most tannic reds in the world."
 
 msgid "D'après Winter et Enggist, 1971."
 msgstr "After Winter and Enggist, 1971."
@@ -1062,6 +1142,11 @@ msgid ""
 "briochée."
 msgstr "Traditional-method sparkling wine aged in tuffeau cellars, fresh and fruity, with a hint of brioche."
 
+msgid ""
+"Effervescent léger et fruité, élaboré en cuve close sur des collines abruptes classées au patrimoine "
+"mondial."
+msgstr "A light, fruity sparkling wine made in tank on steep hills listed as a World Heritage site."
+
 msgid "Effervescent rosé le plus souvent obtenu par assemblage de vin rouge, gourmand de petits fruits rouges."
 msgstr "Rosé sparkling wine most often made by blending in red wine, moreish with small red berries."
 
@@ -1094,6 +1179,9 @@ msgstr "Entities shown"
 #, python-format
 msgid "Entre %(min)s et %(max)s € la bouteille."
 msgstr "Between €%(min)s and €%(max)s a bottle."
+
+msgid "Entre Apennins et Adriatique, le pays du montepulciano."
+msgstr "Between the Apennines and the Adriatic, montepulciano country."
 
 msgid ""
 "Entre puissance et finesse, un rouge harmonieux et régulier, au fruit noir net et au boisé de cèdre bien "
@@ -1156,6 +1244,9 @@ msgstr "And %(n_wines)s more in the graph."
 #, python-format
 msgid "Et cette appellation ne produit pas de %(color)s ici."
 msgstr "And this appellation does not make %(color)s wine."
+
+msgid "Etna"
+msgstr "Etna"
 
 msgid "Eugénol, principal arôme du clou de girofle, présent dans le chêne brut ; vanilline et lactones du chêne."
 msgstr "Eugenol, the main aroma of clove, present in raw oak; vanillin and oak lactones."
@@ -1261,6 +1352,15 @@ msgstr ""
 msgid "Formée pendant la fermentation de tous les vins"
 msgstr "Formed during the fermentation of every wine"
 
+msgid "Franciacorta"
+msgstr "Franciacorta"
+
+msgid "Frioul"
+msgstr "Friuli"
+
+msgid "Frioul-Vénétie Julienne"
+msgstr "Friuli-Venezia Giulia"
+
 msgid "Fruit"
 msgstr "Fruit"
 
@@ -1291,6 +1391,9 @@ msgstr "Gaillac"
 msgid "Gaillac / Limoux"
 msgstr "Gaillac / Limoux"
 
+msgid "Gallura"
+msgstr "Gallura"
+
 msgid "Garde"
 msgstr "Ageing"
 
@@ -1317,6 +1420,12 @@ msgstr "Grey / pink"
 
 msgid "Géographie"
 msgstr "Geography"
+
+msgid "Haut-Adige"
+msgstr "South Tyrol (Alto Adige)"
+
+msgid "Haut-Piémont"
+msgstr "Upper Piedmont"
 
 msgid "Herbe aromatique"
 msgstr "Aromatic herb"
@@ -1412,6 +1521,9 @@ msgstr "Information"
 
 msgid "Initiale de la région"
 msgstr "First letter of the region"
+
+msgid "Irpinie"
+msgstr "Irpinia"
 
 msgid ""
 "Isomère du géraniol, l'un des trois terpènes qui font le goût « muscaté ». Il tient son nom de l'essence de"
@@ -1603,6 +1715,12 @@ msgstr ""
 msgid "La partie est terminée."
 msgstr "The game is over."
 
+msgid "La plus grande région productrice d'Italie, de l'Amarone aux bulles de prosecco."
+msgstr "Italy's largest producing region, from Amarone to prosecco bubbles."
+
+msgid "La plus grande île de la Méditerranée, entre soleil et pentes volcaniques."
+msgstr "The largest island in the Mediterranean, between sun and volcanic slopes."
+
 msgid "La robe et le style sont déjà visibles sur la fiche : cet essai n'est pas compté."
 msgstr "The colour and style are already shown on the sheet: this attempt is not counted."
 
@@ -1612,6 +1730,9 @@ msgstr "The aroma wheel"
 #, python-format
 msgid "La région commence par « %(letter)s »."
 msgstr "The region begins with “%(letter)s”."
+
+msgid "La réponse lombarde à la Champagne : méthode traditionnelle, longues lies, bulles fines et finesse lactique."
+msgstr "Lombardy's answer to Champagne: traditional method, long lees ageing, fine bubbles and creamy finesse."
 
 msgid "La section"
 msgstr "The"
@@ -1656,6 +1777,9 @@ msgstr ""
 
 msgid "Lancer un blind test"
 msgstr "Start a blind tasting"
+
+msgid "Langhe"
+msgstr "Langhe"
 
 msgid "Langue"
 msgstr "Language"
@@ -1745,6 +1869,9 @@ msgstr ""
 msgid "Le graphe"
 msgstr "The graph"
 
+msgid "Le grenache sarde, nommé cannonau, chaleureux et épicé, élevé sur granite et face à la mer."
+msgstr "Sardinian grenache, called cannonau: warm and spicy, grown on granite facing the sea."
+
 #, python-format
 msgid ""
 "Le jeu de données de référence est volontairement réduit et propre : chaque profil type a été rédigé et "
@@ -1767,6 +1894,9 @@ msgid ""
 msgstr ""
 "The truffle scent of great aged wines. Its precursor, the grape's S-methylmethionine, breaks down slowly in"
 " bottle, away from oxygen. With two thiols, it signs the ageing bouquet of red Bordeaux."
+
+msgid "Le pays du nebbiolo et du barbera, au pied des Alpes, entre brumes d'automne et collines de Langhe."
+msgstr "Home of nebbiolo and barbera, at the foot of the Alps, between autumn mists and the hills of the Langhe."
 
 msgid "Le pinot de la dentelle, aérien et parfumé, sur des sols calcaires peu argileux. Plus de soie que de muscle."
 msgstr "The lace-like Pinot, airy and perfumed, on limestone soils with little clay. More silk than muscle."
@@ -1820,6 +1950,13 @@ msgstr ""
 "The main aroma of clove, already present in raw oak and reinforced by air-drying and toasting. It gives "
 "barrel-aged wine its spicy note."
 
+msgid ""
+"Le roi des vins italiens, un nebbiolo clair de robe mais puissant en tanins, qui évoque la rose fanée et le"
+" goudron avec les années."
+msgstr ""
+"The king of Italian wines: a pale-coloured but powerfully tannic nebbiolo that evokes faded rose and tar "
+"with age."
+
 msgid "Le rosé pâle de référence, sec, délicat et désaltérant, obtenu par pressurage direct."
 msgstr "The benchmark pale rosé, dry, delicate and thirst-quenching, made by direct pressing."
 
@@ -1828,6 +1965,9 @@ msgstr "The most structured red of the Côte de Beaune, on iron-rich clay, firm 
 
 msgid "Le royaume du gamay sur granite, des primeurs gouleyants aux crus de garde."
 msgstr "The kingdom of Gamay on granite, from easy-drinking nouveau wines to age-worthy crus."
+
+msgid "Le talon de la botte, chaud et sec, aux rouges généreux."
+msgstr "The heel of the boot, hot and dry, with generous reds."
 
 msgid ""
 "Le terpène dominant des Muscats, qui donne leur goût de raisin frais. Il est présent dans la peau, en "
@@ -1867,6 +2007,13 @@ msgstr "Today's wine is a %(color)s. On the nose:"
 #, python-format
 msgid "Le vin est à environ %(km)s km %(direction)s."
 msgstr "The wine is about %(km)s km %(direction)s."
+
+msgid ""
+"Le « Barolo du Sud », aglianico sombre et tannique des collines volcaniques de l'Irpinie, très long à "
+"s'ouvrir."
+msgstr ""
+"The \"Barolo of the South\": dark, tannic aglianico from the volcanic hills of Irpinia, very slow to open "
+"up."
 
 msgid ""
 "Le « céleri perpétuel » des potagers, à l'odeur d'arôme Maggi : sotolon, β-damascénone et furanéol en sont "
@@ -1942,6 +2089,9 @@ msgstr "The molecules that %(source_name)s shares with wine, and the wines that 
 msgid "Les parties jouées sans compte sur cet appareil vous seront rattachées."
 msgstr "Games played without an account on this device will be attached to your account."
 
+msgid "Les pentes du volcan éteint Vulture, terre de l'aglianico."
+msgstr "The slopes of the extinct Vulture volcano, land of aglianico."
+
 msgid "Les publications qui justifient les liens affichés, de la plus citée à la moins citée."
 msgstr "The publications that justify the links shown, from most to least cited."
 
@@ -1982,6 +2132,9 @@ msgstr "Links by aroma family"
 msgid "Ligurie / Provence"
 msgstr "Liguria / Provence"
 
+msgid "Ligurie / Sardaigne"
+msgstr "Liguria / Sardinia"
+
 msgid "Limites"
 msgstr "Limitations"
 
@@ -2014,6 +2167,9 @@ msgstr "Reading the temperature"
 msgid "Loire / Bordeaux"
 msgstr "Loire / Bordeaux"
 
+msgid "Lombardie"
+msgstr "Lombardy"
+
 msgid "Légende des couleurs"
 msgstr "Colour legend"
 
@@ -2025,6 +2181,12 @@ msgstr "3-methyl-2,4-nonanedione"
 
 msgid "Madiran"
 msgstr "Madiran"
+
+msgid "Marches"
+msgstr "Marche"
+
+msgid "Maremme"
+msgstr "Maremma"
 
 msgid "Marqueur de son cépage"
 msgstr "Marker of its grape"
@@ -2084,14 +2246,26 @@ msgstr "Molecules: method and sources"
 msgid "Molécules partagées avec le vin"
 msgstr "Molecules shared with wine"
 
+msgid "Monferrato"
+msgstr "Monferrato"
+
 msgid "Monoterpène"
 msgstr "Monoterpene"
 
 msgid "Montagne de Reims"
 msgstr "Montagne de Reims"
 
+msgid "Montalcino"
+msgstr "Montalcino"
+
+msgid "Montepulciano"
+msgstr "Montepulciano"
+
 msgid "Mosaïque de climats où le pinot noir et le chardonnay expriment chaque parcelle."
 msgstr "A mosaic of climats where Pinot Noir and Chardonnay express each plot."
+
+msgid "Muscat doux à peine pétillant, très faible en alcool, parfumé comme du raisin frais."
+msgstr "A sweet, barely sparkling muscat, very low in alcohol, as fragrant as fresh grapes."
 
 msgid "Muscat vinifié sec, qui sent le raisin frais croqué, léger et floral ; rare et singulier."
 msgstr "Muscat made dry, smelling of freshly bitten grapes, light and floral; rare and singular."
@@ -2131,6 +2305,12 @@ msgid ""
 "Naviguez de la région à l'appellation, du cépage à l'arôme. Cherchez le chemin qui relie le chablis au "
 "litchi."
 msgstr "Travel from region to appellation, from grape to aroma. Look for the path that links Chablis to lychee."
+
+msgid "Nebbiolo des sols volcaniques du nord du Piémont, plus fin et plus minéral que celui des Langhe."
+msgstr "Nebbiolo from the volcanic soils of northern Piedmont, finer and more mineral than that of the Langhe."
+
+msgid "Nebbiolo plus précoce et plus soyeux que son voisin, des collines proches du Tanaro."
+msgstr "A nebbiolo that is earlier-maturing and silkier than its neighbour, from the hills along the Tanaro."
 
 msgid "Noir"
 msgstr "Black"
@@ -2181,6 +2361,9 @@ msgstr "Important odorant of tomato and rose, also identified in roasted cocoa b
 
 msgid "Odorant important des houblons aromatiques du Nouveau Monde."
 msgstr "Important odorant of New World aroma hops."
+
+msgid "Ombrie"
+msgstr "Umbria"
 
 msgid "On la retrouve dans"
 msgstr "Also found in"
@@ -2279,6 +2462,9 @@ msgstr "No vector for this entity yet: run the training again."
 msgid "Pauillac, syrah, violette…"
 msgstr "Pauillac, Syrah, violet…"
 
+msgid "Pays du parmesan et du lambrusco, des vins pétillants faits pour la table."
+msgstr "Land of Parmesan and lambrusco, sparkling wines made for the table."
+
 msgid "Pays nantais"
 msgstr "Pays Nantais"
 
@@ -2303,6 +2489,9 @@ msgstr "Robust, earthy Pinot Noir, more tannic than its neighbours, with aromas 
 msgid "Pinot noir septentrional léger et digeste, aux fruits rouges acidulés et aux tanins délicats."
 msgstr "Light, digestible northern Pinot Noir with tangy red fruit and delicate tannins."
 
+msgid "Piémont"
+msgstr "Piedmont"
+
 msgid "Plante et feuillage"
 msgstr "Plant and foliage"
 
@@ -2320,6 +2509,12 @@ msgstr "Points"
 
 msgid "Points de départ"
 msgstr "Starting points"
+
+msgid "Pouilles"
+msgstr "Apulia"
+
+msgid "Pouilles / Croatie"
+msgstr "Apulia / Croatia"
 
 msgid "Pour confirmer, cherchez aussi :"
 msgstr "To confirm, also look for:"
@@ -2514,6 +2709,9 @@ msgstr "Southern Rhône"
 msgid "Rhône septentrional"
 msgstr "Northern Rhône"
 
+msgid "Roero"
+msgstr "Roero"
+
 msgid "Rosé"
 msgstr "Rosé"
 
@@ -2535,12 +2733,22 @@ msgstr "Peppery, purple-hued Alpine red with vivid fruit and lively acidity."
 msgid "Rouge chaleureux du piémont de la Montagne Noire, fruité et velouté."
 msgstr "Warm red from the foothills of the Montagne Noire, fruity and velvety."
 
+msgid "Rouge chaleureux et dense, le cousin italien du zinfandel californien, aux arômes de confiture de prunes."
+msgstr "A warm, dense red, the Italian cousin of Californian zinfandel, with plum-jam aromas."
+
 msgid ""
 "Rouge chaleureux sur galets roulés, généreux et épicé, où le grenache domine un assemblage qui peut compter"
 " jusqu'à treize cépages."
 msgstr ""
 "Warm red on rolled pebbles, generous and spicy, where Grenache dominates a blend that can include up to "
 "thirteen varieties."
+
+msgid ""
+"Rouge clair et tendu des pentes de l'Etna, souvent comparé au pinot noir et au nebbiolo, avec un côté fumé "
+"volcanique."
+msgstr ""
+"A pale, taut red from the slopes of Etna, often compared to pinot noir and nebbiolo, with a smoky volcanic "
+"edge."
 
 msgid "Rouge d'IGP de cépages internationaux, fruité et souple, souvent étiqueté au nom du cépage."
 msgstr "IGP red from international varieties, fruity and supple, often labelled by grape name."
@@ -2570,6 +2778,9 @@ msgstr ""
 msgid "Rouge de schistes, sombre et fumé, au toucher velouté et à la finale minérale."
 msgstr "Schist red, dark and smoky, with a velvety feel and a mineral finish."
 
+msgid "Rouge de tous les jours du Piémont, très fruité et vif, aux tanins discrets."
+msgstr "Piedmont's everyday red: very fruity and lively, with discreet tannins."
+
 msgid ""
 "Rouge de tous les jours, fruité et souple, avec une trame tannique modérée et une pointe végétale de "
 "cabernet."
@@ -2578,11 +2789,21 @@ msgstr "Everyday red, fruity and supple, with a moderate tannic frame and a gree
 msgid "Rouge du cap insulaire sur argilo-calcaire, structuré et parfumé de maquis."
 msgstr "Red from the island's cape on clay-limestone, structured and scented with maquis."
 
+msgid "Rouge du talon de la botte, chaud et épicé, à la finale légèrement amère qui fait l'identité du negroamaro."
+msgstr "A red from the heel of the boot, warm and spicy, with the slightly bitter finish that defines negroamaro."
+
 msgid "Rouge friand sur tuffeau, juteux et frais, aux tanins fins, qui se boit légèrement rafraîchi."
 msgstr "Appetising red on tuffeau, juicy and fresh, with fine tannins, to drink lightly chilled."
 
 msgid "Rouge fruité et épicé du quotidien, assemblage méridional porté par le grenache."
 msgstr "Fruity, spicy everyday red, a southern blend led by Grenache."
+
+msgid ""
+"Rouge généreux et facile des Abruzzes, au fruit noir mûr et aux tanins souples. Le cépage n'a rien à voir "
+"avec la ville toscane."
+msgstr ""
+"A generous, easy red from Abruzzo with ripe dark fruit and supple tannins. The grape has nothing to do with"
+" the Tuscan town."
 
 msgid "Rouge languedocien entre schistes au nord et argilo-calcaires au sud, généreux et parfumé de garrigue."
 msgstr ""
@@ -2604,11 +2825,19 @@ msgstr "Light, easy-drinking red, often made by carbonic maceration, giving off 
 msgid "Rouge méridional charnu et épicé, voisin plus rustique de Gigondas."
 msgstr "Fleshy, spicy southern red, the more rustic neighbour of Gigondas."
 
+msgid ""
+"Rouge puissant et sec issu de raisins séchés plusieurs mois sur claies, aux arômes de fruits confits et de "
+"chocolat."
+msgstr "A powerful, dry red made from grapes dried for months on racks, with candied fruit and chocolate aromas."
+
 msgid "Rouge pâle et poivré des arènes granitiques, élégant et délicat, d'une originalité réelle."
 msgstr "Pale, peppery red from granite sands, elegant and delicate, genuinely original."
 
 msgid "Rouge pâle, presque rosé, aérien et épicé, typique des cépages jurassiens à peau fine."
 msgstr "Pale red, almost rosé, airy and spicy, typical of the thin-skinned Jura varieties."
+
+msgid "Rouge pétillant pâle et vif, très floral, que l'on boit frais pour trancher le gras de la cuisine émilienne."
+msgstr "A pale, lively sparkling red, very floral, drunk chilled to cut through the richness of Emilian cooking."
 
 msgid "Rouge rustique et solaire d'une mosaïque de terroirs, dominé par le vieux carignan."
 msgstr "Rustic, sunny red from a mosaic of terroirs, dominated by old Carignan."
@@ -2617,6 +2846,14 @@ msgid ""
 "Rouge sec des terrasses de schistes plongeant dans la Méditerranée, sur le même terroir qu'un célèbre vin "
 "doux."
 msgstr "Dry red from schist terraces plunging into the Mediterranean, on the same terroir as a famous sweet wine."
+
+msgid "Rouge sombre et dense du Haut-Adige, fruité et chocolaté, plus tendre que sa robe ne le laisse croire."
+msgstr "A dark, dense red from South Tyrol, fruity and chocolatey, softer than its colour suggests."
+
+msgid "Rouge souple au fruit noir et à la finale légèrement amère, malgré son nom (« petit doux »), il est sec."
+msgstr ""
+"A supple red with dark fruit and a slightly bitter finish; despite its name (\"little sweet one\"), it is "
+"dry."
 
 msgid "Rouge souple et accessible, au fruit noir sur un fond légèrement fumé caractéristique des sols de graves."
 msgstr "Supple, approachable red, with black fruit over a lightly smoky background characteristic of gravel soils."
@@ -2627,6 +2864,11 @@ msgid ""
 msgstr ""
 "Suave, opulent red on clay and iron-rich subsoil, with a rare velvety texture and notes of truffle and dark"
 " chocolate."
+
+msgid ""
+"Rouge très tannique d'un cépage presque exclusif à son terroir d'origine, qui demande des années pour "
+"s'assouplir."
+msgstr "A very tannic red from a grape almost exclusive to its home area, which needs years to soften."
 
 msgid ""
 "Rouge velouté sur un plateau calcaire, ample et charnu, au fruit noir mûr adouci par le merlot. Avec l'âge,"
@@ -2640,6 +2882,9 @@ msgstr "Roussillon"
 
 msgid "Région"
 msgstr "Region"
+
+msgid "Région frontalière du nord-est, réputée pour ses blancs de cépage."
+msgstr "A north-eastern border region, known for its varietal white wines."
 
 msgid "Région viticole"
 msgstr "Wine region"
@@ -2675,8 +2920,30 @@ msgstr ""
 msgid "Saisissez une région, une appellation ou un cépage."
 msgstr "Enter a region, an appellation or a grape."
 
+msgid "Salento"
+msgstr "Salento"
+
+msgid "San Gimignano"
+msgstr "San Gimignano"
+
 msgid "Sancerre, gamay, violette…"
 msgstr "Sancerre, Gamay, violet…"
+
+msgid ""
+"Sangiovese de la ville perchée de Montepulciano, plus rond que le chianti et plus accessible que le "
+"brunello."
+msgstr "Sangiovese from the hilltop town of Montepulciano, rounder than chianti and more approachable than brunello."
+
+msgid "Sangiovese des collines entre Florence et Sienne, vif, ferme et cerisé, fait pour la table toscane."
+msgstr ""
+"Sangiovese from the hills between Florence and Siena: lively, firm and cherry-scented, made for the Tuscan "
+"table."
+
+msgid "Sangiovese en pureté de la colline de Montalcino, long élevage obligatoire et grand potentiel de garde."
+msgstr "Pure sangiovese from the hill of Montalcino, with compulsory long ageing and great potential to keep."
+
+msgid "Sardaigne"
+msgstr "Sardinia"
 
 msgid "Sauternais"
 msgstr "Sauternais"
@@ -2757,6 +3024,12 @@ msgstr "Thresholds of monoterpenes (nerol, geraniol, α-terpineol, citronellol, 
 
 msgid "Seul rouge du vignoble, léger et fruité, de plus en plus profond chez les meilleurs producteurs."
 msgstr "The only red of the vineyard, light and fruity, increasingly deep in the hands of the best producers."
+
+msgid "Sicile"
+msgstr "Sicily"
+
+msgid "Soave"
+msgstr "Soave"
 
 msgid "Socle aromatique commun à tous les vins (éthanol et 27 composés de fermentation)."
 msgstr "Aromatic base common to all wines (ethanol and 27 fermentation compounds)."
@@ -2855,6 +3128,9 @@ msgstr ""
 "Terpene of Muscats and Gewurztraminer, which also forms in bottle from linalool and geraniol: the floral "
 "note of aromatic wines slides with age towards lilac and resin."
 
+msgid "Terre du sangiovese, des collines du Chianti aux plages de la Maremme où s'installent les cépages bordelais."
+msgstr "Sangiovese country, from the hills of Chianti to the Maremma coast where Bordeaux grapes have settled."
+
 msgid "Terroirs, accueil"
 msgstr "Terroirs, home"
 
@@ -2866,6 +3142,9 @@ msgstr "Thiol"
 
 msgid "Thiols variétaux recensés dans le Grenache, le Merlot, le Cabernet-Sauvignon et les rosés de Provence."
 msgstr "Varietal thiols recorded in Grenache, Merlot, Cabernet Sauvignon and Provence rosés."
+
+msgid "Toscane"
+msgstr "Tuscany"
 
 msgid "Total"
 msgstr "Total"
@@ -2895,17 +3174,20 @@ msgid ""
 "alcool de feuille »."
 msgstr "Any crushed leaf releases C6 compounds within seconds, including (Z)-3-hexen-1-ol, or \"leaf alcohol\"."
 
-msgid "Toute la France"
-msgstr "All of France"
-
 msgid "Toutes"
 msgstr "All"
 
 msgid "Toutes les molécules"
 msgstr "All molecules"
 
+msgid "Toutes les régions"
+msgstr "All regions"
+
 msgid "Tranquille sec"
 msgstr "Still, dry"
+
+msgid "Trentin-Haut-Adige"
+msgstr "Trentino-South Tyrol"
 
 msgid "Trouver sur la carte"
 msgstr "Find on the map"
@@ -3057,6 +3339,12 @@ msgstr "Vallée de la Marne"
 msgid "Vallée du Rhône"
 msgstr "Rhône Valley"
 
+msgid "Valpolicella"
+msgstr "Valpolicella"
+
+msgid "Valpolicella « repassé » sur les marcs de l'amarone, plus riche et plus profond que le simple valpolicella."
+msgstr "Valpolicella \"re-passed\" over amarone pomace, richer and deeper than plain valpolicella."
+
 msgid "Victoires"
 msgstr "Wins"
 
@@ -3065,6 +3353,9 @@ msgstr "Ageing and oxidation"
 
 msgid "Vignoble confidentiel, berceau du vin jaune et des vins sous voile."
 msgstr "A tiny vineyard, the cradle of vin jaune and wines aged under flor."
+
+msgid "Vignobles de montagne aux nuits fraîches, où les blancs gardent une grande précision."
+msgstr "Mountain vineyards with cool nights, where white wines keep great precision."
 
 msgid "Vin"
 msgstr "Wine"
@@ -3156,6 +3447,12 @@ msgstr "Preset view"
 msgid "Végétal"
 msgstr "Green and herbaceous"
 
+msgid "Vénétie"
+msgstr "Veneto"
+
+msgid "Vénétie / Frioul"
+msgstr "Veneto / Friuli"
+
 msgid "Whisky-lactones, vanilline, eugénol, gaïacol extraits du bois dans douze vins rouges élevés en fût."
 msgstr "Whisky lactones, vanillin, eugenol and guaiacol extracted from wood in twelve barrel-aged red wines."
 
@@ -3201,6 +3498,9 @@ msgstr "Sisteron lamb"
 msgid "agneau rôti"
 msgstr "roast lamb"
 
+msgid "agnolotti"
+msgstr "agnolotti"
+
 msgid "amande"
 msgstr "almond"
 
@@ -3222,6 +3522,9 @@ msgstr "anchovies"
 msgid "andouillette"
 msgstr "andouillette sausage"
 
+msgid "antipasti"
+msgstr "antipasti"
+
 msgid "appartient à"
 msgstr "belongs to"
 
@@ -3230,6 +3533,9 @@ msgstr "appellations"
 
 msgid "apéritif"
 msgstr "aperitif"
+
+msgid "arrosticini"
+msgstr "arrosticini"
 
 msgid "asperges"
 msgstr "asparagus"
@@ -3300,6 +3606,12 @@ msgstr "butter"
 msgid "beurre frais, noisette"
 msgstr "fresh butter, hazelnut"
 
+msgid "biscuits secs"
+msgstr "dry biscuits"
+
+msgid "bistecca"
+msgstr "bistecca"
+
 msgid "bleus"
 msgstr "blue cheeses"
 
@@ -3320,6 +3632,9 @@ msgstr "brioche"
 
 msgid "brocciu"
 msgstr "brocciu cheese"
+
+msgid "brodetto"
+msgstr "brodetto"
 
 msgid "brut"
 msgstr "brut"
@@ -3353,6 +3668,9 @@ msgstr "beef bourguignon"
 
 msgid "bœuf braisé"
 msgstr "braised beef"
+
+msgid "bœuf grillé"
+msgstr "grilled beef"
 
 msgid "cabri"
 msgstr "kid goat"
@@ -3474,6 +3792,9 @@ msgstr "honeysuckle"
 msgid "chêne"
 msgstr "oak"
 
+msgid "cicchetti"
+msgstr "cicchetti"
+
 msgid "cinnamate d'éthyle"
 msgstr "ethyl cinnamate"
 
@@ -3546,6 +3867,9 @@ msgstr "chalk"
 msgid "crottin de Chavignol"
 msgstr "Crottin de Chavignol cheese"
 
+msgid "crustacés"
+msgstr "shellfish"
+
 msgid "crème"
 msgstr "cream"
 
@@ -3566,6 +3890,9 @@ msgstr "Catalan cuisine"
 
 msgid "cuisine provençale"
 msgstr "Provençal cuisine"
+
+msgid "cuisine sicilienne"
+msgstr "Sicilian cuisine"
 
 msgid "cuisine thaï"
 msgstr "Thai cuisine"
@@ -3771,6 +4098,9 @@ msgstr "raspberry"
 msgid "fraîcheur"
 msgstr "freshness"
 
+msgid "fregola"
+msgstr "fregola"
+
 msgid "froid"
 msgstr "cold"
 
@@ -3782,6 +4112,18 @@ msgstr "goat's cheese"
 
 msgid "fromages affinés"
 msgstr "mature cheeses"
+
+msgid "fromages de brebis"
+msgstr "sheep's milk cheeses"
+
+msgid "fromages doux"
+msgstr "mild cheeses"
+
+msgid "fromages frais"
+msgstr "fresh cheeses"
+
+msgid "fromages à pâte dure"
+msgstr "hard cheeses"
 
 msgid "fruit de la passion"
 msgstr "passion fruit"
@@ -3913,6 +4255,9 @@ msgstr "iodine"
 msgid "jacquier"
 msgstr "jackfruit"
 
+msgid "jambon de San Daniele"
+msgstr "San Daniele ham"
+
 msgid "jambon persillé"
 msgstr "jambon persillé (parsley ham)"
 
@@ -3982,6 +4327,12 @@ msgstr "hare à la royale"
 msgid "léger"
 msgstr "light"
 
+msgid "légumes"
+msgstr "vegetables"
+
+msgid "légumes grillés"
+msgstr "grilled vegetables"
+
 msgid "légèrement sucré"
 msgstr "slightly sweet"
 
@@ -4036,6 +4387,9 @@ msgstr "mussels"
 msgid "mousseux"
 msgstr "mousseux"
 
+msgid "mozzarella"
+msgstr "mozzarella"
+
 msgid "munster"
 msgstr "Munster cheese"
 
@@ -4087,6 +4441,9 @@ msgstr "black olive"
 msgid "orange"
 msgstr "orange"
 
+msgid "orecchiette au ragoût"
+msgstr "orecchiette with ragù"
+
 msgid "origan"
 msgstr "oregano"
 
@@ -4111,8 +4468,14 @@ msgstr "grapefruit"
 msgid "pamplemousse, fruit de la passion, agrumes"
 msgstr "grapefruit, passion fruit, citrus"
 
+msgid "panettone"
+msgstr "panettone"
+
 msgid "par des règles explicites, chacune adossée à une référence :"
 msgstr "by explicit rules, each backed by a reference:"
+
+msgid "parmesan"
+msgstr "Parmesan"
 
 msgid "parties terminées"
 msgstr "games finished"
@@ -4122,6 +4485,9 @@ msgstr "tannin-free"
 
 msgid "pas sucré"
 msgstr "not sweet"
+
+msgid "pecorino affiné"
+msgstr "aged pecorino"
 
 msgid "perche du lac"
 msgstr "lake perch"
@@ -4137,6 +4503,9 @@ msgstr "light-bodied"
 
 msgid "phénylacétaldéhyde"
 msgstr "phenylacetaldehyde"
+
+msgid "pici au ragoût"
+msgstr "pici with ragù"
 
 msgid "picodon"
 msgstr "Picodon cheese"
@@ -4168,8 +4537,14 @@ msgstr "peony"
 msgid "pizza"
 msgstr "pizza"
 
+msgid "pizza blanche"
+msgstr "white pizza"
+
 msgid "plat"
 msgstr "flat"
+
+msgid "plats braisés"
+msgstr "braised dishes"
 
 msgid "plats mijotés"
 msgstr "slow-cooked dishes"
@@ -4183,6 +4558,9 @@ msgstr "points on average"
 msgid "poire"
 msgstr "pear"
 
+msgid "poisson de lac"
+msgstr "lake fish"
+
 msgid "poisson grillé"
 msgstr "grilled fish"
 
@@ -4191,6 +4569,15 @@ msgstr "fish"
 
 msgid "poissons de Loire"
 msgstr "Loire river fish"
+
+msgid "poissons de l'Adriatique"
+msgstr "Adriatic fish"
+
+msgid "poissons de lac"
+msgstr "lake fish"
+
+msgid "poissons de rivière"
+msgstr "river fish"
 
 msgid "poissons de roche"
 msgstr "rockfish"
@@ -4219,6 +4606,9 @@ msgstr "green bell pepper"
 msgid "poivron vert, végétal, herbacé"
 msgstr "green bell pepper, vegetal, herbaceous"
 
+msgid "polenta"
+msgstr "polenta"
+
 msgid "pomme"
 msgstr "apple"
 
@@ -4236,6 +4626,9 @@ msgstr "green apple"
 
 msgid "pomme verte, ananas, fruité"
 msgstr "green apple, pineapple, fruity"
+
+msgid "porcelet rôti"
+msgstr "roast suckling pig"
 
 msgid "pot-au-feu"
 msgstr "pot-au-feu"
@@ -4285,6 +4678,12 @@ msgstr "1-methylpyrrole-2-methanethiol"
 msgid "pâtes"
 msgstr "pasta"
 
+msgid "pâtes au ragoût"
+msgstr "pasta with ragù"
+
+msgid "pâtes à la tomate"
+msgstr "pasta with tomato sauce"
+
 msgid "pétillant"
 msgstr "pétillant"
 
@@ -4324,6 +4723,18 @@ msgstr "rillettes"
 
 msgid "rillons"
 msgstr "rillons (pork belly confit)"
+
+msgid "risotto"
+msgstr "risotto"
+
+msgid "risotto aux asperges"
+msgstr "asparagus risotto"
+
+msgid "risotto aux champignons"
+msgstr "mushroom risotto"
+
+msgid "risotto à l'amarone"
+msgstr "amarone risotto"
 
 msgid "romarin"
 msgstr "rosemary"
@@ -4394,11 +4805,17 @@ msgstr "salade niçoise"
 msgid "salades"
 msgstr "salads"
 
+msgid "salami"
+msgstr "salami"
+
 msgid "sandre"
 msgstr "pike-perch"
 
 msgid "sandre au beurre blanc"
 msgstr "pike-perch with beurre blanc"
+
+msgid "sanglier"
+msgstr "wild boar"
 
 msgid "sans limite"
 msgstr "no limit"
@@ -4466,6 +4883,9 @@ msgstr "forest floor"
 msgid "soyeux"
 msgstr "silky"
 
+msgid "speck"
+msgstr "speck"
+
 msgid "structuré"
 msgstr "structured"
 
@@ -4480,6 +4900,9 @@ msgstr "sushi"
 
 msgid "tabac"
 msgstr "tobacco"
+
+msgid "tajarin à la truffe"
+msgstr "tajarin with truffle"
 
 msgid "tanins fondus"
 msgstr "resolved tannins"
@@ -4520,6 +4943,9 @@ msgstr "tender"
 msgid "tendu"
 msgstr "taut"
 
+msgid "thon"
+msgstr "tuna"
+
 msgid "thym"
 msgstr "thyme"
 
@@ -4537,6 +4963,9 @@ msgstr "tomato"
 
 msgid "tome de Savoie"
 msgstr "Tome de Savoie cheese"
+
+msgid "tortellini"
+msgstr "tortellini"
 
 msgid "tranchant"
 msgstr "sharp"
@@ -4595,6 +5024,12 @@ msgstr "velvety"
 msgid "viande"
 msgstr "meat"
 
+msgid "viandes grillées"
+msgstr "grilled meats"
+
+msgid "viandes rôties"
+msgstr "roast meats"
+
 msgid "vif"
 msgstr "crisp"
 
@@ -4609,6 +5044,9 @@ msgstr "violet"
 
 msgid "violette, framboise, boisé"
 msgstr "violet, raspberry, woody"
+
+msgid "vitello tonnato"
+msgstr "vitello tonnato"
 
 msgid "voile"
 msgstr "flor"
@@ -4672,6 +5110,9 @@ msgstr "Natural source · %(get_kind_display)s"
 msgid "Éléments naturels"
 msgstr "Natural sources"
 
+msgid "Émilie-Romagne"
+msgstr "Emilia-Romagna"
+
 msgid "Épice"
 msgstr "Spice"
 
@@ -4684,6 +5125,9 @@ msgid ""
 msgstr ""
 "Study carried out in the Gaillac area, known for the peppery character of Duras (AWRI summary, Technical "
 "Review 214)."
+
+msgid "Île de vents et de granite, aux vins marqués par la chaleur et le sel."
+msgstr "An island of wind and granite, with wines shaped by heat and salt."
 
 msgid "à choisir"
 msgstr "to choose"

@@ -30,7 +30,7 @@ def load_missing_data(sender, verbosity=1, **kwargs):
     out = sys.stdout if verbosity else open(os.devnull, "w")  # noqa: SIM115
     try:
         if not WineProfile.objects.exists():
-            call_command("load_seed", stdout=out)
+            call_command("load_seed", country="all", stdout=out)
         elif not ProfileMolecule.objects.exists():
             call_command("load_molecules", stdout=out)
     except DatabaseError:

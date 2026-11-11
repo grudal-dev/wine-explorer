@@ -1,0 +1,135 @@
+# Appellations et profils types — Toscane, Marches, Ombrie, Abruzzes.
+# Rédigés pour l'apprentissage à partir de connaissances générales : à faire relire par un œnologue.
+# structure : [corps, acidité, tanins, sucrosité], échelle 0-5.
+
+# ───────────── Toscane ─────────────
+- appellation: Chianti Classico
+  region: Chianti
+  classification: DOCG
+  lat: 43.470
+  lng: 11.250
+  profiles:
+    - color: rouge
+      grapes: {Sangiovese: 90, Merlot: 10}
+      aromas: {cerise: 3, griotte: 2, violette: 2, tabac: 1, cuir: 1, poivre noir: 1}
+      structure: [3, 5, 4, 0]
+      price: [14, 50]
+      aging: [4, 15]
+      temp: 16-17 °C
+      pairings: [pâtes à la tomate, bistecca, fromages de brebis]
+      description: Sangiovese des collines entre Florence et Sienne, vif, ferme et cerisé, fait pour la table toscane.
+
+- appellation: Brunello di Montalcino
+  region: Montalcino
+  classification: DOCG
+  lat: 43.050
+  lng: 11.490
+  profiles:
+    - color: rouge
+      grapes: {Sangiovese: 100}
+      aromas: {griotte: 3, cerise: 2, cuir: 2, tabac: 2, réglisse: 1, sous-bois: 1, chêne: 1}
+      structure: [4, 5, 5, 0]
+      price: [45, 200]
+      aging: [12, 40]
+      temp: 17-18 °C
+      pairings: [gibier, bœuf grillé, pecorino affiné]
+      description: Sangiovese en pureté de la colline de Montalcino, long élevage obligatoire et grand potentiel de garde.
+
+- appellation: Vino Nobile di Montepulciano
+  region: Montepulciano
+  classification: DOCG
+  lat: 43.100
+  lng: 11.780
+  profiles:
+    - color: rouge
+      grapes: {Sangiovese: 85, Merlot: 15}
+      aromas: {cerise: 3, prune: 2, violette: 1, cuir: 1, clou de girofle: 1, tabac: 1}
+      structure: [4, 4, 4, 0]
+      price: [18, 45]
+      aging: [6, 20]
+      temp: 16-17 °C
+      pairings: [viandes rôties, pici au ragoût, fromages affinés]
+      description: Sangiovese de la ville perchée de Montepulciano, plus rond que le chianti et plus accessible que le brunello.
+
+- appellation: Bolgheri
+  region: Maremme
+  classification: DOC
+  lat: 43.230
+  lng: 10.600
+  profiles:
+    - color: rouge
+      grapes: {Cabernet Sauvignon: 50, Merlot: 25, Cabernet Franc: 20, Petit Verdot: 5}
+      aromas: {cassis: 3, cèdre: 2, poivron vert: 1, graphite: 1, garrigue: 2, vanille: 1}
+      structure: [5, 4, 4, 0]
+      price: [25, 250]
+      aging: [8, 30]
+      temp: 17 °C
+      pairings: [côte de bœuf, agneau, gibier]
+      description: Assemblage bordelais sous le soleil de la côte toscane, né des « super toscans » et devenu un classique.
+
+- appellation: Vernaccia di San Gimignano
+  region: San Gimignano
+  classification: DOCG
+  lat: 43.470
+  lng: 11.040
+  profiles:
+    - color: blanc
+      grapes: {Vernaccia di San Gimignano: 100}
+      aromas: {amande: 2, citron: 2, pomme verte: 2, fleurs blanches: 1, craie: 1}
+      structure: [2, 4, 0, 0]
+      price: [10, 20]
+      aging: [1, 5]
+      temp: 8-10 °C
+      pairings: [poissons grillés, charcuterie, légumes]
+      description: Blanc toscan sec et tendu, à la finale légèrement amère d'amande, cultivé autour de la ville aux tours.
+
+# ───────────── Marches ─────────────
+- appellation: Verdicchio dei Castelli di Jesi
+  region: Marches
+  classification: DOC
+  lat: 43.520
+  lng: 13.240
+  profiles:
+    - color: blanc
+      grapes: {Verdicchio: 100}
+      aromas: {amande: 3, pomme verte: 2, citron: 2, fleurs blanches: 1, fenouil: 1}
+      structure: [3, 4, 0, 0]
+      price: [8, 20]
+      aging: [2, 8]
+      temp: 8-10 °C
+      pairings: [brodetto, poissons de l'Adriatique, fruits de mer]
+      description: Blanc de l'Adriatique tendu et amer en finale, qui prend de la profondeur avec quelques années.
+
+# ───────────── Ombrie ─────────────
+- appellation: Sagrantino di Montefalco
+  region: Ombrie
+  classification: DOCG
+  lat: 42.890
+  lng: 12.650
+  profiles:
+    - color: rouge
+      grapes: {Sagrantino: 100}
+      aromas: {mûre: 3, cerise noire: 2, cacao: 2, tabac: 2, poivre noir: 1, réglisse: 1}
+      structure: [5, 4, 5, 0]
+      price: [30, 80]
+      aging: [10, 30]
+      temp: 17-18 °C
+      pairings: [gibier, sanglier, fromages affinés]
+      description: Rouge très tannique d'un cépage presque exclusif à son terroir d'origine, qui demande des années pour s'assouplir.
+
+# ───────────── Abruzzes ─────────────
+- appellation: Montepulciano d'Abruzzo
+  region: Abruzzes
+  classification: DOC
+  lat: 42.350
+  lng: 14.100
+  profiles:
+    - color: rouge
+      grapes: {Montepulciano: 100}
+      aromas: {cerise noire: 3, prune: 2, poivre noir: 1, réglisse: 1, violette: 1, mûre: 1}
+      structure: [3, 3, 3, 0]
+      price: [6, 18]
+      aging: [2, 8]
+      temp: 16 °C
+      pairings: [arrosticini, pâtes au ragoût, fromages de brebis]
+      description: Rouge généreux et facile des Abruzzes, au fruit noir mûr et aux tanins souples. Le cépage n'a rien à voir avec la ville toscane.

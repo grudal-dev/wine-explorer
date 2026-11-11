@@ -3,7 +3,7 @@
 Chaque entité du graphe (vin, cépage, arôme, région, appellation, molécule, élément naturel)
 porte un vecteur de quelques dizaines de dimensions, appris par un petit réseau de neurones
 sur graphe. Deux entités proches dans cet espace se ressemblent par leurs voisinages : mêmes
-arômes, mêmes cépages, même structure en bouche, même coin de France.
+arômes, mêmes cépages, même structure en bouche, même coin de vignoble.
 
 Le site ne fait que *lire* le fichier data/embeddings.json, versionné comme les formules des
 molécules : ni PyTorch ni NumPy ne sont nécessaires pour le servir. Les vecteurs sont normés,
