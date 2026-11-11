@@ -2,6 +2,7 @@ from django.db.models import Count, Prefetch
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 
+from .i18n import tr
 from .models import Appellation, Aroma, AromaFamily, Grape, ProfileAroma, Region, WineProfile
 
 
@@ -14,7 +15,7 @@ def home(request):
         teaser = {
             "color": profile.get_color_display(),
             "color_key": profile.color,
-            "aromas": [pa.aroma.name for pa in profile.profile_aromas.select_related("aroma")[:3]],
+            "aromas": [tr(pa.aroma.name) for pa in profile.profile_aromas.select_related("aroma")[:3]],
         }
     stats = {
         "profiles": WineProfile.objects.count(),

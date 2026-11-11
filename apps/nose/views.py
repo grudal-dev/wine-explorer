@@ -1,11 +1,15 @@
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.views.decorators.http import require_GET
+from django.shortcuts import redirect, render
+from django.utils import timezone
+from django.utils.translation import gettext
+from django.views.decorators.http import require_GET, require_POST
 
+from apps.catalog.i18n import tr
 from apps.catalog.index import search_aroma
 from apps.catalog.models import Aroma, AromaFamily, Color
+from apps.embeddings.space import space
 
-from . import sensory
+from . import hotcold, sensory
 from .predictor import predict
 
 
@@ -68,13 +72,13 @@ def nose(request):
 def api_aromas(request):
     q = request.GET.get("q", "")
     senses = [
-        {"kind": "sense", "pk": t.key, "label": t.label, "axis": t.axis,
-         "kind_label": "Bouche" if t.axis != "style" else "Style"}
+        {"kind": "sense", "pk": t.key, "label": tr(t.label), "axis": t.axis,
+         "kind_label": gettext("Bouche") if t.axis != "style" else gettext("Style")}
         for t in sensory.search(q, limit=3)
     ]
     aromas = [
-        {"kind": m.kind, "pk": m.pk, "label": m.label,
-         "kind_label": "Famille" if m.kind == "family" else "Arôme"}
+        {"kind": m.kind, "pk": m.pk, "label": tr(m.label),
+         "kind_label": gettext("Famille") if m.kind == "family" else gettext("Arôme")}
         for m in search_aroma(q, limit=8, families=True)
     ]
     # Un terme sensoriel exact passe devant ; sinon les arômes d'abord.
@@ -82,3 +86,59 @@ def api_aromas(request):
     exact = [s for s in senses if hit and s["pk"] == hit.key]
     results = (exact + aromas + [s for s in senses if s not in exact])[:9]
     return JsonResponse({"results": results})
+
+
+# ── Chaud-froid ──────────────────────────────────────────────────────────────
+def _hotcold_context(request, error: str = "") -> dict:
+    sp = space()
+    if sp is None:
+        return {"ready": False}
+    try:
+        state = hotcold.current_state(request.session, timezone.localdate(), sp)
+    except hotcold.HotColdError as exc:
+        return {"ready": False, "error": str(exc)}
+    return {"ready": True, "board": hotcold.board(state, sp), "error": error,
+            "day": timezone.localdate(), "meta": sp.meta}
+
+
+def hot_cold(request):
+    return render(request, "nose/hotcold.html", _hotcold_context(request))
+
+
+@require_POST
+def hot_cold_guess(request):
+    sp = space()
+    error = ""
+    if sp is not None:
+        try:
+            state = hotcold.current_state(request.session, timezone.localdate(), sp)
+            hotcold.play(state, request.POST.get("q", ""), request.POST.get("choice", ""), sp)
+            request.session[hotcold.SESSION_KEY] = state
+        except hotcold.HotColdError as exc:
+            error = str(exc)
+    if request.htmx:
+        return render(request, "nose/_hotcold_board.html", _hotcold_context(request, error))
+    return redirect("nose:hot_cold")
+
+
+@require_POST
+def hot_cold_new(request):
+    """Nouvelle partie : un vin au hasard (libre) ou retour au défi du jour."""
+    sp = space()
+    if sp is not None:
+        mode = "daily" if request.POST.get("mode") == "daily" else "free"
+        previous = (request.session.get(hotcold.SESSION_KEY) or {}).get("secret", "")
+        try:
+            request.session[hotcold.SESSION_KEY] = hotcold.new_state(mode, timezone.localdate(), sp, exclude=previous)
+        except hotcold.HotColdError:
+            pass
+    return redirect("nose:hot_cold")
+
+
+@require_POST
+def hot_cold_give_up(request):
+    state = request.session.get(hotcold.SESSION_KEY)
+    if state and not state["over"]:
+        state["over"] = "abandoned"
+        request.session[hotcold.SESSION_KEY] = state
+    return redirect("nose:hot_cold")

@@ -14,6 +14,7 @@ molécule → élément naturel est, lui, une occurrence attestée par une sourc
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from apps.catalog.models import Aroma, SluggedModel, WineProfile
 
@@ -51,30 +52,30 @@ class Reference(models.Model):
 
 
 class ChemicalFamily(models.TextChoices):
-    ESTER = "ester", "Ester"
-    ALCOOL = "alcool", "Alcool"
-    ALDEHYDE = "aldehyde", "Aldéhyde"
-    CETONE = "cetone", "Cétone"
-    TERPENE = "terpene", "Monoterpène"
-    SESQUITERPENE = "sesquiterpene", "Sesquiterpène"
-    NORISOPRENOIDE = "norisoprenoide", "Norisoprénoïde en C13"
-    THIOL = "thiol", "Thiol"
-    SULFURE = "sulfure", "Sulfure"
-    PYRAZINE = "pyrazine", "Méthoxypyrazine"
-    LACTONE = "lactone", "Lactone"
-    FURANONE = "furanone", "Furanone"
-    PHENOL = "phenol", "Phénol volatil"
+    ESTER = "ester", _("Ester")
+    ALCOOL = "alcool", _("Alcool")
+    ALDEHYDE = "aldehyde", _("Aldéhyde")
+    CETONE = "cetone", _("Cétone")
+    TERPENE = "terpene", _("Monoterpène")
+    SESQUITERPENE = "sesquiterpene", _("Sesquiterpène")
+    NORISOPRENOIDE = "norisoprenoide", _("Norisoprénoïde en C13")
+    THIOL = "thiol", _("Thiol")
+    SULFURE = "sulfure", _("Sulfure")
+    PYRAZINE = "pyrazine", _("Méthoxypyrazine")
+    LACTONE = "lactone", _("Lactone")
+    FURANONE = "furanone", _("Furanone")
+    PHENOL = "phenol", _("Phénol volatil")
 
 
 class Origin(models.TextChoices):
-    RAISIN = "raisin", "Raisin (arôme variétal)"
-    PRECURSEUR = "precurseur", "Précurseur du raisin libéré par la levure"
-    FERMENTATION = "fermentation", "Fermentation alcoolique"
-    MALOLACTIQUE = "malolactique", "Fermentation malolactique"
-    BOIS = "bois", "Élevage sous bois"
-    VIEILLISSEMENT = "vieillissement", "Vieillissement et oxydation"
-    MICRO = "micro", "Levures d'altération (Brettanomyces)"
-    ENVIRONNEMENT = "environnement", "Environnement de la vigne"
+    RAISIN = "raisin", _("Raisin (arôme variétal)")
+    PRECURSEUR = "precurseur", _("Précurseur du raisin libéré par la levure")
+    FERMENTATION = "fermentation", _("Fermentation alcoolique")
+    MALOLACTIQUE = "malolactique", _("Fermentation malolactique")
+    BOIS = "bois", _("Élevage sous bois")
+    VIEILLISSEMENT = "vieillissement", _("Vieillissement et oxydation")
+    MICRO = "micro", _("Levures d'altération (Brettanomyces)")
+    ENVIRONNEMENT = "environnement", _("Environnement de la vigne")
 
 
 class Molecule(SluggedModel):
@@ -108,9 +109,12 @@ class Molecule(SluggedModel):
     @property
     def display_name(self) -> str:
         """Majuscule initiale, sauf devant une lettre grecque (« β-ionone », pas « Β-ionone »)."""
-        if self.name[:1] in GREEK:
-            return self.name
-        return self.name[:1].upper() + self.name[1:]
+        from apps.catalog.i18n import tr
+
+        name = tr(self.name)
+        if name[:1] in GREEK or name[:1].isdigit() or name[:1] == "(":
+            return name
+        return name[:1].upper() + name[1:]
 
     @property
     def pubchem_url(self) -> str:
@@ -134,16 +138,16 @@ class Molecule(SluggedModel):
 
 class NaturalSource(SluggedModel):
     class Kind(models.TextChoices):
-        EPICE = "epice", "Épice"
-        HERBE = "herbe", "Herbe aromatique"
-        FLEUR = "fleur", "Fleur"
-        FRUIT = "fruit", "Fruit"
-        LEGUME = "legume", "Légume"
-        PLANTE = "plante", "Plante et feuillage"
-        ARBRE = "arbre", "Arbre et bois"
-        CHAMPIGNON = "champignon", "Champignon"
-        ALIMENT = "aliment", "Aliment transformé"
-        ESPECE = "espece", "Espèce recensée (Wikidata)"
+        EPICE = "epice", _("Épice")
+        HERBE = "herbe", _("Herbe aromatique")
+        FLEUR = "fleur", _("Fleur")
+        FRUIT = "fruit", _("Fruit")
+        LEGUME = "legume", _("Légume")
+        PLANTE = "plante", _("Plante et feuillage")
+        ARBRE = "arbre", _("Arbre et bois")
+        CHAMPIGNON = "champignon", _("Champignon")
+        ALIMENT = "aliment", _("Aliment transformé")
+        ESPECE = "espece", _("Espèce recensée (Wikidata)")
 
     kind = models.CharField("nature", max_length=12, choices=Kind.choices)
     latin_name = models.CharField("nom scientifique", max_length=160, blank=True)
@@ -190,12 +194,12 @@ class Occurrence(models.Model):
 class Basis(models.TextChoices):
     """Pourquoi on rattache une molécule à un profil type."""
 
-    GRAPE = "grape", "Marqueur du cépage"
-    STYLE = "style", "Style de vinification"
-    COLOR = "color", "Couleur du vin"
-    AROMA = "aroma", "Descripteur du profil"
-    FAMILY = "family", "Famille aromatique du profil"
-    UNIVERSAL = "universal", "Socle commun des vins"
+    GRAPE = "grape", _("Marqueur du cépage")
+    STYLE = "style", _("Style de vinification")
+    COLOR = "color", _("Couleur du vin")
+    AROMA = "aroma", _("Descripteur du profil")
+    FAMILY = "family", _("Famille aromatique du profil")
+    UNIVERSAL = "universal", _("Socle commun des vins")
 
 
 BASIS_ORDER = [Basis.GRAPE, Basis.STYLE, Basis.COLOR, Basis.AROMA, Basis.FAMILY, Basis.UNIVERSAL]

@@ -1,0 +1,164 @@
+# English translations for Terroirs.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the Terroirs project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Terroirs VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-11-11 17:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#, python-format
+msgid "%(parts)s, %(edges)s liens."
+msgstr "%(parts)s, %(edges)s links."
+
+#, python-format
+msgid "%s lien"
+msgstr "%s link"
+
+#, python-format
+msgid "%s lien masqué (socle commun ou familles)."
+msgstr "%s hidden link (common base or families)."
+
+#, python-format
+msgid "%s liens"
+msgstr "%s links"
+
+#, python-format
+msgid "%s liens masqués (socle commun ou familles)."
+msgstr "%s hidden links (common base or families)."
+
+#, python-format
+msgid "%s molécule"
+msgstr "%s molecule"
+
+#, python-format
+msgid "%s molécules"
+msgstr "%s molecules"
+
+#, python-format
+msgid "%s points. Deux points proches se ressemblent."
+msgstr "%s dots. Two nearby dots are alike."
+
+#, python-format
+msgid "%s vin"
+msgstr "%s wine"
+
+#, python-format
+msgid "%s vins"
+msgstr "%s wines"
+
+#, python-format
+msgid "%s élément naturel"
+msgstr "%s natural source"
+
+#, python-format
+msgid "%s élément naturel de plus dans les fiches."
+msgstr "%s more natural source on the detail pages."
+
+#, python-format
+msgid "%s éléments naturels"
+msgstr "%s natural sources"
+
+#, python-format
+msgid "%s éléments naturels de plus dans les fiches."
+msgstr "%s more natural sources on the detail pages."
+
+#, python-format
+msgid "(et %s autres)"
+msgstr "(and %s more)"
+
+msgid "Aucun résultat avec ces filtres. Élargissez la sélection."
+msgstr "No results with these filters. Widen the selection."
+
+msgid "Aucune molécule spécifique pour ce vin dans nos sources."
+msgstr "No specific molecule for this wine in our sources."
+
+msgid "Blanc"
+msgstr "White"
+
+msgid "Chargement…"
+msgstr "Loading…"
+
+msgid "Choisissez un point de départ."
+msgstr "Choose a starting point."
+
+msgid "Cliquez sur un nœud du graphe, ou utilisez les boutons Départ et Arrivée de sa fiche."
+msgstr "Click a node in the graph, or use the Start and End buttons in its details."
+
+msgid "Impossible de charger ce graphe."
+msgstr "Unable to load this graph."
+
+msgid "Impossible de charger la carte."
+msgstr "Unable to load the map."
+
+msgid "Impossible de charger le graphe. Vérifiez la connexion puis réessayez."
+msgstr "Unable to load the graph. Check your connection and try again."
+
+msgid "Revenir à ce vin"
+msgstr "Back to this wine"
+
+msgid "Revenir à cet élément naturel"
+msgstr "Back to this natural source"
+
+msgid "Revenir à cette molécule"
+msgstr "Back to this molecule"
+
+msgid "Rien à afficher avec ces filtres."
+msgstr "Nothing to show with these filters."
+
+msgid "Rosé"
+msgstr "Rosé"
+
+msgid "Rouge"
+msgstr "Red"
+
+msgid "Socle commun ajouté : ce vin a peu de molécules propres."
+msgstr "Common base added: this wine has few molecules of its own."
+
+msgid "appellations"
+msgstr "appellations"
+
+msgid "arômes"
+msgstr "aromas"
+
+msgid "cépages"
+msgstr "grapes"
+
+msgid "familles"
+msgstr "families"
+
+msgid "marqueur établi"
+msgstr "established marker"
+
+msgid "molécules"
+msgstr "molecules"
+
+msgid "plausible"
+msgstr "plausible"
+
+msgid "probable"
+msgstr "likely"
+
+msgid "profils"
+msgstr "profiles"
+
+msgid "régions"
+msgstr "regions"
+
+msgid "sans limite"
+msgstr "no limit"
+
+msgid "éléments naturels"
+msgstr "natural sources"
+

@@ -23,7 +23,11 @@
     grape: "#7F9248", style: "#3B5878", color: "#8DA2BA", aroma: "#C99A3D", universal: "#B9B9AF",
     garnet: "#7A1F3D",
   };
-    const TYPE_LABEL = { profile: "vin", molecule: "molécule", source: "élément naturel" };
+  const _ = window.gettext || ((s) => s);
+  const plural = (one, many, n) => (n > 1 ? many : one).replace("%s", n);
+  const TYPE_LABEL = {
+    profile: _("Revenir à ce vin"), molecule: _("Revenir à cette molécule"), source: _("Revenir à cet élément naturel"),
+  };
 
   const state = { start: "", trail: [], common: false, family: true, wikidata: true };
   const query = () => `${state.common ? "&commun=1" : ""}${state.family ? "" : "&famille=0"}${state.wikidata ? "" : "&wikidata=0"}`;
@@ -135,12 +139,12 @@
   async function load(id, { push = true } = {}) {
     const [kind, slug] = id.split(":");
     const mine = ++seq;
-    stats.textContent = "Chargement…";
+    stats.textContent = _("Chargement…");
     let data;
     try {
       data = await Combo.getJSON(`${API}?kind=${kind}&slug=${encodeURIComponent(slug)}${query()}`);
     } catch (err) {
-      stats.textContent = "Impossible de charger ce graphe.";
+      stats.textContent = _("Impossible de charger ce graphe.");
       return;
     }
     if (mine !== seq) return;
@@ -165,14 +169,17 @@
 
   function renderStats(s, kind) {
     const parts = [];
-    if (kind !== "profile") parts.push(`${s.profiles} vin${s.profiles > 1 ? "s" : ""}${s.truncated ? ` (et ${s.truncated} autres)` : ""}`);
-    parts.push(`${s.molecules} molécule${s.molecules > 1 ? "s" : ""}`);
-    if (kind !== "source") parts.push(`${s.sources} élément${s.sources > 1 ? "s" : ""} naturel${s.sources > 1 ? "s" : ""}`);
+    if (kind !== "profile") {
+      parts.push(plural(_("%s vin"), _("%s vins"), s.profiles)
+        + (s.truncated ? " " + _("(et %s autres)").replace("%s", s.truncated) : ""));
+    }
+    parts.push(plural(_("%s molécule"), _("%s molécules"), s.molecules));
+    if (kind !== "source") parts.push(plural(_("%s élément naturel"), _("%s éléments naturels"), s.sources));
     let text = parts.join(", ") + ".";
-    if (!s.molecules && kind === "profile") text = "Aucune molécule spécifique pour ce vin dans nos sources.";
-    if (s.hidden_common) text += ` ${s.hidden_common} lien${s.hidden_common > 1 ? "s" : ""} masqué${s.hidden_common > 1 ? "s" : ""} (socle commun ou familles).`;
-    else if (s.common && !state.common && kind === "profile") text += " Socle commun ajouté : ce vin a peu de molécules propres.";
-    if (s.hidden_sources) text += ` ${s.hidden_sources} élément${s.hidden_sources > 1 ? "s" : ""} naturel${s.hidden_sources > 1 ? "s" : ""} de plus dans les fiches.`;
+    if (!s.molecules && kind === "profile") text = _("Aucune molécule spécifique pour ce vin dans nos sources.");
+    if (s.hidden_common) text += " " + plural(_("%s lien masqué (socle commun ou familles)."), _("%s liens masqués (socle commun ou familles)."), s.hidden_common);
+    else if (s.common && !state.common && kind === "profile") text += " " + _("Socle commun ajouté : ce vin a peu de molécules propres.");
+    if (s.hidden_sources) text += " " + plural(_("%s élément naturel de plus dans les fiches."), _("%s éléments naturels de plus dans les fiches."), s.hidden_sources);
     stats.textContent = text;
   }
 
@@ -181,7 +188,7 @@
   function renderSources(refs) {
     sourcesEl.innerHTML = "";
     if (!refs.length) {
-      sourcesEl.innerHTML = '<li class="muted">Aucun lien sourcé dans cette vue.</li>';
+      sourcesEl.innerHTML = `<li class="muted">${_("Aucun lien sourcé dans cette vue.")}</li>`;
       return;
     }
     refs.forEach((r) => {
@@ -200,7 +207,7 @@
       }
       const n = document.createElement("span");
       n.className = "muted";
-      n.textContent = ` · ${r.links} lien${r.links > 1 ? "s" : ""}`;
+      n.textContent = " · " + plural(_("%s lien"), _("%s liens"), r.links);
       li.appendChild(n);
       sourcesEl.appendChild(li);
     });
@@ -219,7 +226,7 @@
       btn.type = "button";
       btn.className = `tag tag--${t.kind}`;
       btn.textContent = t.label;
-      btn.title = `Revenir à ce ${TYPE_LABEL[t.kind]}`;
+      btn.title = TYPE_LABEL[t.kind];
       if (i === state.trail.length - 1) btn.setAttribute("aria-current", "step");
       btn.addEventListener("click", () => load(t.id));
       li.appendChild(btn);
@@ -303,5 +310,5 @@
   if (wikiBox) wikiBox.checked = state.wikidata;
   const first = params.get("depart") || root.dataset.start;
   if (first) load(first);
-  else stats.textContent = "Choisissez un point de départ.";
+  else stats.textContent = _("Choisissez un point de départ.");
 })();

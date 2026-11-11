@@ -1,0 +1,11 @@
+{% load i18n %}
+<article class="node-card node-card--{{ node.type }}">
+  <p class="small muted">{{ node.type_label }}</p>
+  <h2>{% if node.wine %}<span class="robe robe--{{ node.wine }}"></span> {% endif %}{{ node.label|capfirst }}</h2>
+  <div class="node-actions">
+    {% if node.url %}<a class="btn btn--small" href="{{ node.url }}">{% translate "Fiche" %}</a>{% endif %}
+    {% if 'graphe' in sections %}<a class="btn btn--ghost btn--small" href="{% url 'explorer:explorer' %}?focus={{ node.id }}">{% translate "Voir dans le graphe" %}</a>{% endif %}
+  </div>
+  {% include "embeddings/_cousins.html" with standalone=False %}
+  {% if not groups %}<p class="small muted">{% translate "Pas encore de vecteur pour cette entité : relancez l'entraînement." %}</p>{% endif %}
+</article>

@@ -1,0 +1,5 @@
+{% load i18n %}
+<nav class="tabs" aria-label="{% translate "Modes du Nez" %}">
+  <a href="{% url 'nose:nose' %}" {% if active == "nose" %}aria-current="page"{% endif %}>{% translate "Reconnaître un vin" %}</a>
+  <a href="{% url 'nose:hot_cold' %}" {% if active == "hotcold" %}aria-current="page"{% endif %}>{% translate "Chaud-froid" %}</a>
+</nav>

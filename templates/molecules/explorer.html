@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load i18n terroirs_i18n %}
 {% load static %}
-{% block title %}Molécules{% endblock %}
-{% block description %}Du verre à la nature : les molécules odorantes d'un vin et les plantes, fruits ou épices où on les retrouve.{% endblock %}
+{% block title %}{% translate "Molécules" %}{% endblock %}
+{% block description %}{% translate "Du verre à la nature : les molécules odorantes d'un vin et les plantes, fruits ou épices où on les retrouve." %}{% endblock %}
 {% block main_class %}page--full{% endblock %}
 {% block body_class %}is-app{% endblock %}
 {% block footer %}{% endblock %}
@@ -13,93 +14,88 @@
      data-start="{{ start }}"
      data-random="{{ random_ids|join:',' }}">
 
-  <aside class="explorer__rail" aria-label="Choisir un point de départ">
+  <aside class="explorer__rail" aria-label="{% translate "Choisir un point de départ" %}">
     <div class="rail-group">
-      <h1 class="mol-title">Molécules</h1>
-      <p class="small muted">Du verre à la nature : les molécules qui font le nez d'un vin, et les plantes, fruits
-        ou épices où on les retrouve. Chaque lien est sourcé.</p>
+      <h1 class="mol-title">{% translate "Molécules" %}</h1>
+      <p class="small muted">{% translate "Du verre à la nature : les molécules qui font le nez d'un vin, et les plantes, fruits ou épices où on les retrouve. Chaque lien est sourcé." %}</p>
     </div>
 
     <div class="rail-group">
-      <label class="label" for="mol-search">Partir d'un vin, d'une molécule ou d'un élément naturel</label>
+      <label class="label" for="mol-search">{% translate "Partir d'un vin, d'une molécule ou d'un élément naturel" %}</label>
       <div class="combo">
-        <input id="mol-search" class="input" type="search" placeholder="Côte-Rôtie, rotundone, truffe…" autocomplete="off"
+        <input id="mol-search" class="input" type="search" placeholder="{% translate "Côte-Rôtie, rotundone, truffe…" %}" autocomplete="off"
                role="combobox" aria-expanded="false" aria-controls="mol-search-list">
         <ul class="combo__list" id="mol-search-list" role="listbox" hidden></ul>
       </div>
-      <button type="button" class="btn btn--ghost btn--small mol-random" id="mol-random">Un vin au hasard</button>
+      <button type="button" class="btn btn--ghost btn--small mol-random" id="mol-random">{% translate "Un vin au hasard" %}</button>
     </div>
 
     <div class="rail-group">
-      <span class="label">Points de départ</span>
+      <span class="label">{% translate "Points de départ" %}</span>
       <div class="tags">
         {% for s in starters %}
-        <button type="button" class="tag tag--{{ s.kind }}" data-start="{{ s.id }}">{% if s.kind == "source" %}<i class="tag__dot"></i>{% endif %}{{ s.label }}</button>
+        <button type="button" class="tag tag--{{ s.kind }}" data-start="{{ s.id }}">{% if s.kind == "source" %}<i class="tag__dot"></i>{% endif %}{{ s.label|tr }}</button>
         {% endfor %}
       </div>
     </div>
 
     <div class="rail-group">
-      <label class="check"><input type="checkbox" id="mol-family" checked> Liens par famille d'arômes</label>
-      <p class="small muted">Quand aucun cépage ni descripteur précis ne la désigne, une molécule peut être reliée par
-        la famille d'arômes du vin (fruits noirs, boisé…). Lien le plus faible, en pointillé.</p>
+      <label class="check"><input type="checkbox" id="mol-family" checked> {% translate "Liens par famille d'arômes" %}</label>
+      <p class="small muted">{% translate "Quand aucun cépage ni descripteur précis ne la désigne, une molécule peut être reliée par la famille d'arômes du vin (fruits noirs, boisé…). Lien le plus faible, en pointillé." %}</p>
       {% if counts.imported %}
-      <label class="check"><input type="checkbox" id="mol-wikidata" checked> Espèces importées de Wikidata</label>
-      <p class="small muted">{{ counts.imported }} occurrences issues de Wikidata (P703, initiative LOTUS), non vérifiées
-        une à une. Encadrées en pointillé.</p>
+      <label class="check"><input type="checkbox" id="mol-wikidata" checked> {% translate "Espèces importées de Wikidata" %}</label>
+      <p class="small muted">{% blocktranslate trimmed with imported=counts.imported %}{{ imported }} occurrences issues de Wikidata (P703, initiative LOTUS), non vérifiées une à une. Encadrées en pointillé.{% endblocktranslate %}</p>
       {% endif %}
-      <label class="check"><input type="checkbox" id="mol-common"> Toujours montrer le socle commun</label>
-      <p class="small muted">Esters et alcools de fermentation présents dans tous les vins. Ajoutés d'office, en pâle,
-        quand un vin a peu de molécules propres.</p>
+      <label class="check"><input type="checkbox" id="mol-common"> {% translate "Toujours montrer le socle commun" %}</label>
+      <p class="small muted">{% translate "Esters et alcools de fermentation présents dans tous les vins. Ajoutés d'office, en pâle, quand un vin a peu de molécules propres." %}</p>
     </div>
 
     <div class="rail-group">
-      <span class="label">Pourquoi un vin contient une molécule</span>
+      <span class="label">{% translate "Pourquoi un vin contient une molécule" %}</span>
       <ul class="basis-legend">
-        <li><i class="basis basis--grape"></i>Marqueur de son cépage</li>
-        <li><i class="basis basis--style"></i>Son style de vinification</li>
-        <li><i class="basis basis--color"></i>Sa couleur (fermentation malolactique…)</li>
-        <li><i class="basis basis--aroma"></i>Un descripteur de son nez</li>
-        <li><i class="basis basis--family"></i>Une famille d'arômes de son nez</li>
-        <li><i class="basis basis--universal"></i>Socle commun des vins</li>
+        <li><i class="basis basis--grape"></i>{% translate "Marqueur de son cépage" %}</li>
+        <li><i class="basis basis--style"></i>{% translate "Son style de vinification" %}</li>
+        <li><i class="basis basis--color"></i>{% translate "Sa couleur (fermentation malolactique…)" %}</li>
+        <li><i class="basis basis--aroma"></i>{% translate "Un descripteur de son nez" %}</li>
+        <li><i class="basis basis--family"></i>{% translate "Une famille d'arômes de son nez" %}</li>
+        <li><i class="basis basis--universal"></i>{% translate "Socle commun des vins" %}</li>
       </ul>
-      <p class="small muted">L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible.</p>
-      <p class="small muted">Cliquez sur un nœud pour lire sa fiche, double-cliquez pour repartir de lui.</p>
+      <p class="small muted">{% translate "L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible." %}</p>
+      <p class="small muted">{% translate "Cliquez sur un nœud pour lire sa fiche, double-cliquez pour repartir de lui." %}</p>
     </div>
 
-    <p class="small"><a href="{% url 'molecules:list' %}">Les {{ counts.molecules }} molécules et {{ counts.sources }} éléments naturels</a><br>
-      <a href="{% url 'molecules:bibliography' %}">Méthode et {{ counts.references }} sources</a></p>
+    <p class="small"><a href="{% url 'molecules:list' %}">{% blocktranslate trimmed with molecules=counts.molecules sources=counts.sources %}Les {{ molecules }} molécules et {{ sources }} éléments naturels{% endblocktranslate %}</a><br>
+      <a href="{% url 'molecules:bibliography' %}">{% blocktranslate trimmed with references=counts.references %}Méthode et {{ references }} sources{% endblocktranslate %}</a></p>
   </aside>
 
-  <section class="explorer__stage" aria-label="Graphe vin, molécules, nature">
+  <section class="explorer__stage" aria-label="{% translate "Graphe vin, molécules, nature" %}">
     <div class="stage-bar">
-      <ol class="trail" id="mol-trail" aria-label="Votre parcours"></ol>
+      <ol class="trail" id="mol-trail" aria-label="{% translate "Votre parcours" %}"></ol>
       <div class="stage-bar__actions">
-        <a class="btn btn--ghost btn--small" href="#graph-sources-title" id="mol-goto-sources">Sources</a>
-        <button type="button" class="btn btn--ghost btn--small" id="mol-fit">Recadrer</button>
-        <button type="button" class="btn btn--ghost btn--small" id="mol-png">Exporter en PNG</button>
+        <a class="btn btn--ghost btn--small" href="#graph-sources-title" id="mol-goto-sources">{% translate "Sources" %}</a>
+        <button type="button" class="btn btn--ghost btn--small" id="mol-fit">{% translate "Recadrer" %}</button>
+        <button type="button" class="btn btn--ghost btn--small" id="mol-png">{% translate "Exporter en PNG" %}</button>
       </div>
     </div>
     <div class="mol-columns" aria-hidden="true">
-      <span data-col="0">Le vin</span><span data-col="1">Les molécules</span><span data-col="2">La nature</span>
+      <span data-col="0">{% translate "Le vin" %}</span><span data-col="1">{% translate "Les molécules" %}</span><span data-col="2">{% translate "La nature" %}</span>
     </div>
     <div id="mol-cy" class="cy"></div>
-    <p class="mol-stats small muted" id="mol-stats" aria-live="polite">Chargement…</p>
+    <p class="mol-stats small muted" id="mol-stats" aria-live="polite">{% translate "Chargement…" %}</p>
   </section>
 
   <aside class="explorer__panel">
     <div id="mol-panel" aria-live="polite">
       <div class="panel-empty">
-        <h2>Cliquez sur une molécule</h2>
-        <p class="muted">Sa formule, son odeur, la raison de sa présence dans ce vin et les éléments naturels où on la
-          retrouve s'affichent ici.</p>
+        <h2>{% translate "Cliquez sur une molécule" %}</h2>
+        <p class="muted">{% translate "Sa formule, son odeur, la raison de sa présence dans ce vin et les éléments naturels où on la retrouve s'affichent ici." %}</p>
       </div>
     </div>
     <section class="graph-sources" aria-labelledby="graph-sources-title">
-      <h3 id="graph-sources-title">Sources de ce graphe</h3>
-      <p class="small muted">Les publications qui justifient les liens affichés, de la plus citée à la moins citée.</p>
+      <h3 id="graph-sources-title">{% translate "Sources de ce graphe" %}</h3>
+      <p class="small muted">{% translate "Les publications qui justifient les liens affichés, de la plus citée à la moins citée." %}</p>
       <ol class="biblio biblio--compact" id="mol-sources"></ol>
-      <p class="small"><a href="{% url 'molecules:bibliography' %}">Méthode et bibliographie complète</a></p>
+      <p class="small"><a href="{% url 'molecules:bibliography' %}">{% translate "Méthode et bibliographie complète" %}</a></p>
     </section>
   </aside>
 </div>

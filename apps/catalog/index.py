@@ -11,6 +11,7 @@ from functools import lru_cache
 
 from django.db.models import Count, Max
 
+from .i18n import all_labels
 from .models import Appellation, Aroma, AromaFamily, Color, Grape, Region, Style, WineProfile
 from .text import Match, best_matches, normalize
 
@@ -18,14 +19,14 @@ GUESS_KINDS = ("appellation", "region", "grape", "color", "style")
 AROMA_KINDS = ("aroma",)
 
 STYLE_ALIASES = {
-    Style.EFFERVESCENT: ["bulles", "pétillant", "mousseux", "crémant"],
-    Style.MOELLEUX: ["demi-sec", "doux"],
-    Style.LIQUOREUX: ["botrytis", "pourriture noble"],
-    Style.MUTE: ["VDN", "muté", "vin muté"],
-    Style.OXYDATIF: ["vin jaune", "sous voile", "oxydatif"],
-    Style.TRANQUILLE: ["sec", "tranquille"],
+    Style.EFFERVESCENT: ["bulles", "pétillant", "mousseux", "crémant", "sparkling", "bubbles", "fizz"],
+    Style.MOELLEUX: ["demi-sec", "doux", "off-dry", "medium sweet"],
+    Style.LIQUOREUX: ["botrytis", "pourriture noble", "noble rot", "dessert wine"],
+    Style.MUTE: ["VDN", "muté", "vin muté", "fortified"],
+    Style.OXYDATIF: ["vin jaune", "sous voile", "oxydatif", "oxidative", "under flor"],
+    Style.TRANQUILLE: ["sec", "tranquille", "dry", "still"],
 }
-COLOR_ALIASES = {Color.ROSE: ["rose"], Color.ROUGE: [], Color.BLANC: []}
+COLOR_ALIASES = {Color.ROSE: ["rose", "pink"], Color.ROUGE: [], Color.BLANC: []}
 
 
 def data_version() -> tuple:
@@ -47,26 +48,30 @@ def _build(version: tuple) -> dict[str, dict[str, list[Match]]]:
     for a in Appellation.objects.only("id", "name"):
         _add(guess, a.name, Match("appellation", a.id, a.name, 1))
     for r in Region.objects.only("id", "name"):
-        _add(guess, r.name, Match("region", r.id, r.name, 1))
+        m = Match("region", r.id, r.name, 1)
+        for label in all_labels(r.name):  # « Bourgogne » et « Burgundy »
+            _add(guess, label, m)
     for g in Grape.objects.only("id", "name", "synonyms"):
         m = Match("grape", g.id, g.name, 1)
         for label in [g.name, *g.synonyms]:
             _add(guess, label, m)
     for value, label in Color.choices:
         m = Match("color", value, label, 1)
-        for alias in [label, value, *COLOR_ALIASES.get(value, [])]:
+        for alias in [*all_labels(label), value, *COLOR_ALIASES.get(value, [])]:
             _add(guess, alias, m)
     for value, label in Style.choices:
         m = Match("style", value, label, 1)
-        for alias in [label, *STYLE_ALIASES.get(value, [])]:
+        for alias in [*all_labels(label), *STYLE_ALIASES.get(value, [])]:
             _add(guess, alias, m)
 
     for ar in Aroma.objects.only("id", "name", "synonyms"):
         m = Match("aroma", ar.id, ar.name, 1)
-        for label in [ar.name, *ar.synonyms]:
+        for label in [*all_labels(ar.name), *ar.synonyms]:
             _add(aroma, label, m)
     for fam in AromaFamily.objects.only("id", "name"):
-        _add(aroma, fam.name, Match("family", fam.id, fam.name, 1))
+        m = Match("family", fam.id, fam.name, 1)
+        for label in all_labels(fam.name):
+            _add(aroma, label, m)
 
     return {"guess": dict(guess), "aroma": dict(aroma)}
 

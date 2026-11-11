@@ -30,7 +30,7 @@
   smiles: O=C1CC(C)C2=C1C(C)CCC(C(C)=C)C2
   odor: poivre noir, épicé, boisé
   threshold: 16 ng/L dans le vin rouge (8 ng/L dans l'eau)
-  refs: [wood2008, geffroy2020, barter2015]
+  refs: [wood2008, geffroy2020, geffroy2019, barter2015]
   aromas: [poivre noir, poivre blanc]
   description: >
     Identifiée en 2008 dans la Syrah australienne, c'est la molécule du poivre, dans le verre
@@ -40,6 +40,11 @@
   wine:
     - {grapes: [Syrah], strength: 3, ref: wood2008}
     - {grapes: [Duras], strength: 3, ref: geffroy2014}
+    # Plus de 100 ng/L mesurés dans des vins de Gamay (Geffroy et al. 2016, cité par geffroy2019).
+    - {grapes: [Gamay], strength: 2, ref: geffroy2019}
+    # Détectée aussi dans la Mondeuse et le Mourvèdre (revue de 2020), à des teneurs moindres ou peu documentées.
+    - {grapes: [Mondeuse], strength: 2, ref: geffroy2020}
+    - {grapes: [Mourvèdre], strength: 1, ref: geffroy2020}
   nature:
     - {source: poivre noir, ref: wood2008, note: "Jusqu'à 10 000 fois la teneur d'un vin très poivré."}
     - {source: marjolaine, ref: wood2008}
@@ -229,8 +234,8 @@
   origin: raisin
   smiles: CC=CC(=O)C1=C(C)C=CCC1(C)C
   odor: pomme cuite, rose, miel, prune
-  threshold: 0,05 µg/L dans l'eau
-  refs: [smith2015, escudero2010]
+  threshold: 0,002 µg/L dans l'eau, 0,05 µg/L en solution hydroalcoolique ; plusieurs µg/L dans un vin rouge
+  refs: [smith2015, escudero2010, pineau2007]
   aromas: [pomme mûre, miel]
   aroma_max: 1
   families: [Fruits secs et confits]
@@ -254,7 +259,7 @@
   origin: raisin
   smiles: CC(=O)C=CC1=C(C)CCCC1(C)C
   odor: violette, framboise, boisé
-  threshold: 0,09 µg/L dans le vin
+  threshold: 0,09 µg/L en solution modèle de vin (0,007 µg/L dans l'eau)
   refs: [smith2015, barter2015]
   aromas: [violette, framboise]
   description: >
@@ -473,8 +478,8 @@
   origin: bois
   smiles: COc1ccccc1O
   odor: fumée, bois brûlé, médicinal
-  threshold: 95 µg/L dans le vin rouge
-  refs: [ortega2007]
+  threshold: 23 µg/L dans le vin rouge (9,5 µg/L dans l'eau)
+  refs: [ortega2007, awri_smoke]
   aromas: [fumé, pain grillé]
   description: >
     Né de la pyrolyse de la lignine, à très haute température : plus la barrique est brûlée,
@@ -719,7 +724,7 @@
   origin: fermentation
   smiles: CCOC(=O)C=Cc1ccccc1
   odor: cannelle, balsamique, fruits rouges
-  threshold: 17 à 40 µg/L
+  threshold: environ 1 µg/L en solution hydroalcoolique
   refs: [moio1995]
   aromas: [cannelle]
   description: >

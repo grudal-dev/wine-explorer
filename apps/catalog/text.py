@@ -7,15 +7,19 @@ import re
 import unicodedata
 from dataclasses import dataclass
 
-_SPACES = re.compile(r"[\s\-'’_]+")
+_SPACES = re.compile(r"[\s\-'’_.]+")
+_ABBREVIATIONS = {"st": "saint", "ste": "sainte"}
+_ABBREV = re.compile(r"\b(st|ste)\b")
 
 
 def normalize(text: str) -> str:
     """Minuscule, sans accents, ponctuation légère unifiée : « Côte-Rôtie » → « cote rotie »."""
-    text = unicodedata.normalize("NFKD", text or "")
+    text = unicodedata.normalize("NFKD", (text or "").lower())
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
     text = text.replace("œ", "oe").replace("æ", "ae")
-    return _SPACES.sub(" ", text.lower()).strip()
+    text = _SPACES.sub(" ", text).strip()
+    # Abréviations usuelles : « St-Émilion », « Ste Croix ».
+    return _ABBREV.sub(lambda m: _ABBREVIATIONS[m.group(1)], text)
 
 
 @dataclass(frozen=True)

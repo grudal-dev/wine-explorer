@@ -13,11 +13,13 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 
 from django.db.models import Count
+from django.utils.translation import gettext
 
+from apps.catalog.i18n import all_labels, tr
 from apps.catalog.models import WineProfile
 from apps.catalog.text import normalize
 
-from .models import Basis, Molecule, NaturalSource, Occurrence, ProfileMolecule, Reference
+from .models import Basis, ChemicalFamily, Molecule, NaturalSource, Occurrence, ProfileMolecule, Reference
 
 KIND_COLORS = {
     "epice": "#A4502A", "herbe": "#7D8A5A", "fleur": "#B57BB0", "fruit": "#C2334D",
@@ -72,13 +74,13 @@ def _data(version: tuple) -> Data:
         for p in WineProfile.objects.only("slug", "name", "color")
     }
     molecules = {
-        m.slug: {"slug": m.slug, "label": m.name, "family": m.family, "family_label": m.get_family_display(),
+        m.slug: {"slug": m.slug, "label": m.name, "family": m.family, "family_label": ChemicalFamily(m.family).label,
                  "origin": m.origin, "universal": m.universal, "formula": m.formula,
                  "url": m.get_absolute_url()}
         for m in Molecule.objects.all()
     }
     sources = {
-        s.slug: {"slug": s.slug, "label": s.name, "kind": s.kind, "kind_label": s.get_kind_display(),
+        s.slug: {"slug": s.slug, "label": s.name, "kind": s.kind, "kind_label": NaturalSource.Kind(s.kind).label,
                  "hue": KIND_COLORS[s.kind], "url": s.get_absolute_url(), "imported": s.imported}
         for s in NaturalSource.objects.all()
     }
@@ -128,7 +130,7 @@ def reset():
 
 # ----------------------------------------------------------------------------
 def _node(kind: str, info: dict, layer: int, **extra) -> dict:
-    payload = {"id": f"{kind}:{info['slug']}", "label": info["label"], "type": kind, "layer": layer}
+    payload = {"id": f"{kind}:{info['slug']}", "label": tr(info["label"]), "type": kind, "layer": layer}
     if kind == "profile":
         payload["wine"] = info["color"]
     elif kind == "molecule":
@@ -298,20 +300,20 @@ def search(q: str, limit: int = 12) -> list[dict]:
     nq = normalize(q)
     if not nq:
         return []
-    labels = {"profile": "Vin", "molecule": "Molécule", "source": "Élément naturel"}
+    labels = {"profile": gettext("Vin"), "molecule": gettext("Molécule"), "source": gettext("Élément naturel")}
     scored = []
     for kind, pool in (("profile", d.profiles), ("molecule", d.molecules), ("source", d.sources)):
         for info in pool.values():
-            label = normalize(info["label"])
-            if label.startswith(nq):
+            names = [normalize(text) for text in all_labels(info["label"])]
+            if any(name.startswith(nq) for name in names):
                 rank = 0
-            elif nq in label:
+            elif any(nq in name for name in names):
                 rank = 1
             else:
                 continue
-            scored.append((rank, len(label), kind, info))
+            scored.append((rank, len(names[0]), kind, info))
     scored.sort(key=lambda t: (t[0], t[1], t[3]["label"]))
-    return [{"id": f"{k}:{i['slug']}", "kind": k, "slug": i["slug"], "label": i["label"], "hint": labels[k]}
+    return [{"id": f"{k}:{i['slug']}", "kind": k, "slug": i["slug"], "label": tr(i["label"]), "hint": labels[k]}
             for _, _, k, i in scored[:limit]]
 
 

@@ -1,26 +1,26 @@
-{% load static %}
+{% load i18n terroirs_i18n %}{% load static %}
 <article class="node-card mol-card mol-card--{{ kind }}">
 {% if kind == "molecule" %}
-  <p class="small muted">Molécule · {{ obj.get_family_display }}</p>
-  <h2>{{ obj.name }}</h2>
+  <p class="small muted">{% blocktranslate trimmed with get_family_display=obj.get_family_display %}Molécule · {{ get_family_display }}{% endblocktranslate %}</p>
+  <h2>{{ obj.name|tr }}</h2>
   <figure class="structure structure--panel">
-    <img src="{% static obj.structure_static %}" alt="Formule développée de {{ obj.name }}" width="320" height="220">
-    <figcaption>{{ obj.formula_html|safe }}{% if obj.molar_mass %} · {{ obj.molar_mass|floatformat:1 }} g/mol{% endif %}</figcaption>
+    <img src="{% static obj.structure_static %}" alt="{% blocktranslate trimmed with obj_name=obj.name|tr %}Formule développée de {{ obj_name }}{% endblocktranslate %}" width="320" height="220">
+    <figcaption>{{ obj.formula_html|safe }}{% if obj.molar_mass %} {% blocktranslate trimmed with molar_mass=obj.molar_mass|floatformat:1 %}· {{ molar_mass }} g/mol{% endblocktranslate %}{% endif %}</figcaption>
   </figure>
   <dl class="facts">
-    <dt>Odeur</dt><dd>{{ obj.odor|capfirst }}</dd>
-    {% if obj.threshold %}<dt>Seuil</dt><dd>{{ obj.threshold }}</dd>{% endif %}
-    <dt>Origine</dt><dd>{{ obj.get_origin_display }}</dd>
+    <dt>{% translate "Odeur" %}</dt><dd>{{ obj.odor|tr|capfirst }}</dd>
+    {% if obj.threshold %}<dt>{% translate "Seuil" %}</dt><dd>{{ obj.threshold|tr }}</dd>{% endif %}
+    <dt>{% translate "Origine" %}</dt><dd>{{ obj.get_origin_display }}</dd>
   </dl>
 
   {% if link %}
   <section class="node-links">
-    <h3>Pourquoi dans {{ link.profile.name }}</h3>
+    <h3>{% blocktranslate trimmed with profile_name=link.profile.name|tr %}Pourquoi dans {{ profile_name }}{% endblocktranslate %}</h3>
     <ul class="reasons">
       {% for r in reasons %}
       <li class="reason reason--{{ r.basis }}">
-        <span class="reason__dots" aria-label="force {{ r.strength }} sur 3">{% for i in "123" %}<i class="{% if forloop.counter <= r.strength %}is-on{% endif %}"></i>{% endfor %}</span>
-        <span>{{ r.label }}{% if r.reference %} <a class="cite" href="{{ r.reference.link|default:'#' }}" {% if r.reference.link %}target="_blank" rel="noopener"{% endif %} title="{{ r.reference.title }}">{{ r.reference.short }}</a>{% endif %}</span>
+        <span class="reason__dots" aria-label="{% blocktranslate trimmed with strength=r.strength %}force {{ strength }} sur 3{% endblocktranslate %}">{% for i in "123" %}<i class="{% if forloop.counter <= r.strength %}is-on{% endif %}"></i>{% endfor %}</span>
+        <span>{{ r.label|tr }}{% if r.reference %} <a class="cite" href="{{ r.reference.link|default:'#' }}" {% if r.reference.link %}target="_blank" rel="noopener"{% endif %} title="{{ r.reference.title }}">{{ r.reference.short }}</a>{% endif %}</span>
       </li>
       {% endfor %}
     </ul>
@@ -32,62 +32,62 @@
   {% with occ=obj.occurrences.all %}
   {% if occ %}
   <section class="node-links">
-    <h3>On la retrouve dans</h3>
+    <h3>{% translate "On la retrouve dans" %}</h3>
     <div class="tags">
-      {% for o in occ %}<button type="button" class="tag tag--source{% if o.imported %} tag--imported{% endif %}" data-start="source:{{ o.source.slug }}" title="{% if o.imported %}Importé de Wikidata, non vérifié · {% endif %}{{ o.note|default:o.source.latin_name }}"><i class="tag__dot"></i>{{ o.source.name }}</button>{% endfor %}
+      {% for o in occ %}<button type="button" class="tag tag--source{% if o.imported %} tag--imported{% endif %}" data-start="source:{{ o.source.slug }}" title="{% if o.imported %}{% translate "Importé de Wikidata, non vérifié ·" %} {% endif %}{{ o.note|tr|default:o.source.latin_name }}"><i class="tag__dot"></i>{{ o.source.name|tr }}</button>{% endfor %}
     </div>
   </section>
   {% else %}
-  <p class="small muted">Aucun élément naturel documenté dans nos sources : cette molécule naît surtout dans le vin.</p>
+  <p class="small muted">{% translate "Aucun élément naturel documenté dans nos sources : cette molécule naît surtout dans le vin." %}</p>
   {% endif %}
   {% endwith %}
 
   <div class="node-actions">
-    <button type="button" class="btn btn--small" data-start="molecule:{{ obj.slug }}">Partir de cette molécule</button>
-    <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">Fiche complète</a>
+    <button type="button" class="btn btn--small" data-start="molecule:{{ obj.slug }}">{% translate "Partir de cette molécule" %}</button>
+    <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">{% translate "Fiche complète" %}</a>
     <a class="btn btn--ghost btn--small" href="{{ obj.pubchem_url }}" target="_blank" rel="noopener">PubChem</a>
   </div>
 
 {% elif kind == "source" %}
-  <p class="small muted">Élément naturel · {{ obj.get_kind_display }}{% if obj.imported %} · importé de Wikidata, non vérifié{% endif %}</p>
-  <h2>{{ obj.name|capfirst }}</h2>
+  <p class="small muted">{% blocktranslate trimmed with get_kind_display=obj.get_kind_display %}Élément naturel · {{ get_kind_display }}{% endblocktranslate %}{% if obj.imported %} {% translate "· importé de Wikidata, non vérifié" %}{% endif %}</p>
+  <h2>{{ obj.name|tr|capfirst }}</h2>
   {% if obj.latin_name %}<p class="latin">{{ obj.latin_name }}</p>{% endif %}
-  {% if obj.description %}<p>{{ obj.description }}</p>{% endif %}
+  {% if obj.description %}<p>{{ obj.description|tr }}</p>{% endif %}
   <section class="node-links">
-    <h3>Molécules partagées avec le vin</h3>
+    <h3>{% translate "Molécules partagées avec le vin" %}</h3>
     <ul class="occ-list">
       {% for o in obj.occurrences.all %}
-      <li><button type="button" class="tag tag--molecule" data-start="molecule:{{ o.molecule.slug }}">{{ o.molecule.name }}</button>
-        {% if o.note %}<span class="small muted">{{ o.note }}</span>{% endif %}
+      <li><button type="button" class="tag tag--molecule" data-start="molecule:{{ o.molecule.slug }}">{{ o.molecule.name|tr }}</button>
+        {% if o.note %}<span class="small muted">{{ o.note|tr }}</span>{% endif %}
         {% if o.reference %}<a class="cite" href="{{ o.reference.link|default:'#' }}" {% if o.reference.link %}target="_blank" rel="noopener"{% endif %} title="{{ o.reference.title }}">{{ o.reference.short }}</a>{% endif %}</li>
       {% endfor %}
     </ul>
   </section>
   <div class="node-actions">
-    <button type="button" class="btn btn--small" data-start="source:{{ obj.slug }}">Quels vins la rappellent ?</button>
-    <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">Fiche</a>
+    <button type="button" class="btn btn--small" data-start="source:{{ obj.slug }}">{% translate "Quels vins la rappellent ?" %}</button>
+    <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">{% translate "Fiche" %}</a>
   </div>
 
 {% elif kind == "profile" %}
-  <p class="small muted">Profil type</p>
-  <h2><span class="robe robe--{{ obj.color }}"></span> {{ obj.name }}</h2>
+  <p class="small muted">{% translate "Profil type" %}</p>
+  <h2><span class="robe robe--{{ obj.color }}"></span> {{ obj.name|tr }}</h2>
   <p>{{ obj.description|truncatewords:32 }}</p>
   <section class="node-links">
-    <h3>Ses molécules, de la plus sûre à la plus hypothétique</h3>
+    <h3>{% translate "Ses molécules, de la plus sûre à la plus hypothétique" %}</h3>
     <ul class="reasons">
       {% for l in links %}
       <li class="reason reason--{{ l.basis }}">
-        <span class="reason__dots" aria-label="force {{ l.strength }} sur 3">{% for i in "123" %}<i class="{% if forloop.counter <= l.strength %}is-on{% endif %}"></i>{% endfor %}</span>
-        <button type="button" class="linkish" data-start="molecule:{{ l.molecule.slug }}">{{ l.molecule.name }}</button>
+        <span class="reason__dots" aria-label="{% blocktranslate trimmed with strength=l.strength %}force {{ strength }} sur 3{% endblocktranslate %}">{% for i in "123" %}<i class="{% if forloop.counter <= l.strength %}is-on{% endif %}"></i>{% endfor %}</span>
+        <button type="button" class="linkish" data-start="molecule:{{ l.molecule.slug }}">{{ l.molecule.name|tr }}</button>
         <span class="small muted">{{ l.get_basis_display|lower }}</span>
       </li>
-      {% empty %}<li class="muted">Aucune molécule spécifique documentée.</li>
+      {% empty %}<li class="muted">{% translate "Aucune molécule spécifique documentée." %}</li>
       {% endfor %}
     </ul>
   </section>
   <div class="node-actions">
-    <button type="button" class="btn btn--small" data-start="profile:{{ obj.slug }}">Partir de ce vin</button>
-    <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">Fiche du vin</a>
+    <button type="button" class="btn btn--small" data-start="profile:{{ obj.slug }}">{% translate "Partir de ce vin" %}</button>
+    <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">{% translate "Fiche du vin" %}</a>
   </div>
 {% endif %}
 </article>

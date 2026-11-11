@@ -12,7 +12,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env            # DJANGO_DEBUG=true pour le développement
 python manage.py migrate
-python manage.py load_seed      # charge le jeu de données France, puis la section Molécules
+python manage.py load_seed      # facultatif : `migrate` charge déjà les données si la base est vide ou incomplète
 python manage.py createsuperuser
 python manage.py runserver
 ```
@@ -152,3 +152,45 @@ en pointillé dans le graphe et désactivables ; une occurrence saisie à la mai
 RDKit n'est nécessaire qu'à `render_molecules` : les SVG de `static/molecules/` et `computed.json` sont
 versionnés.
 
+## Langues : français et anglais
+
+Le sélecteur FR / EN de l'en-tête change la langue (cookie `django_language`) ; sans choix, la
+langue du navigateur décide. Tout est traduit : interface, messages du jeu, graphes, et le
+contenu de la base (arômes, descriptions des vins, accords, molécules). Les noms d'appellations,
+de cépages et de vins restent en français ; les régions ont un nom anglais quand il existe
+(Burgundy, Rhône Valley). Les recherches acceptent les deux langues.
+
+- Le texte français sert d'identifiant. Interface : balises `{% translate %}` dans les gabarits,
+  `gettext` dans le code, `gettext()` dans les scripts. Contenu de la base : filtre `|tr`
+  (`apps/catalog/i18n.py`), traduit à l'affichage depuis le même catalogue.
+- Catalogues : `locale/en/LC_MESSAGES/django.po` et `djangojs.po`. Les `.mo` compilés sont
+  versionnés : le site n'a besoin de rien d'autre.
+- Après avoir ajouté ou modifié un texte : `python manage.py translations` (extrait, fusionne,
+  compile, liste ce qui manque ; demande `pip install babel`, sans GNU gettext). Remplir les
+  `msgstr` vides dans les `.po`, puis relancer la commande. `--check` échoue s'il en manque.
+
+## Représentations apprises : carte des goûts, cousins, chaud-froid
+
+Un petit réseau de neurones sur graphe (R-GCN à deux couches, décodeur DistMult) apprend un
+vecteur de 32 dimensions pour chaque entité du graphe : vins, cépages, arômes, régions,
+appellations, molécules, éléments naturels. Il est entraîné à prédire les liens du graphe et, pour
+les vins, à retrouver couleur, style et structure en bouche.
+
+    pip install torch scikit-learn          # développement seulement
+    python manage.py train_embeddings        # évalue, entraîne, écrit apps/embeddings/data/embeddings.json
+
+Le fichier de vecteurs est versionné, comme les formules des molécules : le site le lit sans
+PyTorch ni NumPy. À relancer quand les données changent (un test échoue si un nœud n'a pas de
+vecteur). La commande affiche une évaluation sur liens masqués (AUC d'environ 0,93).
+
+- **Carte des goûts** (`/carte/`) : les vins en 2D, deux points voisins se ressemblent. Les autres
+  entités se posent au milieu des vins dont elles sont proches.
+- **Cousins** : « Ce qui lui ressemble » sur les fiches vin, cépage, arôme, appellation, région,
+  molécule. Point plein : lien déjà écrit ; point creux : parenté déduite par le modèle.
+- **Le Nez** : un arôme absent d'un profil profite des arômes voisins dans l'espace appris, au
+  lieu du repli par famille (mesures dans `apps/nose/predictor.py`).
+- **Chaud-froid** (`/le-nez/chaud-froid/`) : jeu à la Cémantix. Un vin mystère, chaque
+  proposition (arôme, cépage, région, molécule, vin…) reçoit une température et un rang.
+
+Limite : les profils sont rédigés à la main. Le modèle apprend la structure de ces fiches, pas la
+chimie de vrais vins ; une parenté déduite est une hypothèse à relire.

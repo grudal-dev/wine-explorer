@@ -36,6 +36,8 @@ if not SECRET_KEY:
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
+# Sections servies (vide = toutes) : voir apps/catalog/sections.py
+PUBLIC_SECTIONS = env_list("DJANGO_PUBLIC_SECTIONS")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     "apps.blindtest",
     "apps.nose",
     "apps.molecules",
+    "apps.embeddings",
     "apps.accounts",
 ]
 
@@ -66,6 +69,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
+    "apps.catalog.sections.SectionGateMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -78,8 +82,10 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
+                "django.template.context_processors.i18n",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "apps.catalog.sections.context",
             ],
         },
     },

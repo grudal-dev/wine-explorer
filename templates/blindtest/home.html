@@ -1,48 +1,47 @@
 {% extends "base.html" %}
-{% block title %}Blind test{% endblock %}
+{% load i18n terroirs_i18n %}
+{% block title %}{% translate "Blind test" %}{% endblock %}
 {% block content %}
 <div class="split">
   <div>
-    <h1>Blind test</h1>
-    <p class="lede">Un vin mystère vous est servi. Vous voyez sa robe, sa structure en bouche et ses premiers arômes.
-      Retrouvez sa région, son appellation et ses cépages principaux. Vous avez {{ max_attempts }} essais ;
-      chaque essai infructueux dévoile un nouvel indice.</p>
+    <h1>{% translate "Blind test" %}</h1>
+    <p class="lede">{% blocktranslate trimmed with max_attempts=max_attempts %}Un vin mystère vous est servi. Vous voyez sa robe, sa structure en bouche et ses premiers arômes. Retrouvez sa région, son appellation et ses cépages principaux. Vous avez {{ max_attempts }} essais ; chaque essai infructueux dévoile un nouvel indice.{% endblocktranslate %}</p>
 
     <div class="grid grid--2 section">
       <form class="entry" method="post" action="{% url 'blindtest:start' %}">{% csrf_token %}
         <input type="hidden" name="mode" value="daily">
-        <h3>Défi du jour</h3>
-        <p>Le même vin pour tout le monde aujourd'hui. Une seule partie, comptée au classement.</p>
+        <h3>{% translate "Défi du jour" %}</h3>
+        <p>{% translate "Le même vin pour tout le monde aujourd'hui. Une seule partie, comptée au classement." %}</p>
         {% if daily %}
-          <p class="small" style="margin-top:.8rem">{% if daily.is_over %}Partie terminée : {{ daily.get_status_display|lower }}, {{ daily.score }} points.{% else %}Partie en cours.{% endif %}</p>
-          <button class="btn" type="submit" style="margin-top:1rem">{% if daily.is_over %}Revoir ma partie{% else %}Reprendre{% endif %}</button>
+          <p class="small" style="margin-top:.8rem">{% if daily.is_over %}{% blocktranslate trimmed with get_status_display=daily.get_status_display|lower score=daily.score %}Partie terminée : {{ get_status_display }}, {{ score }} points.{% endblocktranslate %}{% else %}{% translate "Partie en cours." %}{% endif %}</p>
+          <button class="btn" type="submit" style="margin-top:1rem">{% if daily.is_over %}{% translate "Revoir ma partie" %}{% else %}{% translate "Reprendre" %}{% endif %}</button>
         {% else %}
-          <button class="btn" type="submit" style="margin-top:1rem">Jouer le défi du jour</button>
+          <button class="btn" type="submit" style="margin-top:1rem">{% translate "Jouer le défi du jour" %}</button>
         {% endif %}
       </form>
       <form class="entry" method="post" action="{% url 'blindtest:start' %}">{% csrf_token %}
         <input type="hidden" name="mode" value="free">
-        <h3>Partie libre</h3>
-        <p>Un vin tiré au hasard, autant de fois que vous voulez. Pour s'entraîner.</p>
+        <h3>{% translate "Partie libre" %}</h3>
+        <p>{% translate "Un vin tiré au hasard, autant de fois que vous voulez. Pour s'entraîner." %}</p>
         <div class="field" style="margin-top:.8rem">
-          <label for="color">Couleur</label>
+          <label for="color">{% translate "Couleur" %}</label>
           <select id="color" name="color" class="input">
-            <option value="">Toutes</option>
+            <option value="">{% translate "Toutes" %}</option>
             {% for key, label in colors %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
           </select>
         </div>
-        <button class="btn btn--ghost" type="submit">Servir un vin au hasard</button>
+        <button class="btn btn--ghost" type="submit">{% translate "Servir un vin au hasard" %}</button>
       </form>
     </div>
 
     {% if recent %}
     <section class="section">
-      <h2>Vos dernières parties</h2>
+      <h2>{% translate "Vos dernières parties" %}</h2>
       <ul class="wine-list">
         {% for g in recent %}
         <li><span class="robe robe--{{ g.profile.color }}"></span>
-          <a href="{{ g.get_absolute_url }}">{% if g.is_over %}{{ g.profile.name }}{% else %}Vin mystère en cours{% endif %}</a>
-          <span class="meta">{{ g.get_mode_display }}, {{ g.get_status_display|lower }}{% if g.is_over %}, {{ g.score }} pts{% endif %}</span></li>
+          <a href="{{ g.get_absolute_url }}">{% if g.is_over %}{{ g.profile.name|tr }}{% else %}{% translate "Vin mystère en cours" %}{% endif %}</a>
+          <span class="meta">{{ g.get_mode_display }}, {{ g.get_status_display|lower }}{% if g.is_over %}{% blocktranslate trimmed with score=g.score %}, {{ score }} pts{% endblocktranslate %}{% endif %}</span></li>
         {% endfor %}
       </ul>
     </section>
@@ -51,7 +50,7 @@
 
   <aside class="stack">
     <div class="panel">
-      <h3>Classement du jour</h3>
+      <h3>{% translate "Classement du jour" %}</h3>
       {% if board %}
       <table class="table">
         <tbody>
@@ -61,15 +60,14 @@
         </tbody>
       </table>
       {% else %}
-      <p class="muted small">Personne n'a encore terminé le défi du jour.</p>
+      <p class="muted small">{% translate "Personne n'a encore terminé le défi du jour." %}</p>
       {% endif %}
-      {% if not user.is_authenticated %}<p class="small muted"><a href="{% url 'accounts:signup' %}">Créez un compte</a> pour apparaître au classement et garder votre historique.</p>{% endif %}
-      <a class="small" href="{% url 'accounts:ranking' %}">Classement complet</a>
+      {% if not user.is_authenticated %}<p class="small muted"><a href="{% url 'accounts:signup' %}">{% translate "Créez un compte" %}</a> {% translate "pour apparaître au classement et garder votre historique." %}</p>{% endif %}
+      <a class="small" href="{% url 'accounts:ranking' %}">{% translate "Classement complet" %}</a>
     </div>
     <div class="panel">
-      <h3>Barème</h3>
-      <p class="small">Une victoire vaut 1 000 points, moins 90 par essai supplémentaire et 40 par indice dévoilé, avec un minimum de 100.
-        Une partie perdue rapporte 25 points par élément trouvé.</p>
+      <h3>{% translate "Barème" %}</h3>
+      <p class="small">{% translate "Une victoire vaut 1 000 points, moins 90 par essai supplémentaire et 40 par indice dévoilé, avec un minimum de 100. Une partie perdue rapporte 25 points par élément trouvé." %}</p>
     </div>
   </aside>
 </div>

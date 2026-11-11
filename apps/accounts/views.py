@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Max, Q, Sum
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from apps.blindtest.models import Game
 from apps.blindtest.views import leaderboard, stats_for
@@ -18,7 +19,8 @@ def signup(request):
     if request.method == "POST" and form.is_valid():
         user = form.save()
         login(request, user)
-        messages.success(request, f"Bienvenue, {user.username}. Vos parties sont enregistrées.")
+        messages.success(
+            request, gettext("Bienvenue, %(name)s. Vos parties sont enregistrées.") % {"name": user.username})
         return redirect("accounts:profile")
     return render(request, "registration/signup.html", {"form": form})
 

@@ -1,27 +1,20 @@
 {% extends "base.html" %}
-{% block title %}Sources et méthode{% endblock %}
+{% load i18n terroirs_i18n %}
+{% block title %}{% translate "Sources et méthode" %}{% endblock %}
 {% block content %}
-<h1>Sources et méthode</h1>
+<h1>{% translate "Sources et méthode" %}</h1>
 <div class="stack" style="max-width: 70ch">
-  <p class="lede">Le jeu de données de référence est volontairement réduit et propre : chaque profil type a été rédigé
-    et vérifié à la main, puis validé automatiquement au chargement (cépages, arômes et régions doivent exister,
-    l'encépagement doit totaliser 100 %).</p>
-  <h2>Ce que contient la base</h2>
-  <p>Des <strong>profils types</strong> : ce que l'on attend d'une appellation dans une couleur et un style. Ce ne sont
-    pas des bouteilles précises. Les prix et potentiels de garde sont des fourchettes indicatives, les coordonnées
-    géographiques correspondent à une commune centrale de l'appellation.</p>
-  <h2>Sources ouvertes prévues</h2>
-  <p><strong>INAO, via data.gouv.fr</strong> : le jeu « Aires et produits AOC/AOP et IGP », sous Licence Ouverte 2.0,
-    liste les appellations, leurs produits et les communes rattachées. La commande <code>import_inao</code> enrichit
-    les appellations avec leur identifiant officiel et leur nombre de communes.</p>
-  <p><strong>Wikidata</strong> (CC0) : identifiants et coordonnées des appellations et cépages, via la commande
-    <code>import_wikidata</code>. C'est aussi la voie la plus simple pour ouvrir la base au monde entier.</p>
-  <h2>Molécules</h2>
-  <p>La section <a href="{% url 'molecules:explorer' %}">Molécules</a> a sa propre méthode et sa bibliographie :
-    <a href="{% url 'molecules:bibliography' %}">règles de rattachement et références</a>.</p>
-  <h2>Le Nez : comment sont calculées les probabilités</h2>
-  <p>Un classifieur bayésien naïf compare vos descripteurs aux arômes pondérés de chaque profil. Un descripteur absent
-    d'un profil mais de la même famille qu'un de ses arômes garde une vraisemblance partielle : la framboise n'est pas
-    la fraise, mais elle en est proche. Les scores sont ensuite normalisés en probabilités sur l'ensemble des profils.</p>
+  <p class="lede">{% translate "Le jeu de données de référence est volontairement réduit et propre : chaque profil type a été rédigé et vérifié à la main, puis validé automatiquement au chargement (cépages, arômes et régions doivent exister, l'encépagement doit totaliser 100 %)." %}</p>
+  <h2>{% translate "Ce que contient la base" %}</h2>
+  <p>{% translate "Des" %} <strong>{% translate "profils types" %}</strong> {% translate ": ce que l'on attend d'une appellation dans une couleur et un style. Ce ne sont pas des bouteilles précises. Les prix et potentiels de garde sont des fourchettes indicatives, les coordonnées géographiques correspondent à une commune centrale de l'appellation." %}</p>
+  <h2>{% translate "Sources ouvertes prévues" %}</h2>
+  <p><strong>{% translate "INAO, via data.gouv.fr" %}</strong> {% translate ": le jeu « Aires et produits AOC/AOP et IGP », sous Licence Ouverte 2.0, liste les appellations, leurs produits et les communes rattachées. La commande" %} <code>import_inao</code> {% translate "enrichit les appellations avec leur identifiant officiel et leur nombre de communes." %}</p>
+  <p><strong>Wikidata</strong> {% translate "(CC0) : identifiants et coordonnées des appellations et cépages, via la commande" %}
+    <code>import_wikidata</code>{% translate ". C'est aussi la voie la plus simple pour ouvrir la base au monde entier." %}</p>
+  <h2>{% translate "Molécules" %}</h2>
+  <p>{% translate "La section" %} <a href="{% url 'molecules:explorer' %}">{% translate "Molécules" %}</a> {% translate "a sa propre méthode et sa bibliographie :" %}
+    <a href="{% url 'molecules:bibliography' %}">{% translate "règles de rattachement et références" %}</a>.</p>
+  <h2>{% translate "Le Nez : comment sont calculées les probabilités" %}</h2>
+  <p>{% translate "Un classifieur bayésien naïf compare vos descripteurs aux arômes pondérés de chaque profil. Un descripteur absent d'un profil mais de la même famille qu'un de ses arômes garde une vraisemblance partielle : la framboise n'est pas la fraise, mais elle en est proche. Les scores sont ensuite normalisés en probabilités sur l'ensemble des profils." %}</p>
 </div>
 {% endblock %}

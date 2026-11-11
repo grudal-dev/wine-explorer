@@ -1,22 +1,23 @@
 {% extends "base.html" %}
-{% block title %}Explorer le vin{% endblock %}
+{% load i18n terroirs_i18n %}
+{% block title %}{% translate "Explorer le vin" %}{% endblock %}
 {% block content %}
 <section class="hero">
   <div>
     {% if teaser %}
-    <p class="hero__kicker">Le vin du jour est un {{ teaser.color|lower }}. Au nez :</p>
+    <p class="hero__kicker">{% blocktranslate trimmed with color=teaser.color|lower %}Le vin du jour est un {{ color }}. Au nez :{% endblocktranslate %}</p>
     <p class="hero__nose">{{ teaser.aromas|join:", "|capfirst }}<em>…</em></p>
-    <p class="lede">Retrouvez sa région, son appellation et ses cépages en huit essais. Chaque erreur dévoile un indice.</p>
+    <p class="lede">{% translate "Retrouvez sa région, son appellation et ses cépages en huit essais. Chaque erreur dévoile un indice." %}</p>
     <div class="hero__actions">
       <form method="post" action="{% url 'blindtest:start' %}">{% csrf_token %}
         <input type="hidden" name="mode" value="daily">
-        <button class="btn" type="submit">Jouer le défi du jour</button>
+        <button class="btn" type="submit">{% translate "Jouer le défi du jour" %}</button>
       </form>
-      <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}">Parcourir le graphe</a>
+      <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}">{% translate "Parcourir le graphe" %}</a>
     </div>
     {% else %}
     <h1>Terroirs</h1>
-    <p class="lede">Aucune donnée chargée. Lancez <code>python manage.py load_seed</code>.</p>
+    <p class="lede">{% translate "Aucune donnée chargée. Lancez" %} <code>python manage.py load_seed</code>.</p>
     {% endif %}
   </div>
   {% if teaser %}
@@ -26,33 +27,33 @@
   {% endif %}
 </section>
 
-<div class="figures" aria-label="Contenu de la base">
-  <div><strong>{{ stats.profiles }}</strong><span>profils types</span></div>
-  <div><strong>{{ stats.appellations }}</strong><span>appellations</span></div>
-  <div><strong>{{ stats.grapes }}</strong><span>cépages</span></div>
-  <div><strong>{{ stats.aromas }}</strong><span>descripteurs aromatiques</span></div>
+<div class="figures" aria-label="{% translate "Contenu de la base" %}">
+  <div><strong>{{ stats.profiles }}</strong><span>{% translate "profils types" %}</span></div>
+  <div><strong>{{ stats.appellations }}</strong><span>{% translate "appellations" %}</span></div>
+  <div><strong>{{ stats.grapes }}</strong><span>{% translate "cépages" %}</span></div>
+  <div><strong>{{ stats.aromas }}</strong><span>{% translate "descripteurs aromatiques" %}</span></div>
 </div>
 
 <section class="section grid grid--3">
   <a class="entry" href="{% url 'explorer:explorer' %}">
-    <h3>Le graphe</h3>
-    <p>Naviguez de la région à l'appellation, du cépage à l'arôme. Cherchez le chemin qui relie le chablis au litchi.</p>
-    <span class="entry__go">Explorer</span>
+    <h3>{% translate "Le graphe" %}</h3>
+    <p>{% translate "Naviguez de la région à l'appellation, du cépage à l'arôme. Cherchez le chemin qui relie le chablis au litchi." %}</p>
+    <span class="entry__go">{% translate "Explorer" %}</span>
   </a>
   <a class="entry" href="{% url 'blindtest:home' %}">
-    <h3>Blind test</h3>
-    <p>Un vin mystère, sa robe, sa structure et ses arômes. À vous de reconstituer l'étiquette.</p>
-    <span class="entry__go">Jouer</span>
+    <h3>{% translate "Blind test" %}</h3>
+    <p>{% translate "Un vin mystère, sa robe, sa structure et ses arômes. À vous de reconstituer l'étiquette." %}</p>
+    <span class="entry__go">{% translate "Jouer" %}</span>
   </a>
   <a class="entry" href="{% url 'nose:nose' %}">
-    <h3>Le Nez</h3>
-    <p>Décrivez ce que vous sentez dans le verre : nous proposons les cinq vins les plus probables.</p>
-    <span class="entry__go">Décrire un vin</span>
+    <h3>{% translate "Le Nez" %}</h3>
+    <p>{% translate "Décrivez ce que vous sentez dans le verre : nous proposons les cinq vins les plus probables." %}</p>
+    <span class="entry__go">{% translate "Décrire un vin" %}</span>
   </a>
   <a class="entry" href="{% url 'molecules:explorer' %}">
-    <h3>Molécules</h3>
-    <p>Du verre à la nature : la rotundone de la Syrah mène au poivre noir, le sotolon du vin jaune au fenugrec.</p>
-    <span class="entry__go">Remonter la piste</span>
+    <h3>{% translate "Molécules" %}</h3>
+    <p>{% translate "Du verre à la nature : la rotundone de la Syrah mène au poivre noir, le sotolon du vin jaune au fenugrec." %}</p>
+    <span class="entry__go">{% translate "Remonter la piste" %}</span>
   </a>
 </section>
 {% endblock %}

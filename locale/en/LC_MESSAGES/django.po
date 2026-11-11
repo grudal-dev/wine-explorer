@@ -1,0 +1,4723 @@
+# English translations for Terroirs.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the Terroirs project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Terroirs VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-11-11 17:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#, python-format
+msgid "%(a_n)s profil%(s)s"
+msgstr "%(a_n)s profile%(s)s"
+
+#, python-format
+msgid "%(aging_min)s à %(aging_max)s ans"
+msgstr "%(aging_min)s to %(aging_max)s years"
+
+#, python-format
+msgid "%(aromas_hidden)s autre%(s)s à découvrir"
+msgstr "%(aromas_hidden)s more to discover"
+
+#, python-format
+msgid "%(attempts_left)s essai%(s)s restant%(s)s"
+msgstr "%(attempts_left)s attempt%(s)s left"
+
+#, python-format
+msgid "%(attempts_left)s essais restants sur %(max_attempts)s"
+msgstr "%(attempts_left)s attempts left out of %(max_attempts)s"
+
+#, python-format
+msgid ""
+"%(display_name)s : odeur de %(odor)s. Les vins qui la contiennent et les éléments naturels où on la "
+"retrouve."
+msgstr "%(display_name)s: smells of %(odor)s. The wines that contain it and the natural sources where it is found."
+
+#, python-format
+msgid "%(get_classification_display)s de %(region_name)s"
+msgstr "%(get_classification_display)s in %(region_name)s"
+
+#, python-format
+msgid "%(get_family_display)s · %(get_origin_display)s. Odeur : %(odor)s."
+msgstr "%(get_family_display)s · %(get_origin_display)s. Smell: %(odor)s."
+
+#, python-format
+msgid "%(grape)s (%(share)s %% de l'encépagement)"
+msgstr "%(grape)s (%(share)s%% of the blend)"
+
+#, python-format
+msgid "%(grape)s est présent, mais en petite proportion."
+msgstr "%(grape)s is there, but only in a small proportion."
+
+#, python-format
+msgid "%(grape)s fait bien partie de l'encépagement principal."
+msgstr "%(grape)s is indeed one of the main grapes."
+
+#, python-format
+msgid "%(grapes)s cépages, du cabernet sauvignon au sciaccarellu."
+msgstr "%(grapes)s grape varieties, from Cabernet Sauvignon to Sciaccarellu."
+
+#, python-format
+msgid ""
+"%(imported)s occurrences issues de Wikidata (P703, initiative LOTUS), non vérifiées une à une. Encadrées en"
+" pointillé."
+msgstr ""
+"%(imported)s occurrences from Wikidata (P703, LOTUS initiative), not checked one by one. Shown with a "
+"dashed outline."
+
+#, python-format
+msgid "%(label)s : %(value)s sur 5"
+msgstr "%(label)s: %(value)s out of 5"
+
+#, python-format
+msgid "%(n_wines)s vin%(s)s"
+msgstr "%(n_wines)s wine%(s)s"
+
+#, python-format
+msgid "%(rank)s sur %(total)s"
+msgstr "%(rank)s of %(total)s"
+
+#, python-format
+msgid "%(s_name)s, côté nature"
+msgstr "%(s_name)s, in nature"
+
+#, python-format
+msgid "%(shared)s arôme%(s)s en commun"
+msgstr "%(shared)s shared aroma%(s)s"
+
+#, python-format
+msgid "%(won)s sur %(played)s"
+msgstr "%(won)s out of %(played)s"
+
+#, python-format
+msgid "(%(molecules_total)s molécules)"
+msgstr "(%(molecules_total)s molecules)"
+
+msgid "(+)-pipéritone dans les menthes, (–)-pipéritone dans les eucalyptus."
+msgstr "(+)-piperitone in mints, (–)-piperitone in eucalyptus."
+
+msgid "(CC0) : identifiants et coordonnées des appellations et cépages, via la commande"
+msgstr "(CC0): identifiers and coordinates for appellations and grape varieties, through the command"
+
+msgid "(Z)-3-hexén-1-ol"
+msgstr "cis-3-hexen-1-ol"
+
+#, python-format
+msgid ", %(score)s pts"
+msgstr ", %(score)s pts"
+
+#, python-format
+msgid ", berceau : %(origin)s"
+msgstr ", birthplace: %(origin)s"
+
+#, python-format
+msgid ", en %(parent_name)s"
+msgstr ", %(parent_name)s"
+
+msgid ", non compté"
+msgstr ", not counted"
+
+msgid ", pas des bouteilles analysées. Le lien vin → molécule est donc"
+msgstr ", not analysed bottles. The wine → molecule link is therefore"
+
+msgid ". C'est aussi la voie la plus simple pour ouvrir la base au monde entier."
+msgstr ". It is also the simplest way to open the database to the whole world."
+
+msgid "0,002 µg/L dans l'eau, 0,05 µg/L en solution hydroalcoolique ; plusieurs µg/L dans un vin rouge"
+msgstr "0.002 µg/L in water, 0.05 µg/L in hydroalcoholic solution; several µg/L in a red wine"
+
+msgid "0,01 µg/L"
+msgstr "0.01 µg/L"
+
+msgid "0,09 µg/L en solution modèle de vin (0,007 µg/L dans l'eau)"
+msgstr "0.09 µg/L in model wine solution (0.007 µg/L in water)"
+
+#, python-format
+msgid "0,14 % de l'essence, mais près de 70 % de son pouvoir odorant."
+msgstr "0.14% of the oil, but nearly 70% of its odour power."
+
+msgid "0,2 µg/L"
+msgstr "0.2 µg/L"
+
+msgid "0,2 à 2,8 mg/L selon le vin"
+msgstr "0.2 to 2.8 mg/L depending on the wine"
+
+msgid "0,3 ng/L en solution hydroalcoolique"
+msgstr "0.3 ng/L in hydroalcoholic solution"
+
+msgid "0,4 ng/L en solution modèle"
+msgstr "0.4 ng/L in model solution"
+
+msgid "0,7 ng/L en vin modèle"
+msgstr "0.7 ng/L in model wine"
+
+msgid "0,8 ng/L en solution modèle, 3 ng/L dans le vin"
+msgstr "0.8 ng/L in model solution, 3 ng/L in wine"
+
+msgid "1,1 µg/L dans un Merlot"
+msgstr "1.1 µg/L in a Merlot"
+
+msgid "1,8-cinéole"
+msgstr "eucalyptol"
+
+msgid "1-octén-3-ol"
+msgstr "1-octen-3-ol"
+
+msgid "1-octén-3-ol (note champignon) et 2-phényléthanol dans la truffe noire du Périgord."
+msgstr "1-octen-3-ol (mushroom note) and 2-phenylethanol in Périgord black truffle."
+
+msgid "100 µg/L dans le vin"
+msgstr "100 µg/L in wine"
+
+msgid "100 à 125 mg/L (forme libre)"
+msgstr "100 to 125 mg/L (free form)"
+
+msgid "100° : c'est le vin"
+msgstr "100°: that's the wine"
+
+msgid "11 µg/L en solution modèle"
+msgstr "11 µg/L in model solution"
+
+msgid "120 à 268 µg/L de sotolon dans le vin jaune, formés pendant six ans sous voile."
+msgstr "120 to 268 µg/L of sotolon in vin jaune, formed over six years under flor."
+
+msgid "14 mg/L dans le vin"
+msgstr "14 mg/L in wine"
+
+msgid "14 µg/L dans le vin"
+msgstr "14 µg/L in wine"
+
+msgid "15 ng/L dans le vin rouge (2 ng/L dans l'eau)"
+msgstr "15 ng/L in red wine (2 ng/L in water)"
+
+msgid "16 ng/L dans le vin rouge (8 ng/L dans l'eau)"
+msgstr "16 ng/L in red wine (8 ng/L in water)"
+
+msgid "18 µg/L dans le vin"
+msgstr "18 µg/L in wine"
+
+msgid "2 µg/L dans le vin"
+msgstr "2 µg/L in wine"
+
+msgid "2 à 4 ng/L en solution modèle"
+msgstr "2 to 4 ng/L in model solution"
+
+msgid "2-furfurylthiol"
+msgstr "2-furanmethanethiol"
+
+msgid "2-méthylbutanoate d'éthyle"
+msgstr "ethyl 2-methylbutanoate"
+
+msgid "2-phényléthanol"
+msgstr "2-phenylethanol"
+
+msgid "20 µg/L dans le vin"
+msgstr "20 µg/L in wine"
+
+msgid "23 µg/L dans le vin rouge (9,5 µg/L dans l'eau)"
+msgstr "23 µg/L in red wine (9.5 µg/L in water)"
+
+msgid "25 µg/L environ dans le vin"
+msgstr "about 25 µg/L in wine"
+
+msgid "250 µg/L dans le vin"
+msgstr "250 µg/L in wine"
+
+msgid "3-sulfanylhexanol"
+msgstr "3-mercaptohexanol"
+
+msgid "30 µg/L dans le vin"
+msgstr "30 µg/L in wine"
+
+msgid "300 µg/L dans le vin"
+msgstr "300 µg/L in wine"
+
+msgid "320 µg/L dans le vin rouge"
+msgstr "320 µg/L in red wine"
+
+msgid "368 à 605 µg/L dans un Cabernet"
+msgstr "368 to 605 µg/L in a Cabernet"
+
+msgid "4-MMP"
+msgstr "4-mercapto-4-methyl-2-pentanone"
+
+msgid "4-éthylgaïacol"
+msgstr "4-ethylguaiacol"
+
+msgid "4-éthylphénol"
+msgstr "4-ethylphenol"
+
+msgid "400 µg/L dans le vin"
+msgstr "400 µg/L in wine"
+
+msgid "47 µg/L environ"
+msgstr "about 47 µg/L"
+
+msgid "500 µg/L dans le vin rouge"
+msgstr "500 µg/L in red wine"
+
+msgid "60 ng/L en solution modèle"
+msgstr "60 ng/L in model solution"
+
+msgid "62 ng/L dans le vin rouge"
+msgstr "62 ng/L in red wine"
+
+msgid "67 µg/L (isomère cis) dans le vin rouge"
+msgstr "67 µg/L (cis isomer) in red wine"
+
+msgid "7 µg/L environ"
+msgstr "about 7 µg/L"
+
+msgid "900 µg/L dans un vin rouge désaromatisé"
+msgstr "900 µg/L in a dearomatised red wine"
+
+msgid ""
+": ce que l'on attend d'une appellation dans une couleur et un style. Ce ne sont pas des bouteilles "
+"précises. Les prix et potentiels de garde sont des fourchettes indicatives, les coordonnées géographiques "
+"correspondent à une commune centrale de l'appellation."
+msgstr ""
+": what you expect from an appellation in a given colour and style. They are not specific bottles. Prices "
+"and ageing potential are indicative ranges, and the coordinates point to a central village of the "
+"appellation."
+
+#, python-format
+msgid ""
+": le cépage représente au moins 15 %% de l'encépagement et la littérature l'associe à la molécule "
+"(rotundone de la Syrah, thiols du Sauvignon, oxyde de rose du Gewurztraminer…)."
+msgstr ""
+": the grape makes up at least 15%% of the blend and the literature associates it with the molecule "
+"(rotundone in Syrah, thiols in Sauvignon, rose oxide in Gewurztraminer…)."
+
+msgid ": le diacétyle de la fermentation malolactique, presque systématique en rouge."
+msgstr ": diacetyl from malolactic fermentation, almost systematic in red wines."
+
+msgid ""
+": le jeu « Aires et produits AOC/AOP et IGP », sous Licence Ouverte 2.0, liste les appellations, leurs "
+"produits et les communes rattachées. La commande"
+msgstr ""
+": the dataset \"Aires et produits AOC/AOP et IGP\", under Licence Ouverte 2.0, lists the appellations, "
+"their products and their villages. The command"
+
+msgid ""
+": le profil cite un arôme classiquement attribué à la molécule (vanille et vanilline, violette et "
+"β-ionone). C'est le lien le plus hypothétique : il ne dépasse jamais « probable »."
+msgstr ""
+": the profile mentions an aroma classically attributed to the molecule (vanilla and vanillin, violet and "
+"β-ionone). This is the most speculative link: it never goes above \"likely\"."
+
+msgid ": le sotolon des vins jaunes, la γ-nonalactone des liquoreux botrytisés."
+msgstr ": sotolon in vin jaune, γ-nonalactone in botrytised sweet wines."
+
+msgid ""
+": quelques esters et alcools de fermentation présents dans tous les vins. Ils sont masqués par défaut dans "
+"le graphe."
+msgstr ": a few fermentation esters and alcohols present in every wine. They are hidden by default in the graph."
+
+msgid "AOC / AOP"
+msgstr "AOC / AOP"
+
+msgid "AVA"
+msgstr "AVA"
+
+msgid "Abandonner et voir la réponse"
+msgstr "Give up and see the answer"
+
+msgid "Abandonnée"
+msgstr "Abandoned"
+
+msgid "Accords"
+msgstr "Food pairings"
+
+msgid "Acidité"
+msgstr "Acidity"
+
+msgid "Adresse e-mail"
+msgstr "Email address"
+
+msgid "Agrumes"
+msgstr "Citrus"
+
+msgid "Ajouter toute la famille"
+msgstr "Add the whole family"
+
+msgid "Ajouter un descripteur"
+msgstr "Add a descriptor"
+
+msgid "Alcool"
+msgstr "Alcohol"
+
+msgid ""
+"Alcool supérieur produit par la levure à partir de la phénylalanine. Présent dans tous les vins, souvent "
+"sous son seuil, il arrondit les notes florales."
+msgstr ""
+"Higher alcohol produced by yeast from phenylalanine. Present in every wine, often below its threshold, it "
+"rounds out floral notes."
+
+msgid ""
+"Alcool terpénique à odeur de rose, abondant dans les Muscats et le Gewurztraminer jeunes. C'est le "
+"constituant majoritaire de l'essence de rose, même s'il n'en est pas le plus odorant."
+msgstr ""
+"Rose-scented terpene alcohol, abundant in young Muscats and Gewurztraminer. It is the main constituent of "
+"rose oil, though not its most odorous one."
+
+msgid ""
+"Alcool terpénique à odeur de rose, abondant dans les Muscats et le Gewurztraminer. Instable en milieu "
+"acide, il se réarrange peu à peu en linalol et en α-terpinéol pendant le vieillissement."
+msgstr ""
+"Rose-scented terpene alcohol, abundant in Muscats and Gewurztraminer. Unstable in acidic conditions, it "
+"gradually rearranges into linalool and α-terpineol during ageing."
+
+msgid "Aldéhyde"
+msgstr "Aldehyde"
+
+msgid "Aliment transformé"
+msgstr "Processed food"
+
+msgid "Aller au contenu"
+msgstr "Skip to content"
+
+msgid "Alsace"
+msgstr "Alsace"
+
+msgid "Anjou"
+msgstr "Anjou"
+
+msgid "Anjou-Saumur"
+msgstr "Anjou-Saumur"
+
+msgid "Appellation"
+msgstr "Appellation"
+
+msgid "Appellation à trouver"
+msgstr "Appellation to find"
+
+msgid "Appellations"
+msgstr "Appellations"
+
+msgid "Arborescente"
+msgstr "Tree"
+
+msgid ""
+"Arbre de Nouvelle-Guinée dont l'écorce, au parfum de noix de coco, a donné son nom à la lactone massoia, "
+"retrouvée dans les Merlot et Cabernet trop mûrs."
+msgstr ""
+"Tree from New Guinea whose coconut-scented bark gave its name to massoia lactone, found in overripe Merlot "
+"and Cabernet."
+
+msgid "Arbre et bois"
+msgstr "Tree and wood"
+
+msgid "Arrivée"
+msgstr "End"
+
+msgid "Arrivée :"
+msgstr "End:"
+
+msgid "Arôme"
+msgstr "Aroma"
+
+msgid "Arômes"
+msgstr "Aromas"
+
+msgid "Arômes : intensité minimale"
+msgstr "Aromas: minimum intensity"
+
+msgid "Arômes associés"
+msgstr "Associated aromas"
+
+msgid "Au nez"
+msgstr "On the nose"
+
+#, python-format
+msgid "Au nez : %(aroma)s (%(level)s)"
+msgstr "On the nose: %(aroma)s (%(level)s)"
+
+msgid "Au nez, il rappelle"
+msgstr "On the nose, it recalls"
+
+msgid "Aucun chemin entre ces deux entités."
+msgstr "No path between these two entities."
+
+msgid "Aucun descripteur pour l'instant. Tapez-en un, ou piochez dans la roue ci-dessous."
+msgstr "No descriptor yet. Type one, or pick from the wheel below."
+
+msgid "Aucun profil chargé (lancer load_seed)."
+msgstr "No profile loaded (run load_seed)."
+
+msgid "Aucun profil disponible."
+msgstr "No profile available."
+
+msgid "Aucun profil ne correspond avec ces couleurs. Décochez une couleur pour élargir."
+msgstr "No profile matches with these colours. Untick a colour to widen the search."
+
+msgid "Aucun profil ne le cite encore. Il reste utile dans Le Nez, par sa famille."
+msgstr "No profile mentions it yet. It is still useful in The Nose, through its family."
+
+msgid "Aucun profil type n'y est rattaché par une règle spécifique."
+msgstr "No wine profile is linked to it by a specific rule."
+
+msgid "Aucun vecteur appris pour l'instant. Lancez : python manage.py train_embeddings"
+msgstr "No learned vectors yet. Run: python manage.py train_embeddings"
+
+msgid "Aucun vin jouable : lancez train_embeddings."
+msgstr "No playable wine: run train_embeddings."
+
+msgid ""
+"Aucun élément naturel documenté dans nos sources : cette molécule naît surtout dans le vin, pendant la "
+"fermentation ou le vieillissement."
+msgstr ""
+"No natural source documented in our references: this molecule mostly arises in wine, during fermentation or"
+" ageing."
+
+msgid "Aucun élément naturel documenté dans nos sources : cette molécule naît surtout dans le vin."
+msgstr "No natural source documented in our references: this molecule mostly arises in wine."
+
+msgid "Aucune appellation pour l'instant."
+msgstr "No appellation yet."
+
+msgid "Aucune donnée chargée. Lancez"
+msgstr "No data loaded. Run"
+
+msgid "Aucune molécule spécifique documentée."
+msgstr "No specific molecule documented."
+
+msgid "Aucune partie pour l'instant."
+msgstr "No games yet."
+
+msgid "Aucune partie terminée pour l'instant."
+msgstr "No finished games yet."
+
+msgid "Aucune proposition pour l'instant. Lancez-vous : « fruits rouges », « chardonnay », « Rhône »…"
+msgstr "No guesses yet. Go ahead: \"red fruit\", \"chardonnay\", \"Rhône\"…"
+
+#, python-format
+msgid "Aussi : %(synonyms)s"
+msgstr "Also: %(synonyms)s"
+
+#, python-format
+msgid "Aussi appelé %(synonyms)s."
+msgstr "Also called %(synonyms)s."
+
+msgid "Aussi appelée"
+msgstr "Also called"
+
+#, python-format
+msgid "Aussi décrit comme %(synonyms)s."
+msgstr "Also described as %(synonyms)s."
+
+msgid "Autre"
+msgstr "Other"
+
+msgid ""
+"Baie séchée du poivrier. Le poivre noir et le blanc renferment de la rotundone à des teneurs environ 10 000"
+" fois supérieures à celles d'un vin très poivré."
+msgstr ""
+"Dried berry of the pepper vine. Black and white pepper contain rotundone at levels about 10,000 times "
+"higher than a very peppery wine."
+
+msgid "Barème"
+msgstr "Scoring"
+
+msgid "Beaujolais"
+msgstr "Beaujolais"
+
+#, python-format
+msgid "Bienvenue, %(name)s. Vos parties sont enregistrées."
+msgstr "Welcome, %(name)s. Your games are saved."
+
+msgid "Blanc"
+msgstr "White"
+
+msgid "Blanc ample et capiteux, aux notes de sous-bois fumé et de fruits jaunes, du sec au moelleux."
+msgstr "Full, heady white with notes of smoky undergrowth and yellow fruit, from dry to medium-sweet."
+
+msgid "Blanc ample et riche du sud, aux fleurs blanches et à l'anis, rare au regard de la production de rouge."
+msgstr "Full, rich southern white with white flowers and aniseed, rare compared with the red production."
+
+msgid "Blanc d'IGP explosif d'agrumes et d'exotisme, léger et désaltérant, sur les terres de l'armagnac."
+msgstr "IGP white bursting with citrus and tropical fruit, light and thirst-quenching, from Armagnac country."
+
+msgid ""
+"Blanc de chenin sur tuffeau, du sec au demi-sec selon l'année, toujours porté par une acidité lumineuse et "
+"des notes de coing et d'acacia."
+msgstr ""
+"Chenin white on tuffeau limestone, dry to off-dry depending on the year, always carried by a luminous "
+"acidity and notes of quince and acacia."
+
+msgid "Blanc de montagne léger et vif, peu alcoolisé, aux notes de pierre et de fleurs alpines."
+msgstr "Light, crisp mountain white, low in alcohol, with notes of stone and alpine flowers."
+
+msgid "Blanc de vermentinu ample et salin, aux notes d'anis et d'amande."
+msgstr "Full, saline Vermentinu white with notes of aniseed and almond."
+
+msgid "Blanc opulent et parfumé, aux arômes d'abricot et de pêche, le temple du viognier."
+msgstr "Opulent, perfumed white with apricot and peach aromas, the temple of Viognier."
+
+msgid "Blanc plus ample de l'altesse, aux notes d'amande et de bergamote, qui gagne en miel avec l'âge."
+msgstr "Fuller white from Altesse, with notes of almond and bergamot, gaining honey with age."
+
+msgid ""
+"Blanc sec austère et racé sur schistes, d'une acidité tranchante et d'une texture presque tannique. Il "
+"réclame de l'air et du temps."
+msgstr ""
+"Austere, thoroughbred dry white on schist, with cutting acidity and an almost tannic texture. It needs air "
+"and time."
+
+msgid ""
+"Blanc sec d'une grande pureté près de l'océan, élevé sur lies fines qui lui donnent une touche de mie de "
+"pain et un perlant léger. Iodé et salin."
+msgstr ""
+"Dry white of great purity near the ocean, aged on fine lees that give it a touch of bread crumb and a light"
+" spritz. Iodine and salt."
+
+msgid ""
+"Blanc sec de grande garde élevé en barrique, mariant la vivacité des agrumes à la texture cireuse et au "
+"grillé. Il se patine magnifiquement."
+msgstr ""
+"Dry white for long ageing, matured in barrel, marrying citrus liveliness with a waxy texture and toasty "
+"notes. It ages magnificently."
+
+msgid "Blanc sec rond et frais, entre fruit blanc et agrumes, avec une pointe de cire qui annonce le sémillon."
+msgstr "Round, fresh dry white, between white fruit and citrus, with a hint of wax that signals Sémillon."
+
+msgid "Blanc sec tranchant et minéral, d'une grande longévité ; avec l'âge apparaît la fameuse note d'hydrocarbure."
+msgstr "Cutting, mineral dry white with great longevity; with age comes the famous petrol note."
+
+msgid ""
+"Blanc sec vif et désaltérant entre deux fleuves, d'un fruit croquant d'agrumes et d'herbe fraîche, à boire "
+"jeune."
+msgstr ""
+"Crisp, thirst-quenching dry white from between two rivers, with crunchy citrus and fresh-grass fruit, to "
+"drink young."
+
+msgid ""
+"Blanc solaire et salin entre calanques et falaises calcaires, la référence locale pour les produits de la "
+"mer."
+msgstr "Sunny, saline white between rocky inlets and limestone cliffs, the local reference for seafood."
+
+msgid "Blanc vif et citronné, longtemps réservé au kir, aujourd'hui revalorisé par des vignes anciennes."
+msgstr "Crisp, lemony white, long reserved for kir, now revived by old vines."
+
+msgid "Blanc vif et salin face à l'étang de Thau, le compagnon naturel des coquillages."
+msgstr "Crisp, saline white facing the Thau lagoon, the natural companion to shellfish."
+
+msgid "Blanc « tradition » souvent élevé sous voile, oxydatif léger avec des notes de noix fraîche."
+msgstr "\"Tradition\" white often aged under flor, lightly oxidative with notes of fresh walnut."
+
+msgid "Blind test"
+msgstr "Blind tasting"
+
+msgid "Boisé et torréfié"
+msgstr "Oak and toast"
+
+#, python-format
+msgid "Bonne région (%(region)s), mais pas cette sous-région."
+msgstr "Right region (%(region)s), but not this sub-region."
+
+msgid "Bonne région, mais pas la bonne appellation."
+msgstr "Right region, but not the right appellation."
+
+msgid "Bordeaux"
+msgstr "Bordeaux"
+
+msgid "Bordeaux / Loire"
+msgstr "Bordeaux / Loire"
+
+msgid "Bouche"
+msgstr "Palate"
+
+msgid "Bourgogne"
+msgstr "Burgundy"
+
+msgid "Bourgogne / Alsace"
+msgstr "Burgundy / Alsace"
+
+msgid "Bourgogne / Beaujolais"
+msgstr "Burgundy / Beaujolais"
+
+msgid "Bourgogne / Pays nantais"
+msgstr "Burgundy / Pays Nantais"
+
+msgid "Bourgogne, Chablis, chardonnay…"
+msgstr "Burgundy, Chablis, Chardonnay…"
+
+msgid "Béarn"
+msgstr "Béarn"
+
+#, python-format
+msgid "C'est bien un %(appellation)s !"
+msgstr "Yes, it is a %(appellation)s!"
+
+msgid "Cahors"
+msgstr "Cahors"
+
+msgid "Capitale mondiale du rosé pâle, avec quelques rouges et blancs de caractère."
+msgstr "World capital of pale rosé, with a few reds and whites of character."
+
+msgid "Carte"
+msgstr "Map"
+
+msgid "Carte des goûts"
+msgstr "Taste map"
+
+msgid "Catalogue"
+msgstr "Catalogue"
+
+msgid "Ce n'est pas cette appellation."
+msgstr "Not this appellation."
+
+msgid "Ce que contient la base"
+msgstr "What the database contains"
+
+msgid "Ce qui lui ressemble"
+msgstr "What it resembles"
+
+msgid "Ce qui était le plus chaud"
+msgstr "What was hottest"
+
+#, python-format
+msgid "Ce vin : %(actual)s"
+msgstr "This wine: %(actual)s"
+
+msgid "Centre-Loire"
+msgstr "Central Loire"
+
+msgid "Centrer ici"
+msgstr "Centre here"
+
+msgid "Cercle"
+msgstr "Circle"
+
+msgid "Ces molécules relèvent du socle commun : elles ne distinguent aucun vin en particulier."
+msgstr "These molecules belong to the common base: they do not set any particular wine apart."
+
+msgid "Chablisien"
+msgstr "Chablisien"
+
+msgid "Champagne"
+msgstr "Champagne"
+
+msgid "Champignon"
+msgstr "Mushroom"
+
+msgid "Champignon des forêts humides qui, séché, sent le fenugrec : il contient lui aussi du sotolon."
+msgstr "Mushroom of damp forests which, once dried, smells of fenugreek: it too contains sotolon."
+
+msgid ""
+"Chaque lien reçoit une force de 1 à 3 (plausible, probable, marqueur établi) : la plus élevée de ses "
+"justifications. Toutes les justifications restent affichées, avec leur source."
+msgstr ""
+"Each link gets a strength from 1 to 3 (plausible, likely, established marker): the highest of its "
+"justifications. All justifications remain displayed, with their source."
+
+msgid ""
+"Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, "
+"même coin de France. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à "
+"la main."
+msgstr ""
+"Each dot is a wine. Two neighbouring dots are alike: same aromas, same grapes, same palate, same corner of "
+"France. The positions are learned by a neural network on the graph, not drawn by hand."
+
+msgid ""
+"Chardonnay ample et beurré, aux arômes de noisette grillée, élevé sous bois avec une générosité qui "
+"n'exclut pas la fraîcheur."
+msgstr ""
+"Full, buttery Chardonnay with toasted hazelnut aromas, oak-aged with a generosity that does not rule out "
+"freshness."
+
+msgid "Chardonnay de grande précision, plus tendu et floral que son voisin, d'une minéralité ciselée."
+msgstr ""
+"Chardonnay of great precision, tauter and more floral than its neighbour, with a finely chiselled "
+"minerality."
+
+msgid ""
+"Chardonnay du nord sur marnes kimméridgiennes truffées de fossiles marins, élevé le plus souvent sans bois,"
+" d'une tension saline inimitable."
+msgstr ""
+"Northern Chardonnay on Kimmeridgian marl studded with marine fossils, usually aged without oak, with an "
+"inimitable saline tension."
+
+msgid "Chardonnay fruité et facile, peu ou pas boisé, porte d'entrée du blanc bourguignon."
+msgstr "Fruity, easy Chardonnay with little or no oak, the gateway to white Burgundy."
+
+msgid ""
+"Chardonnay solaire sous les roches de Solutré et Vergisson, plus mûr et rond qu'au nord, avec une belle "
+"fraîcheur calcaire."
+msgstr ""
+"Sunny Chardonnay beneath the rocks of Solutré and Vergisson, riper and rounder than further north, with a "
+"fine limestone freshness."
+
+msgid "Charentes / Gascogne"
+msgstr "Charentes / Gascony"
+
+msgid "Chargement…"
+msgstr "Loading…"
+
+msgid "Chaud-froid"
+msgstr "Hot and cold"
+
+msgid "Chercher"
+msgstr "Search"
+
+#, python-format
+msgid "Chercher les vins qui sentent %(aroma_name)s"
+msgstr "Find wines that smell of %(aroma_name)s"
+
+msgid "Choisir un point de départ"
+msgstr "Choose a starting point"
+
+msgid "Choisissez un départ et une arrivée : le chemin le plus court s'affiche."
+msgstr "Choose a start and an end: the shortest path is displayed."
+
+msgid "Cinq vins vous attendent"
+msgstr "Five wines are waiting for you"
+
+msgid "Classement"
+msgstr "Leaderboard"
+
+msgid "Classement complet"
+msgstr "Full leaderboard"
+
+msgid "Classement du jour"
+msgstr "Today's leaderboard"
+
+msgid ""
+"Classées par moment de naissance : dans le raisin, pendant les fermentations, sous le bois ou au fil du "
+"vieillissement. Chacune renvoie aux vins qui la portent et aux éléments naturels qui la partagent."
+msgstr ""
+"Sorted by when they are born: in the grape, during fermentation, in oak or over the course of ageing. Each "
+"one links to the wines that carry it and the natural sources that share it."
+
+msgid "Cliquez sur un nœud"
+msgstr "Click a node"
+
+msgid "Cliquez sur un nœud pour lire sa fiche, double-cliquez pour repartir de lui."
+msgstr "Click a node to read its details, double-click to start again from it."
+
+msgid ""
+"Cliquez sur un point : ses plus proches voisins se relient à lui. Les axes n'ont pas de signification, "
+"seules les distances comptent."
+msgstr "Click a dot: its nearest neighbours link up to it. The axes have no meaning, only distances matter."
+
+msgid "Cliquez sur un vin"
+msgstr "Click a wine"
+
+msgid "Cliquez sur une molécule"
+msgstr "Click a molecule"
+
+msgid "Code INAO"
+msgstr "INAO code"
+
+msgid "Colorer les vins par"
+msgstr "Colour wines by"
+
+msgid ""
+"Commencez large : une couleur de fruit, une grande région, un cépage courant. Suivez ce qui chauffe, puis "
+"resserrez vers l'appellation."
+msgstr ""
+"Start broad: a colour of fruit, a major region, a common grape. Follow what heats up, then narrow down to "
+"the appellation."
+
+msgid ""
+"Commencez par l'arôme le plus net, puis ajoutez la bouche : un vin vif et léger ou puissant et tannique, ça"
+" départage vite. Deux ou trois descripteurs suffisent souvent à reconnaître une appellation."
+msgstr ""
+"Start with the clearest aroma, then add the palate: a crisp, light wine or a powerful, tannic one quickly "
+"narrows things down. Two or three descriptors are often enough to recognise an appellation."
+
+msgid "Comment une molécule est rattachée à un vin"
+msgstr "How a molecule is linked to a wine"
+
+msgid "Commentaire du sommelier"
+msgstr "Sommelier's note"
+
+msgid "Communes"
+msgstr "Communes"
+
+msgid "Complément"
+msgstr "Minor grapes"
+
+msgid "Composant majeur de l'épice."
+msgstr "Major component of the spice."
+
+msgid "Composition odorante de l'huile de rose de Damas d'après Kováts et Ohloff."
+msgstr "Odour composition of Damask rose oil according to Kováts and Ohloff."
+
+msgid "Composé clé de l'arôme de la truffe fraîche."
+msgstr "Key compound in the aroma of fresh truffle."
+
+msgid "Composé clé de la plupart des produits laitiers fermentés."
+msgstr "Key compound in most fermented dairy products."
+
+msgid "Concentrique"
+msgstr "Concentric"
+
+msgid "Connexion"
+msgstr "Log in"
+
+msgid "Conseil"
+msgstr "Tip"
+
+msgid "Contenu de la base"
+msgstr "Database contents"
+
+msgid "Corps"
+msgstr "Body"
+
+msgid "Corse"
+msgstr "Corsica"
+
+msgid "Couleur"
+msgstr "Colour"
+
+msgid "Couleur du vin"
+msgstr "Wine colour"
+
+msgid "Couleur, si vous la connaissez"
+msgstr "Colour, if you know it"
+
+msgid "Craie, climat frais et assemblages pour le plus célèbre des effervescents."
+msgstr "Chalk, a cool climate and blending for the most famous of sparkling wines."
+
+msgid "Créer mon compte"
+msgstr "Create my account"
+
+msgid "Créer un compte"
+msgstr "Create an account"
+
+msgid "Créez un compte"
+msgstr "Create an account"
+
+msgid "Cépage"
+msgstr "Grape"
+
+msgid "Cépages"
+msgstr "Grapes"
+
+msgid "Cépages : part minimale"
+msgstr "Grapes: minimum share"
+
+msgid "Cépages les plus présents"
+msgstr "Most common grapes"
+
+msgid "Cétone"
+msgstr "Ketone"
+
+msgid "Côte chalonnaise"
+msgstr "Côte Chalonnaise"
+
+msgid "Côte de Beaune"
+msgstr "Côte de Beaune"
+
+msgid "Côte de Nuits"
+msgstr "Côte de Nuits"
+
+msgid "Côte des Blancs"
+msgstr "Côte des Blancs"
+
+msgid "Côte-Rôtie, rotundone, truffe…"
+msgstr "Côte-Rôtie, rotundone, truffle…"
+
+msgid "D'après Winter et Enggist, 1971."
+msgstr "After Winter and Enggist, 1971."
+
+msgid "D'autres arômes"
+msgstr "More aromas"
+
+msgid "DOC"
+msgstr "DOC"
+
+msgid "DOCG"
+msgstr "DOCG"
+
+msgid "Dans quels vins"
+msgstr "In which wines"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Depuis le début"
+msgstr "All time"
+
+msgid "Des"
+msgstr "Our"
+
+msgid "Descripteur du nez"
+msgstr "Nose descriptor"
+
+msgid "Descripteur du profil"
+msgstr "Profile descriptor"
+
+#, python-format
+msgid "Descripteur%(s)s non reconnu%(s)s : %(unknown)s."
+msgstr "Unrecognised descriptor%(s)s: %(unknown)s."
+
+msgid "Descripteurs évoqués"
+msgstr "Descriptors it evokes"
+
+msgid "Deux pyrroleméthanethiols, seuils de 0,7 et 1,4 ng/L, jamais observés jusqu'ici dans un produit naturel."
+msgstr "Two pyrrolemethanethiols, thresholds of 0.7 and 1.4 ng/L, never observed in a natural product until now."
+
+msgid "Discret"
+msgstr "Subtle"
+
+msgid "Disposition"
+msgstr "Layout"
+
+msgid "Dominant"
+msgstr "Dominant"
+
+msgid "Du verre à la nature"
+msgstr "From glass to nature"
+
+msgid "Du verre à la nature : la rotundone de la Syrah mène au poivre noir, le sotolon du vin jaune au fenugrec."
+msgstr "From glass to nature: Syrah's rotundone leads to black pepper, vin jaune's sotolon to fenugreek."
+
+msgid "Du verre à la nature : les molécules odorantes d'un vin et les plantes, fruits ou épices où on les retrouve."
+msgstr ""
+"From glass to nature: the odorous molecules of a wine and the plants, fruits or spices where they are also "
+"found."
+
+msgid ""
+"Du verre à la nature : les molécules qui font le nez d'un vin, et les plantes, fruits ou épices où on les "
+"retrouve. Chaque lien est sourcé."
+msgstr ""
+"From glass to nature: the molecules that make up a wine's nose, and the plants, fruits or spices where they"
+" are also found. Every link is sourced."
+
+msgid "Décrire un vin"
+msgstr "Describe a wine"
+
+msgid "Décrivez ce que vous sentez dans le verre : nous proposons les cinq vins les plus probables."
+msgstr "Describe what you smell in the glass: we suggest the five most likely wines."
+
+msgid ""
+"Décrivez ce que vous sentez dans le verre, puis ce que vous ressentez en bouche. À chaque descripteur "
+"ajouté, nous recalculons les cinq vins les plus probables."
+msgstr ""
+"Describe what you smell in the glass, then what you feel on the palate. With each descriptor added, we "
+"recalculate the five most likely wines."
+
+msgid "Déduites de son encépagement, de son style et de son nez, chacune avec sa source."
+msgstr "Deduced from its grape varieties, its style and its nose, each with its source."
+
+#, python-format
+msgid "Défi du %(day)s"
+msgstr "Challenge of %(day)s"
+
+#, python-format
+msgid "Défi du %(day)s : le même vin pour tout le monde."
+msgstr "Challenge of %(day)s: the same wine for everyone."
+
+msgid "Défi du jour"
+msgstr "Daily challenge"
+
+msgid "Déjà inscrit ?"
+msgstr "Already registered?"
+
+msgid "Déjà relié dans les fiches"
+msgstr "Already linked in the profiles"
+
+msgid "Départ"
+msgstr "Start"
+
+msgid "Départ :"
+msgstr "Start:"
+
+msgid "Effervescent"
+msgstr "Sparkling"
+
+msgid "Effervescent alsacien frais et croquant, premier crémant de France en volume."
+msgstr "Fresh, crunchy Alsatian sparkling wine, the leading crémant in France by volume."
+
+msgid "Effervescent blanc issu de raisins noirs, vineux et charnu, aux notes de fruits rouges discrets."
+msgstr "White sparkling wine made from black grapes, vinous and fleshy, with discreet red-fruit notes."
+
+msgid "Effervescent cent pour cent chardonnay, élancé et crayeux, d'une finesse aérienne."
+msgstr "Sparkling wine made from one hundred percent Chardonnay, slender and chalky, with an airy finesse."
+
+msgid ""
+"Effervescent d'altitude des contreforts pyrénéens, dans la région qui revendique l'une des plus anciennes "
+"traditions de vins effervescents."
+msgstr ""
+"High-altitude sparkling wine from the Pyrenean foothills, in the region that claims one of the oldest "
+"sparkling wine traditions."
+
+msgid "Effervescent de méthode traditionnelle au fruit précis, plus vineux qu'on ne l'attend."
+msgstr "Traditional-method sparkling wine with precise fruit, more vinous than you would expect."
+
+msgid ""
+"Effervescent de méthode traditionnelle élevé dans les caves de tuffeau, frais et fruité, avec une pointe "
+"briochée."
+msgstr "Traditional-method sparkling wine aged in tuffeau cellars, fresh and fruity, with a hint of brioche."
+
+msgid "Effervescent rosé le plus souvent obtenu par assemblage de vin rouge, gourmand de petits fruits rouges."
+msgstr "Rosé sparkling wine most often made by blending in red wine, moreish with small red berries."
+
+#, python-format
+msgid "Elle fait aussi partie du socle commun de fermentation de %(common_count)s autre%(s)s profil%(s)s."
+msgstr "It is also part of the common fermentation base of %(common_count)s other profile%(s)s."
+
+msgid "En bouche"
+msgstr "On the palate"
+
+msgid ""
+"En broyant l'amande, l'amygdaline se scinde en benzaldéhyde, d'où l'odeur d'amande amère et de noyau de "
+"cerise."
+msgstr ""
+"When the almond is crushed, amygdalin splits into benzaldehyde, hence the smell of bitter almond and cherry"
+" stone."
+
+msgid "En cours"
+msgstr "In progress"
+
+msgid "Encépagement"
+msgstr "Grape blend"
+
+msgid "Encépagement typique"
+msgstr "Typical blend"
+
+msgid "Entités affichées"
+msgstr "Entities shown"
+
+#, python-format
+msgid "Entre %(min)s et %(max)s € la bouteille."
+msgstr "Between €%(min)s and €%(max)s a bottle."
+
+msgid ""
+"Entre puissance et finesse, un rouge harmonieux et régulier, au fruit noir net et au boisé de cèdre bien "
+"fondu."
+msgstr ""
+"Between power and finesse, a harmonious, consistent red with clean black fruit and well-integrated cedary "
+"oak."
+
+msgid "Entre-deux-Mers"
+msgstr "Entre-deux-Mers"
+
+msgid "Environnement de la vigne"
+msgstr "Vineyard environment"
+
+msgid "Espagne / Languedoc"
+msgstr "Spain / Languedoc"
+
+msgid "Espagne / Méditerranée"
+msgstr "Spain / Mediterranean"
+
+msgid "Espagne / Provence"
+msgstr "Spain / Provence"
+
+msgid "Espagne / Roussillon"
+msgstr "Spain / Roussillon"
+
+msgid ""
+"Espèce importée automatiquement depuis Wikidata (P703, initiative LOTUS) : occurrences non vérifiées une à "
+"une."
+msgstr "Species imported automatically from Wikidata (P703, LOTUS initiative): occurrences not checked one by one."
+
+msgid "Espèce recensée (Wikidata)"
+msgstr "Recorded species (Wikidata)"
+
+msgid "Espèces importées de Wikidata"
+msgstr "Species imported from Wikidata"
+
+msgid "Ester"
+msgstr "Ester"
+
+msgid ""
+"Ester de fermentation présent dans tous les vins. Dans les rouges, des teneurs supérieures à la moyenne "
+"orientent le fruit vers les baies rouges, en synergie avec l'hexanoate et l'octanoate d'éthyle : aucun "
+"n'est perceptible seul, l'ensemble l'est."
+msgstr ""
+"Fermentation ester present in every wine. In reds, above-average levels steer the fruit towards red "
+"berries, in synergy with ethyl hexanoate and octanoate: none is perceptible alone, together they are."
+
+msgid ""
+"Esters et alcools de fermentation présents dans tous les vins. Ajoutés d'office, en pâle, quand un vin a "
+"peu de molécules propres."
+msgstr ""
+"Fermentation esters and alcohols present in every wine. Added automatically, in a paler shade, when a wine "
+"has few molecules of its own."
+
+#, python-format
+msgid "Et %(n_wines)s autres dans le graphe."
+msgstr "And %(n_wines)s more in the graph."
+
+#, python-format
+msgid "Et cette appellation ne produit pas de %(color)s ici."
+msgstr "And this appellation does not make %(color)s wine."
+
+msgid "Eugénol, principal arôme du clou de girofle, présent dans le chêne brut ; vanilline et lactones du chêne."
+msgstr "Eugenol, the main aroma of clove, present in raw oak; vanillin and oak lactones."
+
+msgid "Europe centrale"
+msgstr "Central Europe"
+
+#, python-format
+msgid "Exactement : %(subregion)s, en %(region)s."
+msgstr "Exactly: %(subregion)s, in %(region)s."
+
+msgid "Explorer"
+msgstr "Explore"
+
+msgid "Explorer le vin"
+msgstr "Explore wine"
+
+msgid "Explorer le vin français : appellations, cépages, arômes, blind test."
+msgstr "Explore French wine: appellations, grape varieties, aromas, blind tasting."
+
+msgid "Exporter en PNG"
+msgstr "Export as PNG"
+
+msgid "Extraite de l'écorce du massoia (Cryptocarya massoy), présente aussi dans l'osmanthe odorant."
+msgstr "Extracted from the bark of massoia (Cryptocarya massoy), also present in sweet osmanthus."
+
+msgid "Famille"
+msgstr "Family"
+
+#, python-format
+msgid "Famille %(family)s au nez (%(aromas)s)"
+msgstr "%(family)s family on the nose (%(aromas)s)"
+
+#, python-format
+msgid "Famille : %(family_name)s."
+msgstr "Family: %(family_name)s."
+
+msgid "Famille aromatique du profil"
+msgstr "Aroma family of the profile"
+
+msgid "Famille d'arômes"
+msgstr "Aroma family"
+
+msgid "Familles d'arômes"
+msgstr "Aroma families"
+
+msgid "Fermentation alcoolique"
+msgstr "Alcoholic fermentation"
+
+msgid "Fermentation malolactique"
+msgstr "Malolactic fermentation"
+
+msgid "Fiche"
+msgstr "Details"
+
+msgid "Fiche complète"
+msgstr "Full details"
+
+msgid "Fiche de dégustation"
+msgstr "Tasting sheet"
+
+msgid "Fiche du vin"
+msgstr "Wine details"
+
+msgid "Fil d'Ariane"
+msgstr "Breadcrumb"
+
+msgid "Fleur"
+msgstr "Flower"
+
+msgid "Floral"
+msgstr "Floral"
+
+msgid ""
+"Forme acétylée du 3-sulfanylhexanol, fabriquée par la levure. Plus puissante, plus « tropicale » et encore "
+"plus instable : elle s'hydrolyse en quelques mois de bouteille. C'est l'une des signatures des Sauvignons "
+"jeunes."
+msgstr ""
+"Acetylated form of 3-sulfanylhexanol, made by yeast. More powerful, more \"tropical\" and even less stable:"
+" it hydrolyses within a few months in bottle. It is one of the signatures of young Sauvignons."
+
+msgid "Forme du nom"
+msgstr "Shape of the name"
+
+msgid "Formule brute"
+msgstr "Molecular formula"
+
+#, python-format
+msgid "Formule développée de %(molecule_name)s"
+msgstr "Structural formula of %(molecule_name)s"
+
+#, python-format
+msgid "Formule développée de %(obj_name)s"
+msgstr "Structural formula of %(obj_name)s"
+
+msgid ""
+"Formée par dégradation de Strecker de la phénylalanine, surtout quand le vin s'oxyde : elle donne la note "
+"de miel des vieux blancs et des liquoreux."
+msgstr ""
+"Formed by Strecker degradation of phenylalanine, especially when wine oxidises: it gives the honey note of "
+"old whites and sweet wines."
+
+msgid "Formée pendant la fermentation de tous les vins"
+msgstr "Formed during the fermentation of every wine"
+
+msgid "Fruit"
+msgstr "Fruit"
+
+msgid "Fruits blancs et jaunes"
+msgstr "White and yellow fruit"
+
+msgid "Fruits exotiques"
+msgstr "Tropical fruit"
+
+msgid "Fruits noirs"
+msgstr "Black fruit"
+
+msgid "Fruits rouges"
+msgstr "Red fruit"
+
+msgid "Fruits secs et confits"
+msgstr "Dried and candied fruit"
+
+msgid "Furanone"
+msgstr "Furanone"
+
+msgid "Gagnée"
+msgstr "Won"
+
+msgid "Gaillac"
+msgstr "Gaillac"
+
+msgid "Gaillac / Limoux"
+msgstr "Gaillac / Limoux"
+
+msgid "Garde"
+msgstr "Ageing"
+
+msgid "Garrigue et herbes"
+msgstr "Garrigue and herbs"
+
+msgid "Grand cru de chardonnay puissant et minéral, sur une colline orientée plein ouest, lent à s'ouvrir."
+msgstr "Powerful, mineral Chardonnay grand cru on a hill facing due west, slow to open up."
+
+msgid "Graphe"
+msgstr "Graph"
+
+msgid "Graphe vin, molécules, nature"
+msgstr "Graph of wine, molecules and nature"
+
+msgid "Graves"
+msgstr "Graves"
+
+msgid "Grenache robuste au pied des Dentelles de Montmirail, frais d'altitude mais solaire."
+msgstr "Robust Grenache at the foot of the Dentelles de Montmirail, cooled by altitude yet sunny."
+
+msgid "Gris / rosé"
+msgstr "Grey / pink"
+
+msgid "Géographie"
+msgstr "Geography"
+
+msgid "Herbe aromatique"
+msgstr "Aromatic herb"
+
+msgid ""
+"Herbe des zones tropicales dont les tubercules ont donné son nom à la rotundone, isolée là bien avant "
+"d'être trouvée dans le vin."
+msgstr ""
+"Grass of tropical regions whose tubers gave rotundone its name, isolated there long before being found in "
+"wine."
+
+msgid "Historique"
+msgstr "History"
+
+msgid "IBMP"
+msgstr "2-isobutyl-3-methoxypyrazine"
+
+msgid ""
+"IBMP quantifiable seulement dans le Cabernet franc, le Cabernet-Sauvignon, le Merlot, le Sauvignon blanc et"
+" le Sémillon (29 cépages testés)."
+msgstr ""
+"IBMP quantifiable only in Cabernet Franc, Cabernet Sauvignon, Merlot, Sauvignon Blanc and Sémillon (29 "
+"varieties tested)."
+
+msgid "IGP"
+msgstr "IGP"
+
+msgid "INAO, via data.gouv.fr"
+msgstr "INAO, via data.gouv.fr"
+
+msgid "Identifié dès 1926 dans le café torréfié."
+msgstr "Identified as early as 1926 in roasted coffee."
+
+msgid ""
+"Identifié en 2012 dans les bordeaux rouges : présent vers 400 µg/L, sous son seuil, il agit comme "
+"exhausteur naturel des notes de mûre fraîche, en interaction avec le butanoate d'éthyle."
+msgstr ""
+"Identified in 2012 in red Bordeaux: present at around 400 µg/L, below its threshold, it acts as a natural "
+"enhancer of fresh blackberry notes, interacting with ethyl butanoate."
+
+msgid "Identifiée en 1969 comme l'odorant caractéristique du poivron."
+msgstr "Identified in 1969 as the characteristic odorant of bell pepper."
+
+msgid ""
+"Identifiée en 2008 dans la Syrah australienne, c'est la molécule du poivre, dans le verre comme dans le "
+"moulin. Elle se forme dans la peau du raisin par oxydation de l'α-guaiène et préfère les millésimes frais. "
+"Environ un dégustateur sur cinq ne la perçoit pas du tout, même à forte dose : deux personnes devant la "
+"même Syrah ne sentent pas le même vin."
+msgstr ""
+"Identified in 2008 in Australian Shiraz, this is the pepper molecule, in the glass as in the mill. It forms"
+" in the grape skin by oxidation of α-guaiene and prefers cool vintages. About one taster in five cannot "
+"perceive it at all, even at high doses: two people in front of the same Syrah do not smell the same wine."
+
+msgid ""
+"Identifiée en 2016 dans les bordeaux rouges âgés, elle porte la note mentholée du bouquet de "
+"vieillissement. On la trouve surtout dans les vins de rive gauche dominés par le Cabernet-Sauvignon."
+msgstr ""
+"Identified in 2016 in aged red Bordeaux, it carries the minty note of the ageing bouquet. It is found "
+"mostly in Left Bank wines dominated by Cabernet Sauvignon."
+
+msgid ""
+"Identifiée en 2017 dans les Merlot et Cabernet-Sauvignon marqués par des notes de fruits secs : on la "
+"trouve surtout dans les raisins surmûris, d'où un lien direct avec les vendanges tardives et le "
+"réchauffement."
+msgstr ""
+"Identified in 2017 in Merlot and Cabernet Sauvignon marked by dried-fruit notes: it is found mostly in "
+"overripe grapes, hence a direct link with late harvests and warming."
+
+msgid ""
+"Identifiés à Bordeaux en 2017, deux pyrroleméthanethiols expliquent la note de noisette des Chardonnay, où "
+"ils dépassent leur seuil. Ils n'ont encore jamais été trouvés dans un produit naturel : la noisette du "
+"verre ne doit rien à la noisette de l'arbre."
+msgstr ""
+"Identified in Bordeaux in 2017, two pyrrolemethanethiols explain the hazelnut note of Chardonnay, where "
+"they exceed their threshold. They have never yet been found in a natural product: the hazelnut in the glass"
+" owes nothing to the hazelnut on the tree."
+
+msgid "Importé de Wikidata, non vérifié ·"
+msgstr "Imported from Wikidata, unverified ·"
+
+msgid "Importé de Wikidata, non vérifié."
+msgstr "Imported from Wikidata, unverified."
+
+#, python-format
+msgid "Impossible de lancer une partie : %(reason)s"
+msgstr "Unable to start a game: %(reason)s"
+
+msgid "Indices"
+msgstr "Clues"
+
+msgid "Information"
+msgstr "Information"
+
+msgid "Initiale de la région"
+msgstr "First letter of the region"
+
+msgid ""
+"Isomère du géraniol, l'un des trois terpènes qui font le goût « muscaté ». Il tient son nom de l'essence de"
+" néroli, tirée de la fleur d'oranger amer."
+msgstr ""
+"Isomer of geraniol, one of the three terpenes behind the \"muscat\" taste. It takes its name from neroli "
+"oil, drawn from bitter orange blossom."
+
+msgid ""
+"Issue de la dégradation des caroténoïdes du raisin, elle se trouve dans presque tous les vins. Plutôt "
+"qu'une note précise, c'est un exhausteur : elle amplifie le fruit des autres molécules. Elle doit son nom à"
+" la rose de Damas, où elle fut identifiée en 1970."
+msgstr ""
+"Born from the breakdown of grape carotenoids, it is found in almost every wine. More than a precise note, "
+"it is an enhancer: it amplifies the fruit of other molecules. It owes its name to the Damask rose, where it"
+" was identified in 1970."
+
+msgid "Italie / Charentes"
+msgstr "Italy / Charentes"
+
+msgid "Jouer"
+msgstr "Play"
+
+msgid "Jouer le défi du jour"
+msgstr "Play the daily challenge"
+
+msgid "Joueur"
+msgstr "Player"
+
+msgid "Jura"
+msgstr "Jura"
+
+msgid "Jusqu'à 10 000 fois la teneur d'un vin très poivré."
+msgstr "Up to 10,000 times the level found in a very peppery wine."
+
+msgid "Jusqu'à la moitié de l'huile d'Eucalyptus dives."
+msgstr "Up to half of the oil of Eucalyptus dives."
+
+msgid "L'abus d'alcool est dangereux pour la santé, à consommer avec modération."
+msgstr "Alcohol abuse is dangerous for your health. Please drink in moderation."
+
+msgid ""
+"L'alcool de champignon, formé par oxydation de l'acide linoléique. Dans le vin, il évoque le sous-bois ; en"
+" excès, il signale un raisin attaqué par des moisissures."
+msgstr ""
+"The mushroom alcohol, formed by oxidation of linoleic acid. In wine it evokes undergrowth; in excess, it "
+"points to grapes attacked by mould."
+
+msgid ""
+"L'assemblage classique des trois cépages, vieilli de longs mois sur lattes, dont l'autolyse apporte brioche"
+" et mie de pain."
+msgstr ""
+"The classic blend of the three grapes, aged for long months on its lees, whose autolysis brings brioche and"
+" bread-crumb notes."
+
+msgid ""
+"L'ester de la banane, produit par la levure. Il domine dans les vins jeunes fermentés à basse température "
+"et dans les primeurs : la « banane » d'un Beaujolais nouveau, c'est lui. Il s'estompe en quelques mois."
+msgstr ""
+"The banana ester, produced by yeast. It dominates in young wines fermented at low temperature and in "
+"nouveau wines: the \"banana\" of a Beaujolais Nouveau is this molecule. It fades within a few months."
+
+msgid ""
+"L'odeur de café des vins élevés en barrique. La levure le fabrique à partir du furfural cédé par les "
+"douelles chauffées. Récemment désigné comme principal responsable des notes de silex et d'allumette des "
+"chardonnays."
+msgstr ""
+"The coffee smell of barrel-aged wines. Yeast makes it from the furfural released by toasted staves. "
+"Recently named as the main cause of the flint and struck-match notes in Chardonnay."
+
+msgid ""
+"L'odeur du noyau et de l'amande amère. Rarement au-dessus de son seuil dans le vin, elle sert surtout de "
+"précurseur au benzèneméthanethiol, la molécule du silex."
+msgstr ""
+"The smell of fruit stones and bitter almond. Rarely above its threshold in wine, it mostly serves as a "
+"precursor of benzenemethanethiol, the flint molecule."
+
+msgid ""
+"L'odeur sucrée de la fraise mûre et du caramel. Détectée par olfactométrie dans de nombreux vins rouges, "
+"elle y renforce l'impression de fruit rouge."
+msgstr ""
+"The sweet smell of ripe strawberry and caramel. Detected by olfactometry in many red wines, where it "
+"reinforces the impression of red fruit."
+
+msgid ""
+"L'odorant le plus caractéristique du Gewurztraminer et la clé de son parfum de litchi : parmi les douze "
+"composés communs au vin et au fruit, c'est le plus actif. Seul l'isomère (–)-cis sent vraiment la rose."
+msgstr ""
+"The most characteristic odorant of Gewurztraminer and the key to its lychee scent: among the twelve "
+"compounds shared by the wine and the fruit, it is the most active. Only the (–)-cis isomer truly smells of "
+"rose."
+
+msgid ""
+"L'un des quatre odorants identifiés comme caractéristiques des Pinot noir de Bourgogne. Sa note de cannelle"
+" peut apparaître dans un pinot qui n'a jamais vu le bois : l'épice vient alors du raisin et de la "
+"fermentation, pas du fût."
+msgstr ""
+"One of the four odorants identified as characteristic of Burgundy Pinot Noir. Its cinnamon note can appear "
+"in a Pinot that has never seen oak: the spice then comes from the grape and fermentation, not the barrel."
+
+msgid "L'un des rouges les plus tanniques de France, sombre et dense, qu'il faut attendre ou carafer longuement."
+msgstr "One of the most tannic reds in France, dark and dense, which needs time or a long decanting."
+
+msgid ""
+"L'une des molécules les plus puissantes du vin : un centième de microgramme par litre suffit. Elle donne la"
+" note de citron vert et de noix de coco des Rieslings et se renforce avec l'âge. Elle fut d'abord isolée… "
+"dans l'urine de koala, en 1975."
+msgstr ""
+"One of the most powerful molecules in wine: a hundredth of a microgram per litre is enough. It gives the "
+"lime and coconut note of Rieslings and grows stronger with age. It was first isolated… in koala urine, in "
+"1975."
+
+msgid "L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible."
+msgstr "Line thickness follows the strength of the link: established marker, likely or plausible."
+
+msgid "L'étiquette à reconstituer"
+msgstr "The label to piece together"
+
+msgid "L'île de beauté, ses cépages insulaires et ses arènes granitiques."
+msgstr "The Isle of Beauty, its island grape varieties and its granite sands."
+
+msgid "L'œil"
+msgstr "The eye"
+
+msgid "La 4-MMP est très bien corrélée à l'arôme de cassis des vins rouges."
+msgstr "4-MMP correlates very well with the blackcurrant aroma of red wines."
+
+msgid "La 4-MMP, responsable des nuances « buis » ou « genêt » du Sauvignon."
+msgstr "4-MMP, responsible for the \"boxwood\" or \"broom\" nuances of Sauvignon."
+
+msgid "La benzaldéhyde, issue de l'amygdaline, est l'odorant dominant de l'amande."
+msgstr "Benzaldehyde, derived from amygdalin, is the dominant odorant of almond."
+
+msgid "La bouche"
+msgstr "The palate"
+
+msgid "La carte des goûts"
+msgstr "The taste map"
+
+msgid ""
+"La combustion de la lignine du bois produit gaïacol et dérivés, qui donnent l'odeur de fumée. La chauffe "
+"des barriques fait la même chose, à petite échelle."
+msgstr ""
+"Burning the lignin in wood produces guaiacol and its derivatives, which give the smell of smoke. Toasting "
+"barrels does the same thing on a small scale."
+
+msgid "La gousse fermentée et séchée concentre la vanilline. Dans le vin, la même molécule vient du chêne chauffé."
+msgstr "The fermented, dried pod concentrates vanillin. In wine, the same molecule comes from toasted oak."
+
+msgid ""
+"La molécule de la violette, extraite directement du raisin. Elle colore le nez du Pinot noir, de la Syrah, "
+"du Malbec ou du Cabernet. Comme pour la rotundone, une partie de la population y est presque insensible, "
+"pour des raisons génétiques."
+msgstr ""
+"The violet molecule, extracted directly from the grape. It colours the nose of Pinot Noir, Syrah, Malbec or"
+" Cabernet. As with rotundone, part of the population is almost insensitive to it, for genetic reasons."
+
+msgid ""
+"La molécule du poivron vert, l'une des plus puissantes connues. Elle s'accumule dans le raisin vert et se "
+"dégrade à la lumière pendant la maturation, en même temps que l'acide malique : un Cabernet récolté tôt ou "
+"à l'ombre en garde davantage. Sur 29 cépages testés, seuls cinq en contiennent des quantités mesurables, "
+"tous de la famille bordelaise."
+msgstr ""
+"The green bell pepper molecule, one of the most powerful known. It builds up in unripe grapes and breaks "
+"down in light during ripening, along with malic acid: a Cabernet picked early or grown in shade keeps more "
+"of it. Of 29 varieties tested, only five contain measurable amounts, all from the Bordeaux family."
+
+msgid ""
+"La molécule du vin jaune : 120 à 268 µg/L se forment pendant six ans sous voile, à partir d'acide "
+"α-cétobutyrique et d'éthanal. On la retrouve dans les liquoreux botrytisés, les vins doux naturels rancio "
+"et le porto. Dans un blanc sec jeune, elle trahit une oxydation prématurée."
+msgstr ""
+"The vin jaune molecule: 120 to 268 µg/L form over six years under flor, from α-ketobutyric acid and "
+"acetaldehyde. It is also found in botrytised sweet wines, rancio vins doux naturels and port. In a young "
+"dry white, it betrays premature oxidation."
+
+msgid "La nature"
+msgstr "Nature"
+
+msgid ""
+"La note « pétrolée » des Rieslings mûrs. Quasi absente du raisin, elle se forme en bouteille à partir de "
+"précurseurs issus des caroténoïdes, d'autant plus que les grappes ont pris le soleil. Appréciée à petite "
+"dose, envahissante à forte dose."
+msgstr ""
+"The \"petrol\" note of mature Rieslings. Almost absent from the grape, it forms in bottle from carotenoid-"
+"derived precursors, all the more so when the bunches were exposed to the sun. Appreciated in small doses, "
+"overwhelming in large ones."
+
+msgid "La partie est terminée."
+msgstr "The game is over."
+
+msgid "La robe et le style sont déjà visibles sur la fiche : cet essai n'est pas compté."
+msgstr "The colour and style are already shown on the sheet: this attempt is not counted."
+
+msgid "La roue des arômes"
+msgstr "The aroma wheel"
+
+#, python-format
+msgid "La région commence par « %(letter)s »."
+msgstr "The region begins with “%(letter)s”."
+
+msgid "La section"
+msgstr "The"
+
+msgid ""
+"La signature des levures Brettanomyces, qui transforment l'acide p-coumarique du raisin. À faible dose, "
+"elle se fond dans les notes de cuir des vieux rouges ; au-delà, c'est un défaut franc. Le « cuir » d'un "
+"descripteur peut aussi avoir d'autres origines."
+msgstr ""
+"The signature of Brettanomyces yeasts, which transform the grape's p-coumaric acid. At low doses it blends "
+"into the leather notes of old reds; beyond that, it is a clear fault. The \"leather\" of a descriptor can "
+"also have other origins."
+
+msgid "La syrah au nord sur les coteaux de granite, les assemblages solaires au sud."
+msgstr "Syrah in the north on granite slopes, sunny blends in the south."
+
+msgid ""
+"La température est la proximité entre votre proposition et le vin dans l'espace appris par un réseau de "
+"neurones sur le graphe : arômes, cépages, bouche, molécules et géographie y comptent ensemble. La jauge "
+"donne le rang parmi les 100 entités les plus proches."
+msgstr ""
+"The temperature is the closeness between your guess and the wine in the space learned by a neural network "
+"on the graph: aromas, grapes, palate, molecules and geography all count together. The gauge shows the rank "
+"among the 100 closest entities."
+
+msgid ""
+"La truffe du Périgord doit sa note soufrée au sulfure de diméthyle, la même molécule que celle du bouquet "
+"des grands bordeaux âgés."
+msgstr ""
+"Périgord truffle owes its sulphurous note to dimethyl sulfide, the same molecule found in the bouquet of "
+"great aged Bordeaux."
+
+msgid "Lactone"
+msgstr "Lactone"
+
+msgid ""
+"Lactone ubiquitaire, discrète dans la plupart des vins mais nettement plus abondante dans les vins de "
+"pourriture noble : elle participe à la note d'abricot sec des liquoreux."
+msgstr ""
+"Ubiquitous lactone, discreet in most wines but markedly more abundant in noble-rot wines: it contributes to"
+" the dried-apricot note of sweet wines."
+
+msgid "Lancer un blind test"
+msgstr "Start a blind tasting"
+
+msgid "Langue"
+msgstr "Language"
+
+msgid "Languedoc"
+msgstr "Languedoc"
+
+msgid "Languedoc-Roussillon"
+msgstr "Languedoc-Roussillon"
+
+msgid ""
+"Le 1-octén-3-ol, ou « alcool de champignon », représente à lui seul près des trois quarts des volatils du "
+"champignon cru."
+msgstr ""
+"1-octen-3-ol, or \"mushroom alcohol\", alone accounts for nearly three quarters of the volatiles of raw "
+"mushroom."
+
+msgid "Le 2-furaneméthanethiol, identifié dès 1926 dans le café torréfié."
+msgstr "2-furanmethanethiol, identified as early as 1926 in roasted coffee."
+
+msgid "Le 2-furylméthanethiol, principal responsable des notes de silex et d'allumette du Chardonnay."
+msgstr "2-furylmethanethiol, the main cause of the flint and struck-match notes of Chardonnay."
+
+msgid ""
+"Le 3-sulfanylhexanol et son acétate ont d'abord été identifiés dans le fruit de la passion jaune, avant le "
+"Sauvignon."
+msgstr "3-sulfanylhexanol and its acetate were first identified in yellow passion fruit, before Sauvignon."
+
+msgid "Le Nez"
+msgstr "The Nose"
+
+msgid "Le Nez : comment sont calculées les probabilités"
+msgstr "The Nose: how the probabilities are calculated"
+
+msgid ""
+"Le bois de tonnellerie apporte au vin des lactones (noix de coco), de la vanilline, de l'eugénol et, une "
+"fois brûlé, des phénols fumés. On y a même trouvé de la rotundone."
+msgstr ""
+"Cooperage wood gives wine lactones (coconut), vanillin, eugenol and, once toasted, smoky phenols. Rotundone"
+" has even been found in it."
+
+msgid "Le caractère « abricot » du Viognier relié aux monoterpènes géraniol, linalol et nérol."
+msgstr "The \"apricot\" character of Viognier linked to the monoterpenes geraniol, linalool and nerol."
+
+msgid ""
+"Le compagnon du 4-éthylphénol, issu de l'acide férulique : plus épicé et fumé, il évoque le lard grillé. On"
+" le trouve aussi en petite quantité dans le bois de chêne chauffé."
+msgstr ""
+"The companion of 4-ethylphenol, derived from ferulic acid: spicier and smokier, it evokes grilled bacon. It"
+" is also found in small amounts in toasted oak."
+
+msgid ""
+"Le cousin plus charpenté de la rive droite de la Loire, au cassis appuyé et aux tanins un peu rustiques "
+"dans la jeunesse."
+msgstr ""
+"The more structured cousin from the right bank of the Loire, with pronounced blackcurrant and slightly "
+"rustic tannins in youth."
+
+msgid ""
+"Le cru de garde du Beaujolais, structuré sur granite riche en manganèse, qui peut évoquer un pinot noir "
+"avec l'âge."
+msgstr ""
+"The age-worthy cru of Beaujolais, structured on manganese-rich granite, which can recall a Pinot Noir with "
+"age."
+
+msgid ""
+"Le cru le plus charnu du granit beaujolais ; autour de la Côte du Py, il « morgonne » en vieillissant vers "
+"des notes de cerise à l'eau-de-vie."
+msgstr ""
+"The fleshiest cru on Beaujolais granite; around the Côte du Py, it \"morgonne\" as it ages, moving towards "
+"notes of cherries in eau-de-vie."
+
+msgid "Le cru le plus floral du Beaujolais, gracieux et soyeux sur granite rose."
+msgstr "The most floral cru of Beaujolais, graceful and silky on pink granite."
+
+#, python-format
+msgid "Le descripteur « %(aroma_name)s »"
+msgstr "The descriptor “%(aroma_name)s”"
+
+msgid ""
+"Le diacétyle, produit par les bactéries lactiques, est la molécule clé du goût de beurre, comme celui des "
+"chardonnays ayant fait leur malolactique."
+msgstr ""
+"Diacetyl, produced by lactic acid bacteria, is the key molecule of buttery taste, as in Chardonnays that "
+"have gone through malolactic fermentation."
+
+msgid "Le graphe"
+msgstr "The graph"
+
+#, python-format
+msgid ""
+"Le jeu de données de référence est volontairement réduit et propre : chaque profil type a été rédigé et "
+"vérifié à la main, puis validé automatiquement au chargement (cépages, arômes et régions doivent exister, "
+"l'encépagement doit totaliser 100 %%)."
+msgstr ""
+"The reference dataset is deliberately small and clean: each profile was written and checked by hand, then "
+"validated automatically on loading (grapes, aromas and regions must exist, the blend must add up to 100%%)."
+
+msgid "Le même vin pour tout le monde aujourd'hui. Une seule partie, comptée au classement."
+msgstr "The same wine for everyone today. A single game, counted in the leaderboard."
+
+msgid "Le nez"
+msgstr "The nose"
+
+msgid ""
+"Le parfum de truffe des grands vins âgés. Son précurseur, la S-méthylméthionine du raisin, se dégrade "
+"lentement en bouteille, à l'abri de l'oxygène. Avec deux thiols, il signe le bouquet de vieillissement des "
+"bordeaux rouges."
+msgstr ""
+"The truffle scent of great aged wines. Its precursor, the grape's S-methylmethionine, breaks down slowly in"
+" bottle, away from oxygen. With two thiols, it signs the ageing bouquet of red Bordeaux."
+
+msgid "Le pinot de la dentelle, aérien et parfumé, sur des sols calcaires peu argileux. Plus de soie que de muscle."
+msgstr "The lace-like Pinot, airy and perfumed, on limestone soils with little clay. More silk than muscle."
+
+msgid "Le pinot féminin de la Côte de Beaune, délicat et floral, juste à côté de son voisin plus musclé."
+msgstr "The feminine Pinot of the Côte de Beaune, delicate and floral, right next to its more muscular neighbour."
+
+msgid "Le pinot noir le plus viril de la côte, sombre et structuré, qui évolue vers le sous-bois et le gibier."
+msgstr "The most virile Pinot Noir of the Côte, dark and structured, evolving towards undergrowth and game."
+
+msgid "Le plus exubérant des blancs, explosif de litchi et de rose, souvent avec une touche de sucre."
+msgstr "The most exuberant of whites, bursting with lychee and rose, often with a touch of sugar."
+
+msgid ""
+"Le plus floral des grands rouges de la rive gauche, soyeux et parfumé, où la violette se mêle au fruit "
+"noir. Une élégance qui cache une vraie capacité de garde."
+msgstr ""
+"The most floral of the great Left Bank reds, silky and perfumed, where violet mingles with black fruit. An "
+"elegance that hides a real ability to age."
+
+msgid ""
+"Le plus septentrional des grands rouges languedociens, frais grâce aux nuits fraîches sous la montagne, au "
+"fruit noir et à la garrigue."
+msgstr ""
+"The northernmost of the great Languedoc reds, kept fresh by cool nights beneath the mountain, with black "
+"fruit and garrigue."
+
+msgid ""
+"Le plus vaste vignoble de vins fins, partagé par la Gironde entre rive gauche (cabernet) et rive droite "
+"(merlot)."
+msgstr "The largest fine-wine vineyard, split by the Gironde between Left Bank (Cabernet) and Right Bank (Merlot)."
+
+msgid "Le plus étendu des crus, fruité et franc, autour du mont du même nom."
+msgstr "The most extensive of the crus, fruity and straightforward, around the hill of the same name."
+
+msgid ""
+"Le premier thiol variétal identifié dans le Sauvignon, en 1993-1995 à Bordeaux. Absent du raisin sous forme"
+" libre, il y est lié à la cystéine ou au glutathion et c'est la levure qui le libère pendant la "
+"fermentation. Quelques nanogrammes par litre suffisent pour la note de buis ; au-delà, elle tourne au « "
+"pipi de chat ». Dans les rouges, c'est elle qui porte une bonne part de l'arôme de cassis."
+msgstr ""
+"The first varietal thiol identified in Sauvignon, in 1993-1995 in Bordeaux. Absent from the grape in free "
+"form, it is bound there to cysteine or glutathione, and yeast releases it during fermentation. A few "
+"nanograms per litre are enough for the boxwood note; beyond that, it turns to \"cat's pee\". In reds, it "
+"carries a good share of the blackcurrant aroma."
+
+msgid ""
+"Le principal arôme du clou de girofle, déjà présent dans le chêne brut et renforcé par le séchage à l'air "
+"et la chauffe. Il apporte au vin élevé en barrique sa note épicée."
+msgstr ""
+"The main aroma of clove, already present in raw oak and reinforced by air-drying and toasting. It gives "
+"barrel-aged wine its spicy note."
+
+msgid "Le rosé pâle de référence, sec, délicat et désaltérant, obtenu par pressurage direct."
+msgstr "The benchmark pale rosé, dry, delicate and thirst-quenching, made by direct pressing."
+
+msgid "Le rouge le plus charpenté de la Côte de Beaune, sur argiles ferrugineuses, ferme dans sa jeunesse."
+msgstr "The most structured red of the Côte de Beaune, on iron-rich clay, firm in its youth."
+
+msgid "Le royaume du gamay sur granite, des primeurs gouleyants aux crus de garde."
+msgstr "The kingdom of Gamay on granite, from easy-drinking nouveau wines to age-worthy crus."
+
+msgid ""
+"Le terpène dominant des Muscats, qui donne leur goût de raisin frais. Il est présent dans la peau, en "
+"grande partie lié à des sucres, et se libère pendant la fermentation et l'élevage. On le retrouve à moindre"
+" dose dans le Gewurztraminer et le Riesling."
+msgstr ""
+"The dominant terpene of Muscats, which gives them their taste of fresh grapes. It is present in the skin, "
+"largely bound to sugars, and is released during fermentation and ageing. It is found at lower levels in "
+"Gewurztraminer and Riesling."
+
+msgid ""
+"Le thiol du « silex » : produit par la levure, il donne aux chardonnays et aux sauvignons leurs notes de "
+"pierre à fusil, présentes à des teneurs des dizaines de fois supérieures à son seuil. Il s'oxyde à "
+"l'aération, d'où une note qui s'efface dans le verre."
+msgstr ""
+"The \"flint\" thiol: produced by yeast, it gives Chardonnays and Sauvignons their gunflint notes, present "
+"at levels dozens of times above its threshold. It oxidises on aeration, which is why the note fades in the "
+"glass."
+
+msgid ""
+"Le thiol le plus répandu : présent dans le Sauvignon, les Manseng, le Colombard, le Sémillon, mais aussi "
+"dans les rouges bordelais et les rosés, où il porte une partie du fruit. Comme la 4-MMP, il dort dans le "
+"raisin sous forme de précurseur inodore. Il est fragile à l'oxygène : les rosés le perdent en quelques "
+"mois."
+msgstr ""
+"The most widespread thiol: present in Sauvignon, the Mansengs, Colombard and Sémillon, but also in Bordeaux"
+" reds and rosés, where it carries part of the fruit. Like 4-MMP, it sleeps in the grape as an odourless "
+"precursor. It is fragile to oxygen: rosés lose it within a few months."
+
+msgid "Le vin"
+msgstr "The wine"
+
+#, python-format
+msgid "Le vin du jour est un %(color)s. Au nez :"
+msgstr "Today's wine is a %(color)s. On the nose:"
+
+#, python-format
+msgid "Le vin est à environ %(km)s km %(direction)s."
+msgstr "The wine is about %(km)s km %(direction)s."
+
+msgid ""
+"Le « céleri perpétuel » des potagers, à l'odeur d'arôme Maggi : sotolon, β-damascénone et furanéol en sont "
+"les odorants clés."
+msgstr ""
+"The \"perpetual celery\" of kitchen gardens, with its Maggi seasoning smell: sotolon, β-damascenone and "
+"furaneol are its key odorants."
+
+msgid "Le « vin noir », d'une couleur d'encre, puissant et tannique sur les causses et les terrasses du Lot."
+msgstr "The \"black wine\", inky in colour, powerful and tannic on the limestone plateaux and terraces of the Lot."
+
+#, python-format
+msgid "Les %(molecules)s molécules et %(sources)s éléments naturels"
+msgstr "The %(molecules)s molecules and %(sources)s natural sources"
+
+#, python-format
+msgid "Les %(references)s références"
+msgstr "The %(references)s references"
+
+msgid "Les appellations françaises de la base, rangées par région. Consultez aussi les"
+msgstr "The French appellations in the database, sorted by region. See also the"
+
+msgid "Les cinq vins les plus probables"
+msgstr "The five most likely wines"
+
+msgid ""
+"Les composés en C6 naissent dès que la baie est écrasée, par oxydation enzymatique des acides gras. "
+"Rarement au-dessus de leur seuil dans le vin, ils accompagnent les notes végétales des raisins peu mûrs ou "
+"des pressurages énergiques."
+msgstr ""
+"C6 compounds form as soon as the berry is crushed, by enzymatic oxidation of fatty acids. Rarely above "
+"their threshold in wine, they accompany the green notes of underripe grapes or vigorous pressing."
+
+msgid "Les descripteurs dominants de chaque appellation."
+msgstr "The dominant descriptors of each appellation."
+
+#, python-format
+msgid "Les descripteurs utilisés dans les fiches, le blind test et Le Nez, regroupés en %(families)s familles."
+msgstr "The descriptors used in the profiles, the blind tasting and The Nose, grouped into %(families)s families."
+
+msgid ""
+"Les houblons aromatiques du Nouveau Monde doivent une partie de leur parfum de cassis et de fruit tropical "
+"à la 4-MMP, la même molécule que le Sauvignon."
+msgstr ""
+"New World aroma hops owe part of their blackcurrant and tropical-fruit scent to 4-MMP, the same molecule as"
+" Sauvignon."
+
+msgid ""
+"Les ionones tirent leur nom de la violette (ion en grec) : la β-ionone porte la note de violette du Pinot "
+"noir, de la Syrah ou du Malbec."
+msgstr ""
+"Ionones take their name from the violet (ion in Greek): β-ionone carries the violet note of Pinot Noir, "
+"Syrah or Malbec."
+
+msgid "Les molécules"
+msgstr "The molecules"
+
+msgid ""
+"Les molécules de chaque appellation, les arômes qu'elles évoquent et les éléments naturels qui les "
+"partagent."
+msgstr "The molecules of each appellation, the aromas they evoke and the natural sources that share them."
+
+msgid "Les molécules derrière ce descripteur"
+msgstr "The molecules behind this descriptor"
+
+msgid "Les molécules du vin"
+msgstr "The molecules of wine"
+
+#, python-format
+msgid "Les molécules que %(source_name)s partage avec le vin, et les vins qui en contiennent."
+msgstr "The molecules that %(source_name)s shares with wine, and the wines that contain them."
+
+msgid "Les parties jouées sans compte sur cet appareil vous seront rattachées."
+msgstr "Games played without an account on this device will be attached to your account."
+
+msgid "Les publications qui justifient les liens affichés, de la plus citée à la moins citée."
+msgstr "The publications that justify the links shown, from most to least cited."
+
+msgid ""
+"Les seuils de perception sont indicatifs : ils varient selon le vin, la méthode et le dégustateur. Une "
+"molécule présente sous son seuil peut quand même jouer, en renforçant ou en masquant ses voisines. Les "
+"structures sont dessinées sans stéréochimie, et la formule brute est calculée à partir de la structure."
+msgstr ""
+"Perception thresholds are indicative: they vary with the wine, the method and the taster. A molecule "
+"present below its threshold can still play a part, by reinforcing or masking its neighbours. Structures are"
+" drawn without stereochemistry, and the molecular formula is computed from the structure."
+
+msgid "Les vecteurs du graphe ne sont pas encore appris. Lancez : python manage.py train_embeddings"
+msgstr "The graph vectors have not been learned yet. Run: python manage.py train_embeddings"
+
+msgid "Les vins qui la rappellent"
+msgstr "Wines that recall it"
+
+msgid "Les éléments naturels"
+msgstr "Natural sources"
+
+msgid "Levures d'altération (Brettanomyces)"
+msgstr "Spoilage yeasts (Brettanomyces)"
+
+msgid "Libournais"
+msgstr "Libournais"
+
+msgid ""
+"Libérée par la dégradation de la lignine quand la douelle est chauffée. Les fûts neufs et le chêne "
+"américain en donnent le plus ; l'extraction ralentit nettement après un an de service."
+msgstr ""
+"Released by the breakdown of lignin when the stave is toasted. New barrels and American oak give the most; "
+"extraction slows markedly after a year of use."
+
+msgid "Liens par famille d'arômes"
+msgstr "Links by aroma family"
+
+msgid "Ligurie / Provence"
+msgstr "Liguria / Provence"
+
+msgid "Limites"
+msgstr "Limitations"
+
+msgid "Liquoreux"
+msgstr "Sweet"
+
+msgid "Liquoreux botrytisé du Périgord, miellé et confit, plus abordable que ses cousins girondins."
+msgstr "Botrytised sweet wine from Périgord, honeyed and candied, more affordable than its Gironde cousins."
+
+msgid ""
+"Liquoreux ligérien où le chenin botrytisé allie richesse confite et acidité vibrante, beaucoup plus frais "
+"qu'il n'y paraît."
+msgstr ""
+"Loire sweet wine where botrytised Chenin combines candied richness and vibrant acidity, much fresher than "
+"it seems."
+
+msgid ""
+"Liquoreux né de la pourriture noble dans les brumes d'automne, riche et confit, que l'acidité tient en "
+"équilibre. L'un des vins blancs les plus longs à vieillir."
+msgstr ""
+"Sweet wine born of noble rot in the autumn mists, rich and candied, held in balance by acidity. One of the "
+"longest-lived white wines."
+
+msgid "Lire la fiche du vin"
+msgstr "Read the wine's details"
+
+msgid "Lire la température"
+msgstr "Reading the temperature"
+
+msgid "Loire / Bordeaux"
+msgstr "Loire / Bordeaux"
+
+msgid "Légende des couleurs"
+msgstr "Colour legend"
+
+msgid "Légume"
+msgstr "Vegetable"
+
+msgid "MND"
+msgstr "3-methyl-2,4-nonanedione"
+
+msgid "Madiran"
+msgstr "Madiran"
+
+msgid "Marqueur de son cépage"
+msgstr "Marker of its grape"
+
+msgid "Marqueur du cépage"
+msgstr "Grape marker"
+
+msgid ""
+"Marqueur du vieillissement prématuré des rouges : elle remplace le fruit frais par le pruneau. Elle dépasse"
+" toujours son seuil dans les vins oxydés et se forme davantage avec des raisins vendangés tard."
+msgstr ""
+"Marker of premature ageing in reds: it replaces fresh fruit with prune. It always exceeds its threshold in "
+"oxidised wines and forms more with late-harvested grapes."
+
+msgid "Mille kilomètres de fleuve et de styles, du muscadet océanique aux sauvignons du Centre."
+msgstr "A thousand kilometres of river and styles, from oceanic Muscadet to the Sauvignons of the Centre."
+
+msgid "Minéral"
+msgstr "Mineral"
+
+msgid "Mode"
+msgstr "Mode"
+
+msgid "Modes du Nez"
+msgstr "Modes of The Nose"
+
+#, python-format
+msgid ""
+"Modèle entraîné le %(trained)s sur %(nodes)s entités (%(dim)s dimensions). Sur des liens masqués pendant "
+"l'entraînement, il distingue un vrai lien d'un lien au hasard dans %(auc)s des cas (AUC)."
+msgstr ""
+"Model trained on %(trained)s on %(nodes)s entities (%(dim)s dimensions). On links hidden during training, "
+"it tells a real link from a random one in %(auc)s of cases (AUC)."
+
+msgid "Moelleux"
+msgstr "Medium-sweet"
+
+msgid "Moelleux pyrénéen issu de raisins passerillés sur souche, exotique et épicé, d'une fraîcheur remarquable."
+msgstr "Pyrenean sweet wine made from grapes dried on the vine, exotic and spicy, with remarkable freshness."
+
+msgid "Molécule"
+msgstr "Molecule"
+
+#, python-format
+msgid "Molécule · %(get_family_display)s"
+msgstr "Molecule · %(get_family_display)s"
+
+msgid "Molécules"
+msgstr "Molecules"
+
+msgid "Molécules : force minimale"
+msgstr "Molecules: minimum strength"
+
+msgid "Molécules : méthode et sources"
+msgstr "Molecules: method and sources"
+
+msgid "Molécules partagées avec le vin"
+msgstr "Molecules shared with wine"
+
+msgid "Monoterpène"
+msgstr "Monoterpene"
+
+msgid "Montagne de Reims"
+msgstr "Montagne de Reims"
+
+msgid "Mosaïque de climats où le pinot noir et le chardonnay expriment chaque parcelle."
+msgstr "A mosaic of climats where Pinot Noir and Chardonnay express each plot."
+
+msgid "Muscat vinifié sec, qui sent le raisin frais croqué, léger et floral ; rare et singulier."
+msgstr "Muscat made dry, smelling of freshly bitten grapes, light and floral; rare and singular."
+
+msgid "Mâconnais"
+msgstr "Mâconnais"
+
+msgid "Méditerranée"
+msgstr "Mediterranean"
+
+msgid "Médoc"
+msgstr "Médoc"
+
+#, python-format
+msgid "Méthode et %(references)s sources"
+msgstr "Method and %(references)s sources"
+
+msgid "Méthode et bibliographie complète"
+msgstr "Method and full bibliography"
+
+msgid "Méthode et sources"
+msgstr "Method and sources"
+
+msgid "Méthoxypyrazine"
+msgstr "Methoxypyrazine"
+
+msgid "Même appellation"
+msgstr "Same appellation"
+
+msgid "Même sous-région, mais autre appellation."
+msgstr "Same sub-region, but another appellation."
+
+msgid "Navigation principale"
+msgstr "Main navigation"
+
+msgid ""
+"Naviguez de la région à l'appellation, du cépage à l'arôme. Cherchez le chemin qui relie le chablis au "
+"litchi."
+msgstr "Travel from region to appellation, from grape to aroma. Look for the path that links Chablis to lychee."
+
+msgid "Noir"
+msgstr "Black"
+
+msgid "Nom d'utilisateur"
+msgstr "Username"
+
+msgid "Norisoprénoïde en C13"
+msgstr "C13 norisoprenoid"
+
+msgid "Nos fiches décrivent des"
+msgstr "Our pages describe"
+
+msgid "Nouvelle partie libre"
+msgstr "New free game"
+
+msgid "N°"
+msgstr "No."
+
+msgid ""
+"Né de la pyrolyse de la lignine, à très haute température : plus la barrique est brûlée, plus le vin sent "
+"la fumée. On le retrouve aussi dans les vins issus de vignes exposées à des feux de forêt."
+msgstr ""
+"Born from the pyrolysis of lignin at very high temperature: the more heavily the barrel is toasted, the "
+"more the wine smells of smoke. It is also found in wines from vines exposed to wildfires."
+
+msgid "Occurrences importées automatiquement, non vérifiées une à une."
+msgstr "Occurrences imported automatically, not checked one by one."
+
+msgid "Odeur"
+msgstr "Odour"
+
+#, python-format
+msgid "Odeur : %(odor)s."
+msgstr "Odour: %(odor)s."
+
+msgid "Odorant clé de l'extrait de livèche."
+msgstr "Key odorant of lovage extract."
+
+msgid "Odorant d'impact de l'ananas frais, avec le furanéol."
+msgstr "Impact odorant of fresh pineapple, along with furaneol."
+
+msgid "Odorant d'impact de l'ananas frais."
+msgstr "Impact odorant of fresh pineapple."
+
+msgid "Odorant important de la tomate et de la rose, identifié aussi dans les fèves de cacao torréfiées et le miel."
+msgstr "Important odorant of tomato and rose, also identified in roasted cocoa beans and honey."
+
+msgid "Odorant important des houblons aromatiques du Nouveau Monde."
+msgstr "Important odorant of New World aroma hops."
+
+msgid "On la retrouve dans"
+msgstr "Also found in"
+
+msgid "On la retrouve dans la nature"
+msgstr "Found in nature"
+
+msgid "Organique"
+msgstr "Organic"
+
+msgid "Origine"
+msgstr "Origin"
+
+msgid "Origine dans le vin"
+msgstr "Origin in wine"
+
+#, python-format
+msgid "Oui, nous sommes en %(region)s."
+msgstr "Yes, we are in %(region)s."
+
+msgid "Ouvrage de référence sur l'origine naturelle des molécules odorantes courantes."
+msgstr "Reference work on the natural origin of common odorous molecules."
+
+msgid "Ouvrir dans PubChem"
+msgstr "Open in PubChem"
+
+msgid "Où le trouver"
+msgstr "Where to find it"
+
+msgid "Par région"
+msgstr "By region"
+
+msgid "Parcourir le graphe"
+msgstr "Browse the graph"
+
+msgid "Parenté déduite par le modèle"
+msgstr "Kinship inferred by the model"
+
+#, python-format
+msgid "Parmi %(considered)s profils types."
+msgstr "Out of %(considered)s wine profiles."
+
+msgid "Partage avec le Gewurztraminer une dizaine de composés odorants, dont l'oxyde de rose cis, le plus actif."
+msgstr "Shares about ten odorous compounds with Gewurztraminer, including cis-rose oxide, the most active."
+
+msgid "Partie abandonnée."
+msgstr "Game abandoned."
+
+msgid "Partie abandonnée. Voici le vin."
+msgstr "Game abandoned. Here is the wine."
+
+msgid "Partie en cours"
+msgstr "Game in progress"
+
+msgid "Partie en cours."
+msgstr "Game in progress."
+
+msgid "Partie libre"
+msgstr "Free game"
+
+msgid "Partie libre : un vin tiré au hasard."
+msgstr "Free game: a wine drawn at random."
+
+#, python-format
+msgid "Partie terminée : %(get_status_display)s, %(score)s points."
+msgstr "Game over: %(get_status_display)s, %(score)s points."
+
+msgid "Parties"
+msgstr "Games"
+
+msgid "Partir d'un vin, d'une molécule ou d'un élément naturel"
+msgstr "Start from a wine, a molecule or a natural source"
+
+msgid "Partir de ce vin"
+msgstr "Start from this wine"
+
+msgid "Partir de cette molécule"
+msgstr "Start from this molecule"
+
+msgid "Pas cette région."
+msgstr "Not this region."
+
+#, python-format
+msgid "Pas de %(grape)s dans ce vin."
+msgstr "No %(grape)s in this wine."
+
+msgid "Pas encore de compte ?"
+msgstr "No account yet?"
+
+msgid "Pas encore de profil avec ce cépage."
+msgstr "No profile with this grape yet."
+
+msgid "Pas encore de vecteur pour cette entité : relancez l'entraînement."
+msgstr "No vector for this entity yet: run the training again."
+
+msgid "Pauillac, syrah, violette…"
+msgstr "Pauillac, Syrah, violet…"
+
+msgid "Pays nantais"
+msgstr "Pays Nantais"
+
+msgid "Perdue"
+msgstr "Lost"
+
+msgid "Personne n'a encore terminé le défi du jour."
+msgstr "Nobody has finished the daily challenge yet."
+
+msgid "Phénol volatil"
+msgstr "Volatile phenol"
+
+msgid "Pinot noir d'une profondeur épicée et soyeuse, considéré comme l'un des sommets de la Bourgogne rouge."
+msgstr "Pinot Noir of spicy, silky depth, regarded as one of the summits of red Burgundy."
+
+msgid "Pinot noir franc et fruité, plus rustique que ceux de la Côte d'Or et d'un excellent rapport qualité-prix."
+msgstr "Straightforward, fruity Pinot Noir, more rustic than those of the Côte d'Or and excellent value for money."
+
+msgid "Pinot noir robuste et terrien, plus tannique que ses voisins, aux arômes de fruits noirs et de cuir."
+msgstr "Robust, earthy Pinot Noir, more tannic than its neighbours, with aromas of black fruit and leather."
+
+msgid "Pinot noir septentrional léger et digeste, aux fruits rouges acidulés et aux tanins délicats."
+msgstr "Light, digestible northern Pinot Noir with tangy red fruit and delicate tannins."
+
+msgid "Plante et feuillage"
+msgstr "Plant and foliage"
+
+msgid "Plus d'essais. Voici le vin."
+msgstr "No attempts left. Here is the wine."
+
+msgid "Plus du tiers de l'essence de rose de Bulgarie."
+msgstr "More than a third of Bulgarian rose oil."
+
+msgid "Plutôt un vin au hasard"
+msgstr "A random wine instead"
+
+msgid "Points"
+msgstr "Points"
+
+msgid "Points de départ"
+msgstr "Starting points"
+
+msgid "Pour confirmer, cherchez aussi :"
+msgstr "To confirm, also look for:"
+
+#, python-format
+msgid "Pourquoi dans %(profile_name)s"
+msgstr "Why in %(profile_name)s"
+
+msgid "Pourquoi un vin contient une molécule"
+msgstr "Why a wine contains a molecule"
+
+msgid "Principal constituant de l'huile essentielle des feuilles."
+msgstr "Main constituent of the leaf essential oil."
+
+msgid "Prix"
+msgstr "Price"
+
+msgid "Prix d'entrée maximal :"
+msgstr "Maximum entry price:"
+
+msgid "Prix indicatif"
+msgstr "Indicative price"
+
+#, python-format
+msgid "Prochain indice au prochain essai manqué : %(next_clue)s."
+msgstr "Next clue after your next missed attempt: %(next_clue)s."
+
+msgid "Proche"
+msgstr "Close"
+
+msgid ""
+"Produit par les bactéries lactiques à partir de l'acide citrique pendant la fermentation malolactique. "
+"Presque tous les rouges la font ; parmi les blancs, ce sont surtout les chardonnays élevés sur lies. Les "
+"polyphénols des rouges le masquent en partie."
+msgstr ""
+"Produced by lactic acid bacteria from citric acid during malolactic fermentation. Almost all reds go "
+"through it; among whites, mainly Chardonnays aged on lees. The polyphenols in reds partly mask it."
+
+msgid ""
+"Produit par les levures du voile pendant les six ans d'élevage du vin jaune, il en fait la note de pomme "
+"blette et de noix, et sert de matière première au sotolon. Ailleurs, à forte dose, c'est le signe d'une "
+"oxydation."
+msgstr ""
+"Produced by the flor yeasts during the six years of ageing of vin jaune, it gives it its bruised-apple and "
+"walnut note, and is the raw material for sotolon. Elsewhere, at high doses, it is a sign of oxidation."
+
+msgid "Profil type"
+msgstr "Wine profile"
+
+msgid "Profils types"
+msgstr "Wine profiles"
+
+msgid "Profils types et toutes leurs relations. Dense : filtrez ou centrez sur un nœud."
+msgstr "Typical profiles and all their relationships. Dense: filter or centre on a node."
+
+msgid ""
+"Propanoate, 2-méthylpropanoate et 2-méthylbutanoate d'éthyle pour les fruits noirs ; butanoate, hexanoate "
+"et octanoate d'éthyle pour les fruits rouges."
+msgstr ""
+"Ethyl propanoate, 2-methylpropanoate and 2-methylbutanoate for black fruit; ethyl butanoate, hexanoate and "
+"octanoate for red fruit."
+
+msgid "Proposer"
+msgstr "Submit"
+
+msgid "Proposez un arôme, un cépage, une région, une appellation, une molécule ou un vin."
+msgstr "Suggest an aroma, a grape, a region, an appellation, a molecule or a wine."
+
+msgid "Proposition"
+msgstr "Guess"
+
+msgid "Provence"
+msgstr "Provence"
+
+msgid "Provence / Languedoc"
+msgstr "Provence / Languedoc"
+
+msgid ""
+"Proximités apprises par un réseau de neurones sur le graphe : arômes, cépages, bouche et géographie "
+"confondus. Le point plein signale un lien déjà écrit dans nos fiches ; le point creux, une parenté que le "
+"modèle a déduite."
+msgstr ""
+"Closeness learned by a neural network on the graph: aromas, grapes, palate and geography combined. A filled"
+" dot marks a link already written in our profiles; a hollow dot, a kinship the model inferred."
+
+msgid "Précurseur du raisin libéré par la levure"
+msgstr "Grape precursor released by yeast"
+
+msgid "Présent"
+msgstr "Present"
+
+msgid "Présent dans l'huile essentielle de cannelle et le styrax ; signalé dans la fraise, la cerise, le coing."
+msgstr "Present in cinnamon essential oil and storax; reported in strawberry, cherry and quince."
+
+msgid ""
+"Présente dans le bois brut, elle signe le chêne américain (Quercus alba), plus riche que les chênes "
+"européens. L'isomère cis est le plus odorant ; une chauffe forte en réduit la teneur."
+msgstr ""
+"Present in raw wood, it is the signature of American oak (Quercus alba), richer than European oaks. The cis"
+" isomer is the most odorous; heavy toasting lowers its content."
+
+msgid "Pâtisserie et lactique"
+msgstr "Pastry and dairy"
+
+msgid ""
+"Quand aucun cépage ni descripteur précis ne la désigne, une molécule peut être reliée par la famille "
+"d'arômes du vin (fruits noirs, boisé…). Lien le plus faible, en pointillé."
+msgstr ""
+"When no grape or precise descriptor points to it, a molecule can be linked through the wine's aroma family "
+"(black fruit, oak…). The weakest link, shown dashed."
+
+msgid "Quels cépages pour quelles appellations."
+msgstr "Which grapes for which appellations."
+
+msgid "Quels vins la rappellent ?"
+msgstr "Which wines recall it?"
+
+#, python-format
+msgid "Raisin %(get_skin_display)s"
+msgstr "Grape skin: %(get_skin_display)s"
+
+msgid "Raisin (arôme variétal)"
+msgstr "Grape (varietal aroma)"
+
+#, python-format
+msgid "Raisins %(grouper)ss"
+msgstr "%(grouper)s grapes"
+
+msgid "Rang"
+msgstr "Rank"
+
+msgid "Rappelle les cépages où la rotundone dépasse 100 ng/L : Schioppettino, Duras, Pineau d'Aunis, Gamay."
+msgstr "Recalls the varieties where rotundone exceeds 100 ng/L: Schioppettino, Duras, Pineau d'Aunis, Gamay."
+
+msgid "Raté"
+msgstr "Missed"
+
+msgid "Recadrer"
+msgstr "Fit to view"
+
+msgid "Reconnaître un vin"
+msgstr "Recognise a wine"
+
+msgid "Rejouer le défi du jour"
+msgstr "Replay today's challenge"
+
+msgid "Relier deux entités"
+msgstr "Connect two entities"
+
+msgid "Remonter la piste"
+msgstr "Follow the trail"
+
+msgid "Reprendre"
+msgstr "Resume"
+
+#, python-format
+msgid "Retirer %(a_name)s"
+msgstr "Remove %(a_name)s"
+
+#, python-format
+msgid "Retirer %(f_name)s"
+msgstr "Remove %(f_name)s"
+
+#, python-format
+msgid "Retirer %(t_label)s"
+msgstr "Remove %(t_label)s"
+
+msgid "Retrouvez le vin mystère : chaque proposition reçoit une température selon sa proximité avec lui."
+msgstr "Find the mystery wine: each guess gets a temperature according to how close it is."
+
+msgid "Retrouvez sa région, son appellation et ses cépages en huit essais. Chaque erreur dévoile un indice."
+msgstr "Find its region, appellation and grapes in eight attempts. Each mistake reveals a clue."
+
+msgid "Retrouvée dans le bois de chêne et dans les bourbons, où elle croît avec l'âge."
+msgstr "Found in oak wood and in bourbons, where it increases with age."
+
+msgid "Revenir au défi du jour"
+msgstr "Back to today's challenge"
+
+msgid "Revoir ma partie"
+msgstr "Review my game"
+
+msgid "Revue, avec la liste des odorants détectés dans le vin par GC-olfactométrie."
+msgstr "Review, with the list of odorants detected in wine by GC-olfactometry."
+
+msgid "Rhin"
+msgstr "Rhine"
+
+msgid "Rhône méridional"
+msgstr "Southern Rhône"
+
+msgid "Rhône septentrional"
+msgstr "Northern Rhône"
+
+msgid "Rosé"
+msgstr "Rosé"
+
+msgid "Rosé de caractère, plus structuré que la moyenne, capable de vieillir quelques années."
+msgstr "Rosé of character, more structured than average, able to age for a few years."
+
+msgid "Rosé de gastronomie, foncé et vineux, à l'opposé des rosés pâles. Seule appellation du Rhône dédiée au rosé."
+msgstr "Food rosé, dark and vinous, the opposite of pale rosés. The only Rhône appellation dedicated to rosé."
+
+msgid "Rosé tendre et légèrement sucré, gourmand de fruits rouges, à servir bien frais en apéritif."
+msgstr "Tender, slightly sweet rosé, moreish with red fruit, to serve well chilled as an aperitif."
+
+msgid "Rouge"
+msgstr "Red"
+
+msgid "Rouge alpin poivré et violacé, au fruit éclatant et à l'acidité vive."
+msgstr "Peppery, purple-hued Alpine red with vivid fruit and lively acidity."
+
+msgid "Rouge chaleureux du piémont de la Montagne Noire, fruité et velouté."
+msgstr "Warm red from the foothills of the Montagne Noire, fruity and velvety."
+
+msgid ""
+"Rouge chaleureux sur galets roulés, généreux et épicé, où le grenache domine un assemblage qui peut compter"
+" jusqu'à treize cépages."
+msgstr ""
+"Warm red on rolled pebbles, generous and spicy, where Grenache dominates a blend that can include up to "
+"thirteen varieties."
+
+msgid "Rouge d'IGP de cépages internationaux, fruité et souple, souvent étiqueté au nom du cépage."
+msgstr "IGP red from international varieties, fruity and supple, often labelled by grape name."
+
+msgid "Rouge de cépages autochtones, poivré et fruité, original et souvent très bon rapport qualité-prix."
+msgstr "Red from native varieties, peppery and fruity, original and often very good value."
+
+msgid ""
+"Rouge de graves aux portes de la ville, reconnaissable à ses notes fumées et tabac blond qui enveloppent un"
+" fruit noir mûr."
+msgstr ""
+"Gravel-soil red at the gates of the city, recognisable by its smoky, blond-tobacco notes wrapped around "
+"ripe black fruit."
+
+msgid ""
+"Rouge de graves profondes, charpenté et droit, au fruit noir serré par des tanins fermes qui demandent de "
+"la patience. Le bois de cèdre et la mine de crayon signent l'élevage et le terroir."
+msgstr ""
+"Red from deep gravel, structured and upright, its black fruit held tight by firm tannins that call for "
+"patience. Cedar wood and pencil lead are the signature of the ageing and the terroir."
+
+msgid "Rouge de mourvèdre en terrasses face à la mer, sauvage et tannique, élevé au moins dix-huit mois en foudre."
+msgstr ""
+"Mourvèdre red from terraces facing the sea, wild and tannic, aged at least eighteen months in large oak "
+"casks."
+
+msgid "Rouge de schistes, sombre et fumé, au toucher velouté et à la finale minérale."
+msgstr "Schist red, dark and smoky, with a velvety feel and a mineral finish."
+
+msgid ""
+"Rouge de tous les jours, fruité et souple, avec une trame tannique modérée et une pointe végétale de "
+"cabernet."
+msgstr "Everyday red, fruity and supple, with a moderate tannic frame and a green hint of Cabernet."
+
+msgid "Rouge du cap insulaire sur argilo-calcaire, structuré et parfumé de maquis."
+msgstr "Red from the island's cape on clay-limestone, structured and scented with maquis."
+
+msgid "Rouge friand sur tuffeau, juteux et frais, aux tanins fins, qui se boit légèrement rafraîchi."
+msgstr "Appetising red on tuffeau, juicy and fresh, with fine tannins, to drink lightly chilled."
+
+msgid "Rouge fruité et épicé du quotidien, assemblage méridional porté par le grenache."
+msgstr "Fruity, spicy everyday red, a southern blend led by Grenache."
+
+msgid "Rouge languedocien entre schistes au nord et argilo-calcaires au sud, généreux et parfumé de garrigue."
+msgstr ""
+"Languedoc red between schist in the north and clay-limestone in the south, generous and scented with "
+"garrigue."
+
+msgid ""
+"Rouge ligérien au fruit croquant et à la pointe végétale typique du cabernet franc, léger sur sables, plus "
+"sérieux sur coteaux de tuffeau."
+msgstr ""
+"Loire red with crunchy fruit and the green hint typical of Cabernet Franc, light on sand, more serious on "
+"tuffeau slopes."
+
+msgid ""
+"Rouge léger et gouleyant, souvent vinifié en macération carbonique, qui exhale des notes de fruits rouges "
+"frais et de banane."
+msgstr "Light, easy-drinking red, often made by carbonic maceration, giving off notes of fresh red fruit and banana."
+
+msgid "Rouge méridional charnu et épicé, voisin plus rustique de Gigondas."
+msgstr "Fleshy, spicy southern red, the more rustic neighbour of Gigondas."
+
+msgid "Rouge pâle et poivré des arènes granitiques, élégant et délicat, d'une originalité réelle."
+msgstr "Pale, peppery red from granite sands, elegant and delicate, genuinely original."
+
+msgid "Rouge pâle, presque rosé, aérien et épicé, typique des cépages jurassiens à peau fine."
+msgstr "Pale red, almost rosé, airy and spicy, typical of the thin-skinned Jura varieties."
+
+msgid "Rouge rustique et solaire d'une mosaïque de terroirs, dominé par le vieux carignan."
+msgstr "Rustic, sunny red from a mosaic of terroirs, dominated by old Carignan."
+
+msgid ""
+"Rouge sec des terrasses de schistes plongeant dans la Méditerranée, sur le même terroir qu'un célèbre vin "
+"doux."
+msgstr "Dry red from schist terraces plunging into the Mediterranean, on the same terroir as a famous sweet wine."
+
+msgid "Rouge souple et accessible, au fruit noir sur un fond légèrement fumé caractéristique des sols de graves."
+msgstr "Supple, approachable red, with black fruit over a lightly smoky background characteristic of gravel soils."
+
+msgid ""
+"Rouge suave et opulent sur argile et crasse de fer, d'une texture veloutée rare, aux notes de truffe et de "
+"chocolat noir."
+msgstr ""
+"Suave, opulent red on clay and iron-rich subsoil, with a rare velvety texture and notes of truffle and dark"
+" chocolate."
+
+msgid ""
+"Rouge velouté sur un plateau calcaire, ample et charnu, au fruit noir mûr adouci par le merlot. Avec l'âge,"
+" il glisse vers la truffe et le sous-bois."
+msgstr ""
+"Velvety red on a limestone plateau, full and fleshy, its ripe black fruit softened by Merlot. With age it "
+"slides towards truffle and undergrowth."
+
+msgid "Roussillon"
+msgstr "Roussillon"
+
+msgid "Région"
+msgstr "Region"
+
+msgid "Région viticole"
+msgstr "Wine region"
+
+msgid "Régions"
+msgstr "Regions"
+
+msgid "Régions, sous-régions et appellations."
+msgstr "Regions, sub-regions and appellations."
+
+msgid "Réglages de la carte"
+msgstr "Map settings"
+
+msgid "Réglages du graphe"
+msgstr "Graph settings"
+
+msgid "Résultat"
+msgstr "Result"
+
+msgid "Sa couleur (fermentation malolactique…)"
+msgstr "Its colour (malolactic fermentation…)"
+
+msgid "Sa fiche s'affiche ici, avec ses liens. Double-cliquez pour centrer le graphe sur son voisinage."
+msgstr "Its details appear here, with its links. Double-click to centre the graph on its neighbourhood."
+
+msgid ""
+"Sa formule, son odeur, la raison de sa présence dans ce vin et les éléments naturels où on la retrouve "
+"s'affichent ici."
+msgstr ""
+"Its formula, its smell, the reason for its presence in this wine and the natural sources where it is found "
+"appear here."
+
+msgid "Saisissez une région, une appellation ou un cépage."
+msgstr "Enter a region, an appellation or a grape."
+
+msgid "Sancerre, gamay, violette…"
+msgstr "Sancerre, Gamay, violet…"
+
+msgid "Sauternais"
+msgstr "Sauternais"
+
+msgid "Sauvignon ciselé sur silex et terres blanches, tendu et minéral, au nez d'agrumes et de bourgeon de cassis."
+msgstr ""
+"Finely chiselled Sauvignon on flint and white soils, taut and mineral, with a nose of citrus and "
+"blackcurrant bud."
+
+msgid "Sauvignon de la rive droite, plus ample et plus fumé, où la pierre à fusil domine le fruit."
+msgstr "Right-bank Sauvignon, fuller and smokier, where gunflint dominates the fruit."
+
+msgid "Savoie"
+msgstr "Savoie"
+
+msgid "Se connecter"
+msgstr "Log in"
+
+msgid "Se déconnecter"
+msgstr "Log out"
+
+msgid "Service"
+msgstr "Serving"
+
+msgid "Service et garde"
+msgstr "Serving and ageing"
+
+msgid "Servir un vin au hasard"
+msgstr "Pour a random wine"
+
+#, python-format
+msgid "Servir à %(temp)s. Garde : %(min)s à %(max)s ans."
+msgstr "Serve at %(temp)s. Ageing: %(min)s to %(max)s years."
+
+msgid "Ses cousins s'affichent ici : les vins, les cépages et les arômes dont il est le plus proche."
+msgstr "Its cousins appear here: the wines, grapes and aromas it is closest to."
+
+msgid ""
+"Ses feuilles concentrent le 1,8-cinéole. Quand des eucalyptus bordent une vigne, la molécule passe dans le "
+"vin par l'air et par les feuilles tombées dans la vendange."
+msgstr ""
+"Its leaves concentrate 1,8-cineole. When eucalyptus trees border a vineyard, the molecule passes into the "
+"wine through the air and through leaves that fall into the harvest."
+
+msgid "Ses graines doivent leur odeur de curry et de sirop d'érable au sotolon, la molécule signature du vin jaune."
+msgstr "Its seeds owe their smell of curry and maple syrup to sotolon, the signature molecule of vin jaune."
+
+msgid "Ses graines doivent leur parfum au linalol, au point que la molécule a longtemps été appelée coriandrol."
+msgstr "Its seeds owe their scent to linalool, so much so that the molecule was long called coriandrol."
+
+msgid "Ses molécules"
+msgstr "Its molecules"
+
+msgid "Ses molécules, de la plus sûre à la plus hypothétique"
+msgstr "Its molecules, from the most certain to the most speculative"
+
+msgid "Sesquiterpène"
+msgstr "Sesquiterpene"
+
+msgid "Seuil"
+msgstr "Threshold"
+
+msgid "Seuil de perception"
+msgstr "Perception threshold"
+
+msgid ""
+"Seuil plus de 1 000 fois plus élevé dans un vin rouge qu'en solution hydroalcoolique : un exhausteur du "
+"fruité plus qu'un arôme direct."
+msgstr ""
+"Threshold more than 1,000 times higher in a red wine than in hydroalcoholic solution: a fruit enhancer more"
+" than a direct aroma."
+
+msgid "Seuils de détection du gaïacol : 23 µg/L dans le vin rouge, 9,5 µg/L dans l'eau."
+msgstr "Detection thresholds of guaiacol: 23 µg/L in red wine, 9.5 µg/L in water."
+
+msgid "Seuils des monoterpènes (nérol, géraniol, α-terpinéol, citronellol, lactone du vin) et des esters."
+msgstr "Thresholds of monoterpenes (nerol, geraniol, α-terpineol, citronellol, wine lactone) and esters."
+
+msgid "Seul rouge du vignoble, léger et fruité, de plus en plus profond chez les meilleurs producteurs."
+msgstr "The only red of the vineyard, light and fruity, increasingly deep in the hands of the best producers."
+
+msgid "Socle aromatique commun à tous les vins (éthanol et 27 composés de fermentation)."
+msgstr "Aromatic base common to all wines (ethanol and 27 fermentation compounds)."
+
+msgid "Socle commun"
+msgstr "Common base"
+
+msgid "Socle commun des vins"
+msgstr "Common base of all wines"
+
+msgid ""
+"Son essence (rose de Bulgarie) réunit plusieurs molécules du vin : β-damascénone, β-ionone, oxyde de rose, "
+"géraniol et 2-phényléthanol. Les plus rares sont les plus odorantes."
+msgstr ""
+"Its oil (Bulgarian rose) brings together several wine molecules: β-damascenone, β-ionone, rose oxide, "
+"geraniol and 2-phenylethanol. The rarest are the most odorous."
+
+msgid ""
+"Son odeur caractéristique tient presque entièrement à une seule molécule, l'IBMP, logée dans la chair du "
+"fruit."
+msgstr ""
+"Its characteristic smell is almost entirely due to a single molecule, IBMP, lodged in the flesh of the "
+"fruit."
+
+msgid "Son style de vinification"
+msgstr "Its winemaking style"
+
+msgid "Sources"
+msgstr "Sources"
+
+msgid "Sources de ce graphe"
+msgstr "Sources for this graph"
+
+msgid "Sources et méthode"
+msgstr "Sources and method"
+
+msgid "Sources ouvertes prévues"
+msgstr "Planned open sources"
+
+msgid "Sous-bois et animal"
+msgstr "Forest floor and animal"
+
+msgid "Sous-région"
+msgstr "Sub-region"
+
+msgid "Style"
+msgstr "Style"
+
+#, python-format
+msgid "Style %(style)s"
+msgstr "%(style)s style"
+
+msgid "Style de vinification"
+msgstr "Winemaking style"
+
+msgid "Sucrosité"
+msgstr "Sweetness"
+
+msgid "Sud-Ouest"
+msgstr "South West"
+
+msgid "Sulfure"
+msgstr "Sulfide"
+
+msgid "Sur la carte"
+msgstr "On the map"
+
+msgid "Syrah de la colline de granite qui surplombe le fleuve, monumentale et de très longue garde."
+msgstr "Syrah from the granite hill overlooking the river, monumental and very long-lived."
+
+msgid "Syrah de la rive droite sur granite, fraîche et digeste, au fruit croquant."
+msgstr "Right-bank Syrah on granite, fresh and digestible, with crunchy fruit."
+
+msgid "Syrah des coteaux vertigineux de schistes, souvent cofermentée avec un peu de viognier, florale et fumée."
+msgstr "Syrah from dizzyingly steep schist slopes, often co-fermented with a little Viognier, floral and smoky."
+
+msgid "Syrah fruitée et poivrée des terrasses de la plaine, plus accessible que sa célèbre voisine."
+msgstr "Fruity, peppery Syrah from the terraces of the plain, more approachable than its famous neighbour."
+
+msgid "Syrah sauvage et sombre, de terres brûlées par le soleil, fermée dans sa jeunesse."
+msgstr "Wild, dark Syrah from sun-scorched soils, closed in its youth."
+
+msgid "TDN"
+msgstr "1,1,6-trimethyl-1,2-dihydronaphthalene"
+
+msgid "Tanins"
+msgstr "Tannins"
+
+msgid "Température"
+msgstr "Temperature"
+
+msgid ""
+"Terpène des Muscats et du Gewurztraminer, qui se forme aussi en bouteille à partir du linalol et du "
+"géraniol : la note florale des vins aromatiques glisse avec l'âge vers le lilas et la résine."
+msgstr ""
+"Terpene of Muscats and Gewurztraminer, which also forms in bottle from linalool and geraniol: the floral "
+"note of aromatic wines slides with age towards lilac and resin."
+
+msgid "Terroirs, accueil"
+msgstr "Terroirs, home"
+
+msgid "Terroirs. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs."
+msgstr "Terroirs. Reference data selected for learning; prices and ageing potential are indicative."
+
+msgid "Thiol"
+msgstr "Thiol"
+
+msgid "Thiols variétaux recensés dans le Grenache, le Merlot, le Cabernet-Sauvignon et les rosés de Provence."
+msgstr "Varietal thiols recorded in Grenache, Merlot, Cabernet Sauvignon and Provence rosés."
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Toujours montrer le socle commun"
+msgstr "Always show the common base"
+
+msgid "Touraine"
+msgstr "Touraine"
+
+msgid ""
+"Tous les vins sur une carte : deux vins voisins se ressemblent par leurs arômes, leurs cépages et leur "
+"bouche."
+msgstr "Every wine on one map: two neighbouring wines are alike in aromas, grapes and palate."
+
+msgid "Tout"
+msgstr "All"
+
+msgid "Tout afficher"
+msgstr "Show all"
+
+msgid "Tout effacer"
+msgstr "Clear all"
+
+msgid ""
+"Toute feuille froissée libère en quelques secondes des composés en C6, dont le (Z)-3-hexén-1-ol, ou « "
+"alcool de feuille »."
+msgstr "Any crushed leaf releases C6 compounds within seconds, including (Z)-3-hexen-1-ol, or \"leaf alcohol\"."
+
+msgid "Toute la France"
+msgstr "All of France"
+
+msgid "Toutes"
+msgstr "All"
+
+msgid "Toutes les molécules"
+msgstr "All molecules"
+
+msgid "Tranquille sec"
+msgstr "Still, dry"
+
+msgid "Trouver sur la carte"
+msgstr "Find on the map"
+
+msgid "Trouver une entité"
+msgstr "Find an entity"
+
+msgid "Trouvé"
+msgstr "Found"
+
+#, python-format
+msgid "Trouvé en %(attempts_used)s essai%(s)s."
+msgstr "Found in %(attempts_used)s attempt%(s)s."
+
+#, python-format
+msgid "Trouvé en %(n)s proposition%(s)s."
+msgstr "Found in %(n)s guess%(s)s."
+
+msgid "Tubercules où la molécule fut d'abord isolée, d'où son nom."
+msgstr "Tubers from which the molecule was first isolated, hence its name."
+
+msgid "Type d'essai non pris en charge."
+msgstr "Unsupported type of guess."
+
+msgid "Tyrol / Alsace"
+msgstr "Tyrol / Alsace"
+
+msgid "Un amphithéâtre de garrigues et de schistes, terre de renouveau et de vins doux naturels."
+msgstr "An amphitheatre of garrigue and schist, a land of renewal and of vins doux naturels."
+
+msgid "Un autre vin, au hasard"
+msgstr "Another wine, at random"
+
+msgid "Un choix par ligne. Ces descripteurs pèsent autant qu'un arôme, sans jamais exclure un vin."
+msgstr "One choice per row. These descriptors weigh as much as an aroma, without ever excluding a wine."
+
+msgid ""
+"Un classifieur bayésien naïf compare vos descripteurs aux arômes pondérés de chaque profil. Un descripteur "
+"absent d'un profil mais de la même famille qu'un de ses arômes garde une vraisemblance partielle : la "
+"framboise n'est pas la fraise, mais elle en est proche. Les scores sont ensuite normalisés en probabilités "
+"sur l'ensemble des profils."
+msgstr ""
+"A naive Bayes classifier compares your descriptors with the weighted aromas of each profile. A descriptor "
+"absent from a profile but in the same family as one of its aromas keeps a partial likelihood: raspberry is "
+"not strawberry, but it is close. The scores are then normalised into probabilities across all profiles."
+
+msgid "Un compte existe déjà avec cette adresse."
+msgstr "An account already exists with this address."
+
+msgid "Un compte garde votre historique de blind test et vous place au classement du défi du jour."
+msgstr "An account keeps your blind tasting history and puts you on the daily challenge leaderboard."
+
+msgid "Un conservatoire de cépages autochtones, du tannat au manseng."
+msgstr "A conservatory of native grape varieties, from Tannat to Manseng."
+
+msgid ""
+"Un des esters ramifiés qui, avec le propanoate et le 2-méthylpropanoate d'éthyle, orientent le fruit des "
+"vins rouges vers les baies noires. Sa teneur augmente lentement pendant les premières années de bouteille."
+msgstr ""
+"One of the branched esters which, with ethyl propanoate and 2-methylpropanoate, steer the fruit of red "
+"wines towards black berries. Its content rises slowly during the first years in bottle."
+
+msgid ""
+"Un des esters éthyliques qui composent le fond fruité commun à tous les vins. Seul, il sent la peau de "
+"pomme et l'ananas ; en mélange, il fait partie du « tampon » aromatique qui donne au vin son odeur de vin."
+msgstr ""
+"One of the ethyl esters that make up the fruity background common to all wines. Alone, it smells of apple "
+"skin and pineapple; in a mixture, it is part of the aromatic \"buffer\" that gives wine its smell of wine."
+
+msgid "Un descripteur de son nez"
+msgstr "A descriptor from its nose"
+
+msgid ""
+"Un rouge plus rustique et terrien au nord du Médoc, aux sols argileux, tannique dans sa jeunesse, qui gagne"
+" en profondeur avec les années."
+msgstr ""
+"A more rustic, earthy red from the north of the Médoc, on clay soils, tannic in its youth, gaining depth "
+"over the years."
+
+msgid "Un vin au hasard"
+msgstr "A random wine"
+
+msgid ""
+"Un vin contient des centaines de composés volatils ; quelques dizaines seulement comptent pour son nez. "
+"Cette section retient une trentaine de molécules dont le rôle est établi par la recherche en œnologie, et "
+"ne les relie à un vin, ou à un élément naturel, que si une publication le justifie."
+msgstr ""
+"A wine contains hundreds of volatile compounds; only a few dozen matter for its nose. This section keeps "
+"about thirty molecules whose role is established by oenology research, and links them to a wine, or to a "
+"natural source, only if a publication justifies it."
+
+msgid ""
+"Un vin mystère se cache. Proposez un arôme, un cépage, une région, une appellation, une molécule ou un "
+"autre vin : plus votre proposition lui ressemble, plus elle est chaude. Autant d'essais que vous voulez."
+msgstr ""
+"A mystery wine is hiding. Suggest an aroma, a grape, a region, an appellation, a molecule or another wine: "
+"the more your guess resembles it, the hotter it is. As many attempts as you like."
+
+#, python-format
+msgid ""
+"Un vin mystère vous est servi. Vous voyez sa robe, sa structure en bouche et ses premiers arômes. Retrouvez"
+" sa région, son appellation et ses cépages principaux. Vous avez %(max_attempts)s essais ; chaque essai "
+"infructueux dévoile un nouvel indice."
+msgstr ""
+"A mystery wine is poured for you. You see its colour, its structure on the palate and its first aromas. "
+"Find its region, its appellation and its main grapes. You have %(max_attempts)s attempts; each unsuccessful"
+" attempt reveals a new clue."
+
+msgid "Un vin mystère, sa robe, sa structure et ses arômes. À vous de reconstituer l'étiquette."
+msgstr "A mystery wine, its colour, its structure and its aromas. It is up to you to piece the label back together."
+
+msgid "Un vin tiré au hasard, autant de fois que vous voulez. Pour s'entraîner."
+msgstr "A wine drawn at random, as many times as you like. For practice."
+
+msgid "Une famille d'arômes de son nez"
+msgstr "An aroma family from its nose"
+
+msgid ""
+"Une molécule n'est reliée à une plante, un fruit, une épice ou un aliment que si une étude l'y a "
+"identifiée. Certaines n'existent guère qu'en bouteille, comme le TDN des vieux Rieslings ou le "
+"benzèneméthanethiol du silex : elles restent sans lien naturel plutôt que d'en inventer un."
+msgstr ""
+"A molecule is linked to a plant, fruit, spice or food only if a study has identified it there. Some hardly "
+"exist outside the bottle, such as the TDN of old Rieslings or the benzenemethanethiol of flint: they are "
+"left without a natural link rather than inventing one."
+
+msgid ""
+"Une molécule venue d'à côté de la vigne : les eucalyptus. Elle passe dans les raisins par l'air et surtout "
+"par les feuilles tombées dans la vendange, puis s'extrait pendant la macération. D'où sa présence quasi "
+"exclusive dans les vins rouges, surtout là où des eucalyptus bordent les vignes."
+msgstr ""
+"A molecule from next door to the vineyard: eucalyptus trees. It passes into the grapes through the air and "
+"above all through leaves that fall into the harvest, then is extracted during maceration. Hence its almost "
+"exclusive presence in red wines, especially where eucalyptus trees border the vines."
+
+msgid ""
+"Une victoire vaut 1 000 points, moins 90 par essai supplémentaire et 40 par indice dévoilé, avec un minimum"
+" de 100. Une partie perdue rapporte 25 points par élément trouvé."
+msgstr ""
+"A win is worth 1,000 points, minus 90 per extra attempt and 40 per clue revealed, with a minimum of 100. A "
+"lost game earns 25 points per element found."
+
+msgid "Vallée de la Loire"
+msgstr "Loire Valley"
+
+msgid "Vallée de la Marne"
+msgstr "Vallée de la Marne"
+
+msgid "Vallée du Rhône"
+msgstr "Rhône Valley"
+
+msgid "Victoires"
+msgstr "Wins"
+
+msgid "Vieillissement et oxydation"
+msgstr "Ageing and oxidation"
+
+msgid "Vignoble confidentiel, berceau du vin jaune et des vins sous voile."
+msgstr "A tiny vineyard, the cradle of vin jaune and wines aged under flor."
+
+msgid "Vin"
+msgstr "Wine"
+
+#, python-format
+msgid "Vin %(color)s"
+msgstr "%(color)s wine"
+
+msgid "Vin doux naturel"
+msgstr "Fortified sweet (vin doux naturel)"
+
+msgid "Vin doux naturel du Roussillon, exotique et frais, à boire jeune et bien froid."
+msgstr "Vin doux naturel from Roussillon, exotic and fresh, to drink young and well chilled."
+
+msgid "Vin doux naturel muté sur grain, l'un des rares vins à accompagner le chocolat noir."
+msgstr "Vin doux naturel fortified on the skins, one of the few wines that goes with dark chocolate."
+
+msgid "Vin doux naturel muté à l'alcool pendant la fermentation, intensément floral et fruité."
+msgstr "Vin doux naturel fortified with spirit during fermentation, intensely floral and fruity."
+
+msgid "Vin jaune (oxydatif)"
+msgstr "Vin jaune (oxidative)"
+
+msgid ""
+"Vin jaune élevé plus de six ans sous un voile de levures sans ouillage, présenté en clavelin de 62 cl. Noix"
+" et curry en signature."
+msgstr ""
+"Vin jaune aged more than six years under a veil of yeast without topping up, bottled in a 62 cl clavelin. "
+"Walnut and curry are its signature."
+
+msgid "Vin mystère"
+msgstr "Mystery wine"
+
+msgid "Vin mystère en cours"
+msgstr "Mystery wine in progress"
+
+msgid "Vins d'altitude vifs et légers, au pied des Alpes."
+msgstr "Crisp, light mountain wines from the foot of the Alps."
+
+msgid "Vins de cépage au pied des Vosges, protégés de la pluie, souvent aromatiques."
+msgstr "Varietal wines at the foot of the Vosges, sheltered from rain, often aromatic."
+
+msgid "Vins qui l'expriment"
+msgstr "Wines that show it"
+
+msgid "Voir dans le graphe"
+msgstr "View in the graph"
+
+msgid "Voir sur Wikidata"
+msgstr "View on Wikidata"
+
+msgid "Voir sur la carte"
+msgstr "View on the map"
+
+msgid "Voisines"
+msgstr "Neighbours"
+
+msgid "Vos dernières parties"
+msgstr "Your latest games"
+
+msgid "Vos points forts et vos lacunes apparaîtront ici."
+msgstr "Your strengths and weaknesses will appear here."
+
+msgid "Vos propositions, de la plus chaude à la plus froide"
+msgstr "Your guesses, from hottest to coldest"
+
+msgid "Votre parcours"
+msgstr "Your trail"
+
+msgid "Votre proposition"
+msgstr "Your guess"
+
+msgid "Votre proposition : région, appellation ou cépage"
+msgstr "Your guess: region, appellation or grape"
+
+#, python-format
+msgid "Vous avez déjà proposé « %(label)s »."
+msgstr "You have already tried “%(label)s”."
+
+msgid "Vous y êtes presque : moins de 15 km."
+msgstr "You are nearly there: less than 15 km away."
+
+msgid "Vue"
+msgstr "View"
+
+msgid "Vue prédéfinie"
+msgstr "Preset view"
+
+msgid "Végétal"
+msgstr "Green and herbaceous"
+
+msgid "Whisky-lactones, vanilline, eugénol, gaïacol extraits du bois dans douze vins rouges élevés en fût."
+msgstr "Whisky lactones, vanillin, eugenol and guaiacol extracted from wood in twelve barrel-aged red wines."
+
+msgid "Wikidata, non vérifié"
+msgstr "Wikidata, unverified"
+
+msgid "a sa propre méthode et sa bibliographie :"
+msgstr "section has its own method and bibliography:"
+
+msgid "abricot"
+msgstr "apricot"
+
+msgid "absent"
+msgstr "absent"
+
+msgid "acacia"
+msgstr "acacia"
+
+msgid "acide"
+msgstr "tart"
+
+msgid "acidité douce"
+msgstr "soft acidity"
+
+msgid "acétate d'isoamyle"
+msgstr "isoamyl acetate"
+
+msgid "acétate de 3-sulfanylhexyle"
+msgstr "3-mercaptohexyl acetate"
+
+msgid "agneau"
+msgstr "lamb"
+
+msgid "agneau aux herbes"
+msgstr "lamb with herbs"
+
+msgid "agneau confit"
+msgstr "slow-cooked lamb"
+
+msgid "agneau de Sisteron"
+msgstr "Sisteron lamb"
+
+msgid "agneau rôti"
+msgstr "roast lamb"
+
+msgid "amande"
+msgstr "almond"
+
+msgid "amande amère"
+msgstr "bitter almond"
+
+msgid "amande amère, noyau de cerise, massepain"
+msgstr "bitter almond, cherry stone, marzipan"
+
+msgid "ample"
+msgstr "full"
+
+msgid "ananas"
+msgstr "pineapple"
+
+msgid "anchois"
+msgstr "anchovies"
+
+msgid "andouillette"
+msgstr "andouillette sausage"
+
+msgid "appartient à"
+msgstr "belongs to"
+
+msgid "appellations"
+msgstr "appellations"
+
+msgid "apéritif"
+msgstr "aperitif"
+
+msgid "asperges"
+msgstr "asparagus"
+
+msgid "assemble"
+msgstr "blends"
+
+msgid "asséchant"
+msgstr "drying"
+
+msgid "astringent"
+msgstr "astringent"
+
+msgid "au nord"
+msgstr "to the north"
+
+msgid "au nord-est"
+msgstr "to the north-east"
+
+msgid "au nord-ouest"
+msgstr "to the north-west"
+
+msgid "au sud"
+msgstr "to the south"
+
+msgid "au sud-est"
+msgstr "to the south-east"
+
+msgid "au sud-ouest"
+msgstr "to the south-west"
+
+msgid "aubépine"
+msgstr "hawthorn"
+
+msgid "austère"
+msgstr "austere"
+
+msgid "aérien"
+msgstr "airy"
+
+msgid "baeckeoffe"
+msgstr "baeckeoffe"
+
+msgid "banane"
+msgstr "banana"
+
+msgid "banane, bonbon anglais, poire"
+msgstr "banana, pear drops, pear"
+
+msgid "basilic"
+msgstr "basil"
+
+msgid "beaufort"
+msgstr "Beaufort cheese"
+
+msgid "benzaldéhyde"
+msgstr "benzaldehyde"
+
+msgid "benzèneméthanethiol"
+msgstr "benzyl mercaptan"
+
+msgid "bergamote"
+msgstr "bergamot"
+
+msgid "beurre"
+msgstr "butter"
+
+msgid "beurre frais, noisette"
+msgstr "fresh butter, hazelnut"
+
+msgid "bleus"
+msgstr "blue cheeses"
+
+msgid "bois brûlé"
+msgstr "charred wood"
+
+msgid "botrytisé"
+msgstr "botrytised"
+
+msgid "bouillabaisse"
+msgstr "bouillabaisse"
+
+msgid "bourgeon de cassis"
+msgstr "blackcurrant bud"
+
+msgid "brioche"
+msgstr "brioche"
+
+msgid "brocciu"
+msgstr "brocciu cheese"
+
+msgid "brut"
+msgstr "brut"
+
+msgid "brûlant"
+msgstr "scorching"
+
+msgid "buis"
+msgstr "boxwood"
+
+msgid "buis, bourgeon de cassis, genêt"
+msgstr "boxwood, blackcurrant bud, broom"
+
+msgid "buis, fruit de la passion, pamplemousse"
+msgstr "boxwood, passion fruit, grapefruit"
+
+msgid "bulles"
+msgstr "bubbles"
+
+msgid "burger"
+msgstr "burger"
+
+msgid "butanoate d'éthyle"
+msgstr "ethyl butanoate"
+
+msgid "bœuf"
+msgstr "beef"
+
+msgid "bœuf bourguignon"
+msgstr "beef bourguignon"
+
+msgid "bœuf braisé"
+msgstr "braised beef"
+
+msgid "cabri"
+msgstr "kid goat"
+
+msgid "cacao"
+msgstr "cocoa"
+
+msgid "cacao torréfié"
+msgstr "roasted cocoa"
+
+msgid "café"
+msgstr "coffee"
+
+msgid "café torréfié"
+msgstr "roasted coffee"
+
+msgid "café torréfié, grillé, silex"
+msgstr "roasted coffee, toast, flint"
+
+msgid "caillette"
+msgstr "caillette (pork and herb patty)"
+
+msgid "canard"
+msgstr "duck"
+
+msgid "canard aux cerises"
+msgstr "duck with cherries"
+
+msgid "cannelle"
+msgstr "cinnamon"
+
+msgid "cannelle, balsamique, fruits rouges"
+msgstr "cinnamon, balsamic, red fruit"
+
+msgid "capiteux"
+msgstr "heady"
+
+msgid "caramel"
+msgstr "caramel"
+
+msgid "cardamome"
+msgstr "cardamom"
+
+msgid "carré d'agneau"
+msgstr "rack of lamb"
+
+msgid "cassis"
+msgstr "blackcurrant"
+
+msgid "cassis, sous-bois, tannique, vif, bulles…"
+msgstr "blackcurrant, forest floor, tannic, crisp, bubbles…"
+
+msgid "cassis, syrah, Bourgogne, rotundone…"
+msgstr "blackcurrant, Syrah, Burgundy, rotundone…"
+
+msgid "cassoulet"
+msgstr "cassoulet"
+
+msgid "caviar"
+msgstr "caviar"
+
+msgid "cerise"
+msgstr "cherry"
+
+msgid "cerise noire"
+msgstr "black cherry"
+
+msgid "champignon"
+msgstr "mushroom"
+
+msgid "champignon de Paris"
+msgstr "button mushroom"
+
+msgid "champignon, sous-bois, terre"
+msgstr "mushroom, forest floor, earth"
+
+msgid "champignons"
+msgstr "mushrooms"
+
+msgid "chaource"
+msgstr "Chaource cheese"
+
+msgid "charcuterie"
+msgstr "charcuterie"
+
+msgid "charcuterie ardéchoise"
+msgstr "Ardèche charcuterie"
+
+msgid "charcuterie corse"
+msgstr "Corsican charcuterie"
+
+msgid "charcuterie fine"
+msgstr "fine charcuterie"
+
+msgid "charcuterie lyonnaise"
+msgstr "Lyon charcuterie"
+
+msgid "charnu"
+msgstr "fleshy"
+
+msgid "charpenté"
+msgstr "well-structured"
+
+msgid "chaud"
+msgstr "hot"
+
+msgid "chevreuil"
+msgstr "roe deer"
+
+msgid "choucroute"
+msgstr "choucroute"
+
+msgid "chèvre frais"
+msgstr "fresh goat's cheese"
+
+msgid "chèvrefeuille"
+msgstr "honeysuckle"
+
+msgid "chêne"
+msgstr "oak"
+
+msgid "cinnamate d'éthyle"
+msgstr "ethyl cinnamate"
+
+msgid "cire d'abeille"
+msgstr "beeswax"
+
+msgid "ciselé"
+msgstr "chiselled"
+
+msgid "citron"
+msgstr "lemon"
+
+msgid "citron vert"
+msgstr "lime"
+
+msgid "citronellol"
+msgstr "citronellol"
+
+msgid "civet"
+msgstr "game stew"
+
+msgid "civet de sanglier"
+msgstr "wild boar stew"
+
+msgid "clou de girofle"
+msgstr "clove"
+
+msgid "clou de girofle, épicé"
+msgstr "clove, spicy"
+
+msgid "coing"
+msgstr "quince"
+
+msgid "comté"
+msgstr "Comté cheese"
+
+msgid "comté affiné"
+msgstr "mature Comté"
+
+msgid "comté vieux"
+msgstr "aged Comté"
+
+msgid "confit de canard"
+msgstr "duck confit"
+
+msgid "contient"
+msgstr "contains"
+
+msgid "coq au vin"
+msgstr "coq au vin"
+
+msgid "coquille d'huître"
+msgstr "oyster shell"
+
+msgid "coriandre"
+msgstr "coriander"
+
+msgid "corps moyen"
+msgstr "medium body"
+
+msgid "corsé"
+msgstr "full-bodied"
+
+msgid "couscous"
+msgstr "couscous"
+
+msgid "craie"
+msgstr "chalk"
+
+msgid "crottin de Chavignol"
+msgstr "Crottin de Chavignol cheese"
+
+msgid "crème"
+msgstr "cream"
+
+msgid "crémant"
+msgstr "crémant"
+
+msgid "cuir"
+msgstr "leather"
+
+msgid "cuir, écurie, sueur de cheval"
+msgstr "leather, stable, horse sweat"
+
+msgid "cuisine asiatique"
+msgstr "Asian cuisine"
+
+msgid "cuisine catalane"
+msgstr "Catalan cuisine"
+
+msgid "cuisine provençale"
+msgstr "Provençal cuisine"
+
+msgid "cuisine thaï"
+msgstr "Thai cuisine"
+
+msgid "cuisine épicée"
+msgstr "spicy food"
+
+msgid "cuisine épicée douce"
+msgstr "mildly spiced food"
+
+msgid "curry"
+msgstr "curry"
+
+msgid "curry doux"
+msgstr "mild curry"
+
+msgid "cèdre"
+msgstr "cedar"
+
+msgid "cèpes"
+msgstr "porcini mushrooms"
+
+msgid "cépages"
+msgstr "grape varieties"
+
+msgid "côte de bœuf"
+msgstr "rib of beef"
+
+msgid "côte de veau"
+msgstr "veal chop"
+
+msgid "côtelettes"
+msgstr "chops"
+
+msgid "dans les 100 plus proches"
+msgstr "among the 100 closest"
+
+msgid "dans les 20 plus proches"
+msgstr "among the 20 closest"
+
+msgid "dans les 5 plus proches"
+msgstr "among the 5 closest"
+
+msgid "daube"
+msgstr "daube (beef stew)"
+
+msgid "daube provençale"
+msgstr "Provençal daube"
+
+msgid "de réussite"
+msgstr "success rate"
+
+msgid "demi-sec"
+msgstr "off-dry"
+
+msgid "descripteurs aromatiques"
+msgstr "aroma descriptors"
+
+msgid "desserts aux fruits"
+msgstr "fruit desserts"
+
+msgid "desserts aux fruits jaunes"
+msgstr "yellow-fruit desserts"
+
+msgid "desserts aux fruits rouges"
+msgstr "red-fruit desserts"
+
+msgid "diacétyle"
+msgstr "diacetyl"
+
+msgid "diots"
+msgstr "diots (Savoie sausages)"
+
+msgid "doux"
+msgstr "sweet"
+
+#, python-format
+msgid "du %(day)s"
+msgstr "of %(day)s"
+
+msgid "déduit"
+msgstr "inferred"
+
+msgid "effervescent"
+msgstr "sparkling"
+
+msgid "enrichit les appellations avec leur identifiant officiel et leur nombre de communes."
+msgstr "enriches the appellations with their official identifier and their number of villages."
+
+msgid "entrecôte"
+msgstr "rib-eye steak"
+
+msgid "entrecôte bordelaise"
+msgstr "rib-eye steak bordelaise"
+
+msgid "environ 1 µg/L en solution hydroalcoolique"
+msgstr "about 1 µg/L in hydroalcoholic solution"
+
+msgid "escargots"
+msgstr "snails"
+
+#, python-format
+msgid "et %(total)s autres"
+msgstr "and %(total)s more"
+
+msgid "et la"
+msgstr "and the"
+
+msgid "eucalyptus"
+msgstr "eucalyptus"
+
+msgid "eucalyptus, mentholé, camphré"
+msgstr "eucalyptus, minty, camphor"
+
+msgid "eugénol"
+msgstr "eugenol"
+
+msgid "exprime"
+msgstr "expresses"
+
+msgid "fait partie de"
+msgstr "is part of"
+
+msgid "fenouil"
+msgstr "fennel"
+
+msgid "fenugrec"
+msgstr "fenugreek"
+
+msgid "ferme"
+msgstr "firm"
+
+msgid "feuille morte"
+msgstr "dead leaves"
+
+msgid "figatellu"
+msgstr "figatellu sausage"
+
+msgid "figue sèche"
+msgstr "dried fig"
+
+msgid "filet de bœuf"
+msgstr "fillet of beef"
+
+msgid "filet de bœuf aux truffes"
+msgstr "fillet of beef with truffles"
+
+msgid "filet de veau"
+msgstr "fillet of veal"
+
+msgid "fleur d'oranger"
+msgstr "orange blossom"
+
+msgid "fleurs blanches"
+msgstr "white flowers"
+
+msgid "floral, lavande, fleur d'oranger, agrumes"
+msgstr "floral, lavender, orange blossom, citrus"
+
+msgid "fluide"
+msgstr "thin"
+
+msgid "foie gras"
+msgstr "foie gras"
+
+msgid "foin"
+msgstr "hay"
+
+msgid "fondant au chocolat"
+msgstr "chocolate fondant"
+
+msgid "fondu"
+msgstr "resolved"
+
+msgid "fondue"
+msgstr "fondue"
+
+#, python-format
+msgid "force %(strength)s sur 3"
+msgstr "strength %(strength)s out of 3"
+
+msgid "fortifié"
+msgstr "fortified wine"
+
+msgid "fougère"
+msgstr "fern"
+
+msgid "frais"
+msgstr "fresh"
+
+msgid "fraise"
+msgstr "strawberry"
+
+msgid "fraise des bois"
+msgstr "wild strawberry"
+
+msgid "fraise, caramel, barbe à papa"
+msgstr "strawberry, caramel, candyfloss"
+
+msgid "framboise"
+msgstr "raspberry"
+
+msgid "fraîcheur"
+msgstr "freshness"
+
+msgid "froid"
+msgstr "cold"
+
+msgid "fromage de brebis"
+msgstr "sheep's cheese"
+
+msgid "fromage de chèvre"
+msgstr "goat's cheese"
+
+msgid "fromages affinés"
+msgstr "mature cheeses"
+
+msgid "fruit de la passion"
+msgstr "passion fruit"
+
+msgid "fruits confits"
+msgstr "candied fruit"
+
+msgid "fruits de mer"
+msgstr "seafood"
+
+msgid "fruits noirs, pomme, ananas"
+msgstr "black fruit, apple, pineapple"
+
+msgid "fruits rouges, fraise, pomme"
+msgstr "red fruit, strawberry, apple"
+
+msgid "fumé"
+msgstr "smoke"
+
+msgid "fumée, bois brûlé, médicinal"
+msgstr "smoke, charred wood, medicinal"
+
+msgid "furanéol"
+msgstr "furaneol"
+
+msgid "féra du lac"
+msgstr "lake whitefish"
+
+msgid "garbure"
+msgstr "garbure (Gascon soup)"
+
+msgid "garrigue"
+msgstr "garrigue"
+
+msgid "gaïacol"
+msgstr "guaiacol"
+
+msgid "genêt à balais"
+msgstr "common broom"
+
+msgid "gibier"
+msgstr "game"
+
+msgid "gibier à plume"
+msgstr "game birds"
+
+msgid "gigot"
+msgstr "leg of lamb"
+
+msgid "gingembre"
+msgstr "ginger"
+
+msgid "glacial"
+msgstr "freezing"
+
+msgid "glacial : à l'opposé"
+msgstr "freezing: the opposite"
+
+msgid "gougères"
+msgstr "gougères"
+
+msgid "gouleyant"
+msgstr "easy-drinking"
+
+msgid "graphite"
+msgstr "graphite"
+
+msgid "gras"
+msgstr "rich"
+
+msgid "grenade"
+msgstr "pomegranate"
+
+msgid "grillades"
+msgstr "grilled meats"
+
+msgid "grillades de poisson"
+msgstr "grilled fish platter"
+
+msgid "griotte"
+msgstr "morello cherry"
+
+msgid "groseille"
+msgstr "redcurrant"
+
+msgid "géraniol"
+msgstr "geraniol"
+
+msgid "hachis parmentier"
+msgstr "cottage pie"
+
+msgid "herbe coupée"
+msgstr "cut grass"
+
+msgid "herbe coupée, feuille verte"
+msgstr "cut grass, green leaf"
+
+msgid "herbe fraîchement coupée"
+msgstr "freshly cut grass"
+
+msgid "hexanoate d'éthyle"
+msgstr "ethyl hexanoate"
+
+msgid "homard"
+msgstr "lobster"
+
+msgid "houblon"
+msgstr "hops"
+
+msgid "huîtres"
+msgstr "oysters"
+
+msgid "huîtres de Bouzigues"
+msgstr "Bouzigues oysters"
+
+msgid "hydrocarbure"
+msgstr "petrol"
+
+msgid "hydrocarbure, pétrole, kérosène"
+msgstr "petrol, kerosene, hydrocarbon"
+
+#, python-format
+msgid "intensité %(intensity)s sur 3"
+msgstr "intensity %(intensity)s out of 3"
+
+msgid "iode"
+msgstr "iodine"
+
+msgid "jacquier"
+msgstr "jackfruit"
+
+msgid "jambon persillé"
+msgstr "jambon persillé (parsley ham)"
+
+msgid "kir"
+msgstr "kir"
+
+msgid "kougelhopf"
+msgstr "kougelhopf"
+
+msgid "lactaire helvus"
+msgstr "fenugreek milkcap (Lactarius helvus)"
+
+msgid "lactone du vin"
+msgstr "wine lactone"
+
+msgid "lactone massoia"
+msgstr "massoia lactone"
+
+msgid "lamproie"
+msgstr "lamprey"
+
+msgid "langouste"
+msgstr "spiny lobster"
+
+msgid "langoustines"
+msgstr "langoustines"
+
+msgid "lard fumé, clou de girofle, fumée"
+msgstr "smoked bacon, clove, smoke"
+
+msgid "laurier"
+msgstr "bay leaf"
+
+msgid "laurier noble"
+msgstr "bay laurel"
+
+msgid "lavande"
+msgstr "lavender"
+
+msgid "le vin !"
+msgstr "the wine!"
+
+msgid "leucate d'éthyle"
+msgstr "ethyl 2-hydroxy-4-methylpentanoate"
+
+msgid "lilas, fleurs blanches, pin"
+msgstr "lilac, white flowers, pine"
+
+msgid "linalol"
+msgstr "linalool"
+
+msgid "liquoreux"
+msgstr "luscious"
+
+msgid "litchi"
+msgstr "lychee"
+
+msgid "livèche"
+msgstr "lovage"
+
+msgid "lièvre"
+msgstr "hare"
+
+msgid "lièvre à la royale"
+msgstr "hare à la royale"
+
+msgid "léger"
+msgstr "light"
+
+msgid "légèrement sucré"
+msgstr "slightly sweet"
+
+msgid "magret"
+msgstr "duck breast"
+
+msgid "mandarine"
+msgstr "mandarin"
+
+msgid "mangue"
+msgstr "mango"
+
+msgid "marjolaine"
+msgstr "marjoram"
+
+msgid "massif"
+msgstr "massive"
+
+msgid "massoia"
+msgstr "massoia"
+
+msgid "melon"
+msgstr "melon"
+
+msgid "menthe"
+msgstr "mint"
+
+msgid "menthe poivrée, fraîcheur"
+msgstr "peppermint, freshness"
+
+msgid "mie de pain"
+msgstr "bread crumb"
+
+msgid "miel"
+msgstr "honey"
+
+msgid "miel, jacinthe, rose fanée"
+msgstr "honey, hyacinth, faded rose"
+
+msgid "moelleux"
+msgstr "medium-sweet"
+
+msgid "montre le même espace à plat."
+msgstr "shows the same space laid flat."
+
+msgid "mou"
+msgstr "flabby"
+
+msgid "moules"
+msgstr "mussels"
+
+msgid "mousseux"
+msgstr "mousseux"
+
+msgid "munster"
+msgstr "Munster cheese"
+
+msgid "muscade"
+msgstr "nutmeg"
+
+msgid "muté"
+msgstr "fortified"
+
+msgid "myrtille"
+msgstr "blueberry"
+
+msgid "mûre"
+msgstr "blackberry"
+
+msgid "mûre fraîche, fruits noirs"
+msgstr "fresh blackberry, black fruit"
+
+msgid "nerveux"
+msgstr "racy"
+
+msgid "noisette"
+msgstr "hazelnut"
+
+msgid "noix"
+msgstr "walnut"
+
+msgid "noix de coco, boisé, céleri"
+msgstr "coconut, woody, celery"
+
+msgid "noix de coco, citron vert, boisé"
+msgstr "coconut, lime, woody"
+
+msgid "noix de coco, figue sèche"
+msgstr "coconut, dried fig"
+
+msgid "noix de coco, pêche, abricot"
+msgstr "coconut, peach, apricot"
+
+msgid "noix, curry, fenugrec, sirop d'érable"
+msgstr "walnut, curry, fenugreek, maple syrup"
+
+msgid "nérol"
+msgstr "nerol"
+
+msgid "olive noire"
+msgstr "black olive"
+
+msgid "orange"
+msgstr "orange"
+
+msgid "origan"
+msgstr "oregano"
+
+msgid "oursins"
+msgstr "sea urchins"
+
+msgid "oxydatif"
+msgstr "oxidative"
+
+msgid "oxyde de rose cis"
+msgstr "cis-rose oxide"
+
+msgid "paella"
+msgstr "paella"
+
+msgid "pain grillé"
+msgstr "toast"
+
+msgid "pamplemousse"
+msgstr "grapefruit"
+
+msgid "pamplemousse, fruit de la passion, agrumes"
+msgstr "grapefruit, passion fruit, citrus"
+
+msgid "par des règles explicites, chacune adossée à une référence :"
+msgstr "by explicit rules, each backed by a reference:"
+
+msgid "parties terminées"
+msgstr "games finished"
+
+msgid "pas de tanins"
+msgstr "tannin-free"
+
+msgid "pas sucré"
+msgstr "not sweet"
+
+msgid "perche du lac"
+msgstr "lake perch"
+
+msgid "perlant"
+msgstr "spritzy"
+
+msgid "peu acide"
+msgstr "low acidity"
+
+msgid "peu de corps"
+msgstr "light-bodied"
+
+msgid "phénylacétaldéhyde"
+msgstr "phenylacetaldehyde"
+
+msgid "picodon"
+msgstr "Picodon cheese"
+
+msgid "pierre mouillée"
+msgstr "wet stone"
+
+msgid "pierre à fusil, fumée, allumette"
+msgstr "gunflint, smoke, struck match"
+
+msgid "pigeon"
+msgstr "pigeon"
+
+msgid "pigeonneau"
+msgstr "squab"
+
+msgid "pin"
+msgstr "pine"
+
+msgid "pipéritone"
+msgstr "piperitone"
+
+msgid "pique-nique"
+msgstr "picnic"
+
+msgid "pivoine"
+msgstr "peony"
+
+msgid "pizza"
+msgstr "pizza"
+
+msgid "plat"
+msgstr "flat"
+
+msgid "plats mijotés"
+msgstr "slow-cooked dishes"
+
+msgid "points"
+msgstr "points"
+
+msgid "points en moyenne"
+msgstr "points on average"
+
+msgid "poire"
+msgstr "pear"
+
+msgid "poisson grillé"
+msgstr "grilled fish"
+
+msgid "poissons"
+msgstr "fish"
+
+msgid "poissons de Loire"
+msgstr "Loire river fish"
+
+msgid "poissons de roche"
+msgstr "rockfish"
+
+msgid "poissons frits"
+msgstr "fried fish"
+
+msgid "poissons fumés"
+msgstr "smoked fish"
+
+msgid "poissons grillés"
+msgstr "grilled fish dishes"
+
+msgid "poivre blanc"
+msgstr "white pepper"
+
+msgid "poivre noir"
+msgstr "black pepper"
+
+msgid "poivre noir, épicé, boisé"
+msgstr "black pepper, spicy, woody"
+
+msgid "poivron vert"
+msgstr "green bell pepper"
+
+msgid "poivron vert, végétal, herbacé"
+msgstr "green bell pepper, vegetal, herbaceous"
+
+msgid "pomme"
+msgstr "apple"
+
+msgid "pomme blette, noix, herbe coupée"
+msgstr "bruised apple, walnut, cut grass"
+
+msgid "pomme cuite, rose, miel, prune"
+msgstr "baked apple, rose, honey, plum"
+
+msgid "pomme mûre"
+msgstr "ripe apple"
+
+msgid "pomme verte"
+msgstr "green apple"
+
+msgid "pomme verte, ananas, fruité"
+msgstr "green apple, pineapple, fruity"
+
+msgid "pot-au-feu"
+msgstr "pot-au-feu"
+
+msgid "poulet aux morilles"
+msgstr "chicken with morels"
+
+msgid "poulet à la crème"
+msgstr "chicken in cream sauce"
+
+msgid "pour apparaître au classement et garder votre historique."
+msgstr "to appear on the leaderboard and keep your history."
+
+msgid "probable"
+msgstr "likely"
+
+msgid "proche"
+msgstr "close"
+
+msgid "produit en"
+msgstr "made in"
+
+msgid "profils types"
+msgstr "wine profiles"
+
+msgid "proposé"
+msgstr "guessed"
+
+msgid "prune"
+msgstr "plum"
+
+msgid "pruneau"
+msgstr "prune"
+
+msgid "pruneau, figue sèche, anis"
+msgstr "prune, dried fig, aniseed"
+
+msgid "présent"
+msgstr "present"
+
+msgid "puissant"
+msgstr "powerful"
+
+msgid "pyrroleméthanethiol"
+msgstr "1-methylpyrrole-2-methanethiol"
+
+msgid "pâtes"
+msgstr "pasta"
+
+msgid "pétillant"
+msgstr "pétillant"
+
+msgid "pêche blanche"
+msgstr "white peach"
+
+msgid "pêche jaune"
+msgstr "yellow peach"
+
+msgid "quenelles"
+msgstr "quenelles"
+
+msgid "quiche"
+msgstr "quiche"
+
+msgid "raclette"
+msgstr "raclette"
+
+msgid "ragoût"
+msgstr "stew"
+
+msgid "raisin sec"
+msgstr "raisin"
+
+msgid "rancio"
+msgstr "rancio"
+
+#, python-format
+msgid "rang %(rank)s sur les %(top)s plus proches"
+msgstr "rank %(rank)s among the %(top)s closest"
+
+msgid "ratatouille"
+msgstr "ratatouille"
+
+msgid "rillettes"
+msgstr "rillettes"
+
+msgid "rillons"
+msgstr "rillons (pork belly confit)"
+
+msgid "romarin"
+msgstr "rosemary"
+
+msgid "rond"
+msgstr "round"
+
+msgid "roquefort"
+msgstr "Roquefort"
+
+msgid "rose"
+msgstr "rose"
+
+msgid "rose de Damas"
+msgstr "Damask rose"
+
+msgid "rose, citronnelle"
+msgstr "rose, citronella"
+
+msgid "rose, fleur d'oranger"
+msgstr "rose, orange blossom"
+
+msgid "rose, géranium, agrumes"
+msgstr "rose, geranium, citrus"
+
+msgid "rose, litchi, géranium"
+msgstr "rose, lychee, geranium"
+
+msgid "rose, miel"
+msgstr "rose, honey"
+
+msgid "rotundone"
+msgstr "rotundone"
+
+msgid "roue des arômes"
+msgstr "aroma wheel"
+
+msgid "rugueux"
+msgstr "rough"
+
+msgid "règles de rattachement et références"
+msgstr "linking rules and references"
+
+msgid "réglisse"
+msgstr "liquorice"
+
+msgid "rôti de porc"
+msgstr "roast pork"
+
+msgid "rôti de veau"
+msgstr "roast veal"
+
+msgid "safran"
+msgstr "saffron"
+
+msgid "saint-jacques"
+msgstr "scallops"
+
+msgid "saint-jacques crues"
+msgstr "raw scallops"
+
+msgid "salade de chèvre"
+msgstr "goat's cheese salad"
+
+msgid "salade niçoise"
+msgstr "salade niçoise"
+
+msgid "salades"
+msgstr "salads"
+
+msgid "sandre"
+msgstr "pike-perch"
+
+msgid "sandre au beurre blanc"
+msgstr "pike-perch with beurre blanc"
+
+msgid "sans limite"
+msgstr "no limit"
+
+msgid "sans tanins"
+msgstr "no tannins"
+
+msgid "saucisse de Morteau"
+msgstr "Morteau sausage"
+
+msgid "saucisse de Toulouse"
+msgstr "Toulouse sausage"
+
+msgid "saucisse grillée"
+msgstr "grilled sausage"
+
+msgid "saucisson"
+msgstr "dry-cured sausage"
+
+msgid "saucisson chaud"
+msgstr "warm Lyon sausage"
+
+msgid "saumon"
+msgstr "salmon"
+
+msgid "saumon grillé"
+msgstr "grilled salmon"
+
+msgid "sec"
+msgstr "dry"
+
+msgid "silex"
+msgstr "flint"
+
+msgid "sirupeux"
+msgstr "syrupy"
+
+msgid "située en"
+msgstr "located in"
+
+msgid "socle commun"
+msgstr "common base"
+
+msgid "sole meunière"
+msgstr "sole meunière"
+
+msgid "sorbet citron"
+msgstr "lemon sorbet"
+
+msgid "sotolon"
+msgstr "sotolon"
+
+msgid "souchet rond"
+msgstr "nut grass (Cyperus rotundus)"
+
+msgid "souple"
+msgstr "supple"
+
+msgid "sous voile"
+msgstr "under flor"
+
+msgid "sous-bois"
+msgstr "forest floor"
+
+msgid "soyeux"
+msgstr "silky"
+
+msgid "structuré"
+msgstr "structured"
+
+msgid "sucré"
+msgstr "sugary"
+
+msgid "sulfure de diméthyle"
+msgstr "dimethyl sulfide"
+
+msgid "sushi"
+msgstr "sushi"
+
+msgid "tabac"
+msgstr "tobacco"
+
+msgid "tanins fondus"
+msgstr "resolved tannins"
+
+msgid "tanins présents"
+msgstr "noticeable tannins"
+
+msgid "tanins soyeux"
+msgstr "silky tannins"
+
+msgid "tannique"
+msgstr "tannic"
+
+msgid "tapenade"
+msgstr "tapenade"
+
+msgid "tarte au citron"
+msgstr "lemon tart"
+
+msgid "tarte aux abricots"
+msgstr "apricot tart"
+
+msgid "tarte flambée"
+msgstr "tarte flambée"
+
+msgid "tarte salée"
+msgstr "savoury tart"
+
+msgid "tarte tatin"
+msgstr "tarte tatin"
+
+msgid "taureau"
+msgstr "Camargue bull"
+
+msgid "tendre"
+msgstr "tender"
+
+msgid "tendu"
+msgstr "taut"
+
+msgid "thym"
+msgstr "thyme"
+
+msgid "tilleul"
+msgstr "lime blossom"
+
+msgid "tiède"
+msgstr "lukewarm"
+
+msgid "tiède : un air de famille"
+msgstr "lukewarm: a family resemblance"
+
+msgid "tomate"
+msgstr "tomato"
+
+msgid "tome de Savoie"
+msgstr "Tome de Savoie cheese"
+
+msgid "tranchant"
+msgstr "sharp"
+
+msgid "trouvé"
+msgstr "found"
+
+msgid "trouvée dans"
+msgstr "found in"
+
+msgid "truffe"
+msgstr "truffle"
+
+msgid "truffe noire"
+msgstr "black truffle"
+
+msgid "truffe, sous-bois, olive noire"
+msgstr "truffle, forest floor, black olive"
+
+msgid "truite"
+msgstr "trout"
+
+msgid "très chaud"
+msgstr "very hot"
+
+msgid "très sucré"
+msgstr "very sweet"
+
+msgid "très tannique"
+msgstr "very tannic"
+
+msgid "turbot"
+msgstr "turbot"
+
+msgid "turbot au beurre blanc"
+msgstr "turbot with beurre blanc"
+
+msgid "vanille"
+msgstr "vanilla"
+
+msgid "vanilline"
+msgstr "vanillin"
+
+msgid "vdn"
+msgstr "VDN"
+
+msgid "veau"
+msgstr "veal"
+
+msgid "veau aux morilles"
+msgstr "veal with morels"
+
+msgid "velouté"
+msgstr "velvety"
+
+msgid "viande"
+msgstr "meat"
+
+msgid "vif"
+msgstr "crisp"
+
+msgid "vin doux naturel"
+msgstr "vin doux naturel"
+
+msgid "vin jaune"
+msgstr "vin jaune"
+
+msgid "violette"
+msgstr "violet"
+
+msgid "violette, framboise, boisé"
+msgstr "violet, raspberry, woody"
+
+msgid "voile"
+msgstr "flor"
+
+msgid "volaille"
+msgstr "poultry"
+
+msgid "volaille aux morilles"
+msgstr "poultry with morels"
+
+msgid "volaille de Bresse"
+msgstr "Bresse chicken"
+
+msgid "volaille rôtie"
+msgstr "roast poultry"
+
+msgid "volaille truffée"
+msgstr "truffled poultry"
+
+msgid "volaille à la crème"
+msgstr "poultry in cream sauce"
+
+msgid "whisky-lactone"
+msgstr "whiskey lactone"
+
+msgid "zeste d'orange"
+msgstr "orange zest"
+
+#, python-format
+msgid "« %(text)s » n'est pas dans le graphe."
+msgstr "\"%(text)s\" is not in the graph."
+
+#, python-format
+msgid "« %(text)s » ne correspond à aucune région, appellation ou cépage connu."
+msgstr "\"%(text)s\" does not match any known region, appellation or grape."
+
+#, python-format
+msgid "· %(molar_mass)s g/mol"
+msgstr "· %(molar_mass)s g/mol"
+
+#, python-format
+msgid "· %(n_sources)s source%(s)s naturelle%(s)s"
+msgstr "· %(n_sources)s natural source%(s)s"
+
+msgid "· Terroirs"
+msgstr "· Terroirs"
+
+msgid "· importé de Wikidata, non vérifié"
+msgstr "· imported from Wikidata, unverified"
+
+msgid "Élevage sous bois"
+msgstr "Oak ageing"
+
+msgid "Élément naturel"
+msgstr "Natural source"
+
+#, python-format
+msgid "Élément naturel · %(get_kind_display)s"
+msgstr "Natural source · %(get_kind_display)s"
+
+msgid "Éléments naturels"
+msgstr "Natural sources"
+
+msgid "Épice"
+msgstr "Spice"
+
+msgid "Épices"
+msgstr "Spices"
+
+msgid ""
+"Étude menée dans le Gaillacois, réputé pour le caractère poivré du Duras (synthèse AWRI, Technical Review "
+"214)."
+msgstr ""
+"Study carried out in the Gaillac area, known for the peppery character of Duras (AWRI summary, Technical "
+"Review 214)."
+
+msgid "à choisir"
+msgstr "to choose"
+
+msgid "à l'est"
+msgstr "to the east"
+
+msgid "à l'ouest"
+msgstr "to the west"
+
+msgid "à trouver"
+msgstr "to find"
+
+msgid "époisses"
+msgstr "Époisses cheese"
+
+msgid "équilibré"
+msgstr "balanced"
+
+msgid "éthanal"
+msgstr "acetaldehyde"
+
+msgid "évoque"
+msgstr "evokes"
+
+msgid "α-terpinéol"
+msgstr "alpha-terpineol"
+
+msgid "β-damascénone"
+msgstr "beta-damascenone"
+
+msgid "β-ionone"
+msgstr "beta-ionone"
+
+msgid "γ-nonalactone"
+msgstr "gamma-nonalactone"
+

@@ -1,30 +1,32 @@
 {% extends "base.html" %}
-{% block title %}{{ aroma.name|capfirst }}{% endblock %}
+{% load i18n terroirs_i18n cousins %}
+{% block title %}{{ aroma.name|tr|capfirst }}{% endblock %}
 {% block content %}
-<nav class="crumbs"><a href="{% url 'catalog:aromas' %}">Arômes</a><span aria-hidden="true">/</span><span>{{ aroma.family.name }}</span></nav>
-<h1>{{ aroma.name|capfirst }}</h1>
-<p class="lede">Famille : {{ aroma.family.name|lower }}.{% if aroma.synonyms %} Aussi décrit comme {{ aroma.synonyms|join:", " }}.{% endif %}</p>
+<nav class="crumbs"><a href="{% url 'catalog:aromas' %}">{% translate "Arômes" %}</a><span aria-hidden="true">/</span><span>{{ aroma.family.name|tr }}</span></nav>
+<h1>{{ aroma.name|tr|capfirst }}</h1>
+<p class="lede">{% blocktranslate trimmed with family_name=aroma.family.name|tr|lower %}Famille : {{ family_name }}.{% endblocktranslate %}{% if aroma.synonyms %} {% blocktranslate trimmed with synonyms=aroma.synonyms|join:", " %}Aussi décrit comme {{ synonyms }}.{% endblocktranslate %}{% endif %}</p>
 <div class="split section">
   <div>
-    <h2>Vins qui l'expriment</h2>
+    <h2>{% translate "Vins qui l'expriment" %}</h2>
     <ul class="wine-list">
       {% for l in links %}
-      <li><span class="robe robe--{{ l.profile.color }}"></span><a href="{{ l.profile.get_absolute_url }}">{{ l.profile.name }}</a>
+      <li><span class="robe robe--{{ l.profile.color }}"></span><a href="{{ l.profile.get_absolute_url }}">{{ l.profile.name|tr }}</a>
         <span class="meta">{{ l.get_intensity_display }}</span></li>
-      {% empty %}<li class="muted">Aucun profil ne le cite encore. Il reste utile dans Le Nez, par sa famille.</li>
+      {% empty %}<li class="muted">{% translate "Aucun profil ne le cite encore. Il reste utile dans Le Nez, par sa famille." %}</li>
       {% endfor %}
     </ul>
   </div>
   <aside class="stack">
-    <a class="btn" href="{% url 'nose:nose' %}?a={{ aroma.id }}">Chercher les vins qui sentent {{ aroma.name }}</a>
-    <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=aroma:{{ aroma.slug }}">Voir dans le graphe</a>
+    {% if 'nose' in sections %}<a class="btn" href="{% url 'nose:nose' %}?a={{ aroma.id }}">{% blocktranslate trimmed with aroma_name=aroma.name|tr %}Chercher les vins qui sentent {{ aroma_name }}{% endblocktranslate %}</a>{% endif %}
+    {% if 'graphe' in sections %}<a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=aroma:{{ aroma.slug }}">{% translate "Voir dans le graphe" %}</a>{% endif %}
     {% if molecules or natural_sources %}
     <div class="panel">
-      {% if molecules %}<h3>Les molécules derrière ce descripteur</h3>
-      <div class="tags">{% for m in molecules %}<a class="tag tag--molecule" href="{{ m.get_absolute_url }}">{{ m.name }}</a>{% endfor %}</div>{% endif %}
-      {% for s in natural_sources %}<p class="small" style="margin-top:.8rem"><a href="{{ s.get_absolute_url }}">{{ s.name|capfirst }}, côté nature</a></p>{% endfor %}
+      {% if molecules %}<h3>{% translate "Les molécules derrière ce descripteur" %}</h3>
+      <div class="tags">{% for m in molecules %}<a class="tag tag--molecule" href="{{ m.get_absolute_url }}">{{ m.name|tr }}</a>{% endfor %}</div>{% endif %}
+      {% for s in natural_sources %}<p class="small" style="margin-top:.8rem"><a href="{{ s.get_absolute_url }}">{% blocktranslate trimmed with s_name=s.name|tr|capfirst %}{{ s_name }}, côté nature{% endblocktranslate %}</a></p>{% endfor %}
     </div>
     {% endif %}
   </aside>
 </div>
+{% cousins "aroma" aroma.slug %}
 {% endblock %}

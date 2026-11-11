@@ -1,11 +1,11 @@
 {% extends "base.html" %}
+{% load i18n terroirs_i18n %}
 {% load static %}
-{% block title %}Toutes les molécules{% endblock %}
+{% block title %}{% translate "Toutes les molécules" %}{% endblock %}
 {% block content %}
-<nav class="crumbs" aria-label="Fil d'Ariane"><a href="{% url 'molecules:explorer' %}">Molécules</a></nav>
-<h1>Les molécules du vin</h1>
-<p class="lede">Classées par moment de naissance : dans le raisin, pendant les fermentations, sous le bois ou au fil
-  du vieillissement. Chacune renvoie aux vins qui la portent et aux éléments naturels qui la partagent.</p>
+<nav class="crumbs" aria-label="{% translate "Fil d'Ariane" %}"><a href="{% url 'molecules:explorer' %}">{% translate "Molécules" %}</a></nav>
+<h1>{% translate "Les molécules du vin" %}</h1>
+<p class="lede">{% translate "Classées par moment de naissance : dans le raisin, pendant les fermentations, sous le bois ou au fil du vieillissement. Chacune renvoie aux vins qui la portent et aux éléments naturels qui la partagent." %}</p>
 
 {% for label, items in groups %}
 <section class="section">
@@ -15,8 +15,8 @@
     <a class="mol-tile" href="{{ m.get_absolute_url }}">
       <img src="{% static m.structure_static %}" alt="" width="320" height="220" loading="lazy">
       <strong>{{ m.display_name }}</strong>
-      <span class="small muted">{{ m.odor|capfirst }}</span>
-      <span class="mol-tile__meta small">{{ m.formula_html|safe }} · {% if m.universal %}socle commun{% else %}{{ m.n_wines }} vin{{ m.n_wines|pluralize }}{% endif %} · {{ m.n_sources }} source{{ m.n_sources|pluralize }} naturelle{{ m.n_sources|pluralize }}</span>
+      <span class="small muted">{{ m.odor|tr|capfirst }}</span>
+      <span class="mol-tile__meta small">{{ m.formula_html|safe }} · {% if m.universal %}{% translate "socle commun" %}{% else %}{% blocktranslate trimmed with n_wines=m.n_wines s=m.n_wines|pluralize %}{{ n_wines }} vin{{ s }}{% endblocktranslate %}{% endif %} {% blocktranslate trimmed with n_sources=m.n_sources s=m.n_sources|pluralize %}· {{ n_sources }} source{{ s }} naturelle{{ s }}{% endblocktranslate %}</span>
     </a>
     {% endfor %}
   </div>
@@ -24,9 +24,9 @@
 {% endfor %}
 
 <section class="section" id="nature">
-  <h2>Les éléments naturels</h2>
+  <h2>{% translate "Les éléments naturels" %}</h2>
   <div class="tags">
-    {% for s in sources %}<a class="tag tag--source" href="{{ s.get_absolute_url }}" title="{{ s.get_kind_display }}"><i class="tag__dot"></i>{{ s.name }} <span class="muted">{{ s.n }}</span></a>{% endfor %}
+    {% for s in sources %}<a class="tag tag--source" href="{{ s.get_absolute_url }}" title="{{ s.get_kind_display }}"><i class="tag__dot"></i>{{ s.name|tr }} <span class="muted">{{ s.n }}</span></a>{% endfor %}
   </div>
 </section>
 {% endblock %}

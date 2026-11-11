@@ -1,0 +1,30 @@
+{% load i18n %}
+{% if groups %}
+<section class="{% if standalone %}section {% endif %}cousins" aria-labelledby="cousins-title">
+  {% if standalone %}
+  <h2 id="cousins-title">{% translate "Ce qui lui ressemble" %}</h2>
+  <p class="small muted">{% translate "Proximités apprises par un réseau de neurones sur le graphe : arômes, cépages, bouche et géographie confondus. Le point plein signale un lien déjà écrit dans nos fiches ; le point creux, une parenté que le modèle a déduite." %}
+    <a href="{% url 'embeddings:map' %}?focus={{ node_id }}">{% translate "Voir sur la carte" %}</a></p>
+  {% else %}
+  <h3 id="cousins-title">{% translate "Ce qui lui ressemble" %}</h3>
+  {% endif %}
+  <div class="cousins__grid">
+    {% for g in groups %}
+    <div class="cousins__group">
+      <h4>{{ g.label }}</h4>
+      <ol>
+        {% for it in g.items %}
+        <li class="cousin{% if it.linked %} is-linked{% endif %}">
+          <span class="cousin__dot" title="{% if it.linked %}{% translate "Déjà relié dans les fiches" %}{% else %}{% translate "Parenté déduite par le modèle" %}{% endif %}"></span>
+          {% if standalone and it.url %}<a href="{{ it.url }}">{{ it.label }}</a>
+          {% else %}<button type="button" class="linkish" data-map-select="{{ it.id }}">{{ it.label }}</button>{% endif %}
+          <span class="cousin__bar" aria-hidden="true"><i style="width: {{ it.percent }}%"></i></span>
+          <span class="cousin__pct small muted">{{ it.percent }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

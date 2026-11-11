@@ -35,7 +35,7 @@
     hidden.type = "hidden"; hidden.name = kind; hidden.value = id;
     const x = document.createElement("button");
     x.type = "button"; x.className = "chip__x"; x.textContent = "×";
-    x.setAttribute("aria-label", `Retirer ${label}`);
+    x.setAttribute("aria-label", (window.gettext ? gettext("Retirer %s") : "Retirer %s").replace("%s", label));
     span.append(hidden, document.createTextNode(label), x);
     chips.appendChild(span);
     refresh();

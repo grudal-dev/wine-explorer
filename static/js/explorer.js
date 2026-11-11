@@ -21,9 +21,12 @@
     aroma: "#B07D22", family: "#8A6A3A", ink: "#23262F", rule: "#C9C9BF", molecule: "#2E6E6A",
     rouge: "#6B1730", blanc: "#D9C36A", rose: "#E59A8E",
   };
+  const _ = window.gettext || ((s) => s);
+  const fmt = (s, obj) => (window.interpolate ? interpolate(s, obj, true) : s);
   const TYPE_LABELS = {
-    region: "régions", appellation: "appellations", profile: "profils",
-    grape: "cépages", aroma: "arômes", family: "familles", molecule: "molécules", source: "éléments naturels",
+    region: _("régions"), appellation: _("appellations"), profile: _("profils"),
+    grape: _("cépages"), aroma: _("arômes"), family: _("familles"), molecule: _("molécules"),
+    source: _("éléments naturels"),
   };
 
   const state = { focus: root.dataset.focus || "", depth: 2, path: { a: null, b: null } };
@@ -140,11 +143,11 @@
 
   function syncOutputs() {
     const price = form.price_max.value;
-    document.getElementById("f-price-out").textContent = price === "100" ? "sans limite" : `${price} €`;
+    document.getElementById("f-price-out").textContent = price === "100" ? _("sans limite") : `${price} €`;
     document.getElementById("f-int-out").textContent = form.min_intensity.value;
     document.getElementById("f-share-out").textContent = `${form.min_share.value} %`;
     document.getElementById("f-strength-out").textContent =
-      { 1: "plausible", 2: "probable", 3: "marqueur établi" }[form.min_strength.value];
+      { 1: _("plausible"), 2: _("probable"), 3: _("marqueur établi") }[form.min_strength.value];
   }
 
   function syncPreset() {
@@ -159,17 +162,23 @@
   async function load({ keepSelection = false } = {}) {
     const p = params();
     history.replaceState(null, "", `${location.pathname}?${p}`);
-    stats.textContent = "Chargement…";
+    stats.textContent = _("Chargement…");
     const mine = ++loadSeq;
-    const data = await Combo.getJSON(`${API}?${p}`);
+    let data;
+    try {
+      data = await Combo.getJSON(`${API}?${p}`);
+    } catch (err) {
+      if (mine === loadSeq) stats.textContent = _("Impossible de charger le graphe. Vérifiez la connexion puis réessayez.");
+      return;
+    }
     if (mine !== loadSeq) return;
     cy.elements().remove();
     cy.add(data.elements);
     const parts = Object.entries(data.stats.by_type).filter(([, n]) => n)
       .map(([t, n]) => `${n} ${TYPE_LABELS[t]}`);
     stats.textContent = data.stats.nodes
-      ? `${parts.join(", ")}, ${data.stats.edges} liens.`
-      : "Aucun résultat avec ces filtres. Élargissez la sélection.";
+      ? fmt(_("%(parts)s, %(edges)s liens."), { parts: parts.join(", "), edges: data.stats.edges })
+      : _("Aucun résultat avec ces filtres. Élargissez la sélection.");
     unfocusBtn.hidden = !state.focus;
     const layout = runLayout();
     if (state.focus) {
@@ -280,7 +289,7 @@
     btn.addEventListener("click", () => {
       pathPicking = btn.dataset.pathSlot;
       document.querySelectorAll("[data-path-slot]").forEach((b) => b.classList.toggle("is-picking", b === btn));
-      stats.textContent = "Cliquez sur un nœud du graphe, ou utilisez les boutons Départ et Arrivée de sa fiche.";
+      stats.textContent = _("Cliquez sur un nœud du graphe, ou utilisez les boutons Départ et Arrivée de sa fiche.");
     });
   });
   cy.on("tap", "node", (e) => {
@@ -300,7 +309,14 @@
   let currentPath = null;
   async function fetchPath() {
     const { a, b } = state.path;
-    const data = await Combo.getJSON(`${PATH}?a=${encodeURIComponent(a.id)}&b=${encodeURIComponent(b.id)}`);
+    let data;
+    try {
+      data = await Combo.getJSON(`${PATH}?a=${encodeURIComponent(a.id)}&b=${encodeURIComponent(b.id)}`);
+    } catch (err) {
+      pathResult.hidden = false;
+      pathResult.innerHTML = `<li class="muted">${_("Impossible de calculer le chemin pour le moment.")}</li>`;
+      return;
+    }
     currentPath = data.path;
     pathResult.hidden = false;
     pathResult.innerHTML = "";

@@ -1,38 +1,38 @@
-{% load humanize %}
-{% if unknown %}<p class="guess-error">Descripteur{{ unknown|pluralize }} non reconnu{{ unknown|pluralize }} : {{ unknown|join:", " }}.</p>{% endif %}
+{% load i18n terroirs_i18n %}{% load humanize %}
+{% if unknown %}<p class="guess-error">{% blocktranslate trimmed with s=unknown|pluralize unknown=unknown|join:", " %}Descripteur{{ s }} non reconnu{{ s }} : {{ unknown }}.{% endblocktranslate %}</p>{% endif %}
 {% if not has_query %}
   <div class="nose-empty">
-    <h2>Cinq vins vous attendent</h2>
-    <p class="muted">Commencez par l'arôme le plus net, puis ajoutez la bouche : un vin vif et léger ou puissant et tannique, ça départage vite. Deux ou trois descripteurs suffisent souvent à reconnaître une appellation.</p>
+    <h2>{% translate "Cinq vins vous attendent" %}</h2>
+    <p class="muted">{% translate "Commencez par l'arôme le plus net, puis ajoutez la bouche : un vin vif et léger ou puissant et tannique, ça départage vite. Deux ou trois descripteurs suffisent souvent à reconnaître une appellation." %}</p>
   </div>
 {% elif not result.results %}
-  <p class="muted">Aucun profil ne correspond avec ces couleurs. Décochez une couleur pour élargir.</p>
+  <p class="muted">{% translate "Aucun profil ne correspond avec ces couleurs. Décochez une couleur pour élargir." %}</p>
 {% else %}
-  <h2 class="results-title">Les cinq vins les plus probables</h2>
-  <p class="small muted">Parmi {{ result.considered }} profils types.</p>
+  <h2 class="results-title">{% translate "Les cinq vins les plus probables" %}</h2>
+  <p class="small muted">{% blocktranslate trimmed with considered=result.considered %}Parmi {{ considered }} profils types.{% endblocktranslate %}</p>
   <ol class="ranking">
     {% for r in result.results %}
     <li class="ranking__item">
       <div class="ranking__head">
         <span class="ranking__pct">{% widthratio r.probability 1 100 %} %</span>
         <div>
-          <h3><span class="robe robe--{{ r.profile.color }}"></span> <a href="{{ r.profile.url }}">{{ r.profile.name }}</a></h3>
+          <h3><span class="robe robe--{{ r.profile.color }}"></span> <a href="{{ r.profile.url }}">{{ r.profile.name|tr }}</a></h3>
           <p class="small muted">{{ r.profile.region }}, {{ r.profile.style_label|lower }}. {{ r.profile.grapes|join:", " }}.</p>
         </div>
       </div>
       <div class="ranking__bar" aria-hidden="true"><span style="width: {% widthratio r.probability 1 100 %}%"></span></div>
       <ul class="matches">
         {% for m in r.matches %}
-          <li class="match match--{{ m.match }}{% if m.sense %} match--sense{% endif %}"{% if m.sense %} title="Ce vin : {{ m.actual }}"{% endif %}>{{ m.name }}{% if m.sense %} <span class="match__actual">({{ m.actual }})</span>{% endif %}<span class="visually-hidden"> :
-            {% if m.match == "exact" %}présent{% elif m.match == "family" %}famille proche{% else %}absent{% endif %}</span></li>
+          <li class="match match--{{ m.match }}{% if m.sense %} match--sense{% endif %}"{% if m.sense %} title="{% blocktranslate trimmed with actual=m.actual %}Ce vin : {{ actual }}{% endblocktranslate %}"{% endif %}>{{ m.name|tr }}{% if m.sense %} <span class="match__actual">({{ m.actual }})</span>{% endif %}{% if m.near %} <span class="match__actual">(≈ {{ m.near }})</span>{% endif %}<span class="visually-hidden"> :
+            {% if m.match == "exact" %}{% translate "présent" %}{% elif m.match == "family" %}{% translate "proche" %}{% else %}{% translate "absent" %}{% endif %}</span></li>
         {% endfor %}
       </ul>
       {% if r.suggest %}
-      <p class="small refine">Pour confirmer, cherchez aussi :
+      <p class="small refine">{% translate "Pour confirmer, cherchez aussi :" %}
         {% for s in r.suggest %}<button type="button" class="linkish" data-suggest-aroma="{{ s }}">{{ s }}</button>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
       {% endif %}
     </li>
     {% endfor %}
   </ol>
-  <p class="small muted legend-line"><span class="match match--exact">présent</span> <span class="match match--family">famille proche</span> <span class="match match--none">absent</span></p>
+  <p class="small muted legend-line"><span class="match match--exact">{% translate "présent" %}</span> <span class="match match--family">{% translate "proche" %}</span> <span class="match match--none">{% translate "absent" %}</span></p>
 {% endif %}

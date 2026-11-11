@@ -1,43 +1,43 @@
-<article class="node-card node-card--{{ kind }}">
+{% load i18n terroirs_i18n %}<article class="node-card node-card--{{ kind }}">
   <p class="small muted">{{ kind_label }}</p>
-  <h2>{% if kind == "profile" %}<span class="robe robe--{{ obj.color }}"></span> {% endif %}{{ obj.name|capfirst }}</h2>
+  <h2>{% if kind == "profile" %}<span class="robe robe--{{ obj.color }}"></span> {% endif %}{{ obj.name|tr|capfirst }}</h2>
 
   {% if kind == "profile" %}
     <p>{{ obj.description|truncatewords:40 }}</p>
     {% include "partials/gauges.html" with structure=obj.structure %}
     <dl class="facts" style="margin-top:1rem">
-      <dt>Prix</dt><dd>{{ obj.price_min }} – {{ obj.price_max }} €</dd>
-      <dt>Garde</dt><dd>{{ obj.aging_min }} à {{ obj.aging_max }} ans</dd>
+      <dt>{% translate "Prix" %}</dt><dd>{{ obj.price_min }} – {{ obj.price_max }} €</dd>
+      <dt>{% translate "Garde" %}</dt><dd>{% blocktranslate trimmed with aging_min=obj.aging_min aging_max=obj.aging_max %}{{ aging_min }} à {{ aging_max }} ans{% endblocktranslate %}</dd>
     </dl>
   {% elif kind == "appellation" %}
-    <p class="muted">{{ obj.get_classification_display }}, {{ obj.region.name }}.</p>
+    <p class="muted">{{ obj.get_classification_display }}, {{ obj.region.name|tr }}.</p>
   {% elif kind == "region" %}
-    <p class="muted">{{ obj.description|default:obj.get_kind_display }}</p>
+    <p class="muted">{{ obj.description|tr|default:obj.get_kind_display }}</p>
   {% elif kind == "grape" %}
-    <p class="muted">Raisin {{ obj.get_skin_display|lower }}{% if obj.origin %}, berceau : {{ obj.origin }}{% endif %}.</p>
+    <p class="muted">{% blocktranslate trimmed with get_skin_display=obj.get_skin_display|lower %}Raisin {{ get_skin_display }}{% endblocktranslate %}{% if obj.origin %}{% blocktranslate trimmed with origin=obj.origin|tr %}, berceau : {{ origin }}{% endblocktranslate %}{% endif %}.</p>
   {% elif kind == "aroma" %}
-    <p class="muted">Famille : {{ obj.family.name|lower }}.</p>
+    <p class="muted">{% blocktranslate trimmed with family_name=obj.family.name|tr|lower %}Famille : {{ family_name }}.{% endblocktranslate %}</p>
   {% elif kind == "molecule" %}
-    <p class="muted">{{ obj.get_family_display }} · {{ obj.get_origin_display|lower }}. Odeur : {{ obj.odor }}.</p>
+    <p class="muted">{% blocktranslate trimmed with get_family_display=obj.get_family_display get_origin_display=obj.get_origin_display|lower odor=obj.odor|tr %}{{ get_family_display }} · {{ get_origin_display }}. Odeur : {{ odor }}.{% endblocktranslate %}</p>
   {% elif kind == "source" %}
-    <p class="muted">{{ obj.get_kind_display }}{% if obj.latin_name %}, <em>{{ obj.latin_name }}</em>{% endif %}.{% if obj.imported %} Importé de Wikidata, non vérifié.{% endif %}</p>
+    <p class="muted">{{ obj.get_kind_display }}{% if obj.latin_name %}, <em>{{ obj.latin_name }}</em>{% endif %}.{% if obj.imported %} {% translate "Importé de Wikidata, non vérifié." %}{% endif %}</p>
   {% endif %}
 
   <div class="node-actions">
-    <button type="button" class="btn btn--small" data-focus="{{ node_id }}">Centrer ici</button>
-    <button type="button" class="btn btn--ghost btn--small" data-set-path="a" data-id="{{ node_id }}" data-label="{{ obj.name }}">Départ</button>
-    <button type="button" class="btn btn--ghost btn--small" data-set-path="b" data-id="{{ node_id }}" data-label="{{ obj.name }}">Arrivée</button>
-    {% if obj.get_absolute_url and kind != "family" %}<a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">Fiche</a>{% endif %}
-    {% if kind == "aroma" %}<a class="btn btn--ghost btn--small" href="{% url 'nose:nose' %}?a={{ obj.id }}">Le Nez</a>{% endif %}
-    {% if kind == "molecule" or kind == "source" or kind == "profile" %}<a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}?depart={{ node_id }}">Du verre à la nature</a>{% endif %}
+    <button type="button" class="btn btn--small" data-focus="{{ node_id }}">{% translate "Centrer ici" %}</button>
+    <button type="button" class="btn btn--ghost btn--small" data-set-path="a" data-id="{{ node_id }}" data-label="{{ obj.name|tr }}">{% translate "Départ" %}</button>
+    <button type="button" class="btn btn--ghost btn--small" data-set-path="b" data-id="{{ node_id }}" data-label="{{ obj.name|tr }}">{% translate "Arrivée" %}</button>
+    {% if obj.get_absolute_url and kind != "family" %}<a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">{% translate "Fiche" %}</a>{% endif %}
+    {% if kind == "aroma" %}<a class="btn btn--ghost btn--small" href="{% url 'nose:nose' %}?a={{ obj.id }}">{% translate "Le Nez" %}</a>{% endif %}
+    {% if kind == "molecule" or kind == "source" or kind == "profile" %}<a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}?depart={{ node_id }}">{% translate "Du verre à la nature" %}</a>{% endif %}
   </div>
 
   {% for label, items, total in groups %}
   <section class="node-links">
     <h3>{{ label }} <span class="muted small">{{ total }}</span></h3>
     <div class="tags">
-      {% for it in items %}<button type="button" class="tag tag--{{ it.type }}" data-select="{{ it.id }}">{{ it.label }}</button>{% endfor %}
-      {% if total > items|length %}<span class="small muted">et {{ total|add:"-14" }} autres</span>{% endif %}
+      {% for it in items %}<button type="button" class="tag tag--{{ it.type }}" data-select="{{ it.id }}">{{ it.label|tr }}</button>{% endfor %}
+      {% if total > items|length %}<span class="small muted">{% blocktranslate trimmed with total=total|add:"-14" %}et {{ total }} autres{% endblocktranslate %}</span>{% endif %}
     </div>
   </section>
   {% endfor %}

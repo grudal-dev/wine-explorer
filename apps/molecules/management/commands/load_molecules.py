@@ -14,6 +14,7 @@ import yaml
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils.text import slugify
+from django.utils.translation import gettext_noop
 
 from apps.catalog.models import Aroma, AromaFamily, Color, Grape, Style, WineProfile
 from apps.catalog.text import normalize
@@ -316,7 +317,7 @@ class Command(BaseCommand):
                 for r in parsed:
                     if r.get("all"):
                         reasons.append({"basis": Basis.UNIVERSAL, "strength": r["strength"],
-                                        "label": "Formée pendant la fermentation de tous les vins",
+                                        "label": gettext_noop("Formée pendant la fermentation de tous les vins"),
                                         "ref": r["ref"]})
                     for gid in r.get("grapes", []):
                         if gid in shares and shares[gid][0] >= r["min_share"]:

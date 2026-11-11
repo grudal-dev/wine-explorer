@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{% translate "Chaud-froid" %}{% endblock %}
+{% block description %}{% translate "Retrouvez le vin mystère : chaque proposition reçoit une température selon sa proximité avec lui." %}{% endblock %}
+{% block content %}
+<h1>{% translate "Le Nez" %}</h1>
+{% include "nose/_tabs.html" with active="hotcold" %}
+<div class="split">
+  <div>
+    <p class="lede">{% translate "Un vin mystère se cache. Proposez un arôme, un cépage, une région, une appellation, une molécule ou un autre vin : plus votre proposition lui ressemble, plus elle est chaude. Autant d'essais que vous voulez." %}</p>
+    {% if ready %}
+      {% include "nose/_hotcold_board.html" %}
+    {% else %}
+      <p class="guess-error">{% if error %}{{ error }}{% else %}{% translate "Les vecteurs du graphe ne sont pas encore appris. Lancez : python manage.py train_embeddings" %}{% endif %}</p>
+    {% endif %}
+  </div>
+  <aside class="stack">
+    <div class="panel">
+      <h3>{% translate "Lire la température" %}</h3>
+      <ul class="temp-legend">
+        <li><span>🥳</span> {% translate "100° : c'est le vin" %}</li>
+        <li><span>😱</span> {% translate "dans les 5 plus proches" %}</li>
+        <li><span>🔥</span> {% translate "dans les 20 plus proches" %}</li>
+        <li><span>🥵</span> {% translate "dans les 100 plus proches" %}</li>
+        <li><span>😎</span> {% translate "tiède : un air de famille" %}</li>
+        <li><span>🧊</span> {% translate "froid" %}</li>
+        <li><span>🥶</span> {% translate "glacial : à l'opposé" %}</li>
+      </ul>
+      <p class="small muted">{% translate "La température est la proximité entre votre proposition et le vin dans l'espace appris par un réseau de neurones sur le graphe : arômes, cépages, bouche, molécules et géographie y comptent ensemble. La jauge donne le rang parmi les 100 entités les plus proches." %}</p>
+    </div>
+    <div class="panel">
+      <h3>{% translate "Conseil" %}</h3>
+      <p class="small">{% translate "Commencez large : une couleur de fruit, une grande région, un cépage courant. Suivez ce qui chauffe, puis resserrez vers l'appellation." %}</p>
+      <p class="small"><a href="{% url 'embeddings:map' %}">{% translate "La carte des goûts" %}</a> {% translate "montre le même espace à plat." %}</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/combo.js' %}" defer></script>
+<script src="{% static 'js/hotcold.js' %}" defer></script>
+{% endblock %}

@@ -10,6 +10,7 @@ un encépagement typique, des arômes pondérés et une structure en bouche.
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 
 class SluggedModel(models.Model):
@@ -39,8 +40,8 @@ class Country(SluggedModel):
 
 class Region(SluggedModel):
     class Kind(models.TextChoices):
-        REGION = "region", "Région viticole"
-        SUBREGION = "subregion", "Sous-région"
+        REGION = "region", _("Région viticole")
+        SUBREGION = "subregion", _("Sous-région")
 
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="regions")
     parent = models.ForeignKey(
@@ -66,28 +67,28 @@ class Region(SluggedModel):
 
 
 class Color(models.TextChoices):
-    ROUGE = "rouge", "Rouge"
-    BLANC = "blanc", "Blanc"
-    ROSE = "rose", "Rosé"
+    ROUGE = "rouge", _("Rouge")
+    BLANC = "blanc", _("Blanc")
+    ROSE = "rose", _("Rosé")
 
 
 class Style(models.TextChoices):
-    TRANQUILLE = "tranquille", "Tranquille sec"
-    EFFERVESCENT = "effervescent", "Effervescent"
-    MOELLEUX = "moelleux", "Moelleux"
-    LIQUOREUX = "liquoreux", "Liquoreux"
-    MUTE = "mute", "Vin doux naturel"
-    OXYDATIF = "oxydatif", "Vin jaune (oxydatif)"
+    TRANQUILLE = "tranquille", _("Tranquille sec")
+    EFFERVESCENT = "effervescent", _("Effervescent")
+    MOELLEUX = "moelleux", _("Moelleux")
+    LIQUOREUX = "liquoreux", _("Liquoreux")
+    MUTE = "mute", _("Vin doux naturel")
+    OXYDATIF = "oxydatif", _("Vin jaune (oxydatif)")
 
 
 class Appellation(SluggedModel):
     class Classification(models.TextChoices):
-        AOC = "AOC", "AOC / AOP"
-        IGP = "IGP", "IGP"
-        DOC = "DOC", "DOC"
-        DOCG = "DOCG", "DOCG"
-        AVA = "AVA", "AVA"
-        OTHER = "OTHER", "Autre"
+        AOC = "AOC", _("AOC / AOP")
+        IGP = "IGP", _("IGP")
+        DOC = "DOC", _("DOC")
+        DOCG = "DOCG", _("DOCG")
+        AVA = "AVA", _("AVA")
+        OTHER = "OTHER", _("Autre")
 
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="appellations")
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name="appellations")
@@ -112,9 +113,9 @@ class Appellation(SluggedModel):
 
 class Grape(SluggedModel):
     class Skin(models.TextChoices):
-        NOIR = "noir", "Noir"
-        BLANC = "blanc", "Blanc"
-        GRIS = "gris", "Gris / rosé"
+        NOIR = "noir", _("Noir")
+        BLANC = "blanc", _("Blanc")
+        GRIS = "gris", _("Gris / rosé")
 
     skin = models.CharField("couleur de baie", max_length=8, choices=Skin.choices)
     synonyms = models.JSONField(default=list, blank=True)
@@ -186,8 +187,8 @@ class WineProfile(SluggedModel):
     @property
     def structure(self) -> list[tuple[str, int]]:
         return [
-            ("Corps", self.body), ("Acidité", self.acidity),
-            ("Tanins", self.tannin), ("Sucrosité", self.sweetness),
+            (_("Corps"), self.body), (_("Acidité"), self.acidity),
+            (_("Tanins"), self.tannin), (_("Sucrosité"), self.sweetness),
         ]
 
     def main_grapes(self, threshold: int = 20):
@@ -209,9 +210,9 @@ class ProfileGrape(models.Model):
 
 class ProfileAroma(models.Model):
     class Intensity(models.IntegerChoices):
-        DISCRET = 1, "Discret"
-        PRESENT = 2, "Présent"
-        DOMINANT = 3, "Dominant"
+        DISCRET = 1, _("Discret")
+        PRESENT = 2, _("Présent")
+        DOMINANT = 3, _("Dominant")
 
     profile = models.ForeignKey(WineProfile, on_delete=models.CASCADE, related_name="profile_aromas")
     aroma = models.ForeignKey(Aroma, on_delete=models.CASCADE, related_name="profile_links")

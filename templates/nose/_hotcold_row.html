@@ -1,0 +1,10 @@
+{% load i18n %}
+<tr class="{% if r.found %}is-found{% endif %}{% if r.n == board.last.n %} is-last{% endif %}">
+  <td class="num">{{ r.n }}</td>
+  <td>{{ r.label }} <span class="small muted">{{ r.type_label }}</span></td>
+  <td class="num">{{ r.temperature|floatformat:1 }}°</td>
+  <td title="{{ r.band }}">{{ r.emoji }}<span class="visually-hidden"> {{ r.band }}</span></td>
+  <td class="temps__rank">{% if r.found %}<span class="small">{% translate "le vin !" %}</span>
+    {% elif r.gauge %}<span class="temps__gauge" role="img" aria-label="{% blocktranslate trimmed with rank=r.rank top=board.top %}rang {{ rank }} sur les {{ top }} plus proches{% endblocktranslate %}"><i style="width: {{ r.gauge }}%"></i></span><span class="small muted">{{ r.rank }}</span>
+    {% else %}<span class="small muted">{% blocktranslate trimmed with rank=r.rank total=board.total %}{{ rank }} sur {{ total }}{% endblocktranslate %}</span>{% endif %}</td>
+</tr>

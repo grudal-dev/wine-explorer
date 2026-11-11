@@ -24,6 +24,20 @@
   title: Applying the latest understanding of grape composition
   container: Wine & Viticulture Journal, 30(6), 33-35 (AWRI)
   url: https://www.awri.com.au/wp-content/uploads/2013/01/1774-smith-WVJ-30-6-2015.pdf
+- key: pineau2007
+  authors: Pineau, Barbe, Van Leeuwen, Dubourdieu
+  year: 2007
+  title: Which impact for β-damascenone on red wines aroma?
+  container: Journal of Agricultural and Food Chemistry, 55(10), 4103-4108
+  url: https://hal.archives-ouvertes.fr/hal-02666597
+  note: "Seuil plus de 1 000 fois plus élevé dans un vin rouge qu'en solution hydroalcoolique : un exhausteur du fruité plus qu'un arôme direct."
+- key: awri_smoke
+  authors: Australian Wine Research Institute
+  year: 2024
+  title: Sensory impact of smoke exposure (fiche technique)
+  container: AWRI
+  url: https://awri.com.au/sensory-impact-of-smoke-exposure
+  note: "Seuils de détection du gaïacol : 23 µg/L dans le vin rouge, 9,5 µg/L dans l'eau."
 - key: surburg2016
   authors: Surburg, Panten
   year: 2016
@@ -54,8 +68,15 @@
   authors: Geffroy, Kleiber, Jacques
   year: 2020
   title: "May peppery wines be the spice of life? A review of research on the 'pepper' aroma and the sesquiterpenoid rotundone"
-  container: OENO One, 54, 245-262
-  url: https://oeno-one.eu/article/view/2947
+  container: OENO One, 54(2), 245-262
+  doi: 10.20870/oeno-one.2020.54.2.2947
+- key: geffroy2019
+  authors: Geffroy, Descôtes, Levasseur-Garcia, Debord, Denux, Dufourcq
+  year: 2019
+  title: A 2-year multisite study of viticultural and environmental factors affecting rotundone concentration in Duras red wine
+  container: OENO One, 53(3), 457-470
+  doi: 10.20870/oeno-one.2019.53.3.2341
+  note: "Rappelle les cépages où la rotundone dépasse 100 ng/L : Schioppettino, Duras, Pineau d'Aunis, Gamay."
 - key: genthner2021
   authors: Genthner-Kreger, Cadwallader
   year: 2021

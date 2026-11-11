@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
 
+from apps.catalog.i18n import tr_reason
 from apps.catalog.models import WineProfile
 
 from . import graph
@@ -39,7 +40,8 @@ def _refs_by_key() -> dict[str, Reference]:
 
 
 def _with_refs(reasons: list[dict], refs: dict[str, Reference]) -> list[dict]:
-    return [{**r, "reference": refs.get(r.get("ref")), "basis_label": Basis(r["basis"]).label} for r in reasons]
+    return [{**r, "label": tr_reason(r["label"]), "reference": refs.get(r.get("ref")),
+             "basis_label": Basis(r["basis"]).label} for r in reasons]
 
 
 def explorer(request):

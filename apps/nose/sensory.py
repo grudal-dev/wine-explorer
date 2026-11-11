@@ -10,14 +10,17 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from django.utils.translation import gettext_lazy as _
+
+from apps.catalog.i18n import all_labels
 from apps.catalog.text import normalize
 
 AXES = {
-    "body": "Corps",
-    "acidity": "Acidité",
-    "tannin": "Tanins",
-    "sweetness": "Sucrosité",
-    "style": "Style",
+    "body": _("Corps"),
+    "acidity": _("Acidité"),
+    "tannin": _("Tanins"),
+    "sweetness": _("Sucrosité"),
+    "style": _("Style"),
 }
 
 
@@ -58,6 +61,11 @@ FLOOR = 0.02        # un terme ne rend jamais un profil impossible
 STYLE_MATCH, STYLE_MISS = 0.85, 0.02
 
 
+def _labels(t: Term) -> list[str]:
+    """Libellé et synonymes normalisés, en français et dans leur traduction."""
+    return [normalize(text) for label in (t.label, *t.synonyms) for text in all_labels(label)]
+
+
 def search(q: str, limit: int = 4) -> list[Term]:
     """Termes dont le libellé ou un synonyme commence par (puis contient) la saisie."""
     nq = normalize(q)
@@ -65,7 +73,7 @@ def search(q: str, limit: int = 4) -> list[Term]:
         return []
     scored = []
     for t in TERMS:
-        labels = [normalize(t.label), *(normalize(s) for s in t.synonyms)]
+        labels = _labels(t)
         if any(lab == nq for lab in labels):
             rank = 0
         elif any(lab.startswith(nq) for lab in labels):
@@ -82,7 +90,7 @@ def exact(q: str) -> Term | None:
     """Terme dont le libellé ou un synonyme est exactement la saisie (accents et casse ignorés)."""
     nq = normalize(q)
     for t in TERMS:
-        if nq and nq in {normalize(t.label), *(normalize(x) for x in t.synonyms)}:
+        if nq and nq in _labels(t):
             return t
     return None
 

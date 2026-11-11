@@ -24,30 +24,33 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from functools import lru_cache
 
+from django.utils.translation import gettext_lazy as _
+
+from apps.catalog.i18n import all_labels, tr
 from apps.catalog.index import data_version
 from apps.catalog.models import Appellation, Aroma, Color, Region, WineProfile
 
 NODE_TYPES = ("region", "appellation", "profile", "grape", "aroma", "family", "molecule", "source")
 TYPE_LABELS = {
-    "region": "Régions",
-    "appellation": "Appellations",
-    "profile": "Profils types",
-    "grape": "Cépages",
-    "aroma": "Arômes",
-    "family": "Familles d'arômes",
-    "molecule": "Molécules",
-    "source": "Éléments naturels",
+    "region": _("Régions"),
+    "appellation": _("Appellations"),
+    "profile": _("Profils types"),
+    "grape": _("Cépages"),
+    "aroma": _("Arômes"),
+    "family": _("Familles d'arômes"),
+    "molecule": _("Molécules"),
+    "source": _("Éléments naturels"),
 }
 EDGE_LABELS = {
-    "part_of": "fait partie de",
-    "located_in": "située en",
-    "made_in": "produit en",
-    "grape": "assemble",
-    "aroma": "exprime",
-    "family": "appartient à",
-    "molecule": "contient",
-    "evokes": "évoque",
-    "found_in": "trouvée dans",
+    "part_of": _("fait partie de"),
+    "located_in": _("située en"),
+    "made_in": _("produit en"),
+    "grape": _("assemble"),
+    "aroma": _("exprime"),
+    "family": _("appartient à"),
+    "molecule": _("contient"),
+    "evokes": _("évoque"),
+    "found_in": _("trouvée dans"),
 }
 
 
@@ -350,7 +353,7 @@ def build_view(q: GraphQuery) -> dict:
     elements = []
     for node_id in sorted(present):
         n = g.nodes[node_id]
-        data = {"id": n.id, "label": n.label, "type": n.type, "degree": degree[n.id]}
+        data = {"id": n.id, "label": tr(n.label), "type": n.type, "degree": degree[n.id]}
         if "hue" in n.attrs:
             data["hue"] = n.attrs["hue"]
         if n.type == "source" and n.attrs.get("imported"):
@@ -415,7 +418,10 @@ def shortest_path(a: str, b: str) -> list[dict] | None:
 
 
 def _node_dict(n: Node) -> dict:
-    return {"id": n.id, "label": n.label, "type": n.type, "url": n.url}
+    return {"id": n.id, "label": tr(n.label), "type": n.type, "url": n.url}
+
+
+SEARCH_PRIORITY = ("aroma", "grape", "region", "appellation", "profile", "family", "molecule", "source")
 
 
 def search_nodes(q: str, limit: int = 10) -> list[dict]:
@@ -427,12 +433,13 @@ def search_nodes(q: str, limit: int = 10) -> list[dict]:
         return []
     scored = []
     for n in g.nodes.values():
-        label = normalize(n.label)
-        if label.startswith(nq):
-            scored.append((0, len(label), n))
-        elif nq in label:
-            scored.append((1, len(label), n))
-    scored.sort(key=lambda t: (t[0], t[1], t[2].label))
+        labels = [normalize(text) for text in all_labels(n.label)]  # français et traduction
+        if any(label.startswith(nq) for label in labels):
+            scored.append((0, len(labels[0]), n))
+        elif any(nq in label for label in labels):
+            scored.append((1, len(labels[0]), n))
+    # À égalité (« cassis » l'arôme et « Cassis » l'appellation), l'arôme et le cépage d'abord.
+    scored.sort(key=lambda t: (t[0], t[1], SEARCH_PRIORITY.index(t[2].type), t[2].label))
     return [_node_dict(n) | {"type_label": TYPE_LABELS[n.type]} for _, _, n in scored[:limit]]
 
 

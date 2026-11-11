@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load i18n terroirs_i18n %}
 {% load static %}
-{% block title %}{% if game.is_over %}{{ game.profile.name }}{% else %}Vin mystère{% endif %}{% endblock %}
+{% block title %}{% if game.is_over %}{{ game.profile.name|tr }}{% else %}{% translate "Vin mystère" %}{% endif %}{% endblock %}
 {% block content %}
-<nav class="crumbs"><a href="{% url 'blindtest:home' %}">Blind test</a><span aria-hidden="true">/</span><span>{{ game.get_mode_display }}{% if game.day %} du {{ game.day|date:"j F Y" }}{% endif %}</span></nav>
+<nav class="crumbs"><a href="{% url 'blindtest:home' %}">{% translate "Blind test" %}</a><span aria-hidden="true">/</span><span>{{ game.get_mode_display }}{% if game.day %} {% blocktranslate trimmed with day=game.day|date:"j F Y" %}du {{ day }}{% endblocktranslate %}{% endif %}</span></nav>
 {% include "blindtest/_board.html" %}
 {% endblock %}
 {% block scripts %}

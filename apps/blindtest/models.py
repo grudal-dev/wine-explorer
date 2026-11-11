@@ -3,20 +3,21 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from apps.catalog.models import WineProfile
 
 
 class Game(models.Model):
     class Mode(models.TextChoices):
-        DAILY = "daily", "Défi du jour"
-        FREE = "free", "Partie libre"
+        DAILY = "daily", _("Défi du jour")
+        FREE = "free", _("Partie libre")
 
     class Status(models.TextChoices):
-        PLAYING = "playing", "En cours"
-        WON = "won", "Gagnée"
-        LOST = "lost", "Perdue"
-        ABANDONED = "abandoned", "Abandonnée"
+        PLAYING = "playing", _("En cours")
+        WON = "won", _("Gagnée")
+        LOST = "lost", _("Perdue")
+        ABANDONED = "abandoned", _("Abandonnée")
 
     public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     user = models.ForeignKey(
@@ -65,10 +66,10 @@ class Game(models.Model):
 
 class Guess(models.Model):
     class Verdict(models.TextChoices):
-        HIT = "hit", "Trouvé"
-        CLOSE = "close", "Proche"
-        MISS = "miss", "Raté"
-        INFO = "info", "Information"
+        HIT = "hit", _("Trouvé")
+        CLOSE = "close", _("Proche")
+        MISS = "miss", _("Raté")
+        INFO = "info", _("Information")
 
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="guesses")
     raw = models.CharField(max_length=120)

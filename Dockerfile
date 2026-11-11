@@ -15,4 +15,7 @@ RUN useradd --create-home app && chown -R app /app
 USER app
 
 EXPOSE 8000
-CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py load_seed && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3"]
+ENV PORT=8000
+# Railway injecte $PORT. `migrate` charge aussi les données de référence si la base est vide
+# (signal post_migrate de apps.catalog), donc pas de `load_seed` séparé.
+CMD ["sh", "-c", "python manage.py migrate --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers ${WEB_CONCURRENCY:-2} --access-logfile -"]

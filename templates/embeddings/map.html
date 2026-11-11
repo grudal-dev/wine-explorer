@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{% translate "Carte des goûts" %}{% endblock %}
+{% block description %}{% translate "Tous les vins sur une carte : deux vins voisins se ressemblent par leurs arômes, leurs cépages et leur bouche." %}{% endblock %}
+{% block main_class %}page--full{% endblock %}
+{% block body_class %}is-app{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+<div class="explorer map-explorer" id="taste-map"
+     data-api="{% url 'embeddings:api_map' %}"
+     data-neighbours="{% url 'embeddings:api_neighbours' %}"
+     data-panel="{% url 'embeddings:panel' 'X' %}"
+     data-focus="{{ focus }}">
+
+  <aside class="explorer__rail" aria-label="{% translate "Réglages de la carte" %}">
+    <div class="rail-group">
+      <h1 class="mol-title">{% translate "Carte des goûts" %}</h1>
+      <p class="small muted">{% translate "Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, même coin de France. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à la main." %}</p>
+    </div>
+
+    <div class="rail-group">
+      <label class="label" for="map-search">{% translate "Trouver sur la carte" %}</label>
+      <div class="combo">
+        <input id="map-search" class="input" type="search" placeholder="{% translate "Sancerre, gamay, violette…" %}" autocomplete="off"
+               role="combobox" aria-expanded="false" aria-controls="map-search-list">
+        <ul class="combo__list" id="map-search-list" role="listbox" hidden></ul>
+      </div>
+    </div>
+
+    <form id="map-form" class="rail-group" autocomplete="off">
+      <fieldset class="checks">
+        <legend class="label">{% translate "Sur la carte" %}</legend>
+        {% for key, label in types %}
+        <label class="check"><input type="checkbox" name="types" value="{{ key }}" {% if key == "profile" %}checked{% endif %}> <span class="swatch swatch--{{ key }}"></span>{{ label }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <div class="field">
+        <label for="map-color">{% translate "Colorer les vins par" %}</label>
+        <select id="map-color" name="color" class="input">
+          <option value="wine">{% translate "Couleur du vin" %}</option>
+          <option value="region">{% translate "Région" %}</option>
+        </select>
+      </div>
+
+      <fieldset class="checks">
+        <legend class="label">{% translate "Couleur du vin" %}</legend>
+        {% for key, label in colors %}
+        <label class="check"><input type="checkbox" name="colors" value="{{ key }}"> <span class="robe robe--{{ key }}"></span>{{ label }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <div class="field">
+        <label for="map-region">{% translate "Région" %}</label>
+        <select id="map-region" name="region" class="input">
+          <option value="">{% translate "Toute la France" %}</option>
+          {% for r in roots %}<option value="{{ r.slug }}">{{ r.name }}</option>{% endfor %}
+        </select>
+      </div>
+    </form>
+
+    <div class="rail-group">
+      <ul class="map-legend" id="map-legend" aria-label="{% translate "Légende des couleurs" %}"></ul>
+      <p class="small muted">{% translate "Cliquez sur un point : ses plus proches voisins se relient à lui. Les axes n'ont pas de signification, seules les distances comptent." %}</p>
+      {% if meta.trained %}
+      <p class="small muted">{% blocktranslate trimmed with nodes=meta.nodes dim=meta.dim auc=meta.auc_held_out trained=meta.trained %}
+        Modèle entraîné le {{ trained }} sur {{ nodes }} entités ({{ dim }} dimensions). Sur des liens masqués
+        pendant l'entraînement, il distingue un vrai lien d'un lien au hasard dans {{ auc }} des cas (AUC).
+        {% endblocktranslate %}</p>
+      {% endif %}
+    </div>
+  </aside>
+
+  <section class="explorer__stage" aria-label="{% translate "Carte" %}">
+    <div class="stage-bar">
+      <p id="map-stats" class="small muted" aria-live="polite">{% if ready %}{% translate "Chargement…" %}{% else %}{% translate "Aucun vecteur appris pour l'instant. Lancez : python manage.py train_embeddings" %}{% endif %}</p>
+      <div class="stage-bar__actions">
+        <button type="button" class="btn btn--ghost btn--small" id="map-fit">{% translate "Recadrer" %}</button>
+        <button type="button" class="btn btn--ghost btn--small" id="map-png">{% translate "Exporter en PNG" %}</button>
+      </div>
+    </div>
+    <div id="map-cy" class="cy"></div>
+  </section>
+
+  <aside class="explorer__panel" id="map-panel" aria-live="polite">
+    <div class="panel-empty">
+      <h2>{% translate "Cliquez sur un vin" %}</h2>
+      <p class="muted">{% translate "Ses cousins s'affichent ici : les vins, les cépages et les arômes dont il est le plus proche." %}</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendor/cytoscape.min.js' %}" defer></script>
+<script src="{% static 'js/combo.js' %}" defer></script>
+<script src="{% static 'js/map.js' %}" defer></script>
+{% endblock %}

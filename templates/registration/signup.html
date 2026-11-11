@@ -1,13 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Créer un compte{% endblock %}
+{% load i18n terroirs_i18n %}
+{% block title %}{% translate "Créer un compte" %}{% endblock %}
 {% block content %}
 <div class="auth">
-  <h1>Créer un compte</h1>
-  <p class="muted">Un compte garde votre historique de blind test et vous place au classement du défi du jour.</p>
+  <h1>{% translate "Créer un compte" %}</h1>
+  <p class="muted">{% translate "Un compte garde votre historique de blind test et vous place au classement du défi du jour." %}</p>
   <form method="post">{% csrf_token %}
     {% include "partials/form_fields.html" %}
-    <button class="btn" type="submit">Créer mon compte</button>
+    <button class="btn" type="submit">{% translate "Créer mon compte" %}</button>
   </form>
-  <p class="small" style="margin-top:1.5rem">Déjà inscrit ? <a href="{% url 'accounts:login' %}">Se connecter</a></p>
+  <p class="small" style="margin-top:1.5rem">{% translate "Déjà inscrit ?" %} <a href="{% url 'accounts:login' %}">{% translate "Se connecter" %}</a></p>
 </div>
 {% endblock %}

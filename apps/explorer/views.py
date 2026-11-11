@@ -1,5 +1,6 @@
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
 
@@ -25,17 +26,17 @@ from .graph import (
 )
 
 PRESETS = [
-    {"key": "terroirs", "label": "Géographie", "types": ["region", "appellation"],
-     "help": "Régions, sous-régions et appellations."},
-    {"key": "encepagement", "label": "Encépagement", "types": ["region", "appellation", "grape"],
-     "help": "Quels cépages pour quelles appellations."},
-    {"key": "aromes", "label": "Arômes", "types": ["appellation", "aroma", "family"],
-     "help": "Les descripteurs dominants de chaque appellation."},
-    {"key": "molecules", "label": "Molécules", "types": ["appellation", "molecule", "aroma", "source"],
-     "help": "Les molécules de chaque appellation, les arômes qu'elles évoquent et les éléments naturels "
-             "qui les partagent."},
-    {"key": "complet", "label": "Tout", "types": list(NODE_TYPES),
-     "help": "Profils types et toutes leurs relations. Dense : filtrez ou centrez sur un nœud."},
+    {"key": "terroirs", "label": _("Géographie"), "types": ["region", "appellation"],
+     "help": _("Régions, sous-régions et appellations.")},
+    {"key": "encepagement", "label": _("Encépagement"), "types": ["region", "appellation", "grape"],
+     "help": _("Quels cépages pour quelles appellations.")},
+    {"key": "aromes", "label": _("Arômes"), "types": ["appellation", "aroma", "family"],
+     "help": _("Les descripteurs dominants de chaque appellation.")},
+    {"key": "molecules", "label": _("Molécules"), "types": ["appellation", "molecule", "aroma", "source"],
+     "help": _("Les molécules de chaque appellation, les arômes qu'elles évoquent et les éléments naturels "
+               "qui les partagent.")},
+    {"key": "complet", "label": _("Tout"), "types": list(NODE_TYPES),
+     "help": _("Profils types et toutes leurs relations. Dense : filtrez ou centrez sur un nœud.")},
 ]
 
 
@@ -64,14 +65,14 @@ def api_search(request):
 def api_path(request):
     path = shortest_path(request.GET.get("a", ""), request.GET.get("b", ""))
     if path is None:
-        return JsonResponse({"path": None, "message": "Aucun chemin entre ces deux entités."})
+        return JsonResponse({"path": None, "message": _("Aucun chemin entre ces deux entités.")})
     return JsonResponse({"path": path})
 
 
 SINGULAR = {
-    "region": "Région", "appellation": "Appellation", "profile": "Profil type",
-    "grape": "Cépage", "aroma": "Arôme", "family": "Famille d'arômes",
-    "molecule": "Molécule", "source": "Élément naturel",
+    "region": _("Région"), "appellation": _("Appellation"), "profile": _("Profil type"),
+    "grape": _("Cépage"), "aroma": _("Arôme"), "family": _("Famille d'arômes"),
+    "molecule": _("Molécule"), "source": _("Élément naturel"),
 }
 
 MODELS = {

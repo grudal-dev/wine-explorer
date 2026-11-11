@@ -4,6 +4,7 @@ from django.db.models import Avg, Count, Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.translation import gettext
 from django.views.decorators.http import require_GET, require_POST
 
 from apps.catalog.models import Color, WineProfile
@@ -80,7 +81,7 @@ def start(request):
             color=color if color in Color.values else "",
         )
     except WineProfile.DoesNotExist as exc:  # pas de données chargées
-        messages.error(request, f"Impossible de lancer une partie : {exc}")
+        messages.error(request, gettext("Impossible de lancer une partie : %(reason)s") % {"reason": exc})
         return redirect("blindtest:home")
     if game.user_id is None:
         ids = request.session.get(SESSION_GAMES, [])

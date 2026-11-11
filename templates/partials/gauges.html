@@ -1,6 +1,6 @@
-<div class="gauges">
+{% load i18n terroirs_i18n %}<div class="gauges">
 {% for label, value in structure %}
-  <div class="gauge" role="img" aria-label="{{ label }} : {{ value }} sur 5">
+  <div class="gauge" role="img" aria-label="{% blocktranslate trimmed with label=label value=value %}{{ label }} : {{ value }} sur 5{% endblocktranslate %}">
     <span class="gauge__label">{{ label }}</span>
     <span class="gauge__track">{% for i in "12345" %}<i class="gauge__tick{% if forloop.counter <= value %} is-on{% endif %}"></i>{% endfor %}</span>
   </div>
