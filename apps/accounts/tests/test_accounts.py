@@ -43,3 +43,16 @@ class AccountTests(TestCase):
         self.assertEqual(self.client.get(reverse("accounts:ranking")).status_code, 200)
         r = self.client.get(reverse("accounts:profile"))
         self.assertEqual(r.status_code, 302)
+
+    def test_all_time_ranking_ignores_free_games(self):
+        from django.utils import timezone
+        from apps.catalog.models import WineProfile
+        user = User.objects.create_user("jo", "jo@example.com", "Un-Bon-Cru-2026")
+        profile = WineProfile.objects.first()
+        Game.objects.create(user=user, profile=profile, mode=Game.Mode.FREE,
+                            status=Game.Status.WON, score=500)
+        Game.objects.create(user=user, profile=profile, mode=Game.Mode.DAILY,
+                            day=timezone.localdate(), status=Game.Status.WON, score=70)
+        r = self.client.get(reverse("accounts:ranking"))
+        row = list(r.context["all_time"])[0]
+        self.assertEqual((row["total"], row["played"]), (70, 1))

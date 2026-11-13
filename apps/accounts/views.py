@@ -36,7 +36,8 @@ def profile(request):
 def ranking(request):
     today = timezone.localdate()
     all_time = (
-        Game.objects.filter(user__isnull=False).exclude(status=Game.Status.PLAYING)
+        Game.objects.filter(mode=Game.Mode.DAILY, user__isnull=False)
+        .exclude(status=Game.Status.PLAYING)
         .values("user__username")
         .annotate(total=Sum("score"), played=Count("id"),
                   won=Count("id", filter=Q(status=Game.Status.WON)), best=Max("score"))
