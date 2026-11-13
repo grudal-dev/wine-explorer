@@ -10,6 +10,7 @@ urlpatterns = [
     path("graphe/", include("apps.explorer.urls")),
     path("blind-test/", include("apps.blindtest.urls")),
     path("le-nez/", include("apps.nose.urls")),
+    path("chaud-froid/", include("apps.nose.urls_hotcold")),
     path("molecules/", include("apps.molecules.urls")),
     path("carte/", include("apps.embeddings.urls")),
     path("compte/", include("apps.accounts.urls")),
