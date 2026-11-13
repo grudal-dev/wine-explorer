@@ -18,8 +18,16 @@
     <nav class="nav" aria-label="{% translate "Navigation principale" %}">
       {% with p=request.path %}
       {% if 'graphe' in sections %}<a href="{% url 'explorer:explorer' %}" {% if p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}>{% translate "Graphe" %}</a>{% endif %}
-      {% if 'blindtest' in sections %}<a href="{% url 'blindtest:home' %}" {% if p|slice:":11" == "/blind-test" %}aria-current="page"{% endif %}>{% translate "Blind test" %}</a>{% endif %}
-      {% if 'chaudfroid' in sections %}<a href="{% url 'hotcold:game' %}" {% if p|slice:":12" == "/chaud-froid" %}aria-current="page"{% endif %}>{% translate "Chaud-froid" %}</a>{% endif %}
+      {% if 'blindtest' in sections or 'chaudfroid' in sections %}
+      <div class="nav-group" data-nav-group>
+        <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-games"
+                {% if p|slice:":11" == "/blind-test" or p|slice:":12" == "/chaud-froid" %}aria-current="page"{% endif %}>{% translate "Jeux" %}</button>
+        <div class="nav-group__menu" id="nav-games">
+          {% if 'blindtest' in sections %}<a href="{% url 'blindtest:home' %}" {% if p|slice:":11" == "/blind-test" %}aria-current="page"{% endif %}><strong>{% translate "Blind test" %}</strong><span>{% translate "Reconstituez l'étiquette d'un vin mystère." %}</span></a>{% endif %}
+          {% if 'chaudfroid' in sections %}<a href="{% url 'hotcold:game' %}" {% if p|slice:":12" == "/chaud-froid" %}aria-current="page"{% endif %}><strong>{% translate "Chaud-froid" %}</strong><span>{% translate "Trouvez le vin mystère à sa température." %}</span></a>{% endif %}
+        </div>
+      </div>
+      {% endif %}
       {% if 'nose' in sections %}<a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>{% translate "Le Nez" %}</a>{% endif %}
       {% if 'carte' in sections %}<a href="{% url 'embeddings:map' %}" {% if p|slice:":6" == "/carte" %}aria-current="page"{% endif %}>{% translate "Carte" %}</a>{% endif %}
       {% if 'molecules' in sections %}<a href="{% url 'molecules:explorer' %}" {% if p|slice:":10" == "/molecules" %}aria-current="page"{% endif %}>{% translate "Molécules" %}</a>{% endif %}
@@ -66,6 +74,7 @@
   {% endblock %}
   <script src="{% url 'javascript-catalog' %}"></script>
   <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
+  <script src="{% static 'js/nav.js' %}" defer></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

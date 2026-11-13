@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n terroirs_i18n %}
+{% load i18n terroirs_i18n static %}
 {% block title %}{% translate "Explorer le vin" %}{% endblock %}
 {% block content %}
 <section class="hero">
@@ -25,6 +25,38 @@
     <div class="glass__disc"></div><div class="glass__meniscus"></div><div class="glass__light"></div>
   </div>
   {% endif %}
+</section>
+
+<section class="section daily" aria-labelledby="daily-title">
+  <div class="daily__head">
+    <h2 id="daily-title">{% translate "Les défis du jour" %}</h2>
+    <p class="daily__reset small muted">{% translate "Prochain défi dans" %} <time class="daily__clock" datetime="{{ daily.reset_at|date:'c' }}" data-deadline="{{ daily.reset_at|date:'c' }}">{{ daily.reset_at|timeuntil }}</time></p>
+  </div>
+  <div class="daily__cards">
+    {% for c in daily.cards %}
+    <article class="daily__card daily__card--{{ c.key }} is-{{ c.state }}">
+      <p class="daily__kicker">{% translate "Jeu" %}</p>
+      <h3>{% if c.key == "blindtest" %}{% translate "Blind test" %}{% else %}{% translate "Chaud-froid" %}{% endif %}</h3>
+      <p class="daily__blurb">{% if c.key == "blindtest" %}{% translate "Reconstituez l'étiquette d'un vin mystère." %}{% else %}{% translate "Trouvez le vin mystère à sa température." %}{% endif %}</p>
+      <p class="daily__status">
+        {% if c.state == "done" %}<span class="daily__badge daily__badge--done">{% blocktranslate trimmed with points=c.points %}Terminé : {{ points }} points{% endblocktranslate %}</span>
+        {% elif c.state == "playing" %}<span class="daily__badge daily__badge--playing">{% translate "En cours" %}</span>
+        {% else %}<span class="daily__badge">{% translate "À jouer" %}</span>{% endif %}
+      </p>
+      <p class="daily__best small muted">
+        {% if c.best %}{% blocktranslate trimmed with points=c.best.points user=c.best.username %}Meilleur score du jour : {{ points }} points ({{ user }}){% endblocktranslate %}
+        {% else %}{% translate "Personne n'a encore terminé le défi du jour." %}{% endif %}
+      </p>
+      {% if c.key == "blindtest" %}
+        {% if c.url %}<a class="btn{% if c.state == 'done' %} btn--ghost{% endif %}" href="{{ c.url }}">{% if c.state == "done" %}{% translate "Revoir la partie" %}{% else %}{% translate "Reprendre" %}{% endif %}</a>
+        {% else %}<form method="post" action="{% url 'blindtest:start' %}">{% csrf_token %}<input type="hidden" name="mode" value="daily"><button class="btn" type="submit">{% translate "Jouer" %}</button></form>{% endif %}
+      {% else %}
+        <a class="btn{% if c.state == 'done' %} btn--ghost{% endif %}" href="{% url 'hotcold:game' %}">{% if c.state == "done" %}{% translate "Revoir la partie" %}{% elif c.state == "playing" %}{% translate "Reprendre" %}{% else %}{% translate "Jouer" %}{% endif %}</a>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  <p class="daily__foot small"><a href="{% url 'accounts:ranking' %}">{% translate "Voir le classement des jeux" %}</a></p>
 </section>
 
 <div class="figures" aria-label="{% translate "Contenu de la base" %}">
@@ -62,3 +94,4 @@
   </a>
 </section>
 {% endblock %}
+{% block scripts %}<script src="{% static 'js/countdown.js' %}" defer></script>{% endblock %}

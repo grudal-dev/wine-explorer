@@ -53,9 +53,9 @@ class AccountTests(TestCase):
                             status=Game.Status.WON, score=500)
         Game.objects.create(user=user, profile=profile, mode=Game.Mode.DAILY,
                             day=timezone.localdate(), status=Game.Status.WON, score=70)
-        r = self.client.get(reverse("accounts:ranking"))
+        r = self.client.get(reverse("accounts:ranking") + "?jeu=blindtest")
         row = list(r.context["all_time"])[0]
-        self.assertEqual((row["total"], row["played"]), (70, 1))
+        self.assertEqual((row["points"], row["played"]), (70, 1))
 
     def test_public_player_profile_hides_games_in_progress(self):
         from apps.catalog.models import WineProfile
@@ -75,3 +75,37 @@ class AccountTests(TestCase):
         self.client.login(username="zoe", password="Un-Bon-Cru-2026")
         self.assertRedirects(self.client.get(reverse("accounts:player", args=["zoe"])),
                              reverse("accounts:profile"))
+
+    def test_total_ranking_adds_both_games(self):
+        from django.utils import timezone
+        from apps.catalog.models import WineProfile
+        from apps.nose.models import HotColdResult
+        today = timezone.localdate()
+        profile = WineProfile.objects.first()
+        ann = User.objects.create_user("ann", "a@example.com", "Un-Bon-Cru-2026")
+        bob = User.objects.create_user("bob", "b@example.com", "Un-Bon-Cru-2026")
+        Game.objects.create(user=ann, profile=profile, mode=Game.Mode.DAILY, day=today,
+                            status=Game.Status.WON, score=60)
+        HotColdResult.objects.create(user=ann, day=today, secret="x", outcome="won", guesses=4, score=91)
+        HotColdResult.objects.create(user=bob, day=today, secret="x", outcome="won", guesses=1, score=100)
+        Game.objects.create(user=bob, profile=profile, mode=Game.Mode.FREE, status=Game.Status.WON, score=999)
+        r = self.client.get(reverse("accounts:ranking"))
+        rows = list(r.context["today"])
+        self.assertEqual([(x["username"], x["blindtest"], x["hotcold"], x["points"]) for x in rows],
+                         [("ann", 60, 91, 151), ("bob", 0, 100, 100)])
+        self.assertEqual(list(r.context["all_time"])[0]["points"], 151)
+        self.assertContains(r, "Total des jeux")
+        bad = self.client.get(reverse("accounts:ranking") + "?jeu=zzz")
+        self.assertEqual(bad.context["game"], "total")
+
+    def test_home_shows_daily_challenges_and_games_menu(self):
+        home = self.client.get("/")
+        self.assertContains(home, "Les défis du jour")
+        self.assertContains(home, 'data-deadline="')
+        self.assertContains(home, 'class="nav-group"')
+        self.assertEqual([c["state"] for c in home.context["daily"]["cards"]], ["todo", "todo"])
+        User.objects.create_user("eve", "e@example.com", "Un-Bon-Cru-2026")
+        self.client.login(username="eve", password="Un-Bon-Cru-2026")
+        self.client.post(reverse("blindtest:start"), {"mode": "daily"})
+        home = self.client.get("/")
+        self.assertEqual(home.context["daily"]["cards"][0]["state"], "playing")

@@ -2,15 +2,14 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Max, Q, Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext
 
 from apps.blindtest.models import Game
-from apps.blindtest.views import leaderboard, stats_for
-from apps.nose import hotcold
+from apps.blindtest.views import stats_for
 
+from . import rankings
 from .forms import SignupForm
 
 
@@ -49,16 +48,10 @@ def player(request, username):
 
 
 def ranking(request):
+    game = request.GET.get("jeu", "total")
+    if game not in rankings.GAMES:
+        game = "total"
     today = timezone.localdate()
-    all_time = (
-        Game.objects.filter(mode=Game.Mode.DAILY, user__isnull=False)
-        .exclude(status=Game.Status.PLAYING)
-        .values("user__username")
-        .annotate(total=Sum("score"), played=Count("id"),
-                  won=Count("id", filter=Q(status=Game.Status.WON)), best=Max("score"))
-        .order_by("-total")[:20]
-    )
     return render(request, "accounts/ranking.html", {
-        "today": leaderboard(today, limit=20), "all_time": all_time, "day": today,
-        "hotcold_today": hotcold.leaderboard(today, limit=20),
+        "game": game, "day": today, **rankings.standings(game, today),
     })

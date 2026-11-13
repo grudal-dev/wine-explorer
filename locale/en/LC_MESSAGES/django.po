@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Terroirs VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-14 00:40+0100\n"
+"POT-Creation-Date: 2026-11-14 00:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -773,10 +773,6 @@ msgstr "Loading…"
 msgid "Chaud-froid"
 msgstr "Hot and cold"
 
-#, python-format
-msgid "Chaud-froid du %(day)s"
-msgstr "Hot-cold of %(day)s"
-
 msgid "Chercher"
 msgstr "Search"
 
@@ -1456,11 +1452,14 @@ msgstr ""
 msgid "Italie / Charentes"
 msgstr "Italy / Charentes"
 
+msgid "Jeu"
+msgstr "Game"
+
+msgid "Jeux"
+msgstr "Games"
+
 msgid "Jouer"
 msgstr "Play"
-
-msgid "Jouer au chaud-froid du jour"
-msgstr "Play today's hot-cold"
 
 msgid "Jouer le défi du jour"
 msgstr "Play the daily challenge"
@@ -1934,6 +1933,9 @@ msgstr "The dominant descriptors of each appellation."
 msgid "Les descripteurs utilisés dans les fiches, le blind test et Le Nez, regroupés en %(families)s familles."
 msgstr "The descriptors used in the profiles, the blind tasting and The Nose, grouped into %(families)s families."
 
+msgid "Les défis du jour"
+msgstr "Today's challenges"
+
 msgid ""
 "Les houblons aromatiques du Nouveau Monde doivent une partie de leur parfum de cassis et de fruit tropical "
 "à la 4-MMP, la même molécule que le Sauvignon."
@@ -2065,6 +2067,10 @@ msgid ""
 msgstr ""
 "Marker of premature ageing in reds: it replaces fresh fruit with prune. It always exceeds its threshold in "
 "oxidised wines and forms more with late-harvested grapes."
+
+#, python-format
+msgid "Meilleur score du jour : %(points)s points (%(user)s)"
+msgstr "Best score today: %(points)s points (%(user)s)"
 
 msgid "Mille kilomètres de fleuve et de styles, du muscadet océanique aux sauvignons du Centre."
 msgstr "A thousand kilometres of river and styles, from oceanic Muscadet to the Sauvignons of the Centre."
@@ -2370,6 +2376,9 @@ msgstr "Maximum entry price:"
 msgid "Prix indicatif"
 msgstr "Indicative price"
 
+msgid "Prochain défi dans"
+msgstr "Next challenge in"
+
 #, python-format
 msgid "Prochain indice au prochain essai manqué : %(next_clue)s."
 msgstr "Next clue after your next missed attempt: %(next_clue)s."
@@ -2487,6 +2496,9 @@ msgstr "Missed"
 msgid "Recadrer"
 msgstr "Fit to view"
 
+msgid "Reconstituez l'étiquette d'un vin mystère."
+msgstr "Piece together the label of a mystery wine."
+
 msgid "Rejouer le défi du jour"
 msgstr "Replay today's challenge"
 
@@ -2522,6 +2534,9 @@ msgstr "Found in oak wood and in bourbons, where it increases with age."
 
 msgid "Revenir au défi du jour"
 msgstr "Back to today's challenge"
+
+msgid "Revoir la partie"
+msgstr "Review the game"
 
 msgid "Revoir ma partie"
 msgstr "Review my game"
@@ -2789,6 +2804,9 @@ msgstr ""
 msgid "Seul rouge du vignoble, léger et fruité, de plus en plus profond chez les meilleurs producteurs."
 msgstr "The only red of the vineyard, light and fruity, increasingly deep in the hands of the best producers."
 
+msgid "Seuls les défis du jour comptent, une fois par jour et par jeu. Les parties libres ne sont pas classées."
+msgstr "Only the daily challenges count, once a day per game. Free games are not ranked."
+
 msgid "Socle aromatique commun à tous les vins (éthanol et 27 composés de fermentation)."
 msgstr "Aromatic base common to all wines (ethanol and 27 fermentation compounds)."
 
@@ -2879,6 +2897,10 @@ msgstr "Tannins"
 msgid "Température"
 msgstr "Temperature"
 
+#, python-format
+msgid "Terminé : %(points)s points"
+msgstr "Done: %(points)s points"
+
 msgid ""
 "Terpène des Muscats et du Gewurztraminer, qui se forme aussi en bouteille à partir du linalol et du "
 "géraniol : la note florale des vins aromatiques glisse avec l'âge vers le lilas et la résine."
@@ -2900,6 +2922,9 @@ msgstr "Varietal thiols recorded in Grenache, Merlot, Cabernet Sauvignon and Pro
 
 msgid "Total"
 msgstr "Total"
+
+msgid "Total des jeux"
+msgstr "All games"
 
 msgid "Toujours montrer le socle commun"
 msgstr "Always show the common base"
@@ -2943,6 +2968,9 @@ msgstr "Find on the map"
 
 msgid "Trouver une entité"
 msgstr "Find an entity"
+
+msgid "Trouvez le vin mystère à sa température."
+msgstr "Find the mystery wine by its temperature."
 
 msgid "Trouvé"
 msgstr "Found"
@@ -3149,6 +3177,9 @@ msgstr "Wines that show it"
 
 msgid "Voir dans le graphe"
 msgstr "View in the graph"
+
+msgid "Voir le classement des jeux"
+msgstr "See the games leaderboard"
 
 msgid "Voir sur Wikidata"
 msgstr "View on Wikidata"
@@ -4698,6 +4729,9 @@ msgstr "· Terroirs"
 
 msgid "· importé de Wikidata, non vérifié"
 msgstr "· imported from Wikidata, unverified"
+
+msgid "À jouer"
+msgstr "To play"
 
 msgid "Élevage sous bois"
 msgstr "Oak ageing"

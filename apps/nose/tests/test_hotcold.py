@@ -176,9 +176,9 @@ class HotColdRankingTests(TestCase):
         HotColdResult.objects.create(user=a, day=today, secret="x", outcome="won", guesses=9, score=76)
         HotColdResult.objects.create(user=b, day=today, secret="x", outcome="won", guesses=2, score=97)
         self.assertEqual([g.user.username for g in hotcold.leaderboard(today)], ["b", "a"])
-        page = self.client.get(reverse("accounts:ranking"))
-        self.assertContains(page, "Chaud-froid du")
+        page = self.client.get(reverse("accounts:ranking") + "?jeu=hotcold")
         self.assertContains(page, reverse("accounts:player", args=["b"]))
+        self.assertEqual([r["username"] for r in page.context["today"]], ["b", "a"])
 
 
 class LearnedFallbackTests(TestCase):

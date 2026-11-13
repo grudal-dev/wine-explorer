@@ -3,31 +3,43 @@
 {% block title %}{% translate "Classement" %}{% endblock %}
 {% block content %}
 <h1>{% translate "Classement" %}</h1>
+<nav class="tabs" aria-label="{% translate "Jeux" %}">
+  <a href="{% url 'accounts:ranking' %}" {% if game == "total" %}aria-current="page"{% endif %}>{% translate "Total des jeux" %}</a>
+  <a href="{% url 'accounts:ranking' %}?jeu=blindtest" {% if game == "blindtest" %}aria-current="page"{% endif %}>{% translate "Blind test" %}</a>
+  <a href="{% url 'accounts:ranking' %}?jeu=hotcold" {% if game == "hotcold" %}aria-current="page"{% endif %}>{% translate "Chaud-froid" %}</a>
+</nav>
+<p class="small muted">{% translate "Seuls les défis du jour comptent, une fois par jour et par jeu. Les parties libres ne sont pas classées." %}</p>
 <div class="grid grid--2 section">
   <section class="panel">
     <h2>{% blocktranslate trimmed with day=day|date:"j F" %}Défi du {{ day }}{% endblocktranslate %}</h2>
     {% if today %}
-    <table class="table"><thead><tr><th>#</th><th>{% translate "Joueur" %}</th><th>{% translate "Résultat" %}</th><th class="num">{% translate "Points" %}</th></tr></thead><tbody>
-      {% for g in today %}<tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' g.user.username %}">{{ g.user.username }}</a></td><td class="small">{{ g.get_status_display }}</td><td class="num">{{ g.score }}</td></tr>{% endfor %}
+    <table class="table"><thead><tr>
+      <th>#</th><th>{% translate "Joueur" %}</th>
+      {% if game == "total" %}<th class="num">{% translate "Blind test" %}</th><th class="num">{% translate "Chaud-froid" %}</th>
+      {% else %}<th>{% translate "Résultat" %}</th>{% if game == "hotcold" %}<th class="num">{% translate "Essais" %}</th>{% endif %}{% endif %}
+      <th class="num">{% translate "Points" %}</th></tr></thead><tbody>
+      {% for r in today %}<tr><td class="num">{{ forloop.counter }}</td>
+        <td><a href="{% url 'accounts:player' r.username %}">{{ r.username }}</a></td>
+        {% if game == "total" %}<td class="num">{{ r.blindtest }}</td><td class="num">{{ r.hotcold }}</td>
+        {% else %}<td class="small">{{ r.result }}</td>{% if game == "hotcold" %}<td class="num">{{ r.guesses }}</td>{% endif %}{% endif %}
+        <td class="num">{{ r.points }}</td></tr>{% endfor %}
     </tbody></table>
     {% else %}<p class="muted">{% translate "Personne n'a encore terminé le défi du jour." %}</p>{% endif %}
   </section>
   <section class="panel">
     <h2>{% translate "Depuis le début" %}</h2>
     {% if all_time %}
-    <table class="table"><thead><tr><th>#</th><th>{% translate "Joueur" %}</th><th class="num">{% translate "Parties" %}</th><th class="num">{% translate "Victoires" %}</th><th class="num">{% translate "Total" %}</th></tr></thead><tbody>
-      {% for r in all_time %}<tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' r.user__username %}">{{ r.user__username }}</a></td><td class="num">{{ r.played }}</td><td class="num">{{ r.won }}</td><td class="num">{{ r.total }}</td></tr>{% endfor %}
+    <table class="table"><thead><tr><th>#</th><th>{% translate "Joueur" %}</th>
+      {% if game == "total" %}<th class="num">{% translate "Blind test" %}</th><th class="num">{% translate "Chaud-froid" %}</th>
+      {% else %}<th class="num">{% translate "Parties" %}</th><th class="num">{% translate "Victoires" %}</th>{% endif %}
+      <th class="num">{% translate "Total" %}</th></tr></thead><tbody>
+      {% for r in all_time %}<tr><td class="num">{{ forloop.counter }}</td>
+        <td><a href="{% url 'accounts:player' r.username %}">{{ r.username }}</a></td>
+        {% if game == "total" %}<td class="num">{{ r.blindtest }}</td><td class="num">{{ r.hotcold }}</td>
+        {% else %}<td class="num">{{ r.played }}</td><td class="num">{{ r.wins }}</td>{% endif %}
+        <td class="num">{{ r.points }}</td></tr>{% endfor %}
     </tbody></table>
     {% else %}<p class="muted">{% translate "Aucune partie terminée pour l'instant." %}</p>{% endif %}
-  </section>
-  <section class="panel">
-    <h2>{% blocktranslate trimmed with day=day|date:"j F" %}Chaud-froid du {{ day }}{% endblocktranslate %}</h2>
-    {% if hotcold_today %}
-    <table class="table"><thead><tr><th>#</th><th>{% translate "Joueur" %}</th><th class="num">{% translate "Essais" %}</th><th class="num">{% translate "Points" %}</th></tr></thead><tbody>
-      {% for g in hotcold_today %}<tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' g.user.username %}">{{ g.user.username }}</a></td><td class="num">{{ g.guesses }}</td><td class="num">{{ g.score }}</td></tr>{% endfor %}
-    </tbody></table>
-    {% else %}<p class="muted">{% translate "Personne n'a encore terminé le chaud-froid du jour." %}</p>{% endif %}
-    <p class="small"><a href="{% url 'hotcold:game' %}">{% translate "Jouer au chaud-froid du jour" %}</a></p>
   </section>
 </div>
 {% endblock %}

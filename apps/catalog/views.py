@@ -23,7 +23,11 @@ def home(request):
         "grapes": Grape.objects.count(),
         "aromas": Aroma.objects.count(),
     }
-    return render(request, "home.html", {"teaser": teaser, "stats": stats})
+    from apps.accounts.daily import overview
+
+    return render(request, "home.html", {
+        "teaser": teaser, "stats": stats, "daily": overview(request, timezone.localdate()),
+    })
 
 
 def index(request):
