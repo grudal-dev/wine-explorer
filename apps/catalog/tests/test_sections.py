@@ -10,7 +10,7 @@ class SectionGateTests(TestCase):
         self.assertEqual(self.client.get("/molecules/").status_code, 200)
         self.assertEqual(self.client.get("/carte/").status_code, 200)
         self.assertEqual(self.client.get("/catalogue/").status_code, 200)
-        for path in ("/graphe/", "/blind-test/", "/le-nez/", "/compte/connexion/"):
+        for path in ("/graphe/", "/blind-test/", "/le-nez/", "/chaud-froid/", "/compte/connexion/"):
             self.assertEqual(self.client.get(path).status_code, 404, path)
         root = self.client.get("/")
         self.assertRedirects(root, "/molecules/", fetch_redirect_response=False)
@@ -20,6 +20,7 @@ class SectionGateTests(TestCase):
         html = self.client.get("/molecules/").content.decode()
         self.assertNotIn('href="/graphe/"', html)
         self.assertNotIn('href="/blind-test/"', html)
+        self.assertNotIn('href="/chaud-froid/"', html)
         self.assertNotIn('href="/compte/', html)
         self.assertIn('href="/carte/"', html)
 

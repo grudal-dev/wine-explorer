@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Terroirs VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-14 00:31+0100\n"
+"POT-Creation-Date: 2026-11-14 00:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -2075,9 +2075,6 @@ msgstr "Mineral"
 msgid "Mode"
 msgstr "Mode"
 
-msgid "Modes du Nez"
-msgstr "Modes of The Nose"
-
 #, python-format
 msgid ""
 "Modèle entraîné le %(trained)s sur %(nodes)s entités (%(dim)s dimensions). Sur des liens masqués pendant "
@@ -2489,9 +2486,6 @@ msgstr "Missed"
 
 msgid "Recadrer"
 msgstr "Fit to view"
-
-msgid "Reconnaître un vin"
-msgstr "Recognise a wine"
 
 msgid "Rejouer le défi du jour"
 msgstr "Replay today's challenge"
@@ -3033,6 +3027,9 @@ msgstr ""
 "A wine contains hundreds of volatile compounds; only a few dozen matter for its nose. This section keeps "
 "about thirty molecules whose role is established by oenology research, and links them to a wine, or to a "
 "natural source, only if a publication justifies it."
+
+msgid "Un vin mystère se cache : chaque mot que vous proposez reçoit une température. Suivez ce qui chauffe."
+msgstr "A mystery wine is hiding: every word you suggest gets a temperature. Follow what heats up."
 
 msgid ""
 "Un vin mystère se cache. Proposez un arôme, un cépage, une région, une appellation, une molécule ou un "

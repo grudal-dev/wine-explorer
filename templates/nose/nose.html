@@ -4,7 +4,6 @@
 {% block title %}{% translate "Le Nez" %}{% endblock %}
 {% block content %}
 <h1>{% translate "Le Nez" %}</h1>
-{% include "nose/_tabs.html" with active="nose" %}
 <p class="lede">{% translate "Décrivez ce que vous sentez dans le verre, puis ce que vous ressentez en bouche. À chaque descripteur ajouté, nous recalculons les cinq vins les plus probables." %}</p>
 
 <div class="nose" id="nose" data-api="{% url 'nose:api_aromas' %}">

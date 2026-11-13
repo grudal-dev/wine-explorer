@@ -19,6 +19,7 @@
       {% with p=request.path %}
       {% if 'graphe' in sections %}<a href="{% url 'explorer:explorer' %}" {% if p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}>{% translate "Graphe" %}</a>{% endif %}
       {% if 'blindtest' in sections %}<a href="{% url 'blindtest:home' %}" {% if p|slice:":11" == "/blind-test" %}aria-current="page"{% endif %}>{% translate "Blind test" %}</a>{% endif %}
+      {% if 'chaudfroid' in sections %}<a href="{% url 'hotcold:game' %}" {% if p|slice:":12" == "/chaud-froid" %}aria-current="page"{% endif %}>{% translate "Chaud-froid" %}</a>{% endif %}
       {% if 'nose' in sections %}<a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>{% translate "Le Nez" %}</a>{% endif %}
       {% if 'carte' in sections %}<a href="{% url 'embeddings:map' %}" {% if p|slice:":6" == "/carte" %}aria-current="page"{% endif %}>{% translate "Carte" %}</a>{% endif %}
       {% if 'molecules' in sections %}<a href="{% url 'molecules:explorer' %}" {% if p|slice:":10" == "/molecules" %}aria-current="page"{% endif %}>{% translate "Molécules" %}</a>{% endif %}

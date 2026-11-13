@@ -72,30 +72,38 @@ class HotColdViewTests(TestCase):
         call_command("load_seed", stdout=StringIO())
 
     def test_flow(self):
-        page = self.client.get(reverse("nose:hot_cold"))
+        page = self.client.get(reverse("hotcold:game"))
         self.assertContains(page, "Chaud-froid")
         secret = self.client.session[hotcold.SESSION_KEY]["secret"]
         self.assertNotContains(page, secret)
-        r = self.client.post(reverse("nose:hot_cold_guess"), {"q": "syrah"}, HTTP_HX_REQUEST="true")
+        r = self.client.post(reverse("hotcold:guess"), {"q": "syrah"}, HTTP_HX_REQUEST="true")
         self.assertContains(r, 'id="hotcold"')
         self.assertContains(r, "Syrah")
         self.assertNotContains(r, secret)
-        r = self.client.post(reverse("nose:hot_cold_guess"), {"q": "zzzz"}, HTTP_HX_REQUEST="true")
+        r = self.client.post(reverse("hotcold:guess"), {"q": "zzzz"}, HTTP_HX_REQUEST="true")
         self.assertContains(r, "pas dans le graphe")
         self.assertEqual(self.client.session[hotcold.SESSION_KEY]["guesses"], ["grape:syrah"])
-        self.client.post(reverse("nose:hot_cold_give_up"))
-        page = self.client.get(reverse("nose:hot_cold"))
+        self.client.post(reverse("hotcold:give_up"))
+        page = self.client.get(reverse("hotcold:game"))
         self.assertContains(page, "Partie abandonnée")
         self.assertContains(page, f"/catalogue/vins/{secret}/")
-        self.client.post(reverse("nose:hot_cold_new"), {"mode": "free"})
+        self.client.post(reverse("hotcold:new"), {"mode": "free"})
         state = self.client.session[hotcold.SESSION_KEY]
         self.assertEqual((state["mode"], state["guesses"], state["over"]), ("free", [], ""))
         self.assertNotEqual(state["secret"], secret)
 
+    def test_game_lives_outside_the_nose(self):
+        self.assertEqual(reverse("hotcold:game"), "/chaud-froid/")
+        page = self.client.get("/chaud-froid/")
+        self.assertContains(page, 'href="/chaud-froid/"')  # entrée du menu, à côté du blind test
+        self.assertNotContains(page, "Modes du Nez")
+        self.assertRedirects(self.client.get("/le-nez/chaud-froid/"), "/chaud-froid/",
+                             status_code=301, fetch_redirect_response=False)
+
     def test_winning_by_choice(self):
-        self.client.get(reverse("nose:hot_cold"))
+        self.client.get(reverse("hotcold:game"))
         secret = self.client.session[hotcold.SESSION_KEY]["secret"]
-        r = self.client.post(reverse("nose:hot_cold_guess"), {"q": "x", "choice": f"profile:{secret}"},
+        r = self.client.post(reverse("hotcold:guess"), {"q": "x", "choice": f"profile:{secret}"},
                              HTTP_HX_REQUEST="true")
         self.assertContains(r, "Trouvé en 1 proposition")
 
@@ -107,11 +115,11 @@ class HotColdRankingTests(TestCase):
 
     def _win(self, wrong=0):
         """Joue le défi du jour : `wrong` mauvaises propositions, puis la bonne."""
-        self.client.get(reverse("nose:hot_cold"))
+        self.client.get(reverse("hotcold:game"))
         secret = self.client.session[hotcold.SESSION_KEY]["secret"]
         for q in ["syrah", "chardonnay", "cassis", "Bourgogne"][:wrong]:
-            self.client.post(reverse("nose:hot_cold_guess"), {"q": q}, HTTP_HX_REQUEST="true")
-        return self.client.post(reverse("nose:hot_cold_guess"), {"q": "x", "choice": f"profile:{secret}"},
+            self.client.post(reverse("hotcold:guess"), {"q": q}, HTTP_HX_REQUEST="true")
+        return self.client.post(reverse("hotcold:guess"), {"q": "x", "choice": f"profile:{secret}"},
                                 HTTP_HX_REQUEST="true")
 
     def test_points(self):
@@ -133,7 +141,7 @@ class HotColdRankingTests(TestCase):
         User.objects.create_user("lea", "l@example.com", "Un-Bon-Cru-2026")
         self.client.login(username="lea", password="Un-Bon-Cru-2026")
         self._win(wrong=3)
-        self.client.post(reverse("nose:hot_cold_new"), {"mode": "daily"})
+        self.client.post(reverse("hotcold:new"), {"mode": "daily"})
         self._win(wrong=0)
         res = HotColdResult.objects.get()
         self.assertEqual((res.guesses, res.score), (4, 91))
@@ -141,22 +149,22 @@ class HotColdRankingTests(TestCase):
     def test_abandon_is_ranked_with_zero(self):
         User.objects.create_user("lea", "l@example.com", "Un-Bon-Cru-2026")
         self.client.login(username="lea", password="Un-Bon-Cru-2026")
-        self.client.get(reverse("nose:hot_cold"))
-        self.client.post(reverse("nose:hot_cold_guess"), {"q": "syrah"}, HTTP_HX_REQUEST="true")
-        self.client.post(reverse("nose:hot_cold_give_up"))
+        self.client.get(reverse("hotcold:game"))
+        self.client.post(reverse("hotcold:guess"), {"q": "syrah"}, HTTP_HX_REQUEST="true")
+        self.client.post(reverse("hotcold:give_up"))
         res = HotColdResult.objects.get()
         self.assertEqual((res.outcome, res.score), ("abandoned", 0))
 
     def test_anonymous_and_free_games_are_not_ranked(self):
         self._win()
         self.assertEqual(HotColdResult.objects.count(), 0)
-        page = self.client.get(reverse("nose:hot_cold"))
+        page = self.client.get(reverse("hotcold:game"))
         self.assertContains(page, "Connectez-vous")
         User.objects.create_user("lea", "l@example.com", "Un-Bon-Cru-2026")
         self.client.login(username="lea", password="Un-Bon-Cru-2026")
-        self.client.post(reverse("nose:hot_cold_new"), {"mode": "free"})
+        self.client.post(reverse("hotcold:new"), {"mode": "free"})
         secret = self.client.session[hotcold.SESSION_KEY]["secret"]
-        self.client.post(reverse("nose:hot_cold_guess"), {"q": "x", "choice": f"profile:{secret}"},
+        self.client.post(reverse("hotcold:guess"), {"q": "x", "choice": f"profile:{secret}"},
                          HTTP_HX_REQUEST="true")
         self.assertEqual(HotColdResult.objects.count(), 0)
 

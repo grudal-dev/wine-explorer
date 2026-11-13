@@ -189,7 +189,7 @@ vecteur). La commande affiche une évaluation sur liens masqués (AUC d'environ 
   molécule. Point plein : lien déjà écrit ; point creux : parenté déduite par le modèle.
 - **Le Nez** : un arôme absent d'un profil profite des arômes voisins dans l'espace appris, au
   lieu du repli par famille (mesures dans `apps/nose/predictor.py`).
-- **Chaud-froid** (`/le-nez/chaud-froid/`) : jeu à la Cémantix. Un vin mystère, chaque
+- **Chaud-froid** (`/chaud-froid/`) : jeu à la Cémantix. Un vin mystère, chaque
   proposition (arôme, cépage, région, molécule, vin…) reçoit une température et un rang.
 
 Limite : les profils sont rédigés à la main. Le modèle apprend la structure de ces fiches, pas la

@@ -19,6 +19,7 @@ SECTIONS = {
     "graphe": "/graphe/",
     "blindtest": "/blind-test/",
     "nose": "/le-nez/",
+    "chaudfroid": "/chaud-froid/",
     "compte": "/compte/",
 }
 

@@ -124,7 +124,7 @@ def hot_cold_guess(request):
             error = str(exc)
     if request.htmx:
         return render(request, "nose/_hotcold_board.html", _hotcold_context(request, error))
-    return redirect("nose:hot_cold")
+    return redirect("hotcold:game")
 
 
 @require_POST
@@ -138,7 +138,7 @@ def hot_cold_new(request):
             request.session[hotcold.SESSION_KEY] = hotcold.new_state(mode, timezone.localdate(), sp, exclude=previous)
         except hotcold.HotColdError:
             pass
-    return redirect("nose:hot_cold")
+    return redirect("hotcold:game")
 
 
 @require_POST
@@ -148,4 +148,4 @@ def hot_cold_give_up(request):
         state["over"] = "abandoned"
         request.session[hotcold.SESSION_KEY] = state
         hotcold.record_result(request.user, state)
-    return redirect("nose:hot_cold")
+    return redirect("hotcold:game")

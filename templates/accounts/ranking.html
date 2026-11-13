@@ -27,7 +27,7 @@
       {% for g in hotcold_today %}<tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' g.user.username %}">{{ g.user.username }}</a></td><td class="num">{{ g.guesses }}</td><td class="num">{{ g.score }}</td></tr>{% endfor %}
     </tbody></table>
     {% else %}<p class="muted">{% translate "Personne n'a encore terminé le chaud-froid du jour." %}</p>{% endif %}
-    <p class="small"><a href="{% url 'nose:hot_cold' %}">{% translate "Jouer au chaud-froid du jour" %}</a></p>
+    <p class="small"><a href="{% url 'hotcold:game' %}">{% translate "Jouer au chaud-froid du jour" %}</a></p>
   </section>
 </div>
 {% endblock %}

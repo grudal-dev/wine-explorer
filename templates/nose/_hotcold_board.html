@@ -15,17 +15,17 @@
     <p class="outcome__score"><span class="robe robe--{{ board.answer.wine }}"></span> <strong>{{ board.answer.label }}</strong></p>
     {% if board.mode == "daily" %}
       {% if ranked %}<p class="small">{% blocktranslate trimmed with score=ranked.score %}Classé au défi du jour : {{ score }} points.{% endblocktranslate %}</p>
-      {% elif not user.is_authenticated %}<p class="small"><a href="{% url 'accounts:login' %}?next={% url 'nose:hot_cold' %}">{% translate "Connectez-vous" %}</a> {% translate "pour entrer au classement du jour." %}</p>{% endif %}
+      {% elif not user.is_authenticated %}<p class="small"><a href="{% url 'accounts:login' %}?next={% url 'hotcold:game' %}">{% translate "Connectez-vous" %}</a> {% translate "pour entrer au classement du jour." %}</p>{% endif %}
     {% endif %}
     <div class="hero__actions">
       <a class="btn" href="{{ board.answer.url }}">{% translate "Lire la fiche du vin" %}</a>
-      <form method="post" action="{% url 'nose:hot_cold_new' %}">{% csrf_token %}<input type="hidden" name="mode" value="free">
+      <form method="post" action="{% url 'hotcold:new' %}">{% csrf_token %}<input type="hidden" name="mode" value="free">
         <button class="btn btn--ghost" type="submit">{% translate "Un autre vin, au hasard" %}</button></form>
     </div>
   </div>
   {% else %}
-  <form class="guess-form" method="post" action="{% url 'nose:hot_cold_guess' %}"
-        hx-post="{% url 'nose:hot_cold_guess' %}" hx-target="#hotcold" hx-swap="outerHTML">
+  <form class="guess-form" method="post" action="{% url 'hotcold:guess' %}"
+        hx-post="{% url 'hotcold:guess' %}" hx-target="#hotcold" hx-swap="outerHTML">
     {% csrf_token %}
     <label class="label" for="hotcold-input">{% translate "Votre proposition" %}</label>
     <div class="guess-form__row">
@@ -74,17 +74,17 @@
       </tbody>
     </table>
   </section>
-  <form method="post" action="{% url 'nose:hot_cold_new' %}" class="give-up">{% csrf_token %}<input type="hidden" name="mode" value="daily">
+  <form method="post" action="{% url 'hotcold:new' %}" class="give-up">{% csrf_token %}<input type="hidden" name="mode" value="daily">
     <button class="linkish small" type="submit">{% translate "Rejouer le défi du jour" %}</button>
   </form>
   {% else %}
   <div class="hotcold__foot">
     {% if board.count %}
-    <form method="post" action="{% url 'nose:hot_cold_give_up' %}">{% csrf_token %}
+    <form method="post" action="{% url 'hotcold:give_up' %}">{% csrf_token %}
       <button class="linkish small" type="submit">{% translate "Abandonner et voir la réponse" %}</button>
     </form>
     {% endif %}
-    <form method="post" action="{% url 'nose:hot_cold_new' %}">{% csrf_token %}<input type="hidden" name="mode" value="{% if board.mode == "daily" %}free{% else %}daily{% endif %}">
+    <form method="post" action="{% url 'hotcold:new' %}">{% csrf_token %}<input type="hidden" name="mode" value="{% if board.mode == "daily" %}free{% else %}daily{% endif %}">
       <button class="linkish small" type="submit">{% if board.mode == "daily" %}{% translate "Plutôt un vin au hasard" %}{% else %}{% translate "Revenir au défi du jour" %}{% endif %}</button>
     </form>
   </div>

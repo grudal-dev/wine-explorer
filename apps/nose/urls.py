@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import RedirectView
 
 from . import views
 
@@ -6,8 +7,6 @@ app_name = "nose"
 urlpatterns = [
     path("", views.nose, name="nose"),
     path("api/aromes/", views.api_aromas, name="api_aromas"),
-    path("chaud-froid/", views.hot_cold, name="hot_cold"),
-    path("chaud-froid/essai/", views.hot_cold_guess, name="hot_cold_guess"),
-    path("chaud-froid/nouveau/", views.hot_cold_new, name="hot_cold_new"),
-    path("chaud-froid/abandon/", views.hot_cold_give_up, name="hot_cold_give_up"),
+    # Le chaud-froid n'est plus un mode du Nez : il vit sous /chaud-froid/ (anciens liens conservés).
+    path("chaud-froid/", RedirectView.as_view(pattern_name="hotcold:game", permanent=True)),
 ]
