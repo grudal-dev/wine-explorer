@@ -20,5 +20,14 @@
     </tbody></table>
     {% else %}<p class="muted">{% translate "Aucune partie terminée pour l'instant." %}</p>{% endif %}
   </section>
+  <section class="panel">
+    <h2>{% blocktranslate trimmed with day=day|date:"j F" %}Chaud-froid du {{ day }}{% endblocktranslate %}</h2>
+    {% if hotcold_today %}
+    <table class="table"><thead><tr><th>#</th><th>{% translate "Joueur" %}</th><th class="num">{% translate "Essais" %}</th><th class="num">{% translate "Points" %}</th></tr></thead><tbody>
+      {% for g in hotcold_today %}<tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' g.user.username %}">{{ g.user.username }}</a></td><td class="num">{{ g.guesses }}</td><td class="num">{{ g.score }}</td></tr>{% endfor %}
+    </tbody></table>
+    {% else %}<p class="muted">{% translate "Personne n'a encore terminé le chaud-froid du jour." %}</p>{% endif %}
+    <p class="small"><a href="{% url 'nose:hot_cold' %}">{% translate "Jouer au chaud-froid du jour" %}</a></p>
+  </section>
 </div>
 {% endblock %}

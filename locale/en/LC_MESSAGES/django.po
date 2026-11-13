@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Terroirs VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-14 00:21+0100\n"
+"POT-Creation-Date: 2026-11-14 00:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -332,6 +332,9 @@ msgstr "AVA"
 
 msgid "Abandonner et voir la réponse"
 msgstr "Give up and see the answer"
+
+msgid "Abandonné"
+msgstr "Abandoned"
 
 msgid "Abandonnée"
 msgstr "Abandoned"
@@ -770,6 +773,10 @@ msgstr "Loading…"
 msgid "Chaud-froid"
 msgstr "Hot and cold"
 
+#, python-format
+msgid "Chaud-froid du %(day)s"
+msgstr "Hot-cold of %(day)s"
+
 msgid "Chercher"
 msgstr "Search"
 
@@ -792,8 +799,16 @@ msgstr "Leaderboard"
 msgid "Classement complet"
 msgstr "Full leaderboard"
 
+#, python-format
+msgid "Classement du %(day)s"
+msgstr "Leaderboard for %(day)s"
+
 msgid "Classement du jour"
 msgstr "Today's leaderboard"
+
+#, python-format
+msgid "Classé au défi du jour : %(score)s points."
+msgstr "Ranked in today's challenge: %(score)s points."
 
 msgid ""
 "Classées par moment de naissance : dans le raisin, pendant les fermentations, sous le bois ou au fil du "
@@ -865,6 +880,9 @@ msgstr "Key compound in most fermented dairy products."
 
 msgid "Concentrique"
 msgstr "Concentric"
+
+msgid "Connectez-vous"
+msgstr "Log in"
 
 msgid "Connexion"
 msgstr "Log in"
@@ -1133,6 +1151,9 @@ msgstr "Recorded species (Wikidata)"
 
 msgid "Espèces importées de Wikidata"
 msgstr "Species imported from Wikidata"
+
+msgid "Essais"
+msgstr "Guesses"
 
 msgid "Ester"
 msgstr "Ester"
@@ -1437,6 +1458,9 @@ msgstr "Italy / Charentes"
 
 msgid "Jouer"
 msgstr "Play"
+
+msgid "Jouer au chaud-froid du jour"
+msgstr "Play today's hot-cold"
 
 msgid "Jouer le défi du jour"
 msgstr "Play the daily challenge"
@@ -2288,6 +2312,9 @@ msgstr "Pays Nantais"
 msgid "Perdue"
 msgstr "Lost"
 
+msgid "Personne n'a encore terminé le chaud-froid du jour."
+msgstr "Nobody has finished today's hot-cold yet."
+
 msgid "Personne n'a encore terminé le défi du jour."
 msgstr "Nobody has finished the daily challenge yet."
 
@@ -2757,6 +2784,13 @@ msgstr "Detection thresholds of guaiacol: 23 µg/L in red wine, 9.5 µg/L in wat
 
 msgid "Seuils des monoterpènes (nérol, géraniol, α-terpinéol, citronellol, lactone du vin) et des esters."
 msgstr "Thresholds of monoterpenes (nerol, geraniol, α-terpineol, citronellol, wine lactone) and esters."
+
+msgid ""
+"Seul le défi du jour compte, une fois par jour : 100 points si vous trouvez du premier coup, 3 de moins par"
+" essai en plus."
+msgstr ""
+"Only the daily challenge counts, once a day: 100 points for finding it on the first guess, 3 fewer for each"
+" extra guess."
 
 msgid "Seul rouge du vignoble, léger et fruité, de plus en plus profond chez les meilleurs producteurs."
 msgstr "The only red of the vineyard, light and fruity, increasingly deep in the hands of the best producers."
@@ -4254,6 +4288,9 @@ msgstr "chicken in cream sauce"
 
 msgid "pour apparaître au classement et garder votre historique."
 msgstr "to appear on the leaderboard and keep your history."
+
+msgid "pour entrer au classement du jour."
+msgstr "to enter today's leaderboard."
 
 msgid "probable"
 msgstr "likely"

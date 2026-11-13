@@ -13,6 +13,10 @@
       <h2>{% translate "Partie abandonnée. Voici le vin." %}</h2>
     {% endif %}
     <p class="outcome__score"><span class="robe robe--{{ board.answer.wine }}"></span> <strong>{{ board.answer.label }}</strong></p>
+    {% if board.mode == "daily" %}
+      {% if ranked %}<p class="small">{% blocktranslate trimmed with score=ranked.score %}Classé au défi du jour : {{ score }} points.{% endblocktranslate %}</p>
+      {% elif not user.is_authenticated %}<p class="small"><a href="{% url 'accounts:login' %}?next={% url 'nose:hot_cold' %}">{% translate "Connectez-vous" %}</a> {% translate "pour entrer au classement du jour." %}</p>{% endif %}
+    {% endif %}
     <div class="hero__actions">
       <a class="btn" href="{{ board.answer.url }}">{% translate "Lire la fiche du vin" %}</a>
       <form method="post" action="{% url 'nose:hot_cold_new' %}">{% csrf_token %}<input type="hidden" name="mode" value="free">
@@ -85,4 +89,17 @@
     </form>
   </div>
   {% endif %}
+
+<section class="section hotcold__board" aria-labelledby="hotcold-board-title">
+  <h3 id="hotcold-board-title">{% blocktranslate trimmed with day=day|date:"j F" %}Classement du {{ day }}{% endblocktranslate %}</h3>
+  {% if leaders %}
+  <table class="table">
+    <thead><tr><th>#</th><th>{% translate "Joueur" %}</th><th>{% translate "Résultat" %}</th><th class="num">{% translate "Essais" %}</th><th class="num">{% translate "Points" %}</th></tr></thead>
+    <tbody>
+      {% for g in leaders %}<tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' g.user.username %}">{{ g.user.username }}</a></td><td class="small">{{ g.get_outcome_display }}</td><td class="num">{{ g.guesses }}</td><td class="num">{{ g.score }}</td></tr>{% endfor %}
+    </tbody>
+  </table>
+  {% else %}<p class="muted">{% translate "Personne n'a encore terminé le chaud-froid du jour." %}</p>{% endif %}
+  <p class="small muted">{% translate "Seul le défi du jour compte, une fois par jour : 100 points si vous trouvez du premier coup, 3 de moins par essai en plus." %}</p>
+</section>
 </div>

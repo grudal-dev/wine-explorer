@@ -5,8 +5,9 @@ appellation, une molécule, un autre vin. Chaque proposition reçoit une « temp
 proximité (cosinus × 100) entre elle et le vin mystère dans l'espace appris par le réseau de
 graphe (apps/embeddings), et un rang parmi toutes les entités. On gagne en proposant le vin.
 
-Rien n'est stocké en base : la partie vit dans la session (vin mystère compris, donc jamais
-envoyé au navigateur avant la fin).
+La partie vit dans la session (vin mystère compris, donc jamais envoyé au navigateur avant la
+fin). Seul le résultat du défi du jour d'un joueur connecté est gardé en base (HotColdResult), pour
+le classement : le premier résultat du jour compte, rejouer ne le change pas.
 """
 
 from __future__ import annotations
@@ -31,8 +32,49 @@ WARM_SHARE = 0.4  # « tiède » : dans les 40 % d'entités les plus proches
 BANDS = [(5, "😱", gettext_noop("brûlant")), (20, "🔥", gettext_noop("très chaud")), (TOP, "🥵", gettext_noop("chaud"))]
 
 
+# Classement : 100 points pour un vin trouvé du premier coup, 3 de moins par proposition de plus
+# (plancher de 10 pour toute victoire) ; un abandon vaut 0.
+MAX_POINTS = 100
+PENALTY = 3
+MIN_WIN_POINTS = 10
+
+
 class HotColdError(ValueError):
     pass
+
+
+def points(guesses: int, won: bool) -> int:
+    if not won:
+        return 0
+    return max(MIN_WIN_POINTS, MAX_POINTS - PENALTY * (guesses - 1))
+
+
+def record_result(user, state: dict):
+    """Enregistre le résultat du défi du jour au classement ; None si la partie n'y a pas droit.
+
+    Idempotent : un joueur n'a qu'un résultat par jour, le premier.
+    """
+    from .models import HotColdResult
+
+    if not getattr(user, "is_authenticated", False) or state.get("mode") != "daily" or not state.get("over"):
+        return None
+    won = state["over"] == "won"
+    result, _created = HotColdResult.objects.get_or_create(
+        user=user, day=date.fromisoformat(state["day"]),
+        defaults={
+            "secret": state["secret"], "guesses": len(state["guesses"]),
+            "outcome": HotColdResult.Outcome.WON if won else HotColdResult.Outcome.ABANDONED,
+            "score": points(len(state["guesses"]), won),
+        },
+    )
+    return result
+
+
+def leaderboard(day: date, limit: int = 10):
+    from .models import HotColdResult
+
+    return (HotColdResult.objects.filter(day=day).select_related("user")
+            .order_by("-score", "guesses", "finished_at")[:limit])
 
 
 def _playable(sp: Space) -> list[str]:

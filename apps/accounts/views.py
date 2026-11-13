@@ -9,6 +9,7 @@ from django.utils.translation import gettext
 
 from apps.blindtest.models import Game
 from apps.blindtest.views import leaderboard, stats_for
+from apps.nose import hotcold
 
 from .forms import SignupForm
 
@@ -59,4 +60,5 @@ def ranking(request):
     )
     return render(request, "accounts/ranking.html", {
         "today": leaderboard(today, limit=20), "all_time": all_time, "day": today,
+        "hotcold_today": hotcold.leaderboard(today, limit=20),
     })

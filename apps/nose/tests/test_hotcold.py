@@ -1,6 +1,7 @@
 from datetime import date
 from io import StringIO
 
+from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
@@ -8,6 +9,7 @@ from django.urls import reverse
 from apps.catalog.models import Aroma
 from apps.embeddings.space import space
 from apps.nose import hotcold, predictor
+from apps.nose.models import HotColdResult
 
 
 class HotColdEngineTests(TestCase):
@@ -96,6 +98,79 @@ class HotColdViewTests(TestCase):
         r = self.client.post(reverse("nose:hot_cold_guess"), {"q": "x", "choice": f"profile:{secret}"},
                              HTTP_HX_REQUEST="true")
         self.assertContains(r, "Trouvé en 1 proposition")
+
+
+class HotColdRankingTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        call_command("load_seed", stdout=StringIO())
+
+    def _win(self, wrong=0):
+        """Joue le défi du jour : `wrong` mauvaises propositions, puis la bonne."""
+        self.client.get(reverse("nose:hot_cold"))
+        secret = self.client.session[hotcold.SESSION_KEY]["secret"]
+        for q in ["syrah", "chardonnay", "cassis", "Bourgogne"][:wrong]:
+            self.client.post(reverse("nose:hot_cold_guess"), {"q": q}, HTTP_HX_REQUEST="true")
+        return self.client.post(reverse("nose:hot_cold_guess"), {"q": "x", "choice": f"profile:{secret}"},
+                                HTTP_HX_REQUEST="true")
+
+    def test_points(self):
+        self.assertEqual(hotcold.points(1, True), 100)
+        self.assertEqual(hotcold.points(5, True), 88)
+        self.assertEqual(hotcold.points(200, True), hotcold.MIN_WIN_POINTS)
+        self.assertEqual(hotcold.points(7, False), 0)
+
+    def test_daily_win_by_logged_in_player_is_ranked(self):
+        User.objects.create_user("lea", "l@example.com", "Un-Bon-Cru-2026")
+        self.client.login(username="lea", password="Un-Bon-Cru-2026")
+        r = self._win(wrong=2)
+        res = HotColdResult.objects.get()
+        self.assertEqual((res.outcome, res.guesses, res.score), ("won", 3, 94))
+        self.assertContains(r, "Classé au défi du jour : 94 points")
+        self.assertContains(r, "lea")  # dans le classement du jour de la page
+
+    def test_replaying_does_not_change_first_result(self):
+        User.objects.create_user("lea", "l@example.com", "Un-Bon-Cru-2026")
+        self.client.login(username="lea", password="Un-Bon-Cru-2026")
+        self._win(wrong=3)
+        self.client.post(reverse("nose:hot_cold_new"), {"mode": "daily"})
+        self._win(wrong=0)
+        res = HotColdResult.objects.get()
+        self.assertEqual((res.guesses, res.score), (4, 91))
+
+    def test_abandon_is_ranked_with_zero(self):
+        User.objects.create_user("lea", "l@example.com", "Un-Bon-Cru-2026")
+        self.client.login(username="lea", password="Un-Bon-Cru-2026")
+        self.client.get(reverse("nose:hot_cold"))
+        self.client.post(reverse("nose:hot_cold_guess"), {"q": "syrah"}, HTTP_HX_REQUEST="true")
+        self.client.post(reverse("nose:hot_cold_give_up"))
+        res = HotColdResult.objects.get()
+        self.assertEqual((res.outcome, res.score), ("abandoned", 0))
+
+    def test_anonymous_and_free_games_are_not_ranked(self):
+        self._win()
+        self.assertEqual(HotColdResult.objects.count(), 0)
+        page = self.client.get(reverse("nose:hot_cold"))
+        self.assertContains(page, "Connectez-vous")
+        User.objects.create_user("lea", "l@example.com", "Un-Bon-Cru-2026")
+        self.client.login(username="lea", password="Un-Bon-Cru-2026")
+        self.client.post(reverse("nose:hot_cold_new"), {"mode": "free"})
+        secret = self.client.session[hotcold.SESSION_KEY]["secret"]
+        self.client.post(reverse("nose:hot_cold_guess"), {"q": "x", "choice": f"profile:{secret}"},
+                         HTTP_HX_REQUEST="true")
+        self.assertEqual(HotColdResult.objects.count(), 0)
+
+    def test_leaderboard_orders_by_points_then_guesses_and_shows_on_ranking_page(self):
+        from django.utils import timezone
+        today = timezone.localdate()
+        a = User.objects.create_user("a", "a@example.com", "Un-Bon-Cru-2026")
+        b = User.objects.create_user("b", "b@example.com", "Un-Bon-Cru-2026")
+        HotColdResult.objects.create(user=a, day=today, secret="x", outcome="won", guesses=9, score=76)
+        HotColdResult.objects.create(user=b, day=today, secret="x", outcome="won", guesses=2, score=97)
+        self.assertEqual([g.user.username for g in hotcold.leaderboard(today)], ["b", "a"])
+        page = self.client.get(reverse("accounts:ranking"))
+        self.assertContains(page, "Chaud-froid du")
+        self.assertContains(page, reverse("accounts:player", args=["b"]))
 
 
 class LearnedFallbackTests(TestCase):

@@ -97,8 +97,13 @@ def _hotcold_context(request, error: str = "") -> dict:
         state = hotcold.current_state(request.session, timezone.localdate(), sp)
     except hotcold.HotColdError as exc:
         return {"ready": False, "error": str(exc)}
+    today = timezone.localdate()
+    ranked = None
+    if request.user.is_authenticated and state["mode"] == "daily" and state["over"]:
+        ranked = hotcold.record_result(request.user, state)  # idempotent : filet si la partie a fini ailleurs
     return {"ready": True, "board": hotcold.board(state, sp), "error": error,
-            "day": timezone.localdate(), "meta": sp.meta}
+            "day": today, "meta": sp.meta, "leaders": hotcold.leaderboard(today),
+            "ranked": ranked}
 
 
 def hot_cold(request):
@@ -114,6 +119,7 @@ def hot_cold_guess(request):
             state = hotcold.current_state(request.session, timezone.localdate(), sp)
             hotcold.play(state, request.POST.get("q", ""), request.POST.get("choice", ""), sp)
             request.session[hotcold.SESSION_KEY] = state
+            hotcold.record_result(request.user, state)
         except hotcold.HotColdError as exc:
             error = str(exc)
     if request.htmx:
@@ -141,4 +147,5 @@ def hot_cold_give_up(request):
     if state and not state["over"]:
         state["over"] = "abandoned"
         request.session[hotcold.SESSION_KEY] = state
+        hotcold.record_result(request.user, state)
     return redirect("nose:hot_cold")
