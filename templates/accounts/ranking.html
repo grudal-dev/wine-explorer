@@ -8,7 +8,7 @@
     <h2>{% blocktranslate trimmed with day=day|date:"j F" %}Défi du {{ day }}{% endblocktranslate %}</h2>
     {% if today %}
     <table class="table"><thead><tr><th>#</th><th>{% translate "Joueur" %}</th><th>{% translate "Résultat" %}</th><th class="num">{% translate "Points" %}</th></tr></thead><tbody>
-      {% for g in today %}<tr><td class="num">{{ forloop.counter }}</td><td>{{ g.user.username }}</td><td class="small">{{ g.get_status_display }}</td><td class="num">{{ g.score }}</td></tr>{% endfor %}
+      {% for g in today %}<tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' g.user.username %}">{{ g.user.username }}</a></td><td class="small">{{ g.get_status_display }}</td><td class="num">{{ g.score }}</td></tr>{% endfor %}
     </tbody></table>
     {% else %}<p class="muted">{% translate "Personne n'a encore terminé le défi du jour." %}</p>{% endif %}
   </section>
@@ -16,7 +16,7 @@
     <h2>{% translate "Depuis le début" %}</h2>
     {% if all_time %}
     <table class="table"><thead><tr><th>#</th><th>{% translate "Joueur" %}</th><th class="num">{% translate "Parties" %}</th><th class="num">{% translate "Victoires" %}</th><th class="num">{% translate "Total" %}</th></tr></thead><tbody>
-      {% for r in all_time %}<tr><td class="num">{{ forloop.counter }}</td><td>{{ r.user__username }}</td><td class="num">{{ r.played }}</td><td class="num">{{ r.won }}</td><td class="num">{{ r.total }}</td></tr>{% endfor %}
+      {% for r in all_time %}<tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' r.user__username %}">{{ r.user__username }}</a></td><td class="num">{{ r.played }}</td><td class="num">{{ r.won }}</td><td class="num">{{ r.total }}</td></tr>{% endfor %}
     </tbody></table>
     {% else %}<p class="muted">{% translate "Aucune partie terminée pour l'instant." %}</p>{% endif %}
   </section>

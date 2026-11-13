@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Max, Q, Sum
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext
 
@@ -29,7 +30,20 @@ def signup(request):
 def profile(request):
     games = request.user.games.select_related("profile__appellation")[:30]
     return render(request, "accounts/profile.html", {
+        "owner": request.user, "is_self": True,
         "stats": stats_for(request.user), "games": games,
+    })
+
+
+def player(request, username):
+    """Profil public : les parties terminées d'un joueur (jamais celles en cours, qui trahiraient le vin)."""
+    owner = get_object_or_404(User, username=username)
+    if request.user.is_authenticated and request.user == owner:
+        return redirect("accounts:profile")
+    games = (owner.games.exclude(status=Game.Status.PLAYING)
+             .select_related("profile__appellation")[:30])
+    return render(request, "accounts/profile.html", {
+        "owner": owner, "is_self": False, "stats": stats_for(owner), "games": games,
     })
 
 

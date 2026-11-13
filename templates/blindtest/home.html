@@ -55,7 +55,7 @@
       <table class="table">
         <tbody>
         {% for g in board %}
-          <tr><td class="num">{{ forloop.counter }}</td><td>{{ g.user.username }}</td><td class="num">{{ g.score }}</td></tr>
+          <tr><td class="num">{{ forloop.counter }}</td><td><a href="{% url 'accounts:player' g.user.username %}">{{ g.user.username }}</a></td><td class="num">{{ g.score }}</td></tr>
         {% endfor %}
         </tbody>
       </table>

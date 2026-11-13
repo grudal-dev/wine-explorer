@@ -56,3 +56,22 @@ class AccountTests(TestCase):
         r = self.client.get(reverse("accounts:ranking"))
         row = list(r.context["all_time"])[0]
         self.assertEqual((row["total"], row["played"]), (70, 1))
+
+    def test_public_player_profile_hides_games_in_progress(self):
+        from apps.catalog.models import WineProfile
+        user = User.objects.create_user("zoe", "z@example.com", "Un-Bon-Cru-2026")
+        profile = WineProfile.objects.first()
+        Game.objects.create(user=user, profile=profile, status=Game.Status.WON, score=40)
+        Game.objects.create(user=user, profile=WineProfile.objects.last(), status=Game.Status.PLAYING)
+        r = self.client.get(reverse("accounts:player", args=["zoe"]))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context["games"]), 1)
+        self.assertNotContains(r, "Partie en cours")
+        self.assertNotContains(r, "z@example.com")
+        self.assertEqual(self.client.get(reverse("accounts:player", args=["inconnu"])).status_code, 404)
+
+    def test_own_player_url_redirects_to_profile(self):
+        User.objects.create_user("zoe", "z@example.com", "Un-Bon-Cru-2026")
+        self.client.login(username="zoe", password="Un-Bon-Cru-2026")
+        self.assertRedirects(self.client.get(reverse("accounts:player", args=["zoe"])),
+                             reverse("accounts:profile"))

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n %}
-{% block title %}{{ user.username }}{% endblock %}
+{% block title %}{{ owner.username }}{% endblock %}
 {% block content %}
-<h1>{{ user.username }}</h1>
+<h1>{{ owner.username }}</h1>
 <div class="kpis">
   <div><strong>{{ stats.played }}</strong><span>{% translate "parties terminées" %}</span></div>
   <div><strong>{{ stats.rate }} %</strong><span>{% translate "de réussite" %}</span></div>
@@ -27,7 +27,8 @@
       </tbody>
     </table>
     {% else %}
-    <p class="muted">{% translate "Aucune partie pour l'instant." %} <a href="{% url 'blindtest:home' %}">{% translate "Lancer un blind test" %}</a></p>
+    {% if is_self %}<p class="muted">{% translate "Aucune partie pour l'instant." %} <a href="{% url 'blindtest:home' %}">{% translate "Lancer un blind test" %}</a></p>
+    {% else %}<p class="muted">{% translate "Aucune partie terminée pour l'instant." %}</p>{% endif %}
     {% endif %}
   </section>
   <aside class="panel">
@@ -37,7 +38,7 @@
       <span class="gauge__label">{{ r.name|tr }}</span>
       <div><div class="bar"><span style="width: {{ r.rate }}%"></span></div><span class="small muted">{% blocktranslate trimmed with won=r.won played=r.played %}{{ won }} sur {{ played }}{% endblocktranslate %}</span></div>
     </div>
-    {% empty %}<p class="small muted">{% translate "Vos points forts et vos lacunes apparaîtront ici." %}</p>{% endfor %}
+    {% empty %}<p class="small muted">{% if is_self %}{% translate "Vos points forts et vos lacunes apparaîtront ici." %}{% else %}{% translate "Aucune statistique pour l'instant." %}{% endif %}</p>{% endfor %}
   </aside>
 </div>
 {% endblock %}

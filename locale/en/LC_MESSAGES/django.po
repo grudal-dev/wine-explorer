@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Terroirs VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-11 17:15+0100\n"
+"POT-Creation-Date: 2026-11-13 23:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -500,6 +500,9 @@ msgstr "No finished games yet."
 
 msgid "Aucune proposition pour l'instant. Lancez-vous : « fruits rouges », « chardonnay », « Rhône »…"
 msgstr "No guesses yet. Go ahead: \"red fruit\", \"chardonnay\", \"Rhône\"…"
+
+msgid "Aucune statistique pour l'instant."
+msgstr "No statistics yet."
 
 #, python-format
 msgid "Aussi : %(synonyms)s"
