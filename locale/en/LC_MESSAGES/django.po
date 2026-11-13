@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Terroirs VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-13 23:43+0100\n"
+"POT-Creation-Date: 2026-11-14 00:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -3103,6 +3103,9 @@ msgstr "Mystery wine"
 
 msgid "Vin mystère en cours"
 msgstr "Mystery wine in progress"
+
+msgid "Vin, molécule, élément naturel…"
+msgstr "Wine, molecule, natural source…"
 
 msgid "Vins d'altitude vifs et légers, au pied des Alpes."
 msgstr "Crisp, light mountain wines from the foot of the Alps."

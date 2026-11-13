@@ -69,6 +69,14 @@
   </aside>
 
   <section class="explorer__stage" aria-label="{% translate "Graphe vin, molécules, nature" %}">
+    <div class="stage-search">
+      <div class="combo">
+        <input id="mol-search-top" class="input" type="search" placeholder="{% translate "Vin, molécule, élément naturel…" %}" autocomplete="off"
+               aria-label="{% translate "Partir d'un vin, d'une molécule ou d'un élément naturel" %}"
+               role="combobox" aria-expanded="false" aria-controls="mol-search-top-list">
+        <ul class="combo__list" id="mol-search-top-list" role="listbox" hidden></ul>
+      </div>
+    </div>
     <div class="stage-bar">
       <ol class="trail" id="mol-trail" aria-label="{% translate "Votre parcours" %}"></ol>
       <div class="stage-bar__actions">
@@ -77,10 +85,12 @@
         <button type="button" class="btn btn--ghost btn--small" id="mol-png">{% translate "Exporter en PNG" %}</button>
       </div>
     </div>
-    <div class="mol-columns" aria-hidden="true">
-      <span data-col="0">{% translate "Le vin" %}</span><span data-col="1">{% translate "Les molécules" %}</span><span data-col="2">{% translate "La nature" %}</span>
+    <div class="mol-canvas">
+      <div class="mol-columns" aria-hidden="true">
+        <span data-col="0">{% translate "Le vin" %}</span><span data-col="1">{% translate "Les molécules" %}</span><span data-col="2">{% translate "La nature" %}</span>
+      </div>
+      <div id="mol-cy" class="cy"></div>
     </div>
-    <div id="mol-cy" class="cy"></div>
     <p class="mol-stats small muted" id="mol-stats" aria-live="polite">{% translate "Chargement…" %}</p>
   </section>
 

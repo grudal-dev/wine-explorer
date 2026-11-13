@@ -285,9 +285,9 @@ a.tag:hover { border-color: var(--ink-3); color: var(--ink); }
   radial-gradient(circle at 1px 1px, rgba(35,38,47,.07) 1px, transparent 0) 0 0 / 22px 22px, var(--paper); }
 .explorer__panel { border-left: 1px solid var(--rule); padding: 1.25rem; overflow-y: auto; background: var(--chalk); }
 .cy { flex: 1; min-height: 0; }
-.stage-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .6rem 1rem; border-bottom: 1px solid var(--rule); background: rgba(248,248,244,.9); }
+.stage-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; padding: .6rem 1rem; border-bottom: 1px solid var(--rule); background: rgba(248,248,244,.9); }
 .stage-bar p { margin: 0; }
-.stage-bar__actions { display: flex; gap: .4rem; flex-wrap: wrap; }
+.stage-bar__actions { display: flex; gap: .4rem; flex-wrap: wrap; margin-left: auto; }
 .legend { position: absolute; left: 1rem; bottom: .8rem; display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: var(--step--1); color: var(--ink-2); background: rgba(248,248,244,.85); padding: .35rem .6rem; border-radius: var(--radius-s); }
 .legend span { display: inline-flex; align-items: center; gap: .35rem; }
 .rail-group { margin-bottom: 1.4rem; }
@@ -498,12 +498,18 @@ button.tag { cursor: pointer; font-family: inherit; }
 .basis--universal { background: repeating-linear-gradient(90deg, #B9B9AF 0 5px, transparent 5px 8px); }
 
 .mol-explorer .explorer__stage { position: relative; }
-.mol-columns { position: absolute; top: 3.1rem; left: 0; right: 0; height: 1.6rem; pointer-events: none; z-index: 2; }
+.stage-search { padding: .6rem 1rem; border-bottom: 1px solid var(--rule); background: rgba(248,248,244,.9); position: relative; z-index: 5; }
+.stage-search .input { width: 100%; }
+/* Les en-têtes de colonnes se calent sur le graphe, pas sur la hauteur variable des barres au-dessus. */
+.mol-canvas { position: relative; flex: 1; min-height: 0; }
+.mol-canvas .cy { position: absolute; inset: 0; }
+.mol-columns { position: absolute; top: .4rem; left: 0; right: 0; height: 1.6rem; pointer-events: none; z-index: 2; }
 .mol-columns span { position: absolute; transform: translateX(-50%); font: italic 400 var(--step-0)/1 var(--serif);
   color: var(--ink-2); background: rgba(248,248,244,.9); padding: .2rem .5rem; border-radius: 3px; white-space: nowrap; }
-.mol-stats { position: absolute; left: 1rem; bottom: .7rem; margin: 0; background: rgba(248,248,244,.9); padding: .3rem .6rem; border-radius: var(--radius-s); max-width: 60%; }
+/* Sous le graphe, en flux normal : ne recouvre plus les nœuds du bas. */
+.mol-stats { margin: 0; max-width: none; padding: .5rem 1rem; border-top: 1px solid var(--rule); background: rgba(248,248,244,.9); }
 .mol-hint { position: absolute; right: 1rem; bottom: .7rem; margin: 0; color: var(--ink-3); }
-.trail { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; list-style: none; margin: 0; padding: 0; min-width: 0; }
+.trail { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; list-style: none; margin: 0; padding: 0; min-width: 0; flex: 1 1 14rem; }
 .trail li { display: inline-flex; align-items: center; gap: .25rem; }
 .trail li + li::before { content: "→"; color: var(--ink-3); font-size: var(--step--1); }
 
@@ -550,7 +556,7 @@ button.tag { cursor: pointer; font-family: inherit; }
 .biblio li { max-width: 80ch; }
 .mol-section .reasons { margin-top: .5rem; }
 @media (max-width: 1100px) { .mol-hint { display: none; } }
-@media (max-width: 720px) { .mol-columns { display: none; } .mol-stats { max-width: none; right: 1rem; } }
+@media (max-width: 720px) { .mol-columns { display: none; } }
 .graph-sources { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); scroll-margin-top: 1rem; }
 .graph-sources h3 { font-size: var(--step-1); margin-bottom: .3rem; }
 .biblio--compact { padding-left: 1.2rem; gap: .5rem; font-size: .78rem; line-height: 1.45; }

@@ -95,7 +95,7 @@
     const layers = [[], [], []];
     cy.nodes().forEach((n) => layers[n.data("layer")].push(n));
     const top = 70;
-    const usable = Math.max(H - top - 105, 200);
+    const usable = Math.max(H - top - 40, 200);
     const positions = {};
     let overflow = W < 760;
     layers.forEach((nodes, i) => {
@@ -104,7 +104,10 @@
         nodes.sort((a, b) => meanRank(a, rank) - meanRank(b, rank));
       }
       const ideal = i === 1 ? 74 : 46;
-      const gap = nodes.length > 1 ? Math.max(Math.min(ideal, usable / (nodes.length - 1)), i === 1 ? 48 : 24) : 0;
+      // Un libellé long passe sur deux lignes : on laisse plus de place pour qu'il ne touche pas le voisin.
+      const wraps = nodes.some((n) => (n.data("label") || "").length > 20);
+      const floor = i === 1 ? 58 : wraps ? 34 : 24;
+      const gap = nodes.length > 1 ? Math.max(Math.min(ideal, usable / (nodes.length - 1)), floor) : 0;
       if (gap * (nodes.length - 1) > usable) overflow = true;
       const h = (nodes.length - 1) * gap;
       nodes.forEach((n, k) => { positions[n.id()] = { x: colX[i], y: top + usable / 2 + k * gap - h / 2 }; });
@@ -295,9 +298,13 @@
   });
 
   const searchInput = document.getElementById("mol-search");
-  const search = Combo.attach(searchInput, {
-    source: async (q) => (await Combo.getJSON(`${SEARCH}?q=${encodeURIComponent(q)}`)).results,
-    onSelect: (it) => { search.clear(); load(it.id); },
+  // Deux champs, même comportement : celui du menu de gauche et celui au-dessus du graphe.
+  [searchInput, document.getElementById("mol-search-top")].forEach((input) => {
+    if (!input) return;
+    const combo = Combo.attach(input, {
+      source: async (q) => (await Combo.getJSON(`${SEARCH}?q=${encodeURIComponent(q)}`)).results,
+      onSelect: (it) => { combo.clear(); load(it.id); },
+    });
   });
 
   // ── Démarrage ──────────────────────────────────────────────────────────
