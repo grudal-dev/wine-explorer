@@ -24,9 +24,12 @@ def home(request):
         "aromas": Aroma.objects.count(),
     }
     from apps.accounts.daily import overview
+    from apps.accounts.rankings import standings
 
+    today = timezone.localdate()
     return render(request, "home.html", {
-        "teaser": teaser, "stats": stats, "daily": overview(request, timezone.localdate()),
+        "teaser": teaser, "stats": stats, "daily": overview(request, today),
+        "podium": standings("total", today)["today"][:3],
     })
 
 

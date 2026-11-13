@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Terroirs VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-14 00:45+0100\n"
+"POT-Creation-Date: 2026-11-14 00:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -83,6 +83,10 @@ msgstr "%(label)s: %(value)s out of 5"
 #, python-format
 msgid "%(n_wines)s vin%(s)s"
 msgstr "%(n_wines)s wine%(s)s"
+
+#, python-format
+msgid "%(points)s points"
+msgstr "%(points)s points"
 
 #, python-format
 msgid "%(rank)s sur %(total)s"
@@ -488,9 +492,6 @@ msgstr "No natural source documented in our references: this molecule mostly ari
 
 msgid "Aucune appellation pour l'instant."
 msgstr "No appellation yet."
-
-msgid "Aucune donnée chargée. Lancez"
-msgstr "No data loaded. Run"
 
 msgid "Aucune molécule spécifique documentée."
 msgstr "No specific molecule documented."
@@ -985,6 +986,13 @@ msgstr "Descriptors it evokes"
 
 msgid "Deux pyrroleméthanethiols, seuils de 0,7 et 1,4 ng/L, jamais observés jusqu'ici dans un produit naturel."
 msgstr "Two pyrrolemethanethiols, thresholds of 0.7 and 1.4 ng/L, never observed in a natural product until now."
+
+msgid ""
+"Deux vins mystère, les mêmes pour tout le monde, renouvelés chaque jour. Un résultat par jour et par jeu, "
+"un classement pour les départager."
+msgstr ""
+"Two mystery wines, the same for everyone, renewed every day. One result per day and per game, and a "
+"leaderboard to settle it."
 
 msgid "Discret"
 msgstr "Subtle"
@@ -1726,6 +1734,9 @@ msgstr ""
 msgid "Le caractère « abricot » du Viognier relié aux monoterpènes géraniol, linalol et nérol."
 msgstr "The \"apricot\" character of Viognier linked to the monoterpenes geraniol, linalool and nerol."
 
+msgid "Le classement du jour"
+msgstr "Today's leaderboard"
+
 msgid ""
 "Le compagnon du 4-éthylphénol, issu de l'acide férulique : plus épicé et fumé, il évoque le lard grillé. On"
 " le trouve aussi en petite quantité dans le bois de chêne chauffé."
@@ -1887,8 +1898,8 @@ msgid "Le vin"
 msgstr "The wine"
 
 #, python-format
-msgid "Le vin du jour est un %(color)s. Au nez :"
-msgstr "Today's wine is a %(color)s. On the nose:"
+msgid "Le vin du jour est un %(color)s. Au nez : %(aromas)s…"
+msgstr "Today's wine is a %(color)s. On the nose: %(aromas)s…"
 
 #, python-format
 msgid "Le vin est à environ %(km)s km %(direction)s."
@@ -2243,9 +2254,6 @@ msgstr "Where to find it"
 msgid "Par région"
 msgstr "By region"
 
-msgid "Parcourir le graphe"
-msgstr "Browse the graph"
-
 msgid "Parenté déduite par le modèle"
 msgstr "Kinship inferred by the model"
 
@@ -2525,9 +2533,6 @@ msgstr "Remove %(t_label)s"
 
 msgid "Retrouvez le vin mystère : chaque proposition reçoit une température selon sa proximité avec lui."
 msgstr "Find the mystery wine: each guess gets a temperature according to how close it is."
-
-msgid "Retrouvez sa région, son appellation et ses cépages en huit essais. Chaque erreur dévoile un indice."
-msgstr "Find its region, appellation and grapes in eight attempts. Each mistake reveals a clue."
 
 msgid "Retrouvée dans le bois de chêne et dans les bourbons, où elle croît avec l'âge."
 msgstr "Found in oak wood and in bourbons, where it increases with age."
@@ -2851,6 +2856,9 @@ msgstr "Forest floor and animal"
 msgid "Sous-région"
 msgstr "Sub-region"
 
+msgid "Soyez le premier."
+msgstr "Be the first."
+
 msgid "Style"
 msgstr "Style"
 
@@ -3056,9 +3064,6 @@ msgstr ""
 "about thirty molecules whose role is established by oenology research, and links them to a wine, or to a "
 "natural source, only if a publication justifies it."
 
-msgid "Un vin mystère se cache : chaque mot que vous proposez reçoit une température. Suivez ce qui chauffe."
-msgstr "A mystery wine is hiding: every word you suggest gets a temperature. Follow what heats up."
-
 msgid ""
 "Un vin mystère se cache. Proposez un arôme, un cépage, une région, une appellation, une molécule ou un "
 "autre vin : plus votre proposition lui ressemble, plus elle est chaude. Autant d'essais que vous voulez."
@@ -3075,9 +3080,6 @@ msgstr ""
 "A mystery wine is poured for you. You see its colour, its structure on the palate and its first aromas. "
 "Find its region, its appellation and its main grapes. You have %(max_attempts)s attempts; each unsuccessful"
 " attempt reveals a new clue."
-
-msgid "Un vin mystère, sa robe, sa structure et ses arômes. À vous de reconstituer l'étiquette."
-msgstr "A mystery wine, its colour, its structure and its aromas. It is up to you to piece the label back together."
 
 msgid "Un vin tiré au hasard, autant de fois que vous voulez. Pour s'entraîner."
 msgstr "A wine drawn at random, as many times as you like. For practice."

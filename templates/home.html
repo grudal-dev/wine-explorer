@@ -2,23 +2,14 @@
 {% load i18n terroirs_i18n static %}
 {% block title %}{% translate "Explorer le vin" %}{% endblock %}
 {% block content %}
-<section class="hero">
+<section class="hero hero--games">
   <div>
     {% if teaser %}
-    <p class="hero__kicker">{% blocktranslate trimmed with color=teaser.color|lower %}Le vin du jour est un {{ color }}. Au nez :{% endblocktranslate %}</p>
-    <p class="hero__nose">{{ teaser.aromas|join:", "|capfirst }}<em>…</em></p>
-    <p class="lede">{% translate "Retrouvez sa région, son appellation et ses cépages en huit essais. Chaque erreur dévoile un indice." %}</p>
-    <div class="hero__actions">
-      <form method="post" action="{% url 'blindtest:start' %}">{% csrf_token %}
-        <input type="hidden" name="mode" value="daily">
-        <button class="btn" type="submit">{% translate "Jouer le défi du jour" %}</button>
-      </form>
-      <a class="btn btn--ghost" href="{% url 'explorer:explorer' %}">{% translate "Parcourir le graphe" %}</a>
-    </div>
-    {% else %}
-    <h1>Terroirs</h1>
-    <p class="lede">{% translate "Aucune donnée chargée. Lancez" %} <code>python manage.py load_seed</code>.</p>
+    <p class="hero__kicker">{% blocktranslate trimmed with color=teaser.color|lower aromas=teaser.aromas|join:", " %}Le vin du jour est un {{ color }}. Au nez : {{ aromas }}…{% endblocktranslate %}</p>
     {% endif %}
+    <h1 class="hero__title">{% translate "Les défis du jour" %}</h1>
+    <p class="lede">{% translate "Deux vins mystère, les mêmes pour tout le monde, renouvelés chaque jour. Un résultat par jour et par jeu, un classement pour les départager." %}</p>
+    <p class="hero__reset">{% translate "Prochain défi dans" %} <time class="daily__clock" datetime="{{ daily.reset_at|date:'c' }}" data-deadline="{{ daily.reset_at|date:'c' }}">{{ daily.reset_at|timeuntil }}</time></p>
   </div>
   {% if teaser %}
   <div class="glass glass--{{ teaser.color_key }}" aria-hidden="true">
@@ -27,11 +18,7 @@
   {% endif %}
 </section>
 
-<section class="section daily" aria-labelledby="daily-title">
-  <div class="daily__head">
-    <h2 id="daily-title">{% translate "Les défis du jour" %}</h2>
-    <p class="daily__reset small muted">{% translate "Prochain défi dans" %} <time class="daily__clock" datetime="{{ daily.reset_at|date:'c' }}" data-deadline="{{ daily.reset_at|date:'c' }}">{{ daily.reset_at|timeuntil }}</time></p>
-  </div>
+<section class="section daily" aria-label="{% translate "Les défis du jour" %}">
   <div class="daily__cards">
     {% for c in daily.cards %}
     <article class="daily__card daily__card--{{ c.key }} is-{{ c.state }}">
@@ -56,7 +43,21 @@
     </article>
     {% endfor %}
   </div>
-  <p class="daily__foot small"><a href="{% url 'accounts:ranking' %}">{% translate "Voir le classement des jeux" %}</a></p>
+  <div class="podium">
+    <h2>{% translate "Le classement du jour" %}</h2>
+    {% if podium %}
+    <ol class="podium__list">
+      {% for r in podium %}<li><span class="podium__rank">{{ forloop.counter }}</span>
+        <a href="{% url 'accounts:player' r.username %}">{{ r.username }}</a>
+        <span class="podium__pts">{% blocktranslate trimmed with points=r.points %}{{ points }} points{% endblocktranslate %}</span></li>{% endfor %}
+    </ol>
+    {% else %}<p class="muted">{% translate "Personne n'a encore terminé le défi du jour." %} {% translate "Soyez le premier." %}</p>{% endif %}
+    <p class="daily__foot small"><a href="{% url 'accounts:ranking' %}">{% translate "Voir le classement des jeux" %}</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <h2>{% translate "Explorer le vin" %}</h2>
 </section>
 
 <div class="figures" aria-label="{% translate "Contenu de la base" %}">
@@ -71,16 +72,6 @@
     <h3>{% translate "Le graphe" %}</h3>
     <p>{% translate "Naviguez de la région à l'appellation, du cépage à l'arôme. Cherchez le chemin qui relie le chablis au litchi." %}</p>
     <span class="entry__go">{% translate "Explorer" %}</span>
-  </a>
-  <a class="entry" href="{% url 'blindtest:home' %}">
-    <h3>{% translate "Blind test" %}</h3>
-    <p>{% translate "Un vin mystère, sa robe, sa structure et ses arômes. À vous de reconstituer l'étiquette." %}</p>
-    <span class="entry__go">{% translate "Jouer" %}</span>
-  </a>
-  <a class="entry" href="{% url 'hotcold:game' %}">
-    <h3>{% translate "Chaud-froid" %}</h3>
-    <p>{% translate "Un vin mystère se cache : chaque mot que vous proposez reçoit une température. Suivez ce qui chauffe." %}</p>
-    <span class="entry__go">{% translate "Jouer" %}</span>
   </a>
   <a class="entry" href="{% url 'nose:nose' %}">
     <h3>{% translate "Le Nez" %}</h3>

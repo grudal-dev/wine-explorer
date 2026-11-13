@@ -674,3 +674,21 @@ button.tag { cursor: pointer; font-family: inherit; }
 .daily__best { margin: 0 0 .8rem; }
 .daily__card .btn, .daily__card form { margin-top: auto; }
 .daily__foot { margin-top: 1rem; }
+
+/* ── Accueil : la page des jeux ───────────────────────────── */
+.hero--games { padding-bottom: 0; }
+.hero__title { font: 400 var(--step-5)/1.02 var(--serif); letter-spacing: -0.025em; margin: 0 0 1rem; max-width: 12ch; }
+.hero__reset { margin: 1rem 0 0; color: var(--ink-2); }
+.hero--games .glass { max-width: 300px; justify-self: end; }
+@media (max-width: 860px) { .hero--games .glass { max-width: 160px; justify-self: start; } }
+.daily { margin-top: 2rem; }
+.podium { grid-column: 1 / -1; margin-top: .5rem; padding: 1.2rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-m); }
+.daily { display: block; }
+.podium h2 { font-size: var(--step-1); margin: 0 0 .6rem; }
+.podium__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 2rem; }
+.podium__list li { display: inline-flex; align-items: baseline; gap: .55rem; }
+.podium__rank { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--garnet); color: #fff; font-weight: 600; font-size: var(--step--1); }
+.podium__list li:nth-child(2) .podium__rank { background: var(--slate); }
+.podium__list li:nth-child(3) .podium__rank { background: var(--ochre, #C99A3D); }
+.podium__pts { color: var(--ink-2); font-size: var(--step--1); }
+.daily__cards + .podium { margin-top: 1.25rem; }
