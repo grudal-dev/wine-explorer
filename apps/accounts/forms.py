@@ -8,6 +8,10 @@ from .models import NewsletterSubscription
 
 class SignupForm(UserCreationForm):
     email = forms.EmailField(label=_("Adresse e-mail"), required=True)
+    # Âge légal : simple attestation, la date de naissance n'est pas collectée (minimisation).
+    adult = forms.BooleanField(
+        required=True, label=_("Je certifie avoir 18 ans ou plus"),
+        error_messages={"required": _("Vous devez avoir 18 ans ou plus pour créer un compte.")})
     # Opt-in : jamais coché d'office, la réponse est libre et sans effet sur le compte.
     newsletter = forms.BooleanField(
         required=False, initial=False,

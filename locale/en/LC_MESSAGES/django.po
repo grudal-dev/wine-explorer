@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-14 10:31+0100\n"
+"POT-Creation-Date: 2026-11-14 10:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -1459,6 +1459,9 @@ msgstr ""
 
 msgid "Italie / Charentes"
 msgstr "Italy / Charentes"
+
+msgid "Je certifie avoir 18 ans ou plus"
+msgstr "I certify that I am 18 or older"
 
 msgid "Jeu"
 msgstr "Game"
@@ -3235,6 +3238,9 @@ msgstr "Your guess: region, appellation or grape"
 #, python-format
 msgid "Vous avez déjà proposé « %(label)s »."
 msgstr "You have already tried “%(label)s”."
+
+msgid "Vous devez avoir 18 ans ou plus pour créer un compte."
+msgstr "You must be 18 or older to create an account."
 
 msgid "Vous y êtes presque : moins de 15 km."
 msgstr "You are nearly there: less than 15 km away."

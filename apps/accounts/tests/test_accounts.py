@@ -17,7 +17,7 @@ class AccountTests(TestCase):
     def test_signup_logs_in(self):
         r = self.client.post(reverse("accounts:signup"), {
             "username": "lucas", "email": "lucas@example.com",
-            "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026",
+            "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026", "adult": "on",
         })
         self.assertRedirects(r, reverse("accounts:profile"))
         self.assertEqual(self.client.get(reverse("accounts:profile")).status_code, 200)
@@ -26,7 +26,7 @@ class AccountTests(TestCase):
         User.objects.create_user("a", "x@example.com", "pw-123456789")
         r = self.client.post(reverse("accounts:signup"), {
             "username": "b", "email": "X@example.com",
-            "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026",
+            "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026", "adult": "on",
         })
         self.assertContains(r, "existe déjà")
 
@@ -114,7 +114,7 @@ class AccountTests(TestCase):
 
 class NewsletterTests(TestCase):
     SIGNUP = {"username": "lucas", "email": "lucas@example.com",
-              "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026"}
+              "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026", "adult": "on"}
 
     def test_signup_form_asks_and_is_unchecked(self):
         r = self.client.get(reverse("accounts:signup"))
@@ -164,3 +164,9 @@ class NewsletterTests(TestCase):
             os.unlink(f.name)
         self.assertEqual([m.to for m in mail.outbox], [["a@example.com"]])
         self.assertIn("desinscription", mail.outbox[0].body)
+
+    def test_signup_requires_adult_attestation(self):
+        data = {k: v for k, v in self.SIGNUP.items() if k != "adult"}
+        r = self.client.post(reverse("accounts:signup"), data)
+        self.assertContains(r, "18 ans ou plus")
+        self.assertFalse(User.objects.exists())
