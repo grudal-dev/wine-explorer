@@ -1,11 +1,11 @@
-# English translations for Terroirs.
+# English translations for Sillage.
 # Copyright (C) 2026 ORGANIZATION
-# This file is distributed under the same license as the Terroirs project.
+# This file is distributed under the same license as the Sillage project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Terroirs VERSION\n"
+"Project-Id-Version: Sillage VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-11-14 00:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"

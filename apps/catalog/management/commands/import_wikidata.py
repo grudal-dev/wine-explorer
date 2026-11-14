@@ -20,7 +20,7 @@ from apps.catalog.models import Appellation, Grape
 from apps.catalog.text import normalize
 
 API = "https://www.wikidata.org/w/api.php"
-UA = "Terroirs/0.1 (application pédagogique sur le vin)"
+UA = "Sillage/0.1 (application pédagogique sur le vin)"
 APPELLATION_HINTS = ("vin", "wine", "appellation", "aoc", "aop", "vignoble")
 GRAPE_HINTS = ("cepage", "grape", "variety", "vitis")
 

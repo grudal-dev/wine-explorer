@@ -56,7 +56,7 @@ class Command(BaseCommand):
             for domain, msgids in found.items():
                 po = folder / f"{domain}.po"
                 old = pofile.read_po(po.open("rb"), locale=code) if po.exists() else Catalog(locale=code)
-                new = Catalog(locale=code, project="Terroirs", charset="utf-8", fuzzy=False)
+                new = Catalog(locale=code, project="Sillage", charset="utf-8", fuzzy=False)
                 for msgid in sorted(msgids):
                     previous = old.get(msgid)
                     new.add(msgid, previous.string if previous else "")

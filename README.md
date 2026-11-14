@@ -1,4 +1,4 @@
-# Terroirs
+# Sillage
 
 Une application Django pour explorer le vin français : un graphe parcourable des régions, appellations,
 cépages et arômes, un blind test façon jeu de déduction, « Le Nez », qui propose les cinq vins les plus

@@ -19,5 +19,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-admin.site.site_header = "Terroirs · administration"
-admin.site.site_title = "Terroirs"
+admin.site.site_header = "Sillage · administration"
+admin.site.site_title = "Sillage"

@@ -1,11 +1,11 @@
-# English translations for Terroirs.
+# English translations for Sillage.
 # Copyright (C) 2026 ORGANIZATION
-# This file is distributed under the same license as the Terroirs project.
+# This file is distributed under the same license as the Sillage project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Terroirs VERSION\n"
+"Project-Id-Version: Sillage VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-11-14 00:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -2916,11 +2916,11 @@ msgstr ""
 "Terpene of Muscats and Gewurztraminer, which also forms in bottle from linalool and geraniol: the floral "
 "note of aromatic wines slides with age towards lilac and resin."
 
-msgid "Terroirs, accueil"
-msgstr "Terroirs, home"
+msgid "Sillage, accueil"
+msgstr "Sillage, home"
 
-msgid "Terroirs. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs."
-msgstr "Terroirs. Reference data selected for learning; prices and ageing potential are indicative."
+msgid "Sillage. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs."
+msgstr "Sillage. Reference data selected for learning; prices and ageing potential are indicative."
 
 msgid "Thiol"
 msgstr "Thiol"
@@ -4726,8 +4726,8 @@ msgstr "· %(molar_mass)s g/mol"
 msgid "· %(n_sources)s source%(s)s naturelle%(s)s"
 msgstr "· %(n_sources)s natural source%(s)s"
 
-msgid "· Terroirs"
-msgstr "· Terroirs"
+msgid "· Sillage"
+msgstr "· Sillage"
 
 msgid "· importé de Wikidata, non vérifié"
 msgstr "· imported from Wikidata, unverified"
