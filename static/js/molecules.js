@@ -293,7 +293,7 @@
   document.getElementById("mol-png").addEventListener("click", () => {
     const a = document.createElement("a");
     a.href = cy.png({ full: true, scale: 2, bg: "#F8F8F4" });
-    a.download = `sillage-molecules-${(state.start.split(":")[1] || "graphe")}.png`;
+    a.download = `wine-explorer-molecules-${(state.start.split(":")[1] || "graphe")}.png`;
     a.click();
   });
 

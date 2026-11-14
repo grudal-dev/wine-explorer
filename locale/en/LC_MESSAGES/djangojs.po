@@ -1,11 +1,11 @@
-# English translations for Sillage.
+# English translations for Wine Explorer.
 # Copyright (C) 2026 ORGANIZATION
-# This file is distributed under the same license as the Sillage project.
+# This file is distributed under the same license as the Wine Explorer project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Sillage VERSION\n"
+"Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-11-14 00:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"

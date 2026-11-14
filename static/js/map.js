@@ -152,7 +152,7 @@
   document.getElementById("map-png").addEventListener("click", () => {
     const a = document.createElement("a");
     a.href = cy.png({ full: true, scale: 2, bg: "#F8F8F4" });
-    a.download = "sillage-carte-des-gouts.png";
+    a.download = "wine-explorer-carte-des-gouts.png";
     a.click();
   });
   document.getElementById("map-panel").addEventListener("click", (e) => {

@@ -28,7 +28,7 @@ from apps.molecules.models import Molecule
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 OUTPUT = DATA_DIR / "wikidata_occurrences.json"
 ENDPOINT = "https://query.wikidata.org/sparql"
-USER_AGENT = "Sillage/1.0 (https://github.com/grudal-dev/wine-explorer; explorateur pedagogique du vin)"
+USER_AGENT = "WineExplorer/1.0 (https://github.com/grudal-dev/wine-explorer; explorateur pedagogique du vin)"
 
 QUERY = """
 SELECT DISTINCT ?mol ?taxon ?latin ?labelFr WHERE {{

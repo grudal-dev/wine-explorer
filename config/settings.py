@@ -1,4 +1,4 @@
-"""Réglages Django de Sillage.
+"""Réglages Django de Wine Explorer.
 
 Toute la configuration sensible passe par des variables d'environnement
 (voir `.env.example`). Par défaut, le projet tourne en SQLite pour le

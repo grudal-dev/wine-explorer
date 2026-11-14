@@ -241,7 +241,7 @@
   document.getElementById("btn-png").addEventListener("click", () => {
     const a = document.createElement("a");
     a.href = cy.png({ full: true, scale: 2, bg: "#ECECE6" });
-    a.download = "sillage-graphe.png";
+    a.download = "wine-explorer-graphe.png";
     a.click();
   });
 
