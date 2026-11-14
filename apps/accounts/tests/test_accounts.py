@@ -5,6 +5,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
 
+from apps.accounts.models import NewsletterSubscription
 from apps.blindtest.models import Game
 
 
@@ -109,3 +110,57 @@ class AccountTests(TestCase):
         self.client.post(reverse("blindtest:start"), {"mode": "daily"})
         home = self.client.get("/")
         self.assertEqual(home.context["daily"]["cards"][0]["state"], "playing")
+
+
+class NewsletterTests(TestCase):
+    SIGNUP = {"username": "lucas", "email": "lucas@example.com",
+              "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026"}
+
+    def test_signup_form_asks_and_is_unchecked(self):
+        r = self.client.get(reverse("accounts:signup"))
+        self.assertContains(r, 'name="newsletter"')
+        self.assertNotContains(r, 'name="newsletter" checked')
+
+    def test_signup_without_consent_does_not_subscribe(self):
+        self.client.post(reverse("accounts:signup"), self.SIGNUP)
+        self.assertFalse(NewsletterSubscription.objects.exists())
+
+    def test_signup_with_consent_subscribes(self):
+        self.client.post(reverse("accounts:signup"), {**self.SIGNUP, "newsletter": "on"})
+        self.assertTrue(NewsletterSubscription.objects.get().is_active)
+
+    def test_toggle_from_profile(self):
+        self.client.post(reverse("accounts:signup"), self.SIGNUP)
+        self.client.post(reverse("accounts:newsletter"), {"subscribe": "1"})
+        self.assertTrue(NewsletterSubscription.objects.get().is_active)
+        self.client.post(reverse("accounts:newsletter"), {})
+        self.assertFalse(NewsletterSubscription.objects.get().is_active)
+
+    def test_unsubscribe_link_needs_post(self):
+        self.client.post(reverse("accounts:signup"), {**self.SIGNUP, "newsletter": "on"})
+        sub = NewsletterSubscription.objects.get()
+        url = reverse("accounts:newsletter_unsubscribe", args=[sub.token])
+        self.assertEqual(self.client.get(url).status_code, 200)
+        sub.refresh_from_db()
+        self.assertTrue(sub.is_active)
+        self.client.post(url)
+        sub.refresh_from_db()
+        self.assertFalse(sub.is_active)
+
+    def test_send_only_to_active_subscribers(self):
+        from django.core import mail
+        import tempfile, os
+        a = User.objects.create_user("a", "a@example.com", "pw-123456789")
+        b = User.objects.create_user("b", "b@example.com", "pw-123456789")
+        User.objects.create_user("c", "c@example.com", "pw-123456789")
+        NewsletterSubscription.subscribe(a)
+        NewsletterSubscription.subscribe(b)
+        NewsletterSubscription.unsubscribe(b)
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
+            f.write("Bonjour")
+        try:
+            call_command("send_newsletter", subject="Test", body_file=f.name, stdout=StringIO())
+        finally:
+            os.unlink(f.name)
+        self.assertEqual([m.to for m in mail.outbox], [["a@example.com"]])
+        self.assertIn("desinscription", mail.outbox[0].body)

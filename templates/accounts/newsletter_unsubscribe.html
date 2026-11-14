@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Newsletter" %}{% endblock %}
+{% block content %}
+<div class="auth">
+  <h1>{% translate "Newsletter" %}</h1>
+  {% if sub.is_active %}
+  <p>{% translate "Souhaitez-vous ne plus recevoir la newsletter de Wine Explorer ?" %}</p>
+  <form method="post">{% csrf_token %}
+    <button class="btn" type="submit">{% translate "Me désinscrire" %}</button>
+  </form>
+  {% else %}
+  <p>{% translate "Vous êtes désinscrit : vous ne recevrez plus la newsletter." %}</p>
+  <p><a href="{% url 'home' %}">{% translate "Retour à l'accueil" %}</a></p>
+  {% endif %}
+</div>
+{% endblock %}

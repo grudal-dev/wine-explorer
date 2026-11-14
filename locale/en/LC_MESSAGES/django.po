@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-14 00:48+0100\n"
+"POT-Creation-Date: 2026-11-14 10:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -2060,6 +2060,9 @@ msgstr "Colour legend"
 msgid "Légume"
 msgstr "Vegetable"
 
+msgid "M'inscrire"
+msgstr "Subscribe"
+
 msgid "MND"
 msgstr "3-methyl-2,4-nonanedione"
 
@@ -2078,6 +2081,9 @@ msgid ""
 msgstr ""
 "Marker of premature ageing in reds: it replaces fresh fruit with prune. It always exceeds its threshold in "
 "oxidised wines and forms more with late-harvested grapes."
+
+msgid "Me désinscrire"
+msgstr "Unsubscribe"
 
 #, python-format
 msgid "Meilleur score du jour : %(points)s points (%(user)s)"
@@ -2173,6 +2179,9 @@ msgid ""
 "litchi."
 msgstr "Travel from region to appellation, from grape to aroma. Look for the path that links Chablis to lychee."
 
+msgid "Newsletter"
+msgstr "Newsletter"
+
 msgid "Noir"
 msgstr "Black"
 
@@ -2184,6 +2193,16 @@ msgstr "C13 norisoprenoid"
 
 msgid "Nos fiches décrivent des"
 msgstr "Our pages describe"
+
+msgid "Nouveautés, défis et découvertes, environ une fois par mois."
+msgstr "News, challenges and discoveries, about once a month."
+
+msgid ""
+"Nouveautés, défis et découvertes, environ une fois par mois. Désinscription possible à tout moment depuis "
+"votre profil ou d'un clic dans chaque e-mail."
+msgstr ""
+"News, challenges and discoveries, about once a month. You can unsubscribe at any time from your profile or "
+"with one click in every email."
 
 msgid "Nouvelle partie libre"
 msgstr "New free game"
@@ -2237,6 +2256,9 @@ msgstr "Origin"
 
 msgid "Origine dans le vin"
 msgstr "Origin in wine"
+
+msgid "Oui, je souhaite recevoir la newsletter de Wine Explorer"
+msgstr "Yes, I would like to receive the Wine Explorer newsletter"
 
 #, python-format
 msgid "Oui, nous sommes en %(region)s."
@@ -2530,6 +2552,9 @@ msgstr "Remove %(f_name)s"
 #, python-format
 msgid "Retirer %(t_label)s"
 msgstr "Remove %(t_label)s"
+
+msgid "Retour à l'accueil"
+msgstr "Back to home"
 
 msgid "Retrouvez le vin mystère : chaque proposition reçoit une température selon sa proximité avec lui."
 msgstr "Find the mystery wine: each guess gets a temperature according to how close it is."
@@ -2838,6 +2863,9 @@ msgstr ""
 msgid "Son style de vinification"
 msgstr "Its winemaking style"
 
+msgid "Souhaitez-vous ne plus recevoir la newsletter de Wine Explorer ?"
+msgstr "Do you want to stop receiving the Wine Explorer newsletter?"
+
 msgid "Sources"
 msgstr "Sources"
 
@@ -2915,12 +2943,6 @@ msgid ""
 msgstr ""
 "Terpene of Muscats and Gewurztraminer, which also forms in bottle from linalool and geraniol: the floral "
 "note of aromatic wines slides with age towards lilac and resin."
-
-msgid "Wine Explorer, accueil"
-msgstr "Wine Explorer, home"
-
-msgid "Wine Explorer. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs."
-msgstr "Wine Explorer. Reference data selected for learning; prices and ageing potential are indicative."
 
 msgid "Thiol"
 msgstr "Thiol"
@@ -3217,6 +3239,15 @@ msgstr "You have already tried “%(label)s”."
 msgid "Vous y êtes presque : moins de 15 km."
 msgstr "You are nearly there: less than 15 km away."
 
+msgid "Vous êtes désinscrit : vous ne recevrez plus la newsletter."
+msgstr "You are unsubscribed: you will no longer receive the newsletter."
+
+msgid "Vous êtes désinscrit de la newsletter."
+msgstr "You have unsubscribed from the newsletter."
+
+msgid "Vous êtes inscrit à la newsletter."
+msgstr "You are subscribed to the newsletter."
+
 msgid "Vue"
 msgstr "View"
 
@@ -3232,8 +3263,20 @@ msgstr "Whisky lactones, vanillin, eugenol and guaiacol extracted from wood in t
 msgid "Wikidata, non vérifié"
 msgstr "Wikidata, unverified"
 
+msgid "Wine Explorer, accueil"
+msgstr "Wine Explorer, home"
+
+msgid "Wine Explorer. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs."
+msgstr "Wine Explorer. Reference data selected for learning; prices and ageing potential are indicative."
+
 msgid "a sa propre méthode et sa bibliographie :"
 msgstr "section has its own method and bibliography:"
+
+msgid "abonnement à la newsletter"
+msgstr "newsletter subscription"
+
+msgid "abonnements à la newsletter"
+msgstr "newsletter subscriptions"
 
 msgid "abricot"
 msgstr "apricot"

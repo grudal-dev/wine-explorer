@@ -39,6 +39,19 @@
       <div><div class="bar"><span style="width: {{ r.rate }}%"></span></div><span class="small muted">{% blocktranslate trimmed with won=r.won played=r.played %}{{ won }} sur {{ played }}{% endblocktranslate %}</span></div>
     </div>
     {% empty %}<p class="small muted">{% if is_self %}{% translate "Vos points forts et vos lacunes apparaîtront ici." %}{% else %}{% translate "Aucune statistique pour l'instant." %}{% endif %}</p>{% endfor %}
+    {% if is_self %}
+    <h3 style="margin-top:1.5rem">{% translate "Newsletter" %}</h3>
+    <form method="post" action="{% url 'accounts:newsletter' %}">{% csrf_token %}
+      {% if newsletter %}
+      <p class="small muted">{% translate "Vous êtes inscrit à la newsletter." %}</p>
+      <button class="btn" type="submit">{% translate "Me désinscrire" %}</button>
+      {% else %}
+      <p class="small muted">{% translate "Nouveautés, défis et découvertes, environ une fois par mois." %}</p>
+      <input type="hidden" name="subscribe" value="1">
+      <button class="btn" type="submit">{% translate "M'inscrire" %}</button>
+      {% endif %}
+    </form>
+    {% endif %}
   </aside>
 </div>
 {% endblock %}

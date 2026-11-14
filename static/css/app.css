@@ -692,3 +692,7 @@ button.tag { cursor: pointer; font-family: inherit; }
 .podium__list li:nth-child(3) .podium__rank { background: var(--ochre, #C99A3D); }
 .podium__pts { color: var(--ink-2); font-size: var(--step--1); }
 .daily__cards + .podium { margin-top: 1.25rem; }
+
+/* Case à cocher d'un formulaire (ex. newsletter à l'inscription) */
+.field--check label { display: flex; align-items: flex-start; gap: .6rem; font-weight: 500; }
+.field--check input[type="checkbox"] { width: auto; margin-top: .25rem; flex: none; }

@@ -111,6 +111,17 @@ LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "accounts:profile"
 LOGOUT_REDIRECT_URL = "home"
 
+# E-mails (newsletter). Par défaut, affichage dans la console en développement.
+EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "localhost")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "25"))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", False)
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Wine Explorer <newsletter@localhost>")
+# Adresse publique du site, pour les liens des e-mails.
+SITE_URL = os.environ.get("SITE_URL", "http://localhost:8000").rstrip("/")
+
 # Internationalisation : français d'abord, anglais prêt à traduire.
 LANGUAGE_CODE = "fr"
 LANGUAGES = [("fr", "Français"), ("en", "English")]
