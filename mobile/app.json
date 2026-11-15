@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Wine Explorer",
+    "slug": "wine-explorer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.grudal.wineexplorer",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.grudal.wineexplorer",
+      "adaptiveIcon": {
+        "backgroundColor": "#7A1F3D",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-localization",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "backgroundColor": "#F8F8F4"
+        }
+      ]
+    ],
+    "scheme": "wineexplorer",
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

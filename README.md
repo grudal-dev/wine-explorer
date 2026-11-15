@@ -194,3 +194,11 @@ vecteur). La commande affiche une évaluation sur liens masqués (AUC d'environ 
 
 Limite : les profils sont rédigés à la main. Le modèle apprend la structure de ces fiches, pas la
 chimie de vrais vins ; une parenté déduite est une hypothèse à relire.
+
+
+## Application mobile
+
+L'application iPhone et Android est dans [`mobile/`](mobile/README.md) (Expo, React Native). Elle
+utilise l'API JSON du site (`/api/v1/`, app Django `apps/api`) et partage sa base de données.
+Pour la tester sur un téléphone : `python manage.py runserver 0.0.0.0:8000`, puis
+`cd mobile && npm install && npx expo start`, et scanner le QR code avec Expo Go.
