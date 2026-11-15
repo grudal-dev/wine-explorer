@@ -55,6 +55,26 @@ npx tsc --noEmit     # typage
 npx expo lint        # lint
 ```
 
+## Distribuer à des amis (Android, sans store)
+
+Le serveur en ligne est `https://wine-explorer.up.railway.app` ; les builds `preview` et
+`production` (`eas.json`) pointent dessus.
+
+```bash
+npm install
+npx eas-cli@latest login                 # compte gratuit sur expo.dev
+npm run build:android                    # APK compilé dans le cloud (~15 min)
+```
+
+À la fin, EAS affiche un lien et un QR code : les amis l'ouvrent sur leur téléphone Android,
+téléchargent l'APK et l'installent (autoriser « sources inconnues » si Android le demande).
+Le premier `eas build` propose de créer le projet sur expo.dev : répondre oui.
+
+## Tester avec Expo Go contre le serveur en ligne
+
+Pas besoin de lancer Django : créer `mobile/.env` avec
+`EXPO_PUBLIC_API_URL=https://wine-explorer.up.railway.app/api/v1`, puis `npx expo start`.
+
 ## Publier sur les stores
 
 Les builds se font dans le cloud avec EAS (pas besoin de Mac) :

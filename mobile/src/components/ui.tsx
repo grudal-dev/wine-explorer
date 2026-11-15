@@ -6,7 +6,7 @@ import {
   type ScrollViewProps, type StyleProp, type TextStyle, type ViewStyle,
 } from 'react-native';
 
-import { ApiError, NetworkError } from '@/api/client';
+import { API_URL, ApiError, NetworkError } from '@/api/client';
 import { t } from '@/i18n';
 import { colors, fonts, radius, shadow, space, type, verdictColors, wineColor } from '@/theme';
 
@@ -179,7 +179,7 @@ export function Loading() {
 }
 
 export function errorMessage(e: unknown): string {
-  if (e instanceof NetworkError) return t.offline;
+  if (e instanceof NetworkError) return API_URL.startsWith('https') ? t.offlineRemote : t.offline;
   if (e instanceof ApiError) return e.message;
   return t.error;
 }
