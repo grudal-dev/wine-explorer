@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-14 10:38+0100\n"
+"POT-Creation-Date: 2026-11-15 11:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -452,6 +452,12 @@ msgstr "On the nose: %(aroma)s (%(level)s)"
 
 msgid "Au nez, il rappelle"
 msgstr "On the nose, it recalls"
+
+msgid "Aucun chaud-froid pour l'instant."
+msgstr "No hot-cold games yet."
+
+msgid "Aucun chaud-froid terminé pour l'instant."
+msgstr "No finished hot-cold games yet."
 
 msgid "Aucun chemin entre ces deux entités."
 msgstr "No path between these two entities."
@@ -1359,6 +1365,9 @@ msgstr ""
 msgid "Historique"
 msgstr "History"
 
+msgid "Historique chaud-froid"
+msgstr "Hot-cold history"
+
 msgid "IBMP"
 msgstr "2-isobutyl-3-methoxypyrazine"
 
@@ -1471,6 +1480,9 @@ msgstr "Games"
 
 msgid "Jouer"
 msgstr "Play"
+
+msgid "Jouer au chaud-froid"
+msgstr "Play hot-cold"
 
 msgid "Jouer le défi du jour"
 msgstr "Play the daily challenge"

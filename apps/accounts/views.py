@@ -10,6 +10,8 @@ from django.utils.translation import gettext
 from apps.blindtest.models import Game
 from apps.blindtest.views import spoiler_profile_id, stats_for
 
+from apps.nose import hotcold
+
 from . import rankings
 from .forms import SignupForm
 from .models import NewsletterSubscription
@@ -34,6 +36,7 @@ def profile(request):
     return render(request, "accounts/profile.html", {
         "owner": request.user, "is_self": True,
         "stats": stats_for(request.user), "games": games,
+        "hotcold_games": hotcold.history(request.user, request, timezone.localdate()),
         "newsletter": NewsletterSubscription.objects.filter(
             user=request.user, unsubscribed_at__isnull=True).exists(),
     })
@@ -70,6 +73,7 @@ def player(request, username):
              .select_related("profile__appellation")[:30])
     return render(request, "accounts/profile.html", {
         "owner": owner, "is_self": False, "stats": stats_for(owner), "games": games,
+        "hotcold_games": hotcold.history(owner, request, timezone.localdate()),
     })
 
 

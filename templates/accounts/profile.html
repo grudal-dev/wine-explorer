@@ -30,6 +30,26 @@
     {% if is_self %}<p class="muted">{% translate "Aucune partie pour l'instant." %} <a href="{% url 'blindtest:home' %}">{% translate "Lancer un blind test" %}</a></p>
     {% else %}<p class="muted">{% translate "Aucune partie terminée pour l'instant." %}</p>{% endif %}
     {% endif %}
+    <h2 style="margin-top:2rem">{% translate "Historique chaud-froid" %}</h2>
+    {% if hotcold_games %}
+    <table class="table">
+      <thead><tr><th>{% translate "Date" %}</th><th>{% translate "Vin mystère" %}</th><th>{% translate "Résultat" %}</th><th class="num">{% translate "Essais" %}</th><th class="num">{% translate "Points" %}</th></tr></thead>
+      <tbody>
+      {% for r in hotcold_games %}
+      <tr>
+        <td class="small">{{ r.day|date:"j M Y" }}</td>
+        <td>{% if r.wine %}<span class="robe robe--{{ r.wine.color }}"></span> <a href="{{ r.wine.get_absolute_url }}">{{ r.wine.name|tr }}</a>{% else %}—{% endif %}</td>
+        <td class="small">{{ r.get_outcome_display }}</td>
+        <td class="num">{{ r.guesses }}</td>
+        <td class="num">{{ r.score }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    {% if is_self %}<p class="muted">{% translate "Aucun chaud-froid pour l'instant." %} <a href="{% url 'hotcold:game' %}">{% translate "Jouer au chaud-froid" %}</a></p>
+    {% else %}<p class="muted">{% translate "Aucun chaud-froid terminé pour l'instant." %}</p>{% endif %}
+    {% endif %}
   </section>
   <aside class="panel">
     <h3>{% translate "Par région" %}</h3>

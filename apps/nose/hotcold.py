@@ -77,6 +77,39 @@ def leaderboard(day: date, limit: int = 10):
             .order_by("-score", "guesses", "finished_at")[:limit])
 
 
+def daily_done(request, today: date) -> bool:
+    """Le visiteur a-t-il terminé le chaud-froid du jour (gagné ou abandonné) ?
+
+    Tant que non, le vin mystère du jour ne doit apparaître nulle part : ni dans l'historique des
+    autres joueurs, ni ailleurs. Un joueur connecté compte via son résultat classé ; un visiteur
+    anonyme via la partie du jour gardée dans sa session.
+    """
+    from .models import HotColdResult
+
+    user = request.user
+    if user.is_authenticated and HotColdResult.objects.filter(user=user, day=today).exists():
+        return True
+    state = request.session.get(SESSION_KEY) or {}
+    return state.get("mode") == "daily" and state.get("day") == today.isoformat() and bool(state.get("over"))
+
+
+def history(owner, request, today: date, limit: int = 30) -> list:
+    """Résultats classés d'un joueur, du plus récent au plus ancien, avec le vin mystère (`.wine`).
+
+    Les résultats d'un autre joueur sur le vin mystère du jour sont masqués tant que le visiteur
+    n'a pas terminé le défi du jour.
+    """
+    rows = owner.hotcold_results.order_by("-day")
+    if owner != request.user and not daily_done(request, today):
+        rows = rows.exclude(day=today)
+    rows = list(rows[:limit])
+    wines = {w.slug: w for w in WineProfile.objects.filter(slug__in={r.secret for r in rows})
+             .select_related("appellation")}
+    for r in rows:
+        r.wine = wines.get(r.secret)
+    return rows
+
+
 def _playable(sp: Space) -> list[str]:
     return sorted(p for p in WineProfile.objects.values_list("slug", flat=True) if f"profile:{p}" in sp)
 
