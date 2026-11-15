@@ -37,8 +37,21 @@ def _get_game(request, public_id) -> Game:
         owner = str(game.public_id) in request.session.get(SESSION_GAMES, [])
     if not owner and not game.is_over:
         raise Http404  # on ne joue pas la partie d'un autre
+    if not owner and game.profile_id == spoiler_profile_id(request):
+        raise Http404  # le vin du jour n'est dévoilé qu'à ceux qui ont fini le défi
     game.is_owner = owner
     return game
+
+
+def spoiler_profile_id(request):
+    """Identifiant du vin du jour tant que le visiteur n'a pas terminé son défi, sinon None.
+
+    Les parties terminées des autres joueurs sur ce vin (défi ou partie libre) trahiraient la réponse.
+    """
+    today = timezone.localdate()
+    done = (owned_games(request).filter(mode=Game.Mode.DAILY, day=today)
+            .exclude(status=Game.Status.PLAYING).exists())
+    return None if done else engine.daily_profile(today).id
 
 
 def leaderboard(day=None, limit=10):

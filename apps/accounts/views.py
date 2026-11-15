@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.translation import gettext
 
 from apps.blindtest.models import Game
-from apps.blindtest.views import stats_for
+from apps.blindtest.views import spoiler_profile_id, stats_for
 
 from . import rankings
 from .forms import SignupForm
@@ -66,6 +66,7 @@ def player(request, username):
     if request.user.is_authenticated and request.user == owner:
         return redirect("accounts:profile")
     games = (owner.games.exclude(status=Game.Status.PLAYING)
+             .exclude(profile_id=spoiler_profile_id(request))  # vin du jour : pas de spoiler
              .select_related("profile__appellation")[:30])
     return render(request, "accounts/profile.html", {
         "owner": owner, "is_self": False, "stats": stats_for(owner), "games": games,

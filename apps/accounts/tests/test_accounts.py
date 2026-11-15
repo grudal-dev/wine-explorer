@@ -7,6 +7,7 @@ from django.urls import reverse
 
 from apps.accounts.models import NewsletterSubscription
 from apps.blindtest.models import Game
+from apps.catalog.models import WineProfile
 
 
 class AccountTests(TestCase):
@@ -70,6 +71,39 @@ class AccountTests(TestCase):
         self.assertNotContains(r, "Partie en cours")
         self.assertNotContains(r, "z@example.com")
         self.assertEqual(self.client.get(reverse("accounts:player", args=["inconnu"])).status_code, 404)
+
+    def test_todays_wine_is_hidden_until_the_visitor_finished_the_daily(self):
+        """Les parties terminées des autres sur le vin du jour ne sont visibles qu'après son propre défi."""
+        from django.utils import timezone
+        from apps.blindtest import engine
+        today = timezone.localdate()
+        todays = engine.daily_profile(today)
+        other = WineProfile.objects.exclude(pk=todays.pk).first()
+        zoe = User.objects.create_user("zoe", "z@example.com", "Un-Bon-Cru-2026")
+        daily = Game.objects.create(user=zoe, profile=todays, mode=Game.Mode.DAILY, day=today,
+                                    status=Game.Status.WON, score=50)
+        free_same_wine = Game.objects.create(user=zoe, profile=todays, status=Game.Status.WON)
+        free_other = Game.objects.create(user=zoe, profile=other, status=Game.Status.WON)
+        url = reverse("accounts:player", args=["zoe"])
+
+        # visiteur qui n'a pas joué : ni liste, ni fiche des parties sur le vin du jour
+        r = self.client.get(url)
+        self.assertEqual([g.pk for g in r.context["games"]], [free_other.pk])
+        self.assertEqual(self.client.get(daily.get_absolute_url()).status_code, 404)
+        self.assertEqual(self.client.get(free_same_wine.get_absolute_url()).status_code, 404)
+        self.assertEqual(self.client.get(free_other.get_absolute_url()).status_code, 200)
+
+        # visiteur dont le défi du jour est en cours : toujours masqué
+        ann = User.objects.create_user("ann", "a@example.com", "Un-Bon-Cru-2026")
+        mine = Game.objects.create(user=ann, profile=todays, mode=Game.Mode.DAILY, day=today)
+        self.client.login(username="ann", password="Un-Bon-Cru-2026")
+        self.assertEqual(self.client.get(daily.get_absolute_url()).status_code, 404)
+
+        # défi terminé (même abandonné) : tout est visible
+        mine.status = Game.Status.LOST
+        mine.save()
+        self.assertEqual(len(self.client.get(url).context["games"]), 3)
+        self.assertEqual(self.client.get(daily.get_absolute_url()).status_code, 200)
 
     def test_own_player_url_redirects_to_profile(self):
         User.objects.create_user("zoe", "z@example.com", "Un-Bon-Cru-2026")
