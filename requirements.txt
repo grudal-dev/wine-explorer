@@ -6,3 +6,4 @@ dj-database-url>=2.2
 psycopg[binary]>=3.2
 PyYAML>=6.0
 gunicorn>=23.0
+djangorestframework>=3.15

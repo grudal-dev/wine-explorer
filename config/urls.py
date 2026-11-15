@@ -16,6 +16,7 @@ urlpatterns = [
     path("compte/", include("apps.accounts.urls")),
     path("i18n/", include("django.conf.urls.i18n")),  # changement de langue (set_language)
     path("jsi18n/", JavaScriptCatalog.as_view(packages=["apps.catalog"]), name="javascript-catalog"),
+    path("api/v1/", include("apps.api.urls")),
     path("admin/", admin.site.urls),
 ]
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-15 11:48+0100\n"
+"POT-Creation-Date: 2026-11-15 12:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -689,6 +689,9 @@ msgstr "Catalogue"
 
 msgid "Ce n'est pas cette appellation."
 msgstr "Not this appellation."
+
+msgid "Ce n'est pas votre partie."
+msgstr "This is not your game."
 
 msgid "Ce que contient la base"
 msgstr "What the database contains"
@@ -1384,6 +1387,12 @@ msgstr "IGP"
 msgid "INAO, via data.gouv.fr"
 msgstr "INAO, via data.gouv.fr"
 
+msgid "Identifiant d'appareil manquant."
+msgstr "Missing device identifier."
+
+msgid "Identifiant ou mot de passe incorrect."
+msgstr "Incorrect username or password."
+
 msgid "Identifié dès 1926 dans le café torréfié."
 msgstr "Identified as early as 1926 in roasted coffee."
 
@@ -1748,6 +1757,9 @@ msgstr ""
 
 msgid "Le caractère « abricot » du Viognier relié aux monoterpènes géraniol, linalol et nérol."
 msgstr "The \"apricot\" character of Viognier linked to the monoterpenes geraniol, linalool and nerol."
+
+msgid "Le chaud-froid n'est pas disponible."
+msgstr "Hot-cold is not available."
 
 msgid "Le classement du jour"
 msgstr "Today's leaderboard"
@@ -2154,6 +2166,9 @@ msgstr "Montagne de Reims"
 
 msgid "Mosaïque de climats où le pinot noir et le chardonnay expriment chaque parcelle."
 msgstr "A mosaic of climats where Pinot Noir and Chardonnay express each plot."
+
+msgid "Mot de passe incorrect."
+msgstr "Incorrect password."
 
 msgid "Muscat vinifié sec, qui sent le raisin frais croqué, léger et floral ; rare et singulier."
 msgstr "Muscat made dry, smelling of freshly bitten grapes, light and floral; rare and singular."
@@ -3274,6 +3289,9 @@ msgstr "Preset view"
 
 msgid "Végétal"
 msgstr "Green and herbaceous"
+
+msgid "Vérifiez les champs du formulaire."
+msgstr "Please check the form fields."
 
 msgid "Whisky-lactones, vanilline, eugénol, gaïacol extraits du bois dans douze vins rouges élevés en fût."
 msgstr "Whisky lactones, vanillin, eugenol and guaiacol extracted from wood in twelve barrel-aged red wines."

@@ -35,6 +35,9 @@ if not SECRET_KEY:
         )
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
+# Développement : le téléphone appelle l'API par l'adresse du PC sur le Wi-Fi (192.168.x.x).
+if DEBUG and env_bool("DJANGO_ALLOW_LAN", True):
+    ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
 # Sections servies (vide = toutes) : voir apps/catalog/sections.py
 PUBLIC_SECTIONS = env_list("DJANGO_PUBLIC_SECTIONS")
@@ -56,6 +59,9 @@ INSTALLED_APPS = [
     "apps.molecules",
     "apps.embeddings",
     "apps.accounts",
+    "apps.api",
+    "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -166,6 +172,16 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "root": {"handlers": ["console"], "level": os.environ.get("LOG_LEVEL", "INFO")},
+}
+
+# API des applications mobiles (/api/v1/) : jetons, pas de session ni de CSRF.
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework.authentication.TokenAuthentication"],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
+    "DEFAULT_THROTTLE_RATES": {"auth": os.environ.get("API_AUTH_RATE", "20/min")},
+    "UNAUTHENTICATED_USER": "django.contrib.auth.models.AnonymousUser",
 }
 
 # Réglages métier

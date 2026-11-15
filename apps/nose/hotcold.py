@@ -93,21 +93,27 @@ def daily_done(request, today: date) -> bool:
     return state.get("mode") == "daily" and state.get("day") == today.isoformat() and bool(state.get("over"))
 
 
-def history(owner, request, today: date, limit: int = 30) -> list:
+def history(owner, *, hide_today: date | None = None, limit: int = 30) -> list:
     """Résultats classés d'un joueur, du plus récent au plus ancien, avec le vin mystère (`.wine`).
 
-    Les résultats d'un autre joueur sur le vin mystère du jour sont masqués tant que le visiteur
-    n'a pas terminé le défi du jour.
+    `hide_today` : jour dont le résultat est masqué (vin mystère du jour, pour un visiteur qui n'a
+    pas encore terminé le défi ; voir `daily_done`).
     """
     rows = owner.hotcold_results.order_by("-day")
-    if owner != request.user and not daily_done(request, today):
-        rows = rows.exclude(day=today)
+    if hide_today is not None:
+        rows = rows.exclude(day=hide_today)
     rows = list(rows[:limit])
     wines = {w.slug: w for w in WineProfile.objects.filter(slug__in={r.secret for r in rows})
              .select_related("appellation")}
     for r in rows:
         r.wine = wines.get(r.secret)
     return rows
+
+
+def visible_history(owner, request, today: date, limit: int = 30) -> list:
+    """Historique vu par le visiteur du site : le jour masqué tant qu'il n'a pas fini son défi."""
+    hide = owner != request.user and not daily_done(request, today)
+    return history(owner, hide_today=today if hide else None, limit=limit)
 
 
 def _playable(sp: Space) -> list[str]:
