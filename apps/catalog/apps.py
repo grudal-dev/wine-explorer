@@ -13,6 +13,26 @@ def _autoload_enabled() -> bool:
     return "test" not in sys.argv[1:2]  # les tests chargent eux-mêmes leurs données
 
 
+def _missing_countries() -> list[str]:
+    """Dossiers de données dont le pays n'a encore aucun profil en base."""
+    import yaml
+
+    from apps.catalog.management.commands.load_seed import DATA_DIR
+
+    from .models import WineProfile
+
+    missing = []
+    for folder in sorted(DATA_DIR.iterdir()):
+        regions = folder / "regions.yaml"
+        if not regions.exists():
+            continue
+        with regions.open(encoding="utf-8") as fh:
+            code = yaml.safe_load(fh)["country"]["code"]
+        if not WineProfile.objects.filter(appellation__country__code=code).exists():
+            missing.append(folder.name)
+    return missing
+
+
 def load_missing_data(sender, verbosity=1, **kwargs):
     """Après `migrate` : charge les données de référence si la base est vide ou incomplète.
 
@@ -31,6 +51,9 @@ def load_missing_data(sender, verbosity=1, **kwargs):
     try:
         if not WineProfile.objects.exists():
             call_command("load_seed", country="all", stdout=out)
+        elif missing := _missing_countries():
+            # Un pays livré après le premier déploiement (ex. l'Italie) : on le charge seul.
+            call_command("load_seed", country=",".join(missing), stdout=out)
         elif not ProfileMolecule.objects.exists():
             call_command("load_molecules", stdout=out)
     except DatabaseError:

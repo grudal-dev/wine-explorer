@@ -31,10 +31,18 @@ class AutoloadTests(TestCase):
         self.assertFalse(WineProfile.objects.filter(profile_molecules__isnull=True).exists())
 
     def test_loaded_database_is_left_alone(self):
-        call_command("load_seed", stdout=StringIO())
+        call_command("load_seed", country="all", stdout=StringIO())
         with mock.patch("django.core.management.call_command") as cmd:
             self.run_hook()
         cmd.assert_not_called()
+
+    def test_country_shipped_later_is_loaded(self):
+        """Base de production remplie avant l'Italie : le `migrate` du déploiement suivant l'ajoute."""
+        call_command("load_seed", country="fr", stdout=StringIO())
+        self.assertFalse(WineProfile.objects.filter(appellation__country__code="IT").exists())
+        self.run_hook()
+        self.assertTrue(WineProfile.objects.filter(appellation__country__code="IT").exists())
+        self.assertFalse(WineProfile.objects.filter(profile_molecules__isnull=True).exists())
 
     def test_startup_warning(self):
         with mock.patch("sys.argv", ["manage.py", "runserver"]):
