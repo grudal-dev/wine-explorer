@@ -1,0 +1,283 @@
+# Appellations et profils types — Piémont, Vénétie, Lombardie, Trentin-Haut-Adige, Frioul, Émilie-Romagne.
+# Rédigés pour l'apprentissage à partir de connaissances générales : à faire relire par un œnologue.
+# structure : [corps, acidité, tanins, sucrosité], échelle 0-5.
+
+# ───────────── Piémont ─────────────
+- appellation: Barolo
+  region: Langhe
+  classification: DOCG
+  lat: 44.610
+  lng: 7.940
+  profiles:
+    - color: rouge
+      grapes: {Nebbiolo: 100}
+      aromas: {rose: 3, cerise: 2, réglisse: 2, truffe: 2, cuir: 1, violette: 1}
+      structure: [4, 5, 5, 0]
+      price: [35, 300]
+      aging: [10, 40]
+      temp: 16-18 °C
+      pairings: [tajarin à la truffe, bœuf braisé, gibier]
+      description: Le roi des vins italiens, un nebbiolo clair de robe mais puissant en tanins, qui évoque la rose fanée et le goudron avec les années.
+
+- appellation: Barbaresco
+  region: Langhe
+  classification: DOCG
+  lat: 44.730
+  lng: 8.080
+  profiles:
+    - color: rouge
+      grapes: {Nebbiolo: 100}
+      aromas: {rose: 2, violette: 2, cerise: 2, réglisse: 1, sous-bois: 1, poivre blanc: 1}
+      structure: [4, 4, 4, 0]
+      price: [30, 150]
+      aging: [8, 25]
+      temp: 16-18 °C
+      pairings: [risotto aux champignons, volaille rôtie, fromages affinés]
+      description: Nebbiolo plus précoce et plus soyeux que son voisin, des collines proches du Tanaro.
+
+- appellation: Barbera d'Alba
+  region: Langhe
+  classification: DOC
+  lat: 44.700
+  lng: 8.020
+  profiles:
+    - color: rouge
+      grapes: {Barbera: 100}
+      aromas: {cerise: 3, griotte: 2, prune: 2, poivre noir: 1, vanille: 1, réglisse: 1}
+      structure: [3, 5, 2, 0]
+      price: [10, 30]
+      aging: [3, 10]
+      temp: 16 °C
+      pairings: [pizza, charcuterie, agnolotti]
+      description: Rouge de tous les jours du Piémont, très fruité et vif, aux tanins discrets.
+
+- appellation: Dolcetto d'Alba
+  region: Langhe
+  classification: DOC
+  lat: 44.690
+  lng: 8.030
+  profiles:
+    - color: rouge
+      grapes: {Dolcetto: 100}
+      aromas: {cerise noire: 2, prune: 2, amande: 2, réglisse: 1, violette: 1}
+      structure: [3, 2, 3, 0]
+      price: [8, 18]
+      aging: [2, 6]
+      temp: 16 °C
+      pairings: [salami, pâtes, fromages doux]
+      description: Rouge souple au fruit noir et à la finale légèrement amère, malgré son nom (« petit doux »), il est sec.
+
+- appellation: Roero
+  region: Roero
+  classification: DOCG
+  lat: 44.780
+  lng: 7.930
+  profiles:
+    - name: Roero Arneis
+      color: blanc
+      grapes: {Arneis: 100}
+      aromas: {poire: 2, fleurs blanches: 2, amande: 2, pêche blanche: 1, pomme verte: 1}
+      structure: [2, 3, 0, 0]
+      price: [10, 22]
+      aging: [1, 4]
+      temp: 8-10 °C
+      pairings: [vitello tonnato, poissons de lac, légumes grillés]
+      description: Blanc de sable aux arômes de poire et d'amande, rond mais frais, autrefois surnommé « le petit rebelle ».
+
+- appellation: Gavi
+  region: Piémont
+  classification: DOCG
+  lat: 44.680
+  lng: 8.800
+  profiles:
+    - color: blanc
+      grapes: {Cortese: 100}
+      aromas: {citron: 2, pomme verte: 2, amande: 2, fleurs blanches: 1, silex: 1}
+      structure: [2, 4, 0, 0]
+      price: [10, 25]
+      aging: [1, 5]
+      temp: 8-10 °C
+      pairings: [poissons grillés, fruits de mer, antipasti]
+      description: Blanc sec, tendu et minéral, issu du seul cortese sur les argiles blanches de l'Alessandrino.
+
+- appellation: Asti
+  region: Monferrato
+  classification: DOCG
+  lat: 44.900
+  lng: 8.210
+  profiles:
+    - name: Moscato d'Asti
+      color: blanc
+      style: effervescent
+      grapes: {Moscato Bianco: 100}
+      aromas: {pêche blanche: 3, fleur d'oranger: 2, abricot: 1, litchi: 1, raisin sec: 1}
+      structure: [1, 3, 0, 4]
+      price: [6, 15]
+      aging: [0, 2]
+      temp: 6-8 °C
+      pairings: [desserts aux fruits, panettone, biscuits secs]
+      description: Muscat doux à peine pétillant, très faible en alcool, parfumé comme du raisin frais.
+
+- appellation: Gattinara
+  region: Haut-Piémont
+  classification: DOCG
+  lat: 45.620
+  lng: 8.370
+  profiles:
+    - color: rouge
+      grapes: {Nebbiolo: 95, Vespolina: 5}
+      aromas: {violette: 2, cerise: 2, poivre noir: 2, sous-bois: 2, rose: 1, pierre mouillée: 1}
+      structure: [3, 4, 4, 0]
+      price: [25, 70]
+      aging: [8, 25]
+      temp: 16-18 °C
+      pairings: [gibier à plume, risotto, fromages affinés]
+      description: Nebbiolo des sols volcaniques du nord du Piémont, plus fin et plus minéral que celui des Langhe.
+
+# ───────────── Vénétie ─────────────
+- appellation: Amarone della Valpolicella
+  region: Valpolicella
+  classification: DOCG
+  lat: 45.530
+  lng: 10.870
+  profiles:
+    - color: rouge
+      grapes: {Corvina: 55, Corvinone: 25, Rondinella: 20}
+      aromas: {cerise noire: 2, pruneau: 3, cacao: 2, raisin sec: 2, tabac: 1, réglisse: 1, figue sèche: 1}
+      structure: [5, 3, 4, 1]
+      price: [40, 150]
+      aging: [10, 30]
+      temp: 17-18 °C
+      pairings: [fromages affinés, gibier, plats braisés]
+      description: Rouge puissant et sec issu de raisins séchés plusieurs mois sur claies, aux arômes de fruits confits et de chocolat.
+
+- appellation: Valpolicella Ripasso
+  region: Valpolicella
+  classification: DOC
+  lat: 45.540
+  lng: 10.880
+  profiles:
+    - color: rouge
+      grapes: {Corvina: 60, Rondinella: 30, Corvinone: 10}
+      aromas: {cerise: 3, griotte: 2, poivre noir: 1, cacao: 1, prune: 1, amande: 1}
+      structure: [3, 4, 3, 0]
+      price: [12, 25]
+      aging: [3, 10]
+      temp: 16 °C
+      pairings: [risotto à l'amarone, viandes rôties, pizza]
+      description: Valpolicella « repassé » sur les marcs de l'amarone, plus riche et plus profond que le simple valpolicella.
+
+- appellation: Soave
+  region: Soave
+  classification: DOC
+  lat: 45.420
+  lng: 11.250
+  profiles:
+    - color: blanc
+      grapes: {Garganega: 85, Chardonnay: 15}
+      aromas: {amande: 3, poire: 2, fleurs blanches: 2, pêche blanche: 1, citron: 1}
+      structure: [2, 3, 0, 0]
+      price: [7, 25]
+      aging: [1, 6]
+      temp: 8-10 °C
+      pairings: [risotto aux asperges, poissons de rivière, antipasti]
+      description: Blanc de la garganega sur sols volcaniques, entre fleurs blanches et amande, qui vieillit avec distinction.
+
+- appellation: Conegliano Valdobbiadene
+  region: Conegliano-Valdobbiadene
+  classification: DOCG
+  lat: 45.900
+  lng: 12.090
+  profiles:
+    - name: Prosecco Superiore brut
+      color: blanc
+      style: effervescent
+      grapes: {Glera: 100}
+      aromas: {pomme verte: 3, poire: 2, acacia: 2, citron: 1, pêche blanche: 1}
+      structure: [1, 4, 0, 1]
+      price: [8, 20]
+      aging: [0, 2]
+      temp: 6-8 °C
+      pairings: [apéritif, fruits de mer, cicchetti]
+      description: Effervescent léger et fruité, élaboré en cuve close sur des collines abruptes classées au patrimoine mondial.
+
+# ───────────── Lombardie ─────────────
+- appellation: Franciacorta
+  region: Franciacorta
+  classification: DOCG
+  lat: 45.600
+  lng: 10.000
+  profiles:
+    - name: Franciacorta brut
+      color: blanc
+      style: effervescent
+      grapes: {Chardonnay: 80, Pinot Nero: 20}
+      aromas: {brioche: 2, pomme verte: 2, amande: 2, citron: 2, mie de pain: 1}
+      structure: [3, 4, 0, 1]
+      price: [20, 60]
+      aging: [2, 8]
+      temp: 7-8 °C
+      pairings: [fruits de mer, risotto, poisson de lac]
+      description: "La réponse lombarde à la Champagne : méthode traditionnelle, longues lies, bulles fines et finesse lactique."
+
+# ───────────── Trentin-Haut-Adige ─────────────
+- appellation: Alto Adige
+  region: Trentin-Haut-Adige
+  classification: DOC
+  lat: 46.500
+  lng: 11.350
+  profiles:
+    - color: blanc
+      grapes: {Pinot Blanc: 100}
+      aromas: {pomme mûre: 2, poire: 2, amande: 2, fleurs blanches: 1, citron: 1}
+      structure: [2, 4, 0, 0]
+      price: [10, 25]
+      aging: [1, 5]
+      temp: 8-10 °C
+      pairings: [asperges, truite, speck]
+      description: Blanc de montagne précis et équilibré, fruit de grands écarts de température entre le jour et la nuit.
+    - color: rouge
+      grapes: {Lagrein: 100}
+      aromas: {mûre: 3, cerise noire: 2, violette: 1, cacao: 2, poivre noir: 1, café: 1}
+      structure: [4, 3, 4, 0]
+      price: [12, 35]
+      aging: [3, 10]
+      temp: 16-17 °C
+      pairings: [canard, gibier, polenta]
+      description: Rouge sombre et dense du Haut-Adige, fruité et chocolaté, plus tendre que sa robe ne le laisse croire.
+
+# ───────────── Frioul-Vénétie Julienne ─────────────
+- appellation: Collio
+  region: Collio
+  classification: DOC
+  lat: 45.960
+  lng: 13.580
+  profiles:
+    - name: Collio blanc
+      color: blanc
+      grapes: {Friulano: 40, Ribolla Gialla: 20, Sauvignon Blanc: 20, Pinot Gris: 20}
+      aromas: {pêche blanche: 2, poire: 2, amande: 2, fleurs blanches: 2, pamplemousse: 1, pierre mouillée: 1}
+      structure: [3, 4, 0, 0]
+      price: [15, 35]
+      aging: [2, 8]
+      temp: 10-12 °C
+      pairings: [jambon de San Daniele, poissons de l'Adriatique, asperges]
+      description: Assemblage blanc des collines de marnes et de grès, structuré et complexe, à la frontière slovène.
+
+# ───────────── Émilie-Romagne ─────────────
+- appellation: Lambrusco di Sorbara
+  region: Émilie-Romagne
+  classification: DOC
+  lat: 44.750
+  lng: 10.950
+  profiles:
+    - color: rouge
+      style: effervescent
+      grapes: {Lambrusco di Sorbara: 100}
+      aromas: {fraise: 2, framboise: 2, violette: 2, cerise: 1, rose: 1}
+      structure: [2, 5, 1, 1]
+      price: [6, 15]
+      aging: [0, 2]
+      temp: 10-12 °C
+      pairings: [charcuterie, tortellini, parmesan]
+      description: Rouge pétillant pâle et vif, très floral, que l'on boit frais pour trancher le gras de la cuisine émilienne.

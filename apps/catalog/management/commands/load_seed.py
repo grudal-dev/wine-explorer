@@ -1,7 +1,13 @@
 """Charge (ou recharge) le jeu de données de référence livré avec le projet.
 
-    python manage.py load_seed            # France
-    python manage.py load_seed --check    # valide les YAML sans écrire
+    python manage.py load_seed                    # France
+    python manage.py load_seed --country it       # Italie (en plus de la France déjà chargée)
+    python manage.py load_seed --country all      # tous les pays livrés
+    python manage.py load_seed --check            # valide les YAML sans écrire
+
+Cépages et arômes forment un référentiel commun : celui de `data/fr/` est toujours lu, et le
+fichier `grapes.yaml` d'un autre pays vient s'y ajouter (un cépage partagé, comme le merlot,
+n'est déclaré qu'une fois).
 
 La commande est idempotente : elle met à jour les objets existants (clé :
 slug) et remplace les encépagements et arômes des profils. Toute référence
@@ -32,6 +38,7 @@ from apps.catalog.models import (
 from apps.catalog.text import normalize
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+COMMON = "fr"  # référentiel commun de cépages et d'arômes
 
 PROFILE_KEYS = {
     "name", "color", "style", "grapes", "aromas", "structure", "price", "aging",
@@ -44,18 +51,22 @@ class Command(BaseCommand):
     help = "Charge le jeu de données de référence (régions, cépages, arômes, appellations, profils)."
 
     def add_arguments(self, parser):
-        parser.add_argument("--country", default="fr", help="Dossier de données (défaut : fr).")
+        parser.add_argument("--country", default="fr",
+                            help="Dossier(s) de données, séparés par des virgules, ou « all » (défaut : fr).")
         parser.add_argument("--check", action="store_true", help="Valider sans écrire en base.")
         parser.add_argument("--skip-molecules", action="store_true",
                             help="Ne pas recharger la section Molécules (load_molecules).")
 
     def handle(self, *args, country, check, skip_molecules=False, **options):
-        folder = DATA_DIR / country
-        if not folder.is_dir():
-            raise CommandError(f"Dossier de données introuvable : {folder}")
+        folders = self._folders(country)
+        stats: dict[str, int] = {}
         try:
             with transaction.atomic():
-                stats = self._load(folder)
+                for folder in folders:
+                    for key, value in self._load(folder).items():
+                        stats[key] = stats.get(key, 0) + value
+                stats["cépages"] = Grape.objects.count()  # référentiel commun : compté une fois
+                stats["arômes"] = Aroma.objects.count()
                 if check:
                     transaction.set_rollback(True)
         except (KeyError, ValueError) as exc:
@@ -73,13 +84,26 @@ class Command(BaseCommand):
             predictor.reset()
         verb = "validé" if check else "chargé"
         self.stdout.write(self.style.SUCCESS(
-            f"Jeu de données {verb} : " + ", ".join(f"{v} {k}" for k, v in stats.items())
+            f"Jeu de données {verb} ({', '.join(f.name for f in folders)}) : "
+            + ", ".join(f"{v} {k}" for k, v in stats.items())
         ))
         if not check and not skip_molecules:
             # Les liens vin → molécule dépendent des profils : on les recalcule.
             from django.core.management import call_command
 
             call_command("load_molecules", stdout=self.stdout)
+
+    def _folders(self, spec: str) -> list[Path]:
+        if spec.strip().lower() == "all":
+            names = sorted(p.name for p in DATA_DIR.iterdir() if (p / "regions.yaml").exists())
+        else:
+            names = [n.strip() for n in spec.split(",") if n.strip()]
+        names.sort(key=lambda n: (n != COMMON, n))  # le référentiel commun d'abord
+        folders = [DATA_DIR / n for n in names]
+        for folder in folders:
+            if not folder.is_dir():
+                raise CommandError(f"Dossier de données introuvable : {folder}")
+        return folders
 
     # ------------------------------------------------------------------
     def _read(self, path: Path):
@@ -100,8 +124,13 @@ class Command(BaseCommand):
             for child in item.get("children", []):
                 regions[child["name"]] = self._region(country, child, parent, Region.Kind.SUBREGION)
 
-        grapes = self._load_grapes(folder / "grapes.yaml")
-        aromas = self._load_aromas(folder / "aromas.yaml")
+        grape_files = [DATA_DIR / COMMON / "grapes.yaml"]
+        if folder.name != COMMON and (folder / "grapes.yaml").exists():
+            grape_files.append(folder / "grapes.yaml")
+        grapes: dict[str, Grape] = {}
+        for path in grape_files:
+            grapes |= self._load_grapes(path)
+        aromas = self._load_aromas(DATA_DIR / COMMON / "aromas.yaml")
 
         n_app = n_prof = 0
         for path in sorted(folder.glob("appellations_*.yaml")):

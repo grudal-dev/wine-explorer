@@ -1,0 +1,163 @@
+# Appellations et profils types — Campanie, Basilicate, Pouilles, Sicile, Sardaigne.
+# Rédigés pour l'apprentissage à partir de connaissances générales : à faire relire par un œnologue.
+# structure : [corps, acidité, tanins, sucrosité], échelle 0-5.
+
+# ───────────── Campanie ─────────────
+- appellation: Taurasi
+  region: Irpinie
+  classification: DOCG
+  lat: 40.990
+  lng: 15.000
+  profiles:
+    - color: rouge
+      grapes: {Aglianico: 100}
+      aromas: {cerise noire: 3, prune: 2, réglisse: 2, cuir: 1, tabac: 1, poivre noir: 1}
+      structure: [5, 5, 5, 0]
+      price: [25, 80]
+      aging: [10, 30]
+      temp: 17-18 °C
+      pairings: [agneau, gibier, fromages affinés]
+      description: Le « Barolo du Sud », aglianico sombre et tannique des collines volcaniques de l'Irpinie, très long à s'ouvrir.
+
+- appellation: Fiano di Avellino
+  region: Irpinie
+  classification: DOCG
+  lat: 40.920
+  lng: 14.790
+  profiles:
+    - color: blanc
+      grapes: {Fiano: 100}
+      aromas: {noisette: 3, poire: 2, pêche jaune: 1, tilleul: 1, miel: 1}
+      structure: [3, 4, 0, 0]
+      price: [15, 35]
+      aging: [3, 10]
+      temp: 9-11 °C
+      pairings: [poissons de roche, mozzarella, volaille]
+      description: Blanc de l'Irpinie dont la noisette signe le cépage, qui gagne en cire et en miel avec l'âge.
+
+- appellation: Greco di Tufo
+  region: Irpinie
+  classification: DOCG
+  lat: 40.970
+  lng: 14.980
+  profiles:
+    - color: blanc
+      grapes: {Greco: 100}
+      aromas: {pêche jaune: 2, poire: 1, amande: 2, zeste d'orange: 1, silex: 1}
+      structure: [3, 4, 0, 0]
+      price: [15, 30]
+      aging: [3, 10]
+      temp: 9-11 °C
+      pairings: [fruits de mer, pizza blanche, fromages frais]
+      description: Blanc ample et minéral des sols soufrés d'un village de l'Irpinie, plus structuré que la plupart des blancs du Sud.
+
+# ───────────── Basilicate ─────────────
+- appellation: Aglianico del Vulture
+  region: Basilicate
+  classification: DOC
+  lat: 40.950
+  lng: 15.620
+  profiles:
+    - color: rouge
+      grapes: {Aglianico: 100}
+      aromas: {cerise noire: 3, mûre: 2, poivre noir: 1, fumé: 1, réglisse: 1, graphite: 1}
+      structure: [4, 4, 4, 0]
+      price: [12, 35]
+      aging: [5, 15]
+      temp: 17 °C
+      pairings: [agneau, viandes grillées, fromages à pâte dure]
+      description: Aglianico des pentes d'un volcan éteint, plus ensoleillé et plus souple que celui de Campanie, mais tout aussi sérieux.
+
+# ───────────── Pouilles ─────────────
+- appellation: Primitivo di Manduria
+  region: Salento
+  classification: DOC
+  lat: 40.400
+  lng: 17.630
+  profiles:
+    - color: rouge
+      grapes: {Primitivo: 100}
+      aromas: {prune: 3, mûre: 2, cerise noire: 2, pruneau: 2, cacao: 1, poivre noir: 1}
+      structure: [5, 2, 4, 1]
+      price: [10, 30]
+      aging: [3, 10]
+      temp: 16-18 °C
+      pairings: [viandes grillées, orecchiette au ragoût, fromages affinés]
+      description: Rouge chaleureux et dense, le cousin italien du zinfandel californien, aux arômes de confiture de prunes.
+
+- appellation: Salice Salentino
+  region: Salento
+  classification: DOC
+  lat: 40.370
+  lng: 18.000
+  profiles:
+    - color: rouge
+      grapes: {Negroamaro: 90, Malvasia Nera: 10}
+      aromas: {prune: 2, cerise noire: 2, garrigue: 1, tabac: 1, cuir: 1, poivre noir: 1, cacao: 1}
+      structure: [4, 3, 3, 0]
+      price: [8, 20]
+      aging: [3, 8]
+      temp: 16-17 °C
+      pairings: [pâtes au ragoût, agneau, fromages affinés]
+      description: Rouge du talon de la botte, chaud et épicé, à la finale légèrement amère qui fait l'identité du negroamaro.
+
+# ───────────── Sicile ─────────────
+- appellation: Etna
+  region: Etna
+  classification: DOC
+  lat: 37.750
+  lng: 15.000
+  profiles:
+    - name: Etna rosso
+      color: rouge
+      grapes: {Nerello Mascalese: 80, Nerello Cappuccio: 20}
+      aromas: {cerise: 3, framboise: 1, griotte: 1, fumé: 2, poivre noir: 1, rose: 1}
+      structure: [3, 5, 3, 0]
+      price: [18, 70]
+      aging: [5, 20]
+      temp: 16 °C
+      pairings: [thon, cuisine sicilienne, gibier à plume]
+      description: Rouge clair et tendu des pentes de l'Etna, souvent comparé au pinot noir et au nebbiolo, avec un côté fumé volcanique.
+    - name: Etna bianco
+      color: blanc
+      grapes: {Carricante: 100}
+      aromas: {citron: 3, pomme verte: 2, fleurs blanches: 1, iode: 2, silex: 2}
+      structure: [3, 5, 0, 0]
+      price: [18, 50]
+      aging: [3, 15]
+      temp: 9-11 °C
+      pairings: [crustacés, poissons grillés, cuisine sicilienne]
+      description: Blanc vertical et salin, cultivé jusqu'à 1 000 mètres d'altitude, qui vieillit remarquablement bien.
+
+# ───────────── Sardaigne ─────────────
+- appellation: Vermentino di Gallura
+  region: Gallura
+  classification: DOCG
+  lat: 40.900
+  lng: 9.350
+  profiles:
+    - color: blanc
+      grapes: {Vermentino: 100}
+      aromas: {citron: 2, pamplemousse: 2, amande: 2, pomme verte: 1, fleurs blanches: 1, iode: 1}
+      structure: [3, 3, 0, 0]
+      price: [10, 22]
+      aging: [1, 4]
+      temp: 8-10 °C
+      pairings: [poissons grillés, fruits de mer, fregola]
+      description: Blanc sarde sur granite, salin et citronné, le seul de l'île classé en DOCG.
+
+- appellation: Cannonau di Sardegna
+  region: Sardaigne
+  classification: DOC
+  lat: 40.050
+  lng: 9.100
+  profiles:
+    - color: rouge
+      grapes: {Grenache: 100}
+      aromas: {cerise: 2, prune: 2, garrigue: 2, poivre noir: 1, réglisse: 1}
+      structure: [4, 3, 3, 0]
+      price: [10, 30]
+      aging: [3, 10]
+      temp: 16-17 °C
+      pairings: [porcelet rôti, agneau, fromages de brebis]
+      description: Le grenache sarde, nommé cannonau, chaleureux et épicé, élevé sur granite et face à la mer.

@@ -51,7 +51,7 @@
       <div class="field">
         <label for="f-region">{% translate "Région" %}</label>
         <select id="f-region" name="region" class="input">
-          <option value="">{% translate "Toute la France" %}</option>
+          <option value="">{% translate "Toutes les régions" %}</option>
           {% for r in roots %}<option value="{{ r.slug }}">{{ r.name|tr }}</option>{% endfor %}
         </select>
       </div>

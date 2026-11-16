@@ -4,11 +4,11 @@
 - {name: Cabernet Franc, skin: noir, origin: Bordeaux / Loire, synonyms: [Breton, Bouchet]}
 - {name: Petit Verdot, skin: noir, origin: Bordeaux}
 - {name: Malbec, skin: noir, origin: Cahors, synonyms: [Côt, Auxerrois]}
-- {name: Pinot Noir, skin: noir, origin: Bourgogne, synonyms: [Pinot]}
+- {name: Pinot Noir, skin: noir, origin: Bourgogne, synonyms: [Pinot, Pinot Nero]}
 - {name: Pinot Meunier, skin: noir, origin: Champagne, synonyms: [Meunier]}
 - {name: Gamay, skin: noir, origin: Bourgogne / Beaujolais}
 - {name: Syrah, skin: noir, origin: Rhône septentrional, synonyms: [Shiraz, Sérine]}
-- {name: Grenache, skin: noir, origin: Espagne / Méditerranée, synonyms: [Grenache noir, Garnacha]}
+- {name: Grenache, skin: noir, origin: Espagne / Méditerranée, synonyms: [Grenache noir, Garnacha, Cannonau]}
 - {name: Mourvèdre, skin: noir, origin: Espagne / Provence, synonyms: [Monastrell, Mataro]}
 - {name: Cinsault, skin: noir, origin: Languedoc}
 - {name: Carignan, skin: noir, origin: Espagne / Languedoc, synonyms: [Carignane]}
@@ -31,7 +31,7 @@
 - {name: Pinot Gris, skin: gris, origin: Bourgogne / Alsace, synonyms: [Pinot Grigio]}
 - {name: Pinot Blanc, skin: blanc, origin: Bourgogne / Alsace}
 - {name: Sylvaner, skin: blanc, origin: Europe centrale}
-- {name: Muscat à petits grains, skin: blanc, origin: Méditerranée, synonyms: [Muscat blanc, Muscat de Frontignan]}
+- {name: Muscat à petits grains, skin: blanc, origin: Méditerranée, synonyms: [Muscat blanc, Muscat de Frontignan, Moscato, Moscato Bianco]}
 - {name: Muscat d'Alexandrie, skin: blanc, origin: Méditerranée}
 - {name: Viognier, skin: blanc, origin: Rhône septentrional}
 - {name: Marsanne, skin: blanc, origin: Rhône septentrional}

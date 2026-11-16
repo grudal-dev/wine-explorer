@@ -15,7 +15,7 @@
   <aside class="explorer__rail" aria-label="{% translate "Réglages de la carte" %}">
     <div class="rail-group">
       <h1 class="mol-title">{% translate "Carte des goûts" %}</h1>
-      <p class="small muted">{% translate "Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, même coin de France. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à la main." %}</p>
+      <p class="small muted">{% translate "Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, même coin de vignoble. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à la main." %}</p>
     </div>
 
     <div class="rail-group">
@@ -53,7 +53,7 @@
       <div class="field">
         <label for="map-region">{% translate "Région" %}</label>
         <select id="map-region" name="region" class="input">
-          <option value="">{% translate "Toute la France" %}</option>
+          <option value="">{% translate "Toutes les régions" %}</option>
           {% for r in roots %}<option value="{{ r.slug }}">{{ r.name }}</option>{% endfor %}
         </select>
       </div>
