@@ -94,9 +94,9 @@ class ViewTests(TestCase):
             self.assertContains(self.client.get(url), "Ce qui lui ressemble", msg_prefix=url)
 
     def test_english(self):
-        page = self.client.get(reverse("embeddings:map"), HTTP_ACCEPT_LANGUAGE="en")
+        page = self.client.get("/en/carte/")
         self.assertContains(page, "Taste map")
-        panel = self.client.get(reverse("embeddings:panel", args=["aroma:violette"]), HTTP_ACCEPT_LANGUAGE="en")
+        panel = self.client.get("/en/carte/fiche/aroma:violette/")
         self.assertContains(panel, "raspberry")
         from django.utils import translation
         translation.activate("fr")

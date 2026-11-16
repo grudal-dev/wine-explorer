@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import re
 
+from django.conf import settings
+from django.utils import translation
 from django.utils.translation import get_language, gettext
 
 
@@ -20,7 +22,6 @@ def tr(value):
 
 def all_labels(label) -> list[str]:
     """Le libellé dans chaque langue du site, sans doublon : sert aux index de recherche."""
-    from django.conf import settings
     from django.utils.translation import override
 
     out = []
@@ -91,3 +92,38 @@ def tr_reason(label: str) -> str:
             text = render(m)
             return text[:1].upper() + text[1:]
     return gettext(label)
+
+
+class HeaderLanguageMiddleware:
+    """Hors des pages du site (API mobile), la langue suit `Accept-Language`.
+
+    Dès que le site utilise des préfixes d'URL, `LocaleMiddleware` impose le français à toute adresse sans
+    préfixe : on rétablit ici le comportement de l'API, qui n'a pas d'adresse par langue.
+    """
+
+    PREFIXES = ("/api/",)
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if request.path_info.startswith(self.PREFIXES):
+            language = translation.get_language_from_request(request, check_path=False)
+            translation.activate(language)
+            request.LANGUAGE_CODE = language
+        return self.get_response(request)
+
+
+def set_language(request):
+    """Changement de langue : la page d'origine (`next`) est lue dans SA langue.
+
+    Le formulaire poste vers une adresse sans préfixe, donc traitée en français ;
+    sans ce détour, `/en/le-nez/` ne serait pas reconnue et le retour au français échouerait.
+    """
+    from django.views.i18n import set_language as django_set_language
+
+    from .sections import language_of
+
+    target = request.POST.get("next") or request.GET.get("next") or ""
+    with translation.override(language_of(target) or settings.LANGUAGE_CODE):
+        return django_set_language(request)

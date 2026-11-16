@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404
 from django.shortcuts import redirect
+from django.utils import translation
 
 # Ordre = ordre de repli pour la page d'accueil quand « / » n'est pas servie.
 SECTIONS = {
@@ -35,7 +36,20 @@ def enabled() -> frozenset[str]:
     return frozenset(configured) if configured else frozenset(SECTIONS)
 
 
+def language_of(path: str) -> str | None:
+    """Langue annoncée par le préfixe d'URL (`/en/…`) ; `None` pour le français, qui n'en a pas."""
+    code = translation.get_language_from_path(str(path))
+    return code if code in dict(settings.LANGUAGES) and code != settings.LANGUAGE_CODE else None
+
+
+def strip_language(path: str) -> str:
+    """`/en/molecules/` → `/molecules/` : les sections se reconnaissent à leur chemin sans langue."""
+    code = language_of(path)
+    return (str(path)[len(code) + 1 :] or "/") if code else str(path)
+
+
 def path_enabled(path: str) -> bool:
+    path = strip_language(path)
     on = enabled()
     return all(name in on for name, prefix in SECTIONS.items() if str(path).startswith(prefix))
 
@@ -47,14 +61,15 @@ class SectionGateMiddleware:
     def __call__(self, request):
         on = enabled()
         if len(on) < len(SECTIONS):
-            path = request.path_info
+            path = strip_language(request.path_info)
             if path == "/":
                 landing = next(name for name in SECTIONS if name in on)
-                return redirect(SECTIONS[landing])
+                prefix = f"/{language_of(request.path_info)}" if language_of(request.path_info) else ""
+                return redirect(prefix + SECTIONS[landing])
             if not path_enabled(path):
                 raise Http404("Section non publique")
         return self.get_response(request)
 
 
 def context(request):
-    return {"sections": enabled()}
+    return {"sections": enabled(), "path_no_lang": strip_language(request.path)}

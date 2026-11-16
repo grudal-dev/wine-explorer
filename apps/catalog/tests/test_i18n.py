@@ -4,7 +4,7 @@ from pathlib import Path
 from django.conf import settings
 from django.core.management import call_command
 from django.test import TestCase
-from django.urls import reverse
+from django.urls import reverse, translate_url
 from django.utils import translation
 
 from apps.blindtest import engine
@@ -29,7 +29,8 @@ class EnglishTests(TestCase):
         translation.activate(settings.LANGUAGE_CODE)  # une requête en anglais laisse la langue active
 
     def get(self, url):
-        return self.client.get(url, HTTP_ACCEPT_LANGUAGE="en")
+        """La page en anglais : même adresse sous `/en/`."""
+        return self.client.get(translate_url(url, "en"))
 
     def test_compiled_catalogs_are_shipped(self):
         folder = Path(settings.BASE_DIR) / "locale" / "en" / "LC_MESSAGES"
@@ -56,15 +57,18 @@ class EnglishTests(TestCase):
 
     def test_language_switch(self):
         r = self.client.post(reverse("set_language"), {"language": "en", "next": "/le-nez/"})
-        self.assertRedirects(r, "/le-nez/")
-        self.assertContains(self.client.get("/le-nez/"), "The Nose")
-        self.client.post(reverse("set_language"), {"language": "fr", "next": "/le-nez/"})
+        self.assertRedirects(r, "/en/le-nez/", fetch_redirect_response=False)
+        self.assertContains(self.client.get("/en/le-nez/"), "The Nose")
+        r = self.client.post(reverse("set_language"), {"language": "fr", "next": "/en/le-nez/"})
+        self.assertRedirects(r, "/le-nez/", fetch_redirect_response=False)
         self.assertContains(self.client.get("/le-nez/"), "La roue des arômes")
 
     def test_apis_follow_the_language(self):
         data = self.get(reverse("explorer:api_search") + "?q=viol").json()
         self.assertIn("violet", [r["label"] for r in data["results"]])
-        data = self.client.get(reverse("explorer:api_search") + "?q=viol").json()
+        with translation.override("fr"):
+            url = reverse("explorer:api_search")
+        data = self.client.get(url + "?q=viol").json()
         self.assertIn("violette", [r["label"] for r in data["results"]])
         self.assertIn(b"gettext", self.get(reverse("javascript-catalog")).content)
 

@@ -11,7 +11,7 @@ from django.conf import settings
 from django.contrib.sitemaps import Sitemap
 from django.http import HttpResponse
 from django.templatetags.static import static
-from django.urls import reverse
+from django.urls import translate_url, reverse
 
 from . import sections
 from .models import Appellation, Aroma, Grape, Region, WineProfile
@@ -46,22 +46,39 @@ def site_base(request) -> str:
     return configured_site_url() or f"{request.scheme}://{request.get_host()}"
 
 
+def alternates(request, base: str) -> list[tuple[str, str]]:
+    """Les adresses de la page dans chaque langue, pour `hreflang`. Vide si la page n'existe que dans une langue."""
+    if not getattr(request, "resolver_match", None):
+        return []
+    urls = {code: base + translate_url(request.path, code) for code, _name in settings.LANGUAGES}
+    return list(urls.items()) if len(set(urls.values())) == len(urls) else []
+
+
 def context(request):
     base = site_base(request)
+    links = alternates(request, base)
     return {
         "canonical_url": base + request.path,
         "site_url": base,
         "og_image_url": base + static("img/og.png"),
+        "hreflang_links": links,
+        "hreflang_default": dict(links).get(settings.LANGUAGE_CODE, ""),
     }
 
 
 def robots_txt(request):
-    lines = ["User-agent: *", *(f"Disallow: {path}" for path in DISALLOWED), "", f"Sitemap: {site_base(request)}/sitemap.xml", ""]
+    others = [code for code, _name in settings.LANGUAGES if code != settings.LANGUAGE_CODE]
+    paths = [p for path in DISALLOWED for p in (path, *(f"/{code}{path}" for code in others))]
+    lines = ["User-agent: *", *(f"Disallow: {p}" for p in paths), "", f"Sitemap: {site_base(request)}/sitemap.xml", ""]
     return HttpResponse("\n".join(lines), content_type="text/plain; charset=utf-8")
 
 
 class _Base(Sitemap):
     protocol = None  # celui de la requête (https derrière le proxy, voir SECURE_PROXY_SSL_HEADER)
+    # Une entrée par langue, chacune avec ses alternates (xhtml:link hreflang, dont x-default).
+    i18n = True
+    alternates = True
+    x_default = True
 
     def get_urls(self, page=1, site=None, protocol=None):
         # Le domaine canonique, s'il est défini, l'emporte sur celui de la requête.

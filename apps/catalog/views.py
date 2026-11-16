@@ -1,5 +1,6 @@
 from django.db.models import Count, Prefetch
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.utils import timezone
 
 from .i18n import tr
@@ -7,6 +8,15 @@ from .models import Appellation, Aroma, AromaFamily, Grape, ProfileAroma, Region
 
 
 def home(request):
+    from django.shortcuts import redirect
+    from django.utils import translation
+
+    # Une adresse par langue : le français vit sur « / », l'anglais sur « /en/ ». Seule la page d'accueil
+    # envoie vers l'anglais, d'après le choix déjà fait (cookie) ou la langue du navigateur. Les robots,
+    # qui n'envoient pas de préférence, voient le français ; les autres pages ne bougent jamais.
+    if translation.get_language_from_request(request, check_path=False) == "en" and request.LANGUAGE_CODE != "en":
+        with translation.override("en"):
+            return redirect(reverse("home"))
     from apps.blindtest.engine import daily_profile
 
     teaser = None
