@@ -20,13 +20,16 @@
       <p class="small muted">{% translate "Du verre à la nature : les molécules qui font le nez d'un vin, et les plantes, fruits ou épices où on les retrouve. Chaque lien est sourcé." %}</p>
     </div>
 
-    <div class="rail-group">
+    <div class="rail-group rail-search">
       <label class="label" for="mol-search">{% translate "Partir d'un vin, d'une molécule ou d'un élément naturel" %}</label>
       <div class="combo">
         <input id="mol-search" class="input" type="search" placeholder="{% translate "Côte-Rôtie, rotundone, truffe…" %}" autocomplete="off"
                role="combobox" aria-expanded="false" aria-controls="mol-search-list">
         <ul class="combo__list" id="mol-search-list" role="listbox" hidden></ul>
       </div>
+      </div>
+
+    <div class="rail-group">
       <button type="button" class="btn btn--ghost btn--small mol-random" id="mol-random">{% translate "Un vin au hasard" %}</button>
     </div>
 
@@ -39,7 +42,8 @@
       </div>
     </div>
 
-    <div class="rail-group">
+    <details class="rail-group rail-options">
+      <summary>{% translate "Options d'affichage" %}</summary>
       <label class="check"><input type="checkbox" id="mol-family" checked> {% translate "Liens par famille d'arômes" %}</label>
       <p class="small muted">{% translate "Quand aucun cépage ni descripteur précis ne la désigne, une molécule peut être reliée par la famille d'arômes du vin (fruits noirs, boisé…). Lien le plus faible, en pointillé." %}</p>
       {% if counts.imported %}
@@ -48,21 +52,7 @@
       {% endif %}
       <label class="check"><input type="checkbox" id="mol-common"> {% translate "Toujours montrer le socle commun" %}</label>
       <p class="small muted">{% translate "Esters et alcools de fermentation présents dans tous les vins. Ajoutés d'office, en pâle, quand un vin a peu de molécules propres." %}</p>
-    </div>
-
-    <div class="rail-group">
-      <span class="label">{% translate "Pourquoi un vin contient une molécule" %}</span>
-      <ul class="basis-legend">
-        <li><i class="basis basis--grape"></i>{% translate "Marqueur de son cépage" %}</li>
-        <li><i class="basis basis--style"></i>{% translate "Son style de vinification" %}</li>
-        <li><i class="basis basis--color"></i>{% translate "Sa couleur (fermentation malolactique…)" %}</li>
-        <li><i class="basis basis--aroma"></i>{% translate "Un descripteur de son nez" %}</li>
-        <li><i class="basis basis--family"></i>{% translate "Une famille d'arômes de son nez" %}</li>
-        <li><i class="basis basis--universal"></i>{% translate "Socle commun des vins" %}</li>
-      </ul>
-      <p class="small muted">{% translate "L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible." %}</p>
-      <p class="small muted">{% translate "Cliquez sur un nœud pour lire sa fiche, double-cliquez pour repartir de lui." %}</p>
-    </div>
+    </details>
 
     <p class="small"><a href="{% url 'molecules:list' %}">{% blocktranslate trimmed with molecules=counts.molecules sources=counts.sources %}Les {{ molecules }} molécules et {{ sources }} éléments naturels{% endblocktranslate %}</a><br>
       <a href="{% url 'molecules:bibliography' %}">{% blocktranslate trimmed with references=counts.references %}Méthode et {{ references }} sources{% endblocktranslate %}</a></p>
@@ -91,6 +81,18 @@
       </div>
       <div id="mol-cy" class="cy"></div>
     </div>
+    <details class="mol-legend" id="mol-legend">
+      <summary>{% translate "Pourquoi un vin contient une molécule" %}</summary>
+      <ul class="basis-legend">
+        <li><i class="basis basis--grape"></i>{% translate "Marqueur de son cépage" %}</li>
+        <li><i class="basis basis--style"></i>{% translate "Son style de vinification" %}</li>
+        <li><i class="basis basis--color"></i>{% translate "Sa couleur (fermentation malolactique…)" %}</li>
+        <li><i class="basis basis--aroma"></i>{% translate "Un descripteur de son nez" %}</li>
+        <li><i class="basis basis--family"></i>{% translate "Une famille d'arômes de son nez" %}</li>
+        <li><i class="basis basis--universal"></i>{% translate "Socle commun des vins" %}</li>
+      </ul>
+      <p class="small muted">{% translate "L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible." %} {% translate "Cliquez sur un nœud pour lire sa fiche, double-cliquez pour repartir de lui." %}</p>
+    </details>
     <p class="mol-stats small muted" id="mol-stats" aria-live="polite">{% translate "Chargement…" %}</p>
   </section>
 

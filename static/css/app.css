@@ -13,8 +13,8 @@
   --chalk: #ECECE6;
   --paper: #F8F8F4;
   --ink: #23262F;
-  --ink-2: #5B5F69;
-  --ink-3: #8A8D94;
+  --ink-2: #50545E;
+  --ink-3: #686C75;
   --rule: #D4D4CB;
   --garnet: #7A1F3D;
   --garnet-2: #5E1630;
@@ -32,8 +32,8 @@
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --step--1: 0.8125rem;
-  --step-0: 0.9375rem;
+  --step--1: 0.875rem;
+  --step-0: 1rem;
   --step-1: 1.125rem;
   --step-2: 1.5rem;
   --step-3: 2.125rem;
@@ -52,7 +52,7 @@ body {
   margin: 0;
   background: var(--chalk);
   color: var(--ink);
-  font: 400 var(--step-0)/1.55 var(--sans);
+  font: 400 var(--step-0)/1.6 var(--sans);
   font-feature-settings: "cv11", "ss01";
   min-height: 100vh;
   display: flex;
@@ -696,3 +696,60 @@ button.tag { cursor: pointer; font-family: inherit; }
 /* Case à cocher d'un formulaire (ex. newsletter à l'inscription) */
 .field--check label { display: flex; align-items: flex-start; gap: .6rem; font-weight: 500; }
 .field--check input[type="checkbox"] { width: auto; margin-top: .25rem; flex: none; }
+
+/* ── Lisibilité (novembre 2026) ───────────────────────────── */
+/* Texte courant à 16 px, texte secondaire à 14 px, gris assombris (contraste AA sur le calcaire). */
+.lede { color: var(--ink); line-height: 1.5; }
+.lede.muted, .hero .lede { color: var(--ink-2); }
+.biblio--compact { font-size: var(--step--1); }
+
+/* Molécules : l'odeur d'abord, la chimie ensuite. */
+.mol-odor { font: italic 400 var(--step-1)/1.3 var(--serif); color: var(--verdigris); margin: 0 0 .2rem; }
+.mol-odor--big { font-size: var(--step-2); margin: .1rem 0 1.1rem; }
+.mol-story { font: 400 var(--step-1)/1.6 var(--serif); color: var(--ink); max-width: 62ch; }
+.mol-head .facts { padding-top: 1rem; border-top: 1px solid var(--rule); }
+.mol-head .structure { background: #fff; }
+.structure--panel { background: #fff; }
+
+.reasons { gap: .55rem; }
+.reason__dots i { width: 7px; height: 7px; }
+.reasons--wine { gap: 0; }
+.reasons--wine .reason { grid-template-columns: auto minmax(0, 1fr); gap: .1rem .7rem; padding: .6rem 0; border-top: 1px solid var(--rule); align-items: start; }
+.reasons--wine .reason:first-child { border-top: 0; }
+.reasons--wine .reason__dots { margin-top: .5rem; }
+.reason__what { display: grid; gap: .05rem; min-width: 0; }
+.reason__what .linkish { font-size: var(--step-0); }
+.reason__what .linkish:hover { color: var(--garnet); }
+.reason__odor { font: italic 400 var(--step-0)/1.35 var(--serif); color: var(--verdigris); }
+.reason__basis { grid-column: 2; color: var(--ink-3); font-size: .8125rem; }
+
+.mol-tile { padding: 0 0 1rem; overflow: hidden; gap: .15rem; }
+.mol-tile > :not(.mol-tile__fig) { padding: 0 1rem; }
+.mol-tile__fig { position: relative; display: block; background: #fff; border-bottom: 1px solid var(--rule); margin-bottom: .7rem; }
+.mol-tile__fig img { display: block; margin: 0; }
+.mol-tile__formula { position: absolute; right: .6rem; bottom: .4rem; font-size: .8125rem; color: var(--ink-3); }
+.mol-tile__odor { font: italic 400 var(--step-0)/1.35 var(--serif); color: var(--verdigris); }
+.mol-tile__meta { margin-top: .45rem; }
+.mol-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+
+/* Graphe : une seule recherche à la fois, options repliées, légende sous le graphe. */
+.mol-explorer .stage-search { display: none; }
+.rail-options > summary, .mol-legend > summary { cursor: pointer; font-weight: 500; font-size: var(--step--1); color: var(--ink-2); }
+.rail-options > summary:hover, .mol-legend > summary:hover { color: var(--ink); }
+.rail-options[open] > summary { margin-bottom: .8rem; }
+.rail-options .check { margin-top: .9rem; }
+.rail-options .check:first-of-type { margin-top: 0; }
+.rail-options p { margin: .25rem 0 0 1.45rem; }
+.mol-legend { padding: .5rem 1rem; border-top: 1px solid var(--rule); background: rgba(248,248,244,.9); }
+.mol-legend[open] > summary { margin-bottom: .5rem; }
+.mol-legend .basis-legend { display: flex; flex-wrap: wrap; gap: .3rem 1.4rem; margin: 0 0 .4rem; }
+.mol-legend p { margin: 0; max-width: none; }
+.mol-columns span { font-size: var(--step-1); color: var(--ink); }
+.mol-explorer .explorer__rail { padding-top: 1.4rem; }
+@media (max-width: 720px) {
+  .mol-explorer .stage-search { display: block; }
+  .mol-explorer .rail-search { display: none; }
+  .mol-explorer .explorer__stage { height: auto; }
+  .mol-explorer .mol-canvas { flex: none; height: var(--mol-h, 60vh); max-height: 70vh; }
+  .mol-explorer .stage-bar__actions { display: none; }
+}

@@ -15,6 +15,7 @@
   const familyBox = document.getElementById("mol-family");
   const wikiBox = document.getElementById("mol-wikidata");
   const columns = root.querySelectorAll(".mol-columns [data-col]");
+  const canvas = root.querySelector(".mol-canvas");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const C = {
@@ -29,6 +30,11 @@
     profile: _("Revenir à ce vin"), molecule: _("Revenir à cette molécule"), source: _("Revenir à cet élément naturel"),
   };
 
+  function moleculeLabel(n) {
+    const odor = n.data("odor");
+    return odor && odor.toLowerCase() !== n.data("label").toLowerCase() ? `${n.data("label")}\n${odor}` : n.data("label");
+  }
+
   const state = { start: "", trail: [], common: false, family: true, wikidata: true };
   const query = () => `${state.common ? "&commun=1" : ""}${state.family ? "" : "&famille=0"}${state.wikidata ? "" : "&wikidata=0"}`;
 
@@ -37,47 +43,59 @@
     minZoom: 0.25, maxZoom: 2.5, wheelSensitivity: 0.25, boxSelectionEnabled: false, autoungrabify: true,
     style: [
       { selector: "node", style: {
-        "label": "data(label)", "font-family": "Inter, system-ui, sans-serif", "font-size": 12, "color": C.ink,
-        "text-valign": "center", "text-wrap": "wrap", "text-max-width": 150,
-        "text-background-color": "#F8F8F4", "text-background-opacity": 0.9, "text-background-padding": 2,
+        "label": "data(label)", "font-family": "Inter, system-ui, sans-serif", "font-size": 13.5, "color": C.ink,
+        "text-valign": "center", "text-wrap": "wrap", "text-max-width": 170, "line-height": 1.25,
+        "text-background-color": "#F8F8F4", "text-background-opacity": 0.92, "text-background-padding": 3,
+        "text-background-shape": "roundrectangle",
         "width": 18, "height": 18, "border-width": 0,
         "transition-property": "opacity, border-width", "transition-duration": "160ms",
       }},
-      { selector: "node[layer = 0]", style: { "text-halign": "left", "text-margin-x": -8 }},
-      { selector: "node[layer = 2]", style: { "text-halign": "right", "text-margin-x": 8 }},
-      { selector: "node[type='profile']", style: { "shape": "ellipse", "width": 20, "height": 20,
+      { selector: "node[layer = 0]", style: { "text-halign": "left", "text-margin-x": -9 }},
+      { selector: "node[layer = 2]", style: { "text-halign": "right", "text-margin-x": 9 }},
+      { selector: "node[type='profile']", style: { "shape": "ellipse", "width": 22, "height": 22, "font-weight": 500,
         "border-width": 2, "border-color": C.ink, "background-color": C.rouge }},
       { selector: "node[type='profile'][wine='blanc']", style: { "background-color": C.blanc }},
       { selector: "node[type='profile'][wine='rose']", style: { "background-color": C.rose }},
-      { selector: "node[type='molecule']", style: { "shape": "hexagon", "width": 26, "height": 23,
-        "background-color": C.molecule, "text-valign": "bottom", "text-margin-y": 5, "font-weight": 600 }},
-      { selector: "node[type='molecule'][?universal]", style: { "background-color": "#7FA3A0" }},
-      { selector: "node[type='source']", style: { "shape": "round-rectangle", "width": 16, "height": 16,
-        "background-color": "data(hue)", "font-style": "italic" }},
+      // Une molécule est une étiquette pleine : son nom et, dessous, ce qu'elle sent.
+      { selector: "node[type='molecule']", style: { "shape": "round-rectangle", "label": moleculeLabel,
+        "width": "label", "height": "label", "padding": "9px", "background-color": C.molecule,
+        "color": "#fff", "font-weight": 500, "font-size": 13, "text-background-opacity": 0,
+        "text-halign": "center", "text-margin-x": 0, "text-max-width": 190 }},
+      { selector: "node[type='molecule'][tier='family']", style: { "background-color": "#5B8A86" }},
+      { selector: "node[type='molecule'][tier='universal'], node[type='molecule'][?universal]", style: {
+        "background-color": "#D3E2E0", "color": "#27514E", "font-weight": 400 }},
+      { selector: "node[type='source']", style: { "shape": "ellipse", "width": 14, "height": 14,
+        "background-color": "data(hue)" }},
       { selector: "node[type='source'][?imported]", style: { "background-opacity": 0.35, "border-width": 1.5,
         "border-style": "dashed", "border-color": "#56662D" }},
-      { selector: "node[?root]", style: { "width": 34, "height": 34, "font-size": 15, "font-weight": 600,
-        "border-width": 3, "border-color": C.garnet, "z-index": 5 }},
-      { selector: "node[type='molecule'][?root]", style: { "width": 40, "height": 35 }},
+      { selector: "node[?root]", style: { "font-size": 16, "font-weight": 600, "border-width": 3, "border-color": C.garnet, "z-index": 5 }},
+      { selector: "node[?root][type='profile'], node[?root][type='source']", style: { "width": 34, "height": 34 }},
+      { selector: "node[?root][type='molecule']", style: { "font-size": 15, "padding": "12px" }},
+      // Téléphone : la racine en haut, deux colonnes serrées au centre, libellés vers l'extérieur.
+      { selector: "node.p-top", style: { "text-halign": "center", "text-valign": "top", "text-margin-x": 0, "text-margin-y": -8 }},
+      { selector: "node.p-top[type='molecule']", style: { "text-valign": "center", "text-margin-y": 0 }},
+      { selector: "node.p-left", style: { "text-halign": "left", "text-margin-x": -8, "font-size": 13 }},
+      { selector: "node.p-right", style: { "text-halign": "right", "text-margin-x": 8, "font-size": 13 }},
+      { selector: "node.p-left[type='molecule'], node.p-right[type='molecule']", style: { "shape": "hexagon", "width": 18, "height": 16,
+        "padding": "0px", "color": C.ink, "text-valign": "center", "text-background-opacity": 0.92 }},
       { selector: "edge", style: {
         "curve-style": "unbundled-bezier", "control-point-distances": [0], "control-point-weights": [0.5],
-        "width": 1.4, "line-color": C.rule, "opacity": 0.85,
+        "width": 1.4, "line-color": C.rule, "opacity": 0.9,
         "transition-property": "opacity, line-color, width", "transition-duration": "160ms",
       }},
-      { selector: "edge[kind='contains']", style: { "width": "mapData(strength, 1, 3, 1.4, 5)" }},
+      { selector: "edge[kind='contains']", style: { "width": "mapData(strength, 1, 3, 1.6, 5.5)" }},
       { selector: "edge[basis='grape']", style: { "line-color": C.grape }},
       { selector: "edge[basis='style']", style: { "line-color": C.style }},
       { selector: "edge[basis='color']", style: { "line-color": C.color }},
       { selector: "edge[basis='aroma']", style: { "line-color": C.aroma }},
       { selector: "edge[basis='universal']", style: { "line-color": C.universal, "line-style": "dashed" }},
-      { selector: "edge[basis='family']", style: { "line-color": "#D9C08E", "line-style": "dotted", "width": 1.6 }},
-      { selector: "edge[kind='found_in']", style: { "line-color": "#9DB8B5" }},
+      { selector: "edge[basis='family']", style: { "line-color": "#D9C08E", "line-style": "dotted", "width": 1.8 }},
+      { selector: "edge[kind='found_in']", style: { "line-color": "#B9CCCA", "width": 1.2 }},
       { selector: "edge[kind='found_in'][tier='imported']", style: { "line-style": "dashed", "opacity": 0.6 }},
-      { selector: "node[type='molecule'][tier='family']", style: { "background-color": "#6E9894", "font-weight": 400 }},
-      { selector: "node[type='molecule'][tier='universal']", style: { "background-color": "#A9C2BF", "font-weight": 400, "color": "#5B5F69" }},
       { selector: ".faded", style: { "opacity": 0.12, "text-opacity": 0.25 }},
-      { selector: "node.hl", style: { "border-width": 3, "border-color": C.ink }},
+      { selector: "node.hl", style: { "border-width": 2, "border-color": C.ink }},
       { selector: "edge.hl", style: { "opacity": 1, "z-index": 9 }},
+      { selector: "edge.hl[kind='found_in']", style: { "line-color": C.molecule, "width": 1.8 }},
       { selector: "node:selected", style: { "border-width": 4, "border-color": C.garnet, "overlay-opacity": 0 }},
     ],
   });
@@ -89,13 +107,15 @@
   function layoutColumns() {
     const W = cy.width();
     const H = cy.height();
-    // Sous 760 px, on dessine sur une largeur virtuelle puis on ajuste le zoom.
+    cy.nodes().removeClass("p-top p-left p-right").removeStyle("text-max-width");
+    if (W < 640) return layoutPortrait(W);
+    canvas.style.removeProperty("--mol-h");
     const span = Math.max(W, 760);
-    colX = [Math.max(span * 0.22, 190), span * 0.5, Math.min(span * 0.78, span - 190)];
+    colX = [Math.max(span * 0.2, 190), span * 0.5, Math.min(span * 0.8, span - 190)];
     const layers = [[], [], []];
     cy.nodes().forEach((n) => layers[n.data("layer")].push(n));
-    const top = 70;
-    const usable = Math.max(H - top - 40, 200);
+    const top = 64;
+    const usable = Math.max(H - top - 36, 200);
     const positions = {};
     let overflow = W < 760;
     layers.forEach((nodes, i) => {
@@ -103,19 +123,60 @@
         const rank = new Map(layers[1].map((m, k) => [m.id(), k]));
         nodes.sort((a, b) => meanRank(a, rank) - meanRank(b, rank));
       }
-      const ideal = i === 1 ? 74 : 46;
+      const ideal = i === 1 ? 70 : 44;
       // Un libellé long passe sur deux lignes : on laisse plus de place pour qu'il ne touche pas le voisin.
-      const wraps = nodes.some((n) => (n.data("label") || "").length > 20);
-      const floor = i === 1 ? 58 : wraps ? 34 : 24;
+      const wraps = nodes.some((n) => (n.data("label") || "").length > 22);
+      const floor = i === 1 ? 60 : wraps ? 36 : 26;
       const gap = nodes.length > 1 ? Math.max(Math.min(ideal, usable / (nodes.length - 1)), floor) : 0;
       if (gap * (nodes.length - 1) > usable) overflow = true;
       const h = (nodes.length - 1) * gap;
       nodes.forEach((n, k) => { positions[n.id()] = { x: colX[i], y: top + usable / 2 + k * gap - h / 2 }; });
     });
+    run(positions, overflow);
+  }
+
+  // Sur téléphone, trois colonnes côte à côte rendaient les libellés illisibles (zoom 0,5).
+  // La racine passe en haut ; les deux autres niveaux forment deux colonnes au centre,
+  // libellés tournés vers les bords : tout reste à taille réelle.
+  function layoutPortrait(W) {
+    const rootNode = cy.nodes("[?root]").first();
+    const rootLayer = rootNode.nonempty() ? rootNode.data("layer") : 0;
+    const sides = [0, 1, 2].filter((i) => i !== rootLayer);
+    const cols = sides.map((i) => cy.nodes().filter((n) => n.data("layer") === i && !n.same(rootNode)).toArray());
+    // Les nœuds du niveau de la racine autres qu'elle (rare) rejoignent la colonne de gauche.
+    cy.nodes().forEach((n) => { if (n.data("layer") === rootLayer && !n.same(rootNode)) cols[0].push(n); });
+    const rank = new Map(cols[0].map((m, k) => [m.id(), k]));
+    cols[1].sort((a, b) => meanRank(a, rank) - meanRank(b, rank));
+    const x = [W * 0.43, W * 0.61];
+    const side = Math.floor(W * 0.43) - 26;
+    const top = 118;
+    const positions = {};
+    let bottom = top;
+    if (rootNode.nonempty()) { positions[rootNode.id()] = { x: W / 2, y: 58 }; rootNode.addClass("p-top"); }
+    cols.forEach((nodes, c) => {
+      let y = top;
+      nodes.forEach((n) => {
+        n.addClass(c === 0 ? "p-left" : "p-right");
+        n.style("text-max-width", c === 0 ? side : Math.floor(W - x[1]) - 26);
+        positions[n.id()] = { x: x[c], y };
+        const text = n.data("type") === "molecule" ? moleculeLabel(n) : (n.data("label") || "");
+        const lines = text.split("\n").reduce((sum, l) => sum + Math.max(1, Math.ceil(l.length * 7.4 / side)), 0);
+        y += Math.max(30, lines * 17 + 12);
+      });
+      bottom = Math.max(bottom, y);
+    });
+    colX = [W / 2, W / 2, W / 2];
+    // Le cadre prend la hauteur du contenu (plafonnée en CSS pour laisser de quoi faire défiler la page).
+    canvas.style.setProperty("--mol-h", `${Math.ceil(bottom + 8)}px`);
+    cy.resize();
+    run(positions, bottom > cy.height() + 4);
+  }
+
+  function run(positions, fit) {
     cy.zoom(1);
     cy.pan({ x: 0, y: 0 });
     cy.layout({
-      name: "preset", positions: (n) => positions[n.id()], fit: overflow, padding: 50,
+      name: "preset", positions: (n) => positions[n.id()], fit, padding: 28,
       animate: !reduceMotion, animationDuration: 380,
     }).run();
     placeColumnLabels();
@@ -306,6 +367,13 @@
       onSelect: (it) => { combo.clear(); load(it.id); },
     });
   });
+
+  // Légende : ouverte sur grand écran, repliée sur téléphone où elle prendrait la moitié de la page.
+  const legend = document.getElementById("mol-legend");
+  if (legend && window.matchMedia("(min-width: 721px)").matches) legend.open = true;
+  // La légende change la hauteur du graphe : on le remesure avant de placer les nœuds.
+  cy.resize();
+  if (legend) legend.addEventListener("toggle", () => { cy.resize(); if (state.start) layoutColumns(); });
 
   // ── Démarrage ──────────────────────────────────────────────────────────
   const params = new URLSearchParams(location.search);

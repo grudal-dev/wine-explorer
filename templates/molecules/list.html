@@ -13,10 +13,10 @@
   <div class="mol-grid">
     {% for m in items %}
     <a class="mol-tile" href="{{ m.get_absolute_url }}">
-      <img src="{% static m.structure_static %}" alt="" width="320" height="220" loading="lazy">
+      <span class="mol-tile__fig"><img src="{% static m.structure_static %}" alt="" width="320" height="220" loading="lazy"><span class="mol-tile__formula">{{ m.formula_html|safe }}</span></span>
       <strong>{{ m.display_name }}</strong>
-      <span class="small muted">{{ m.odor|tr|capfirst }}</span>
-      <span class="mol-tile__meta small">{{ m.formula_html|safe }} · {% if m.universal %}{% translate "socle commun" %}{% else %}{% blocktranslate trimmed with n_wines=m.n_wines s=m.n_wines|pluralize %}{{ n_wines }} vin{{ s }}{% endblocktranslate %}{% endif %} {% blocktranslate trimmed with n_sources=m.n_sources s=m.n_sources|pluralize %}· {{ n_sources }} source{{ s }} naturelle{{ s }}{% endblocktranslate %}</span>
+      <span class="mol-tile__odor">{{ m.odor|tr|capfirst }}</span>
+      <span class="mol-tile__meta small">{% if m.universal %}{% translate "socle commun" %}{% else %}{% blocktranslate trimmed with n_wines=m.n_wines s=m.n_wines|pluralize %}{{ n_wines }} vin{{ s }}{% endblocktranslate %}{% endif %} {% blocktranslate trimmed with n_sources=m.n_sources s=m.n_sources|pluralize %}· {{ n_sources }} source{{ s }} naturelle{{ s }}{% endblocktranslate %}</span>
     </a>
     {% endfor %}
   </div>

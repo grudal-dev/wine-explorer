@@ -3,12 +3,12 @@
 {% if kind == "molecule" %}
   <p class="small muted">{% blocktranslate trimmed with get_family_display=obj.get_family_display %}Molécule · {{ get_family_display }}{% endblocktranslate %}</p>
   <h2>{{ obj.name|tr }}</h2>
+  <p class="mol-odor">{{ obj.odor|tr|capfirst }}</p>
   <figure class="structure structure--panel">
     <img src="{% static obj.structure_static %}" alt="{% blocktranslate trimmed with obj_name=obj.name|tr %}Formule développée de {{ obj_name }}{% endblocktranslate %}" width="320" height="220">
     <figcaption>{{ obj.formula_html|safe }}{% if obj.molar_mass %} {% blocktranslate trimmed with molar_mass=obj.molar_mass|floatformat:1 %}· {{ molar_mass }} g/mol{% endblocktranslate %}{% endif %}</figcaption>
   </figure>
   <dl class="facts">
-    <dt>{% translate "Odeur" %}</dt><dd>{{ obj.odor|tr|capfirst }}</dd>
     {% if obj.threshold %}<dt>{% translate "Seuil" %}</dt><dd>{{ obj.threshold|tr }}</dd>{% endif %}
     <dt>{% translate "Origine" %}</dt><dd>{{ obj.get_origin_display }}</dd>
   </dl>
@@ -74,12 +74,13 @@
   <p>{{ obj.description|truncatewords:32 }}</p>
   <section class="node-links">
     <h3>{% translate "Ses molécules, de la plus sûre à la plus hypothétique" %}</h3>
-    <ul class="reasons">
+    <ul class="reasons reasons--wine">
       {% for l in links %}
       <li class="reason reason--{{ l.basis }}">
         <span class="reason__dots" aria-label="{% blocktranslate trimmed with strength=l.strength %}force {{ strength }} sur 3{% endblocktranslate %}">{% for i in "123" %}<i class="{% if forloop.counter <= l.strength %}is-on{% endif %}"></i>{% endfor %}</span>
-        <button type="button" class="linkish" data-start="molecule:{{ l.molecule.slug }}">{{ l.molecule.name|tr }}</button>
-        <span class="small muted">{{ l.get_basis_display|lower }}</span>
+        <span class="reason__what"><button type="button" class="linkish" data-start="molecule:{{ l.molecule.slug }}">{{ l.molecule.name|tr }}</button>
+          <span class="reason__odor">{{ l.molecule.odor|tr }}</span></span>
+        <span class="reason__basis">{{ l.get_basis_display|lower }}</span>
       </li>
       {% empty %}<li class="muted">{% translate "Aucune molécule spécifique documentée." %}</li>
       {% endfor %}

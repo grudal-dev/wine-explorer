@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-16 17:57+0100\n"
+"POT-Creation-Date: 2026-11-16 19:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -2430,13 +2430,6 @@ msgstr ""
 msgid "Occurrences importées automatiquement, non vérifiées une à une."
 msgstr "Occurrences imported automatically, not checked one by one."
 
-msgid "Odeur"
-msgstr "Odour"
-
-#, python-format
-msgid "Odeur : %(odor)s."
-msgstr "Odour: %(odor)s."
-
 msgid "Odorant clé de l'extrait de livèche."
 msgstr "Key odorant of lovage extract."
 
@@ -2460,6 +2453,9 @@ msgstr "Also found in"
 
 msgid "On la retrouve dans la nature"
 msgstr "Found in nature"
+
+msgid "Options d'affichage"
+msgstr "Display options"
 
 msgid "Organique"
 msgstr "Organic"
