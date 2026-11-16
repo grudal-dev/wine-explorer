@@ -15,7 +15,6 @@
   const familyBox = document.getElementById("mol-family");
   const wikiBox = document.getElementById("mol-wikidata");
   const columns = root.querySelectorAll(".mol-columns [data-col]");
-  const canvas = root.querySelector(".mol-canvas");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const C = {
@@ -71,13 +70,11 @@
       { selector: "node[?root]", style: { "font-size": 16, "font-weight": 600, "border-width": 3, "border-color": C.garnet, "z-index": 5 }},
       { selector: "node[?root][type='profile'], node[?root][type='source']", style: { "width": 34, "height": 34 }},
       { selector: "node[?root][type='molecule']", style: { "font-size": 15, "padding": "12px" }},
-      // Téléphone : la racine en haut, deux colonnes serrées au centre, libellés vers l'extérieur.
-      { selector: "node.p-top", style: { "text-halign": "center", "text-valign": "top", "text-margin-x": 0, "text-margin-y": -8 }},
-      { selector: "node.p-top[type='molecule']", style: { "text-valign": "center", "text-margin-y": 0 }},
-      { selector: "node.p-left", style: { "text-halign": "left", "text-margin-x": -8, "font-size": 13 }},
-      { selector: "node.p-right", style: { "text-halign": "right", "text-margin-x": 8, "font-size": 13 }},
-      { selector: "node.p-left[type='molecule'], node.p-right[type='molecule']", style: { "shape": "hexagon", "width": 18, "height": 16,
-        "padding": "0px", "color": C.ink, "text-valign": "center", "text-background-opacity": 0.92 }},
+      { selector: "node.compact[type='molecule']", style: { "shape": "hexagon", "label": "data(label)", "width": 26, "height": 23,
+        "padding": "0px", "color": C.ink, "font-weight": 600, "font-size": 12, "text-valign": "bottom", "text-margin-y": 5,
+        "text-max-width": 150, "text-background-opacity": 0.9 }},
+      { selector: "node.compact", style: { "font-size": 12 }},
+      { selector: "node.compact[?root]", style: { "font-size": 15 }},
       { selector: "edge", style: {
         "curve-style": "unbundled-bezier", "control-point-distances": [0], "control-point-weights": [0.5],
         "width": 1.4, "line-color": C.rule, "opacity": 0.9,
@@ -107,9 +104,8 @@
   function layoutColumns() {
     const W = cy.width();
     const H = cy.height();
-    cy.nodes().removeClass("p-top p-left p-right").removeStyle("text-max-width");
-    if (W < 640) return layoutPortrait(W);
-    canvas.style.removeProperty("--mol-h");
+    // Téléphone : même dessin qu'avant (hexagone, nom dessous), les étiquettes pleines y seraient trop larges.
+    cy.nodes().toggleClass("compact", W < 640);
     const span = Math.max(W, 760);
     colX = [Math.max(span * 0.2, 190), span * 0.5, Math.min(span * 0.8, span - 190)];
     const layers = [[], [], []];
@@ -135,48 +131,11 @@
     run(positions, overflow);
   }
 
-  // Sur téléphone, trois colonnes côte à côte rendaient les libellés illisibles (zoom 0,5).
-  // La racine passe en haut ; les deux autres niveaux forment deux colonnes au centre,
-  // libellés tournés vers les bords : tout reste à taille réelle.
-  function layoutPortrait(W) {
-    const rootNode = cy.nodes("[?root]").first();
-    const rootLayer = rootNode.nonempty() ? rootNode.data("layer") : 0;
-    const sides = [0, 1, 2].filter((i) => i !== rootLayer);
-    const cols = sides.map((i) => cy.nodes().filter((n) => n.data("layer") === i && !n.same(rootNode)).toArray());
-    // Les nœuds du niveau de la racine autres qu'elle (rare) rejoignent la colonne de gauche.
-    cy.nodes().forEach((n) => { if (n.data("layer") === rootLayer && !n.same(rootNode)) cols[0].push(n); });
-    const rank = new Map(cols[0].map((m, k) => [m.id(), k]));
-    cols[1].sort((a, b) => meanRank(a, rank) - meanRank(b, rank));
-    const x = [W * 0.43, W * 0.61];
-    const side = Math.floor(W * 0.43) - 26;
-    const top = 118;
-    const positions = {};
-    let bottom = top;
-    if (rootNode.nonempty()) { positions[rootNode.id()] = { x: W / 2, y: 58 }; rootNode.addClass("p-top"); }
-    cols.forEach((nodes, c) => {
-      let y = top;
-      nodes.forEach((n) => {
-        n.addClass(c === 0 ? "p-left" : "p-right");
-        n.style("text-max-width", c === 0 ? side : Math.floor(W - x[1]) - 26);
-        positions[n.id()] = { x: x[c], y };
-        const text = n.data("type") === "molecule" ? moleculeLabel(n) : (n.data("label") || "");
-        const lines = text.split("\n").reduce((sum, l) => sum + Math.max(1, Math.ceil(l.length * 7.4 / side)), 0);
-        y += Math.max(30, lines * 17 + 12);
-      });
-      bottom = Math.max(bottom, y);
-    });
-    colX = [W / 2, W / 2, W / 2];
-    // Le cadre prend la hauteur du contenu (plafonnée en CSS pour laisser de quoi faire défiler la page).
-    canvas.style.setProperty("--mol-h", `${Math.ceil(bottom + 8)}px`);
-    cy.resize();
-    run(positions, bottom > cy.height() + 4);
-  }
-
   function run(positions, fit) {
     cy.zoom(1);
     cy.pan({ x: 0, y: 0 });
     cy.layout({
-      name: "preset", positions: (n) => positions[n.id()], fit, padding: 28,
+      name: "preset", positions: (n) => positions[n.id()], fit, padding: 50,
       animate: !reduceMotion, animationDuration: 380,
     }).run();
     placeColumnLabels();
@@ -374,6 +333,19 @@
   // La légende change la hauteur du graphe : on le remesure avant de placer les nœuds.
   cy.resize();
   if (legend) legend.addEventListener("toggle", () => { cy.resize(); if (state.start) layoutColumns(); });
+
+  // Le cadre change de hauteur quand la ligne de résumé ou la légende passent sur plusieurs lignes :
+  // on remesure, sinon le bas du graphe est coupé.
+  if (window.ResizeObserver) {
+    let lastH = 0;
+    new ResizeObserver(() => {
+      const h = cy.container().clientHeight;
+      if (Math.abs(h - lastH) < 2) return;
+      lastH = h;
+      clearTimeout(window.__molResize);
+      window.__molResize = setTimeout(() => { cy.resize(); if (state.start) layoutColumns(); }, 120);
+    }).observe(cy.container());
+  }
 
   // ── Démarrage ──────────────────────────────────────────────────────────
   const params = new URLSearchParams(location.search);

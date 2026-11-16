@@ -749,7 +749,4 @@ button.tag { cursor: pointer; font-family: inherit; }
 @media (max-width: 720px) {
   .mol-explorer .stage-search { display: block; }
   .mol-explorer .rail-search { display: none; }
-  .mol-explorer .explorer__stage { height: auto; }
-  .mol-explorer .mol-canvas { flex: none; height: var(--mol-h, 60vh); max-height: 70vh; }
-  .mol-explorer .stage-bar__actions { display: none; }
 }
