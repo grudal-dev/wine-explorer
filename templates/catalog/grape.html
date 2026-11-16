@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n cousins %}
 {% block title %}{{ grape.name|tr }}{% endblock %}
+{% block description %}{% if grape.description %}{{ grape.description|tr|truncatechars:160 }}{% else %}{% blocktranslate trimmed with name=grape.name|tr %}{{ name }} : les vins et les appellations où on le trouve.{% endblocktranslate %}{% endif %}{% endblock %}
 {% block content %}
 <nav class="crumbs"><a href="{% url 'catalog:grapes' %}">{% translate "Cépages" %}</a></nav>
 <h1>{{ grape.name|tr }}</h1>

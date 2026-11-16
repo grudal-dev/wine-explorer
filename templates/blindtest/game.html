@@ -2,6 +2,7 @@
 {% load i18n terroirs_i18n %}
 {% load static %}
 {% block title %}{% if game.is_over %}{{ game.profile.name|tr }}{% else %}{% translate "Vin mystère" %}{% endif %}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
 {% block content %}
 <nav class="crumbs"><a href="{% url 'blindtest:home' %}">{% translate "Blind test" %}</a><span aria-hidden="true">/</span><span>{{ game.get_mode_display }}{% if game.day %} {% blocktranslate trimmed with day=game.day|date:"j F Y" %}du {{ day }}{% endblocktranslate %}{% endif %}</span></nav>
 {% include "blindtest/_board.html" %}

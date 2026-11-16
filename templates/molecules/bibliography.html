@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n %}
 {% block title %}{% translate "Molécules : méthode et sources" %}{% endblock %}
+{% block description %}{% translate "Comment le site relie un vin à ses molécules, et les publications qui appuient chaque lien." %}{% endblock %}
 {% block content %}
 <nav class="crumbs" aria-label="{% translate "Fil d'Ariane" %}"><a href="{% url 'molecules:explorer' %}">{% translate "Molécules" %}</a></nav>
 <h1>{% translate "Méthode et sources" %}</h1>

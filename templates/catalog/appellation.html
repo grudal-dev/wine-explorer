@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n cousins %}
 {% block title %}{{ appellation.name|tr }}{% endblock %}
+{% block description %}{% blocktranslate trimmed with classification=appellation.get_classification_display region_name=appellation.region.name|tr %}{{ classification }} de {{ region_name }}. Ses vins types, ses cépages et ses arômes.{% endblocktranslate %}{% endblock %}
 {% block content %}
 <nav class="crumbs" aria-label="{% translate "Fil d'Ariane" %}">
   {% for r in appellation.region.lineage %}<a href="{{ r.get_absolute_url }}">{{ r.name|tr }}</a>{% if not forloop.last %}<span aria-hidden="true">/</span>{% endif %}{% endfor %}

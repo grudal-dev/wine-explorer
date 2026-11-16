@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n cousins %}
 {% block title %}{{ profile.name|tr }}{% endblock %}
+{% block description %}{% if profile.description %}{{ profile.description|tr|truncatechars:160 }}{% else %}{% blocktranslate trimmed with name=profile.name|tr %}{{ name }} : arômes, encépagement, bouche, prix et accords.{% endblocktranslate %}{% endif %}{% endblock %}
 {% block content %}
 {% with app=profile.appellation region=profile.appellation.region %}
 <nav class="crumbs" aria-label="{% translate "Fil d'Ariane" %}">

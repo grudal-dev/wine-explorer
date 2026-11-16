@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n %}
 {% block title %}{% translate "Catalogue" %}{% endblock %}
+{% block description %}{% translate "Les appellations de la base, rangées par région, avec leurs vins types, leurs cépages et leurs arômes." %}{% endblock %}
 {% block content %}
 <h1>{% translate "Catalogue" %}</h1>
-<p class="lede">{% translate "Les appellations françaises de la base, rangées par région. Consultez aussi les" %}
+<p class="lede">{% translate "Les appellations de la base, rangées par région. Consultez aussi les" %}
   <a href="{% url 'catalog:grapes' %}">{% translate "cépages" %}</a> {% translate "et la" %} <a href="{% url 'catalog:aromas' %}">{% translate "roue des arômes" %}</a>.</p>
 
 <div class="section">

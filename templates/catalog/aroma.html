@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n cousins %}
 {% block title %}{{ aroma.name|tr|capfirst }}{% endblock %}
+{% block description %}{% blocktranslate trimmed with name=aroma.name|tr family_name=aroma.family.name|tr|lower %}{{ name }}, arôme de la famille {{ family_name }} : les vins qui l'expriment.{% endblocktranslate %}{% endblock %}
 {% block content %}
 <nav class="crumbs"><a href="{% url 'catalog:aromas' %}">{% translate "Arômes" %}</a><span aria-hidden="true">/</span><span>{{ aroma.family.name|tr }}</span></nav>
 <h1>{{ aroma.name|tr|capfirst }}</h1>

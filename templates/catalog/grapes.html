@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n %}
 {% block title %}{% translate "Cépages" %}{% endblock %}
+{% block description %}{% translate "Tous les cépages de la base, par couleur de raisin, avec les vins où on les trouve." %}{% endblock %}
 {% block content %}
 <h1>{% translate "Cépages" %}</h1>
 <p class="lede">{% blocktranslate trimmed with grapes=grapes|length %}{{ grapes }} cépages, du cabernet sauvignon au sciaccarellu.{% endblocktranslate %}</p>

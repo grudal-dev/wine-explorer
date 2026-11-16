@@ -1,10 +1,13 @@
 from django.contrib import admin
 from django.urls import include, path
+from django.contrib.sitemaps.views import sitemap
 from django.views.i18n import JavaScriptCatalog
 
-from apps.catalog import views as catalog_views
+from apps.catalog import seo, views as catalog_views
 
 urlpatterns = [
+    path("robots.txt", seo.robots_txt, name="robots"),
+    path("sitemap.xml", sitemap, {"sitemaps": seo.SITEMAPS}, name="sitemap"),
     path("", catalog_views.home, name="home"),
     path("catalogue/", include("apps.catalog.urls")),
     path("graphe/", include("apps.explorer.urls")),

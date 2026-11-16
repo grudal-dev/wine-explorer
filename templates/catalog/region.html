@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n cousins %}
 {% block title %}{{ region.name|tr }}{% endblock %}
+{% block description %}{% if region.description %}{{ region.description|tr|truncatechars:160 }}{% else %}{% blocktranslate trimmed with name=region.name|tr %}Les appellations et les vins de {{ name }}.{% endblocktranslate %}{% endif %}{% endblock %}
 {% block content %}
 {% if region.parent %}<nav class="crumbs"><a href="{{ region.parent.get_absolute_url }}">{{ region.parent.name|tr }}</a></nav>{% endif %}
 <h1>{{ region.name|tr }}</h1>

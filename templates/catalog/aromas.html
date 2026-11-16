@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n %}
 {% block title %}{% translate "Arômes" %}{% endblock %}
+{% block description %}{% translate "La roue des arômes du vin : familles, arômes, et les vins qui les expriment." %}{% endblock %}
 {% block content %}
 <h1>{% translate "La roue des arômes" %}</h1>
 <p class="lede">{% blocktranslate trimmed with families=families|length %}Les descripteurs utilisés dans les fiches, le blind test et Le Nez, regroupés en {{ families }} familles.{% endblocktranslate %}</p>

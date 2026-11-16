@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-16 19:37+0100\n"
+"POT-Creation-Date: 2026-11-16 22:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -37,6 +37,10 @@ msgstr "%(attempts_left)s attempt%(s)s left"
 #, python-format
 msgid "%(attempts_left)s essais restants sur %(max_attempts)s"
 msgstr "%(attempts_left)s attempts left out of %(max_attempts)s"
+
+#, python-format
+msgid "%(classification)s de %(region_name)s. Ses vins types, ses cépages et ses arômes."
+msgstr "%(classification)s of %(region_name)s. Its typical wines, grapes and aromas."
 
 #, python-format
 msgid ""
@@ -83,6 +87,18 @@ msgstr "%(label)s: %(value)s out of 5"
 #, python-format
 msgid "%(n_wines)s vin%(s)s"
 msgstr "%(n_wines)s wine%(s)s"
+
+#, python-format
+msgid "%(name)s : arômes, encépagement, bouche, prix et accords."
+msgstr "%(name)s: aromas, grape blend, palate, price and food pairings."
+
+#, python-format
+msgid "%(name)s : les vins et les appellations où on le trouve."
+msgstr "%(name)s: the wines and appellations where it is found."
+
+#, python-format
+msgid "%(name)s, arôme de la famille %(family_name)s : les vins qui l'expriment."
+msgstr "%(name)s, an aroma from the %(family_name)s family: the wines that express it."
 
 #, python-format
 msgid "%(points)s points"
@@ -858,6 +874,9 @@ msgstr "Chianti"
 msgid "Choisir un point de départ"
 msgstr "Choose a starting point"
 
+msgid "Choisissez des arômes : le site vous propose les vins dont le nez s'en rapproche."
+msgstr "Pick aromas and the site suggests the wines whose nose comes closest."
+
 msgid "Choisissez un départ et une arrivée : le chemin le plus court s'affiche."
 msgstr "Choose a start and an end: the shortest path is displayed."
 
@@ -927,6 +946,9 @@ msgid ""
 msgstr ""
 "Start with the clearest aroma, then add the palate: a crisp, light wine or a powerful, tannic one quickly "
 "narrows things down. Two or three descriptors are often enough to recognise an appellation."
+
+msgid "Comment le site relie un vin à ses molécules, et les publications qui appuient chaque lien."
+msgstr "How the site links a wine to its molecules, and the publications behind each link."
 
 msgid "Comment une molécule est rattachée à un vin"
 msgstr "How a molecule is linked to a wine"
@@ -1041,6 +1063,9 @@ msgstr "After Winter and Enggist, 1971."
 
 msgid "D'autres arômes"
 msgstr "More aromas"
+
+msgid "D'où viennent les données du site et comment les profils de vins sont construits."
+msgstr "Where the site's data comes from and how the wine profiles are built."
 
 msgid "DOC"
 msgstr "DOC"
@@ -1301,8 +1326,8 @@ msgstr "Explore"
 msgid "Explorer le vin"
 msgstr "Explore wine"
 
-msgid "Explorer le vin français : appellations, cépages, arômes, blind test."
-msgstr "Explore French wine: appellations, grape varieties, aromas, blind tasting."
+msgid "Explorer le vin : appellations, cépages, arômes, molécules et blind test."
+msgstr "Explore wine: appellations, grapes, aromas, molecules and a blind tasting game."
 
 msgid "Exporter en PNG"
 msgstr "Export as PNG"
@@ -1785,6 +1810,9 @@ msgstr "The colour and style are already shown on the sheet: this attempt is not
 msgid "La roue des arômes"
 msgstr "The aroma wheel"
 
+msgid "La roue des arômes du vin : familles, arômes, et les vins qui les expriment."
+msgstr "The wine aroma wheel: families, aromas, and the wines that express them."
+
 #, python-format
 msgid "La région commence par « %(letter)s »."
 msgstr "The region begins with “%(letter)s”."
@@ -2097,8 +2125,15 @@ msgstr "The %(molecules)s molecules and %(sources)s natural sources"
 msgid "Les %(references)s références"
 msgstr "The %(references)s references"
 
-msgid "Les appellations françaises de la base, rangées par région. Consultez aussi les"
-msgstr "The French appellations in the database, sorted by region. See also the"
+msgid "Les appellations de la base, rangées par région, avec leurs vins types, leurs cépages et leurs arômes."
+msgstr "The appellations in the database, by region, with their typical wines, grapes and aromas."
+
+msgid "Les appellations de la base, rangées par région. Consultez aussi les"
+msgstr "The appellations in the database, by region. See also the"
+
+#, python-format
+msgid "Les appellations et les vins de %(name)s."
+msgstr "The appellations and wines of %(name)s."
 
 msgid "Les cinq vins les plus probables"
 msgstr "The five most likely wines"
@@ -2148,6 +2183,11 @@ msgstr "The molecules behind this descriptor"
 
 msgid "Les molécules du vin"
 msgstr "The molecules of wine"
+
+msgid ""
+"Les molécules du vin, classées par moment de naissance, avec leur odeur, leur formule et les vins qui les "
+"portent."
+msgstr "Wine molecules, grouped by when they form, with their smell, formula and the wines that carry them."
 
 #, python-format
 msgid "Les molécules que %(source_name)s partage avec le vin, et les vins qui en contiennent."
@@ -3267,6 +3307,9 @@ msgstr "Always show the common base"
 msgid "Touraine"
 msgstr "Touraine"
 
+msgid "Tous les cépages de la base, par couleur de raisin, avec les vins où on les trouve."
+msgstr "Every grape in the database, by grape colour, with the wines where it is found."
+
 msgid ""
 "Tous les vins sur une carte : deux vins voisins se ressemblent par leurs arômes, leurs cépages et leur "
 "bouche."
@@ -3375,6 +3418,9 @@ msgstr ""
 msgid "Un descripteur de son nez"
 msgstr "A descriptor from its nose"
 
+msgid "Un graphe des appellations, des cépages et des arômes du vin, à parcourir et à filtrer."
+msgstr "A graph of wine appellations, grapes and aromas to browse and filter."
+
 msgid ""
 "Un rouge plus rustique et terrien au nord du Médoc, aux sols argileux, tannique dans sa jeunesse, qui gagne"
 " en profondeur avec les années."
@@ -3410,6 +3456,11 @@ msgstr ""
 "A mystery wine is poured for you. You see its colour, its structure on the palate and its first aromas. "
 "Find its region, its appellation and its main grapes. You have %(max_attempts)s attempts; each unsuccessful"
 " attempt reveals a new clue."
+
+msgid ""
+"Un vin mystère, quelques indices : retrouvez sa région, son appellation et ses cépages en un nombre limité "
+"d'essais."
+msgstr "A mystery wine and a few clues: find its region, appellation and grapes in a limited number of tries."
 
 msgid "Un vin tiré au hasard, autant de fois que vous voulez. Pour s'entraîner."
 msgstr "A wine drawn at random, as many times as you like. For practice."

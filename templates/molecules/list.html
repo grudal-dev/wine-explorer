@@ -2,6 +2,7 @@
 {% load i18n terroirs_i18n %}
 {% load static %}
 {% block title %}{% translate "Toutes les molécules" %}{% endblock %}
+{% block description %}{% translate "Les molécules du vin, classées par moment de naissance, avec leur odeur, leur formule et les vins qui les portent." %}{% endblock %}
 {% block content %}
 <nav class="crumbs" aria-label="{% translate "Fil d'Ariane" %}"><a href="{% url 'molecules:explorer' %}">{% translate "Molécules" %}</a></nav>
 <h1>{% translate "Les molécules du vin" %}</h1>

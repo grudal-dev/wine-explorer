@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n terroirs_i18n %}
 {% block title %}{{ owner.username }}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
 {% block content %}
 <h1>{{ owner.username }}</h1>
 <div class="kpis">
