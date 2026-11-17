@@ -68,12 +68,12 @@
       <h2>Visiteurs par jour</h2>
       <p class="sub">Survoler une barre pour le détail.</p>
       <div class="an-cols" role="img" aria-label="Visiteurs par jour">
-        {% for d in series %}<div style="height:{{ d.h }}%" title="{{ d.day|date:'D j M' }} : {{ d.visitors }} visiteur{{ d.visitors|pluralize }}, {{ d.views }} page{{ d.views|pluralize }} vue{{ d.views|pluralize }}"></div>{% endfor %}
+        {% for d in series %}<div style="height:{{ d.h }}%" title="{{ d.day|date:'D j M' }} : {{ d.visitors }} visiteur{{ d.visitors|pluralize }}, {{ d.views }} page{{ d.views|pluralize }} vue{{ d.views|pluralize }}, {{ d.logins }} connexion{{ d.logins|pluralize }}"></div>{% endfor %}
       </div>
       <div class="an-axis"><span>{{ start|date:"j M" }}</span><span>{{ end|date:"j M" }}</span></div>
       <details style="margin-top:8px"><summary class="an-muted">Voir en tableau</summary>
-        <table><tr><th>Jour</th><th class="n">Visiteurs</th><th class="n">Pages vues</th></tr>
-        {% for d in series reversed %}<tr><td>{{ d.day|date:"D j M" }}</td><td class="n">{{ d.visitors }}</td><td class="n">{{ d.views }}</td></tr>{% endfor %}
+        <table><tr><th>Jour</th><th class="n">Visiteurs</th><th class="n">Pages vues</th><th class="n">Connexions</th><th class="n">Inscriptions</th></tr>
+        {% for d in series reversed %}<tr><td>{{ d.day|date:"D j M" }}</td><td class="n">{{ d.visitors }}</td><td class="n">{{ d.views }}</td><td class="n">{{ d.logins }}</td><td class="n">{{ d.signups }}</td></tr>{% endfor %}
         </table></details>
     </section>
 

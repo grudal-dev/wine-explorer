@@ -50,10 +50,13 @@ def _totals(start, end):
     views = sum(per_visit.values())
     bounces = sum(1 for n in per_visit.values() if n == 1)
     engaged = pv.filter(engaged_ms__isnull=False).aggregate(a=Avg("engaged_ms"))["a"]
-    games = Event.objects.filter(day__range=(start, end), name="blindtest_start").count()
+    ev = Event.objects.filter(day__range=(start, end))
+    games = ev.filter(name="blindtest_start").count()
+    members = (pv.filter(user__isnull=False).values("user").distinct().count())
     return {"visits": visits, "views": views, "per_visit": round(views / visits, 1) if visits else 0,
             "bounce": _pct(bounces, visits), "engaged_s": round(engaged / 1000) if engaged else None,
-            "games": games, "signups": Event.objects.filter(day__range=(start, end), name="signup").count()}
+            "games": games, "signups": ev.filter(name="signup").count(), "logins": ev.filter(name="login").count(),
+            "members": members}
 
 
 def dashboard(key: str = "30", today=None) -> dict:
@@ -70,6 +73,10 @@ def dashboard(key: str = "30", today=None) -> dict:
         {"label": "Temps moyen par page", "value": f"{now['engaged_s']} s" if now["engaged_s"] is not None else "—",
          "delta": _delta(now["engaged_s"] or 0, before["engaged_s"] or 0)},
         {"label": "Parties de blind test", "value": now["games"], "delta": _delta(now["games"], before["games"])},
+        {"label": "Connexions", "value": now["logins"], "delta": _delta(now["logins"], before["logins"]),
+         "help": "connexions à un compte (identifiant et mot de passe)"},
+        {"label": "Membres actifs", "value": now["members"], "delta": _delta(now["members"], before["members"]),
+         "help": "comptes différents ayant vu au moins une page connectés"},
         {"label": "Inscriptions", "value": now["signups"], "delta": _delta(now["signups"], before["signups"])},
     ]
 
@@ -134,8 +141,10 @@ def dashboard(key: str = "30", today=None) -> dict:
         daily[r[0]]["views"] += 1
         daily[r[0]]["visitors"].add(r[1])
     top_day = max((len(x["visitors"]) for x in daily.values()), default=0)
-    series = [{"day": d, "visitors": len(x["visitors"]), "views": x["views"],
-               "h": _pct(len(x["visitors"]), top_day)} for d, x in daily.items()]
+    logins_by_day = Counter(d for d, _, n, _ in events if n == "login")
+    signups_by_day = Counter(d for d, _, n, _ in events if n == "signup")
+    series = [{"day": d, "visitors": len(x["visitors"]), "views": x["views"], "logins": logins_by_day[d],
+               "signups": signups_by_day[d], "h": _pct(len(x["visitors"]), top_day)} for d, x in daily.items()]
 
     hours_raw = dict(pv.annotate(h=ExtractHour("created_at")).values("h").annotate(n=Count("id")).values_list("h", "n"))
     top_h = max(hours_raw.values(), default=0)

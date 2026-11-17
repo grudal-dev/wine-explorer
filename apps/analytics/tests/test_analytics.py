@@ -118,6 +118,15 @@ class EventTests(TestCase):
         self.client.post(f"/blind-test/partie/{game.public_id}/abandon/", HTTP_USER_AGENT=CHROME)
         self.assertEqual(Event.objects.filter(name="blindtest_abandoned").count(), 1)  # une seule fin
 
+    def test_login_is_tracked_and_counted(self):
+        User.objects.create_user("membre", password="Vin-de-garde-2026")
+        self.client.post("/compte/connexion/", {"username": "membre", "password": "Vin-de-garde-2026"},
+                         HTTP_USER_AGENT=CHROME)
+        self.assertEqual(Event.objects.filter(name="login").count(), 1)
+        self.client.get("/", HTTP_USER_AGENT=CHROME)
+        kpis = {k["label"]: k["value"] for k in stats.dashboard("7")["kpis"]}
+        self.assertEqual((kpis["Connexions"], kpis["Membres actifs"]), (1, 1))
+
     def test_signup_is_tracked(self):
         self.client.post("/compte/inscription/", {"username": "nouveau", "email": "n@exemple.fr", "adult": "on",
                                                   "password1": "Vin-de-garde-2026",
