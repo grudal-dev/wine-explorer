@@ -196,6 +196,25 @@ Limite : les profils sont rédigés à la main. Le modèle apprend la structure 
 chimie de vrais vins ; une parenté déduite est une hypothèse à relire.
 
 
+## Statistiques de visite (`apps/analytics`)
+
+Mesure d'audience maison, **sans cookie** : tableau de bord réservé à l'équipe sur **`/admin/statistiques/`**
+(lien sur l'accueil de l'administration), export CSV, et listes brutes « Pages vues » et « Événements » dans l'admin.
+
+- **Ce qui est mesuré** : chaque page HTML servie (middleware), le temps passé onglet visible et le défilement
+  maximal (`static/js/analytics.js`, envoyé en quittant la page), et des événements métier : `blindtest_start`,
+  `blindtest_guess`, `blindtest_won` / `lost` / `abandoned` (vin, essais, score), `hotcold_*`, `signup`,
+  `newsletter_subscribe`. Ajouter un événement : `from apps.analytics.tracking import track` puis
+  `track(request, "nom", cle=valeur)`.
+- **Sources** : paramètres `utm_*` d'abord, puis navigateur intégré des applis (TikTok, Instagram, Facebook…
+  reconnus même sans `Referer`), puis site d'origine (moteurs, réseaux), sinon « direct ». Pour les liens en bio :
+  `https://…/blind-test/?utm_source=tiktok&utm_campaign=devine-le-vin`.
+- **Vie privée** : aucune IP conservée ; visiteur = empreinte `sha256(clé secrète + jour + IP + navigateur)`
+  qui change chaque jour (visiteurs uniques par jour, pas de suivi d'un jour à l'autre). Robots, fragments HTMX,
+  `/admin/`, `/api/`, comptes staff, `Do Not Track` et `Global Privacy Control` exclus. Purge automatique
+  au-delà de `ANALYTICS_RETENTION_DAYS` (395 jours ; commande `purge_analytics`).
+- **Réglages** : `ANALYTICS_ENABLED` (vrai), `ANALYTICS_TRACK_STAFF` (faux), `ANALYTICS_RETENTION_DAYS` (395).
+
 ## Application mobile
 
 L'application iPhone et Android est dans [`mobile/`](mobile/README.md) (Expo, React Native). Elle

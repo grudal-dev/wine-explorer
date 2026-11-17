@@ -87,6 +87,7 @@
   <script src="{% url 'javascript-catalog' %}"></script>
   <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
   <script src="{% static 'js/nav.js' %}" defer></script>
+  <script src="{% static 'js/analytics.js' %}" data-endpoint="{% url 'analytics_engagement' %}" defer></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

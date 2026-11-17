@@ -1,0 +1,163 @@
+{% extends "admin/base_site.html" %}
+{% load humanize %}
+{% block extrastyle %}{{ block.super }}
+<style>
+  .an { --accent: #7A1F3D; --track: var(--darkened-bg, #f4f4f2); --up: #2f6b2f; --down: #a3262a; max-width: 1200px; }
+  @media (prefers-color-scheme: dark) { .an { --accent: #d98aa3; --up: #7fc27f; --down: #ef8a8a; } }
+  html[data-theme="dark"] .an { --accent: #d98aa3; --up: #7fc27f; --down: #ef8a8a; }
+  html[data-theme="light"] .an { --accent: #7A1F3D; --up: #2f6b2f; --down: #a3262a; }
+  .an-bar-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 18px; }
+  .an-bar-top a.on { background: var(--accent); color: #fff; }
+  .an-bar-top a { padding: 6px 12px; border: 1px solid var(--hairline-color); border-radius: 16px; text-decoration: none; }
+  .an-bar-top .sp { flex: 1; }
+  .an-live { font-weight: 600; }
+  .an-live::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--up); margin-right: 6px; }
+  .an-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 45%), 1fr)); gap: 10px; margin-bottom: 20px; }
+  .an-kpi { border: 1px solid var(--hairline-color); border-radius: 8px; padding: 12px; }
+  .an-kpi .l { color: var(--body-quiet-color); font-size: 12px; }
+  .an-kpi .v { font-size: 26px; font-weight: 600; margin: 4px 0; font-variant-numeric: tabular-nums; }
+  .an-kpi .d { font-size: 12px; }
+  .an-kpi .good { color: var(--up); } .an-kpi .bad { color: var(--down); }
+  .an-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 16px; }
+  .an-card { min-width: 0; border: 1px solid var(--hairline-color); border-radius: 8px; padding: 14px; overflow-x: auto; }
+  .an-card.wide { grid-column: 1 / -1; }
+  .an-card h2 { font-size: 15px; margin: 0 0 4px; background: none; color: var(--body-fg); padding: 0; }
+  .an-card .sub { color: var(--body-quiet-color); font-size: 12px; margin: 0 0 10px; }
+  .an-card table { width: 100%; border-collapse: collapse; }
+  .an-card th, .an-card td { padding: 5px 6px; font-size: 13px; vertical-align: middle; border-bottom: 1px solid var(--hairline-color); }
+  .an-card td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .an-card th.n { text-align: right; }
+  .an-meter { position: relative; }
+  .an-meter span.f { position: absolute; inset: 2px auto 2px 0; background: var(--accent); opacity: .16; border-radius: 0 4px 4px 0; }
+  .an-meter span.t { position: relative; overflow-wrap: anywhere; }
+  .an-cols { display: flex; align-items: flex-end; gap: 2px; height: 160px; padding-top: 6px; border-bottom: 1px solid var(--hairline-color); }
+  .an-cols div { flex: 1; min-width: 2px; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 1px; }
+  .an-cols div:hover { opacity: .7; }
+  .an-axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--body-quiet-color); margin-top: 4px; }
+  .an-hours { height: 90px; }
+  @media (max-width: 600px) { .an-tag { display: none; } .an-card th, .an-card td { font-size: 12px; padding: 4px 3px; } .an-kpi .v { font-size: 20px; } }
+  .an-muted { color: var(--body-quiet-color); }
+  .an-tag { font-size: 11px; color: var(--body-quiet-color); }
+</style>
+{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="{% url 'admin:index' %}">Accueil</a> › Statistiques de visite</div>{% endblock %}
+{% block content %}
+<div class="an">
+  <div class="an-bar-top">
+    {% for k, label in periods.items %}<a href="?p={{ k }}" class="{% if k == period %}on{% endif %}">{{ label }}</a>{% endfor %}
+    <span class="sp"></span>
+    <span class="an-live" title="visiteurs actifs ces 5 dernières minutes">{{ live }} en ce moment</span>
+    <a href="{% url 'analytics_export' %}?p={{ period }}">Exporter (CSV)</a>
+  </div>
+  <p class="an-muted" style="margin-top:-8px">Du {{ start|date:"j F Y" }} au {{ end|date:"j F Y" }}, comparé à la période précédente de même durée. L'équipe (comptes staff) et les robots ne sont pas comptés.</p>
+
+  <div class="an-kpis">
+    {% for k in kpis %}
+    <div class="an-kpi"{% if k.help %} title="{{ k.help }}"{% endif %}>
+      <div class="l">{{ k.label }}</div>
+      <div class="v">{{ k.value|intcomma }}</div>
+      <div class="d">{% if k.delta is None %}<span class="an-muted">—</span>{% elif k.delta == 0 %}<span class="an-muted">= stable</span>{% else %}
+        {% if k.delta > 0 %}<span class="{% if k.inverse %}bad{% else %}good{% endif %}">▲ +{{ k.delta }} %</span>
+        {% else %}<span class="{% if k.inverse %}good{% else %}bad{% endif %}">▼ {{ k.delta }} %</span>{% endif %}{% endif %}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="an-grid">
+    <section class="an-card wide">
+      <h2>Visiteurs par jour</h2>
+      <p class="sub">Survoler une barre pour le détail.</p>
+      <div class="an-cols" role="img" aria-label="Visiteurs par jour">
+        {% for d in series %}<div style="height:{{ d.h }}%" title="{{ d.day|date:'D j M' }} : {{ d.visitors }} visiteur{{ d.visitors|pluralize }}, {{ d.views }} page{{ d.views|pluralize }} vue{{ d.views|pluralize }}"></div>{% endfor %}
+      </div>
+      <div class="an-axis"><span>{{ start|date:"j M" }}</span><span>{{ end|date:"j M" }}</span></div>
+      <details style="margin-top:8px"><summary class="an-muted">Voir en tableau</summary>
+        <table><tr><th>Jour</th><th class="n">Visiteurs</th><th class="n">Pages vues</th></tr>
+        {% for d in series reversed %}<tr><td>{{ d.day|date:"D j M" }}</td><td class="n">{{ d.visitors }}</td><td class="n">{{ d.views }}</td></tr>{% endfor %}
+        </table></details>
+    </section>
+
+    <section class="an-card wide">
+      <h2>Sources</h2>
+      <p class="sub">D'où arrivent les visiteurs, et ce qu'ils font ensuite. TikTok et Instagram sont reconnus même sans lien suivi (navigateur intégré de l'appli).</p>
+      <table>
+        <tr><th>Source</th><th class="n">Visiteurs</th><th class="n">Part</th><th class="n">Pages / visite</th><th class="n">Rebond</th><th class="n">Ont joué</th><th class="n">Ont gagné</th></tr>
+        {% for s in sources %}
+        <tr><td class="an-meter"><span class="f" style="width:{{ s.bar }}%"></span><span class="t">{{ s.label }} <span class="an-tag">{{ s.family }}</span></span></td>
+          <td class="n">{{ s.visits|intcomma }}</td><td class="n">{{ s.pct }} %</td><td class="n">{{ s.per_visit }}</td>
+          <td class="n">{{ s.bounce }} %</td><td class="n">{{ s.play }} %</td><td class="n">{{ s.win }} %</td></tr>
+        {% empty %}<tr><td colspan="7" class="an-muted">Aucune visite sur la période.</td></tr>{% endfor %}
+      </table>
+    </section>
+
+    {% include "admin/analytics/_ranked.html" with title="Familles de sources" rows=families col="Visiteurs" %}
+    {% include "admin/analytics/_ranked.html" with title="Campagnes (liens UTM)" sub="campagne · source · support" rows=campaigns col="Visiteurs" empty="Aucun lien suivi. Ajoutez ?utm_source=tiktok&utm_campaign=… à vos liens." %}
+    {% include "admin/analytics/_ranked.html" with title="Sites d'origine" rows=referrers col="Visiteurs" %}
+    {% include "admin/analytics/_ranked.html" with title="Pages d'entrée" rows=entry_pages col="Visiteurs" %}
+
+    <section class="an-card wide">
+      <h2>Pages les plus vues</h2>
+      <p class="sub">Temps passé : onglet visible uniquement. Défilement : jusqu'où la page a été lue.</p>
+      <table>
+        <tr><th>Page</th><th class="n">Vues</th><th class="n">Visiteurs</th><th class="n">Temps moyen</th><th class="n">Défilement</th></tr>
+        {% for p in pages %}
+        <tr><td class="an-meter"><span class="f" style="width:{{ p.bar }}%"></span><span class="t">{{ p.label }}</span></td>
+          <td class="n">{{ p.views|intcomma }}</td><td class="n">{{ p.visitors|intcomma }}</td>
+          <td class="n">{% if p.engaged_s is not None %}{{ p.engaged_s }} s{% else %}—{% endif %}</td>
+          <td class="n">{% if p.scroll is not None %}{{ p.scroll }} %{% else %}—{% endif %}</td></tr>
+        {% empty %}<tr><td colspan="5" class="an-muted">Aucune page vue.</td></tr>{% endfor %}
+      </table>
+    </section>
+
+    <section class="an-card">
+      <h2>Blind test</h2>
+      <p class="sub">De la visite à la victoire.{% if avg_attempts %} Victoire en {{ avg_attempts }} essais en moyenne.{% endif %}</p>
+      <table>
+        {% for f in funnel %}<tr><td class="an-meter"><span class="f" style="width:{{ f.bar }}%"></span><span class="t">{{ f.label }}</span></td><td class="n">{{ f.n|intcomma }}</td></tr>{% endfor %}
+      </table>
+      {% if modes %}<p class="sub" style="margin-top:10px">Modes : {% for m in modes %}{{ m.label }} {{ m.pct }} %{% if not forloop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+    </section>
+
+    <section class="an-card">
+      <h2>Vins les plus durs à trouver</h2>
+      <p class="sub">Au moins 3 parties terminées.</p>
+      <table><tr><th>Vin</th><th class="n">Parties</th><th class="n">Réussite</th></tr>
+        {% for w in hardest %}<tr><td>{{ w.label }}</td><td class="n">{{ w.n }}</td><td class="n">{{ w.win }} %</td></tr>
+        {% empty %}<tr><td colspan="3" class="an-muted">Pas encore assez de parties.</td></tr>{% endfor %}
+      </table>
+    </section>
+
+    <section class="an-card">
+      <h2>Heures de visite</h2>
+      <p class="sub">Pages vues par heure (heure de Paris) : utile pour choisir l'heure de publication.</p>
+      <div class="an-cols an-hours">{% for h in hours %}<div style="height:{{ h.pct }}%" title="{{ h.h }} h : {{ h.n }} page{{ h.n|pluralize }}"></div>{% endfor %}</div>
+      <div class="an-axis"><span>0 h</span><span>6 h</span><span>12 h</span><span>18 h</span><span>23 h</span></div>
+    </section>
+
+    {% include "admin/analytics/_ranked.html" with title="Appareils" rows=devices col="Visiteurs" %}
+    {% include "admin/analytics/_ranked.html" with title="Navigateurs" rows=browsers col="Visiteurs" %}
+    {% include "admin/analytics/_ranked.html" with title="Systèmes" rows=oses col="Visiteurs" %}
+    {% include "admin/analytics/_ranked.html" with title="Langue du navigateur" sub="donne une idée du pays (fr-FR, fr-BE, en-US…)" rows=languages col="Visiteurs" %}
+    {% include "admin/analytics/_ranked.html" with title="Version du site" rows=site_languages col="Visiteurs" %}
+    {% include "admin/analytics/_ranked.html" with title="Événements" rows=events col="Nombre" %}
+    {% include "admin/analytics/_ranked.html" with title="Pages introuvables (404)" rows=not_found col="Vues" empty="Aucune." %}
+
+    <section class="an-card">
+      <h2>Pages les plus lentes</h2>
+      <p class="sub">Temps de réponse du serveur, pages vues au moins 5 fois.</p>
+      <table>{% for s in slow %}<tr><td>{{ s.label }}</td><td class="n">{{ s.ms }} ms</td></tr>
+        {% empty %}<tr><td class="an-muted">Pas assez de données.</td></tr>{% endfor %}</table>
+    </section>
+
+    <section class="an-card wide">
+      <h2>Dernières pages vues</h2>
+      <table><tr><th>Heure</th><th>Page</th><th>Source</th><th>Appareil</th><th>Visiteur</th></tr>
+        {% for v in last %}<tr><td class="n" style="text-align:left">{{ v.created_at|date:"d/m H:i:s" }}</td><td>{{ v.path }}</td>
+          <td>{{ v.source|default:"—" }}{% if v.utm_campaign %} <span class="an-tag">{{ v.utm_campaign }}</span>{% endif %}</td>
+          <td>{{ v.device }} · {{ v.browser }}</td><td>{% if v.user %}{{ v.user.username }}{% else %}<span class="an-tag">{{ v.visitor|slice:":6" }}</span>{% endif %}</td></tr>
+        {% empty %}<tr><td colspan="5" class="an-muted">Rien pour l'instant.</td></tr>{% endfor %}
+      </table>
+    </section>
+  </div>
+</div>
+{% endblock %}

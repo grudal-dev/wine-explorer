@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "apps.embeddings",
     "apps.accounts",
     "apps.api",
+    "apps.analytics",
     "rest_framework",
     "rest_framework.authtoken",
 ]
@@ -78,6 +79,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "apps.catalog.sections.SectionGateMiddleware",
+    "apps.analytics.middleware.AnalyticsMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -189,3 +191,8 @@ REST_FRAMEWORK = {
 
 # Réglages métier
 BLINDTEST_MAX_ATTEMPTS = int(os.environ.get("BLINDTEST_MAX_ATTEMPTS", "8"))
+
+# Mesure d'audience sans cookie (apps/analytics). Conservation limitée à 13 mois par défaut (CNIL : 25 au plus).
+ANALYTICS_ENABLED = env_bool("ANALYTICS_ENABLED", True)
+ANALYTICS_TRACK_STAFF = env_bool("ANALYTICS_TRACK_STAFF", False)
+ANALYTICS_RETENTION_DAYS = int(os.environ.get("ANALYTICS_RETENTION_DAYS", "395"))

@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.translation import gettext
 from django.views.decorators.http import require_GET, require_POST
 
+from apps.analytics.tracking import track
 from apps.catalog.i18n import tr
 from apps.catalog.index import search_aroma
 from apps.catalog.models import Aroma, AromaFamily, Color
@@ -117,9 +118,13 @@ def hot_cold_guess(request):
     if sp is not None:
         try:
             state = hotcold.current_state(request.session, timezone.localdate(), sp)
+            was_over = state["over"]
             hotcold.play(state, request.POST.get("q", ""), request.POST.get("choice", ""), sp)
             request.session[hotcold.SESSION_KEY] = state
             hotcold.record_result(request.user, state)
+            track(request, "hotcold_guess", mode=state["mode"])
+            if state["over"] and not was_over:
+                track(request, f"hotcold_{state['over']}", mode=state["mode"], guesses=len(state["guesses"]))
         except hotcold.HotColdError as exc:
             error = str(exc)
     if request.htmx:
@@ -148,4 +153,5 @@ def hot_cold_give_up(request):
         state["over"] = "abandoned"
         request.session[hotcold.SESSION_KEY] = state
         hotcold.record_result(request.user, state)
+        track(request, "hotcold_abandoned", mode=state["mode"], guesses=len(state["guesses"]))
     return redirect("hotcold:game")

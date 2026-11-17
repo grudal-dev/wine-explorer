@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.utils.translation import gettext
 from django.views.decorators.http import require_GET, require_POST
 
+from apps.analytics.tracking import track
 from apps.catalog.models import Color, WineProfile
 
 from . import engine
@@ -96,6 +97,7 @@ def start(request):
     except WineProfile.DoesNotExist as exc:  # pas de données chargées
         messages.error(request, gettext("Impossible de lancer une partie : %(reason)s") % {"reason": exc})
         return redirect("blindtest:home")
+    track(request, "blindtest_start", mode=game.mode, color=game.profile.color, wine=game.profile.slug)
     if game.user_id is None:
         ids = request.session.get(SESSION_GAMES, [])
         if str(game.public_id) not in ids:
@@ -123,12 +125,17 @@ def guess(request, public_id):
     if not game.is_owner:
         raise Http404
     error = ""
+    was_playing = game.status == Game.Status.PLAYING
     try:
         engine.play(game, request.POST.get("q", ""), request.POST.get("choice", ""))
     except engine.GuessError as exc:
         error = str(exc)
     game.refresh_from_db()
     game.is_owner = True
+    if not error:
+        track(request, "blindtest_guess", mode=game.mode)
+        if was_playing and game.status != Game.Status.PLAYING:
+            _track_end(request, game)
     if request.htmx:
         return render(request, "blindtest/_board.html", _game_context(game, error))
     if error:
@@ -139,9 +146,15 @@ def guess(request, public_id):
 @require_POST
 def give_up(request, public_id):
     game = _get_game(request, public_id)
-    if game.is_owner:
+    if game.is_owner and game.status == Game.Status.PLAYING:
         engine.abandon(game)
+        _track_end(request, game)
     return redirect(game)
+
+
+def _track_end(request, game: Game) -> None:
+    track(request, f"blindtest_{game.status}", mode=game.mode, wine=game.profile.slug, score=game.score,
+          attempts=game.attempts_used, clues=game.clues_revealed)
 
 
 @require_GET

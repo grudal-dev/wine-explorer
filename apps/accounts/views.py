@@ -7,6 +7,7 @@ from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.utils.translation import gettext
 
+from apps.analytics.tracking import track
 from apps.blindtest.models import Game
 from apps.blindtest.views import spoiler_profile_id, stats_for
 
@@ -24,6 +25,7 @@ def signup(request):
     if request.method == "POST" and form.is_valid():
         user = form.save()
         login(request, user)
+        track(request, "signup")
         messages.success(
             request, gettext("Bienvenue, %(name)s. Vos parties sont enregistrées.") % {"name": user.username})
         return redirect("accounts:profile")
@@ -47,6 +49,7 @@ def profile(request):
 def newsletter_toggle(request):
     if request.POST.get("subscribe") == "1":
         NewsletterSubscription.subscribe(request.user)
+        track(request, "newsletter_subscribe")
         messages.success(request, gettext("Vous êtes inscrit à la newsletter."))
     else:
         NewsletterSubscription.unsubscribe(request.user)

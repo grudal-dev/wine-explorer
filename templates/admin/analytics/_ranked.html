@@ -1,0 +1,10 @@
+{% load humanize %}<section class="an-card">
+  <h2>{{ title }}</h2>{% if sub %}<p class="sub">{{ sub }}</p>{% endif %}
+  <table>
+    <tr><th></th><th class="n">{{ col }}</th><th class="n">Part</th></tr>
+    {% for r in rows %}
+    <tr><td class="an-meter"><span class="f" style="width:{{ r.bar }}%"></span><span class="t">{{ r.label }}</span></td>
+      <td class="n">{{ r.n|intcomma }}</td><td class="n">{{ r.pct }} %</td></tr>
+    {% empty %}<tr><td colspan="3" class="an-muted">{{ empty|default:"Aucune donnée sur la période." }}</td></tr>{% endfor %}
+  </table>
+</section>
