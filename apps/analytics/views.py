@@ -3,18 +3,20 @@ import json
 
 from django.contrib import admin
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from . import stats
 from .models import PageView
-from .tracking import record_engagement
+from .tracking import IGNORE_COOKIE, forget_device, record_engagement, set_ignore_cookie
 
 
 def dashboard(request):
     """Tableau de bord, servi dans l'administration (réservé à l'équipe)."""
     context = {**admin.site.each_context(request), "title": "Statistiques de visite",
+               "ignored": request.COOKIES.get(IGNORE_COOKIE) == "1",
                **stats.dashboard(request.GET.get("p", "30"))}
     return TemplateResponse(request, "admin/analytics/dashboard.html", context)
 
@@ -48,3 +50,17 @@ def engagement(request):
         return HttpResponseBadRequest()
     record_engagement(request, path, ms, scroll)
     return HttpResponse(status=204)
+
+
+def ignore_device(request):
+    """`/stats/ne-pas-me-compter/` : à ouvrir une fois dans chaque navigateur de l'équipe (téléphone, appli…)."""
+    if request.method == "POST":
+        if request.POST.get("action") == "compter":
+            response = render(request, "analytics/ignore.html", {"ignored": False, "done": True})
+            response.delete_cookie(IGNORE_COOKIE)
+            return response
+        removed = forget_device(request)
+        response = render(request, "analytics/ignore.html", {"ignored": True, "done": True, "removed": removed})
+        set_ignore_cookie(response, request)
+        return response
+    return render(request, "analytics/ignore.html", {"ignored": request.COOKIES.get(IGNORE_COOKIE) == "1"})

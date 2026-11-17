@@ -49,7 +49,8 @@
     <span class="an-live" title="visiteurs actifs ces 5 dernières minutes">{{ live }} en ce moment</span>
     <a href="{% url 'analytics_export' %}?p={{ period }}">Exporter (CSV)</a>
   </div>
-  <p class="an-muted" style="margin-top:-8px">Du {{ start|date:"j F Y" }} au {{ end|date:"j F Y" }}, comparé à la période précédente de même durée. L'équipe (comptes staff) et les robots ne sont pas comptés.</p>
+  <p class="an-muted" style="margin-top:-8px">Du {{ start|date:"j F Y" }} au {{ end|date:"j F Y" }}, comparé à la période précédente de même durée. L'équipe et les robots ne sont pas comptés.
+    {% if ignored %}Cet appareil est exclu ✓.{% endif %} Pour exclure ton téléphone ou un autre navigateur (y compris celui de TikTok ou d'Instagram), ouvre-y <a href="{% url 'analytics_ignore' %}">{{ request.scheme }}://{{ request.get_host }}{% url 'analytics_ignore' %}</a>.</p>
 
   <div class="an-kpis">
     {% for k in kpis %}

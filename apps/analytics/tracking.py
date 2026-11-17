@@ -56,6 +56,8 @@ SEARCH = {"google", "bing", "duckduckgo", "qwant", "ecosia", "yahoo"}
 SOCIAL = {"tiktok", "instagram", "facebook", "x", "youtube", "linkedin", "reddit", "pinterest", "snapchat",
           "whatsapp"}
 
+IGNORE_COOKIE = "terroirs_ne_pas_compter"  # posé sur les appareils de l'équipe (pas un traceur de mesure)
+
 SKIP_PREFIXES = ("/admin/", "/static/", "/media/", "/api/", "/i18n/", "/jsi18n/", "/en/jsi18n/", "/stats/",
                  "/robots.txt", "/sitemap.xml", "/favicon")
 
@@ -147,6 +149,8 @@ def should_track(request) -> bool:
         return False  # refus exprimé par le navigateur
     if is_bot(request.META.get("HTTP_USER_AGENT", "")):
         return False
+    if request.COOKIES.get(IGNORE_COOKIE) == "1":
+        return False
     user = getattr(request, "user", None)
     if user is not None and user.is_authenticated and user.is_staff and not _conf("ANALYTICS_TRACK_STAFF", False):
         return False
@@ -217,6 +221,19 @@ def record_engagement(request, path: str, engaged_ms: int, scroll: int | None) -
         pv.scroll = max(pv.scroll or 0, min(max(scroll, 0), 100))
     pv.save(update_fields=["engaged_ms", "scroll"])
     return True
+
+
+def set_ignore_cookie(response, request) -> None:
+    response.set_cookie(IGNORE_COOKIE, "1", max_age=400 * 24 * 3600, httponly=True, samesite="Lax",
+                        secure=request.is_secure())
+
+
+def forget_device(request) -> int:
+    """Efface ce que cet appareil a laissé aujourd'hui (seul jour où son empreinte est connue)."""
+    day = timezone.localdate()
+    vid = visitor_id(request, day)
+    n = PageView.objects.filter(day=day, visitor=vid).delete()[0]
+    return n + Event.objects.filter(day=day, visitor=vid).delete()[0]
 
 
 _last_purge = {"day": None}

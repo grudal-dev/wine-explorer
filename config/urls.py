@@ -17,6 +17,7 @@ urlpatterns = [
     path("i18n/setlang/", set_language, name="set_language"),  # changement de langue
     path("api/v1/", include("apps.api.urls")),
     path("stats/engagement/", analytics_views.engagement, name="analytics_engagement"),
+    path("stats/ne-pas-me-compter/", analytics_views.ignore_device, name="analytics_ignore"),
     path("admin/statistiques/", admin.site.admin_view(analytics_views.dashboard), name="analytics_dashboard"),
     path("admin/statistiques/export.csv", admin.site.admin_view(analytics_views.export_csv),
          name="analytics_export"),

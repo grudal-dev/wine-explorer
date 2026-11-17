@@ -74,9 +74,33 @@ class PageViewTests(TestCase):
         self.client.force_login(staff)
         self.get("/")
         self.assertEqual(PageView.objects.count(), 0)
+        self.assertEqual(self.client.cookies["terroirs_ne_pas_compter"].value, "1")
+        del self.client.cookies["terroirs_ne_pas_compter"]
         with override_settings(ANALYTICS_TRACK_STAFF=True):
             self.get("/")
         self.assertEqual(PageView.objects.get().user, staff)
+
+    def test_a_device_can_be_excluded_and_its_visits_erased(self):
+        self.get("/")
+        self.get("/catalogue/")
+        self.assertEqual(PageView.objects.count(), 2)
+        res = self.client.post("/stats/ne-pas-me-compter/", {"action": "ignorer"}, HTTP_USER_AGENT=CHROME)
+        self.assertContains(res, "n'est pas compté")
+        self.assertEqual(PageView.objects.count(), 0)
+        self.get("/")
+        self.assertEqual(PageView.objects.count(), 0)
+        self.client.post("/stats/ne-pas-me-compter/", {"action": "compter"}, HTTP_USER_AGENT=CHROME)
+        self.get("/")
+        self.assertEqual(PageView.objects.count(), 1)
+
+    def test_staff_devices_stay_excluded_after_logout(self):
+        staff = User.objects.create_user("equipe", password="x", is_staff=True)
+        self.client.force_login(staff)
+        self.get("/")
+        self.client.post("/compte/deconnexion/", HTTP_USER_AGENT=CHROME)  # logout() du client vide les cookies
+        self.assertFalse(self.client.session.get("_auth_user_id"))
+        self.get("/")
+        self.assertEqual(PageView.objects.count(), 0)
 
     def test_not_found_pages_are_recorded(self):
         self.get("/nexiste-pas/")

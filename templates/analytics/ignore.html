@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Ne pas compter cet appareil · Wine Explorer</title>
+  <style>
+    body { font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: #23262F; background: #F8F8F4;
+           max-width: 34rem; margin: 3rem auto; padding: 0 1.25rem; }
+    h1 { font-size: 1.4rem; }
+    .ok { color: #2f6b2f; font-weight: 600; }
+    button { font: inherit; padding: .6rem 1.1rem; border-radius: 8px; border: 0; background: #7A1F3D; color: #fff; }
+    button.alt { background: transparent; color: #7A1F3D; border: 1px solid #7A1F3D; }
+    a { color: #7A1F3D; }
+  </style>
+</head>
+<body>
+  <h1>Statistiques : cet appareil</h1>
+  {% if ignored %}
+    <p class="ok">✓ Cet appareil n'est pas compté dans les statistiques.</p>
+    {% if done %}<p>{{ removed|default:0 }} enregistrement{{ removed|pluralize }} de cet appareil effacé{{ removed|pluralize }} pour aujourd'hui.</p>{% endif %}
+    <p>Le réglage vaut pour ce navigateur seulement, pendant 13 mois. À refaire dans chaque autre navigateur : téléphone, ordinateur, et navigateurs intégrés de TikTok ou d'Instagram.</p>
+    <form method="post">{% csrf_token %}<button class="alt" name="action" value="compter">Compter à nouveau cet appareil</button></form>
+  {% else %}
+    {% if done %}<p class="ok">Cet appareil est de nouveau compté.</p>{% endif %}
+    <p>Pour que tes propres visites ne faussent pas les statistiques, exclus ce navigateur. Les visites qu'il a faites aujourd'hui seront aussi effacées.</p>
+    <form method="post">{% csrf_token %}<button name="action" value="ignorer">Ne plus compter cet appareil</button></form>
+  {% endif %}
+  <p><a href="/">Retour au site</a></p>
+</body>
+</html>
