@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-16 22:54+0100\n"
+"POT-Creation-Date: 2026-11-17 18:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -2267,6 +2267,9 @@ msgstr ""
 
 msgid "Lire la fiche du vin"
 msgstr "Read the wine's details"
+
+msgid "Lire la suite"
+msgstr "Read more"
 
 msgid "Lire la température"
 msgstr "Reading the temperature"

@@ -248,6 +248,14 @@ class GraphAndViewTests(TestCase):
         self.assertContains(r, "Syrah")
         self.assertContains(r, "Wood et al. 2008")
 
+    def test_panel_long_description_can_be_read_in_full(self):
+        from apps.molecules.models import Molecule
+        mol = max(Molecule.objects.exclude(description=""), key=lambda m: len(m.description.split()))
+        self.assertGreater(len(mol.description.split()), 55)
+        r = self.client.get(reverse("molecules:panel", args=[f"molecule:{mol.slug}"]))
+        self.assertContains(r, "data-expand")
+        self.assertContains(r, mol.description.split()[-1])  # la fin du texte est bien servie
+
     def test_404s(self):
         self.assertEqual(self.client.get(reverse("molecules:api_graph") + "?kind=profile&slug=x").status_code, 404)
         self.assertEqual(self.client.get(reverse("molecules:panel", args=["autre:x"])).status_code, 404)

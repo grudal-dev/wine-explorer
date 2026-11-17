@@ -542,6 +542,7 @@ button.tag { cursor: pointer; font-family: inherit; }
 .structure--panel { margin: .6rem 0 1rem; }
 .mol-card h2 { margin-bottom: .2rem; }
 .mol-card__text { font-size: var(--step--1); color: var(--ink-2); margin-top: 1rem; }
+.mol-card__more { color: var(--garnet); text-decoration: underline; text-underline-offset: .15em; white-space: nowrap; }
 .latin { font-style: italic; color: var(--ink-2); }
 .reasons { list-style: none; padding: 0; margin: 0; display: grid; gap: .45rem; }
 .reason { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: .55rem; font-size: var(--step--1); }

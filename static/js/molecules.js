@@ -292,9 +292,20 @@
     if (panel.scrollHeight > panel.clientHeight) panel.scrollTo({ top: target.offsetTop - panel.offsetTop - 12, behavior });
     else target.scrollIntoView({ behavior, block: "start" });
   });
-  document.getElementById("mol-panel").addEventListener("click", (e) => {
+  const molPanel = document.getElementById("mol-panel");
+  molPanel.addEventListener("click", (e) => {
+    const more = e.target.closest("[data-expand]");
+    if (more && molPanel.contains(more)) {
+      const text = more.closest(".mol-card__text");
+      text.querySelector("[data-short]").hidden = true;
+      text.querySelector("[data-full]").hidden = false;
+      more.remove();
+      return;
+    }
+    // On cherche le bouton dans le panneau seulement : #mol-explorer, plus haut, porte lui aussi
+    // data-start (le vin de départ), et un clic sur du texte ramenait au vin par défaut.
     const b = e.target.closest("[data-start]");
-    if (b) { e.preventDefault(); load(b.dataset.start); }
+    if (b && molPanel.contains(b)) { e.preventDefault(); load(b.dataset.start); }
   });
   root.querySelectorAll(".explorer__rail [data-start]").forEach((b) => b.addEventListener("click", () => load(b.dataset.start)));
 
