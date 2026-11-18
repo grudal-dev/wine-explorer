@@ -171,6 +171,13 @@
   title: 2-Methoxy-3-isobutylpyrazine in grape berries and its dependence on genotype
   container: Phytochemistry, 71(17-18), 2190-2198
   note: IBMP quantifiable seulement dans le Cabernet franc, le Cabernet-Sauvignon, le Merlot, le Sauvignon blanc et le Sémillon (29 cépages testés).
+- key: geffroy2020b
+  authors: Geffroy, Armario, Fontaine, Fourure, Pasquier, Semadeni, Chervin
+  year: 2020
+  title: 3-Isobutyl-2-methoxypyrazine is neutrally perceived by consumers at usual concentrations in French Sauvignon and Fer wines from the Gaillac area
+  container: OENO One, 54(4), 1133-1142
+  doi: 10.20870/oeno-one.2020.54.4.4492
+  note: Vins de Fer de Gaillac jusqu'à 27 ng/L d'IBMP (jusqu'à 110 ng/L relevés à Marcillac) ; seuil de perception vers 17 ng/L, rejet par les consommateurs à 30 ng/L.
 
 # ── Terpènes ────────────────────────────────────────────────────────────────
 - key: guth1997

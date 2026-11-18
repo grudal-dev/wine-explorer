@@ -63,15 +63,17 @@
   smiles: COc1nccnc1CC(C)C
   odor: poivron vert, végétal, herbacé
   threshold: 15 ng/L dans le vin rouge (2 ng/L dans l'eau)
-  refs: [buttery1969, roujou2000, koch2010]
+  refs: [buttery1969, roujou2000, koch2010, geffroy2020b]
   aromas: [poivron vert]
   description: >
     La molécule du poivron vert, l'une des plus puissantes connues. Elle s'accumule dans le
     raisin vert et se dégrade à la lumière pendant la maturation, en même temps que l'acide
     malique : un Cabernet récolté tôt ou à l'ombre en garde davantage. Sur 29 cépages testés,
-    seuls cinq en contiennent des quantités mesurables, tous de la famille bordelaise.
+    seuls cinq en contiennent des quantités mesurables, tous de la famille bordelaise ; le Fer
+    Servadou (Braucol), cousin du Sud-Ouest, en contient autant, souvent autour du seuil de perception.
   wine:
     - {grapes: [Cabernet Sauvignon, Cabernet Franc], strength: 3, ref: roujou2000}
+    - {grapes: [Fer Servadou], strength: 3, ref: geffroy2020b}
     - {grapes: [Merlot, Sauvignon Blanc, Sémillon], strength: 2, ref: koch2010}
   nature:
     - {source: poivron vert, ref: buttery1969, note: "Identifiée en 1969 comme l'odorant caractéristique du poivron."}
