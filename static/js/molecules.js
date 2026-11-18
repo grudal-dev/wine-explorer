@@ -149,11 +149,25 @@
     const pan = cy.pan();
     const z = cy.zoom();
     const present = new Set(cy.nodes().map((n) => n.data("layer")));
+    // Les libellés des vins partent à gauche du nœud, ceux de la nature à droite : on aligne
+    // les titres de la même façon, ce qui les écarte quand le graphe est dézoomé.
+    const anchor = ["-100%", "-50%", "0%"];
+    const nudge = [12, 0, -8];
     columns.forEach((el) => {
       const i = +el.dataset.col;
-      el.style.left = `${colX[i] * z + pan.x}px`;
+      el.classList.remove("is-tight");
       el.hidden = !present.has(i);
+      el.style.transform = `translateX(${anchor[i]})`;
+      el.style.left = `${(colX[i] + nudge[i]) * z + pan.x}px`;
     });
+    // Si les titres se touchent encore, on les réduit, puis on masque celui du milieu.
+    const visible = [...columns].filter((el) => !el.hidden).sort((a, b) => a.dataset.col - b.dataset.col);
+    const overlaps = () => visible.some((el, k) => k > 0
+      && visible[k - 1].getBoundingClientRect().right + 8 > el.getBoundingClientRect().left);
+    if (overlaps()) {
+      visible.forEach((el) => el.classList.add("is-tight"));
+      if (overlaps() && visible.length === 3) visible[1].hidden = true;
+    }
   }
   cy.on("viewport", placeColumnLabels);
 
