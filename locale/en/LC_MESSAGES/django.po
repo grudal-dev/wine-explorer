@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-19 10:39+0100\n"
+"POT-Creation-Date: 2026-11-19 19:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -1899,6 +1899,15 @@ msgid ""
 "Sauvignon."
 msgstr "3-sulfanylhexanol and its acetate were first identified in yellow passion fruit, before Sauvignon."
 
+msgid "Le Beaujolais et ses crus"
+msgstr "Beaujolais and its crus"
+
+msgid "Le Beaujolais nouveau est arrivé"
+msgstr "Beaujolais Nouveau is here"
+
+msgid "Le Gamay"
+msgstr "Gamay"
+
 msgid "Le Nez"
 msgstr "The Nose"
 
@@ -2318,6 +2327,9 @@ msgid ""
 msgstr ""
 "Marker of premature ageing in reds: it replaces fresh fruit with prune. It always exceeds its threshold in "
 "oxidised wines and forms more with late-harvested grapes."
+
+msgid "Masquer ce bandeau"
+msgstr "Hide this banner"
 
 msgid "Me désinscrire"
 msgstr "Unsubscribe"
@@ -3352,6 +3364,12 @@ msgstr "Still, dry"
 msgid "Trentin-Haut-Adige"
 msgstr "Trentino-South Tyrol"
 
+msgid "Troisième jeudi de novembre"
+msgstr "Third Thursday of November"
+
+msgid "Troisième jeudi de novembre · aujourd'hui"
+msgstr "Third Thursday of November · today"
+
 msgid "Trouver sur la carte"
 msgstr "Find on the map"
 
@@ -3534,6 +3552,14 @@ msgstr "Wine"
 #, python-format
 msgid "Vin %(color)s"
 msgstr "%(color)s wine"
+
+#, python-format
+msgid ""
+"Vin de primeur, 100 %% Gamay, souvent vinifié en macération carbonique : c'est elle qui donne ces notes de "
+"banane et de bonbon anglais par-dessus la fraise et la framboise."
+msgstr ""
+"A primeur wine, 100%% Gamay, usually made by carbonic maceration: that is what gives it those notes of "
+"banana and pear drops on top of strawberry and raspberry."
 
 msgid "Vin doux naturel"
 msgstr "Fortified sweet (vin doux naturel)"

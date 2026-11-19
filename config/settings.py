@@ -41,6 +41,8 @@ if DEBUG and env_bool("DJANGO_ALLOW_LAN", True):
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
 # Sections servies (vide = toutes) : voir apps/catalog/sections.py
 PUBLIC_SECTIONS = env_list("DJANGO_PUBLIC_SECTIONS")
+# Décor de saison (Beaujolais nouveau) : auto | off | beaujolais. Voir apps/catalog/seasons.py
+SEASONAL_DECOR = os.environ.get("SEASONAL_DECOR", "auto").strip().lower() or "auto"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -97,6 +99,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "apps.catalog.sections.context",
                 "apps.catalog.seo.context",
+                "apps.catalog.seasons.context",
             ],
         },
     },

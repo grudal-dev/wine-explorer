@@ -1,0 +1,41 @@
+{% load i18n %}{# Décor du Beaujolais nouveau : voir apps/catalog/seasons.py. Texte informatif (appellation, cépage, élaboration). #}
+<aside class="primeur" id="primeur" aria-labelledby="primeur-title" data-key="terroirs_primeur_{{ beaujolais_year }}">
+  <svg class="primeur__bunch" viewBox="0 0 64 80" aria-hidden="true" focusable="false">
+    <path class="primeur__stem" d="M32 4 C31 10 33 14 32 20" />
+    <path class="primeur__leaf" d="M33 12 C40 3 54 4 60 10 C54 11 56 16 52 19 C48 18 46 22 41 20 C40 16 36 16 33 12 Z" />
+    <path class="primeur__vein" d="M34 12 C42 11 50 12 57 11" />
+    <path class="primeur__tendril" d="M30 14 C24 12 22 6 26 4 C29 3 29 7 27 8" />
+    <g class="primeur__grapes">
+      <circle cx="22" cy="26" r="7"/><circle cx="34" cy="25" r="7"/><circle cx="45" cy="28" r="6.5"/>
+      <circle cx="16" cy="38" r="6.5"/><circle cx="28" cy="37" r="7"/><circle cx="40" cy="39" r="7"/>
+      <circle cx="22" cy="49" r="6.5"/><circle cx="34" cy="50" r="6.5"/><circle cx="44" cy="50" r="5.5"/>
+      <circle cx="27" cy="61" r="6"/><circle cx="38" cy="61" r="5.5"/><circle cx="32" cy="71" r="5"/>
+    </g>
+    <g class="primeur__shine">
+      <circle cx="19.5" cy="23.5" r="1.8"/><circle cx="31.5" cy="22.5" r="1.8"/><circle cx="25.5" cy="34.5" r="1.8"/>
+      <circle cx="37.5" cy="36.5" r="1.8"/><circle cx="19.5" cy="46.5" r="1.6"/><circle cx="31.5" cy="47.5" r="1.6"/>
+    </g>
+  </svg>
+  <div class="primeur__text">
+    <p class="primeur__kicker">{% if beaujolais_today %}{% translate "Troisième jeudi de novembre · aujourd'hui" %}{% else %}{% translate "Troisième jeudi de novembre" %}{% endif %}</p>
+    <h2 class="primeur__title" id="primeur-title">{% translate "Le Beaujolais nouveau est arrivé" %}</h2>
+    <p class="primeur__body">{% translate "Vin de primeur, 100 % Gamay, souvent vinifié en macération carbonique : c'est elle qui donne ces notes de banane et de bonbon anglais par-dessus la fraise et la framboise." %}</p>
+    {% if beaujolais_region_url or beaujolais_grape_url %}
+    <p class="primeur__links">
+      {% if beaujolais_region_url %}<a href="{{ beaujolais_region_url }}">{% translate "Le Beaujolais et ses crus" %}</a>{% endif %}
+      {% if beaujolais_grape_url %}<a href="{{ beaujolais_grape_url }}">{% translate "Le Gamay" %}</a>{% endif %}
+    </p>
+    {% endif %}
+  </div>
+  <button type="button" class="primeur__close" aria-label="{% translate "Masquer ce bandeau" %}" title="{% translate "Masquer ce bandeau" %}">×</button>
+</aside>
+<script>
+  (function () {
+    var b = document.getElementById("primeur"), k = b.getAttribute("data-key");
+    try { if (localStorage.getItem(k)) { b.hidden = true; } } catch (e) {}
+    b.querySelector(".primeur__close").addEventListener("click", function () {
+      b.hidden = true;
+      try { localStorage.setItem(k, "1"); } catch (e) {}
+    });
+  })();
+</script>

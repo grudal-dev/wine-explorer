@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   {% block head %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body class="{% block body_class %}{% endblock %}{% if seasonal_decor %} decor-{{ seasonal_decor }}{% endif %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <a class="skip" href="#main">{% translate "Aller au contenu" %}</a>
   <header class="topbar">
     <a class="wordmark" href="{% url 'home' %}" aria-label="{% translate "Wine Explorer, accueil" %}">
@@ -66,6 +66,8 @@
       {% endif %}
     </div>{% endif %}
   </header>
+
+  {% if seasonal_decor == "beaujolais" %}{% include "partials/_beaujolais.html" %}{% endif %}
 
   {% if messages %}
   <div class="flash" role="status">

@@ -752,3 +752,67 @@ button.tag { cursor: pointer; font-family: inherit; }
   .mol-explorer .stage-search { display: block; }
   .mol-explorer .rail-search { display: none; }
 }
+
+/* ── Décor de saison : Beaujolais nouveau (apps/catalog/seasons.py) ──
+   Du troisième jeudi de novembre au dimanche suivant la semaine d'après. Violet du Gamay, guirlande de vigne
+   sous l'en-tête, grappe à la place du disque du logo, bandeau informatif (masqué sur les pages plein écran). */
+.decor-beaujolais {
+  --gamay: #4E2A5E;
+  --gamay-2: #6E3B7E;
+  --gamay-3: #9A5FA3;
+  --vine: #5D7A2E;
+}
+.decor-beaujolais .topbar::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -13px; height: 14px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14' viewBox='0 0 120 14'%3E%3Cpath d='M0 2 Q30 9 60 2 T120 2' fill='none' stroke='%235D7A2E' stroke-width='1.2'/%3E%3Cpath d='M27 5 c3-4 9-4 11 0 c-2 0-2 3-4 3 c-2-1-3 1-5 0 c0-2-1-2-2-3z' fill='%235D7A2E'/%3E%3Cg fill='%236E3B7E'%3E%3Ccircle cx='86' cy='6' r='2.2'/%3E%3Ccircle cx='90.5' cy='6' r='2.2'/%3E%3Ccircle cx='88.2' cy='9.6' r='2.2'/%3E%3C/g%3E%3C/svg%3E") repeat-x 0 0 / 120px 14px;
+  opacity: .85;
+}
+@media (max-width: 760px) { .decor-beaujolais .topbar { position: relative; } }
+
+/* Logo : une grappe au lieu du disque grenat. */
+.decor-beaujolais .wordmark__disc {
+  width: 1.1rem; height: 1.35rem; border-radius: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 27'%3E%3Cpath d='M11 1 v4' stroke='%235D7A2E' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M11.5 4 c2-3 6-3 8-1 c-2 .5-2 2-4 2.5 c-1.5-.5-3 0-4-1.5z' fill='%235D7A2E'/%3E%3Cg fill='%236E3B7E'%3E%3Ccircle cx='6' cy='9' r='3.2'/%3E%3Ccircle cx='11.5' cy='8.5' r='3.2'/%3E%3Ccircle cx='17' cy='9.5' r='3'/%3E%3Ccircle cx='8.5' cy='14' r='3.2'/%3E%3Ccircle cx='14.5' cy='14' r='3.2'/%3E%3Ccircle cx='11.5' cy='19' r='3'/%3E%3Ccircle cx='11.5' cy='23.6' r='2.4'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Bandeau */
+.primeur {
+  position: relative; display: flex; align-items: center; gap: clamp(.9rem, 2.5vw, 1.75rem);
+  max-width: 1240px; width: calc(100% - 2 * var(--gutter)); margin: 1.6rem auto 0; padding: 1.1rem 3.2rem 1.1rem 1.25rem;
+  color: #fff; border-radius: var(--radius-m); overflow: hidden;
+  background:
+    radial-gradient(circle at 92% -30%, rgba(255,255,255,.14) 0 22%, transparent 23%),
+    radial-gradient(circle at 78% 130%, rgba(255,255,255,.08) 0 18%, transparent 19%),
+    linear-gradient(115deg, var(--gamay) 0%, var(--gamay-2) 60%, #7E2F55 100%);
+  box-shadow: 0 8px 26px rgba(78,42,94,.22);
+}
+.primeur[hidden] { display: none; }
+.is-app .primeur { display: none; }
+.primeur__bunch { flex: none; width: 3.6rem; height: 4.5rem; transform-origin: 50% 5%; animation: primeur-sway 4.5s ease-in-out infinite; }
+.primeur__stem, .primeur__tendril { fill: none; stroke: #B9CF7A; stroke-width: 2.2; stroke-linecap: round; }
+.primeur__leaf { fill: #8FAE45; }
+.primeur__vein { fill: none; stroke: #5D7A2E; stroke-width: 1; }
+.primeur__grapes circle { fill: #2E1638; stroke: var(--gamay-3); stroke-width: 1.2; }
+.primeur__shine circle { fill: rgba(255,255,255,.55); }
+.primeur__text { min-width: 0; }
+.primeur__kicker { margin: 0 0 .15rem; font-size: var(--step--1); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #E9D3EC; }
+.primeur__title { margin: 0 0 .3rem; font-size: clamp(1.35rem, 3vw, 1.75rem); color: #fff; }
+.primeur__body { margin: 0; color: rgba(255,255,255,.9); max-width: 72ch; }
+.primeur__links { margin: .55rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; }
+.primeur__links a { color: #fff; font-weight: 600; text-decoration-color: rgba(255,255,255,.5); }
+.primeur__links a:hover { color: #fff; text-decoration-color: #fff; }
+.primeur__links a::after { content: " →"; }
+.primeur a:focus-visible, .primeur__close:focus-visible { outline-color: #fff; }
+.primeur__close {
+  position: absolute; top: .55rem; right: .6rem; width: 2rem; height: 2rem; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.12); color: #fff; font: 400 1.35rem/1 var(--sans); cursor: pointer;
+}
+.primeur__close:hover { background: rgba(255,255,255,.24); }
+.decor-beaujolais .primeur ~ .flash { margin-top: 1rem; }
+@keyframes primeur-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@media (max-width: 560px) {
+  .primeur { align-items: flex-start; padding: 1rem 2.8rem 1rem 1rem; }
+  .primeur__bunch { width: 2.6rem; height: 3.3rem; }
+}
+@media (prefers-reduced-motion: reduce) { .primeur__bunch { animation: none; } }
+@media print { .primeur, .decor-beaujolais .topbar::after { display: none; } }
