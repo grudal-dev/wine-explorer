@@ -164,6 +164,7 @@
     l'élevage. On le retrouve à moindre dose dans le Gewurztraminer et le Riesling.
   wine:
     - {grapes: ["Muscat à petits grains", "Muscat d'Alexandrie"], strength: 3, ref: marais1983}
+    - {grapes: ["Muscat Ottonel"], strength: 2, ref: duchene2009}
     - {grapes: [Gewurztraminer, Riesling], strength: 2, ref: marais1983}
     - {grapes: [Viognier], strength: 1, ref: awri311}
   nature:
@@ -189,6 +190,7 @@
     vieillissement.
   wine:
     - {grapes: ["Muscat à petits grains", "Muscat d'Alexandrie", Gewurztraminer], strength: 2, ref: marais1983}
+    - {grapes: ["Muscat Ottonel"], strength: 1, ref: duchene2009}
   nature:
     - {source: rose de Damas, ref: cotton2015}
 

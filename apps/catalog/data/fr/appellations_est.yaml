@@ -393,7 +393,7 @@
       description: Blanc ample et capiteux, aux notes de sous-bois fumé et de fruits jaunes, du sec au moelleux.
     - name: Alsace muscat
       color: blanc
-      grapes: {Muscat à petits grains: 60, Muscat d'Alexandrie: 40}
+      grapes: {Muscat à petits grains: 50, Muscat Ottonel: 50}
       aromas: {fleur d'oranger: 2, rose: 1, citron: 1, menthe: 1, pêche blanche: 1}
       structure: [2, 3, 0, 1]
       price: [10, 25]
