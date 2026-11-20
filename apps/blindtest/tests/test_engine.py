@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from django.utils.html import escape
 
 from apps.blindtest import engine
 from apps.blindtest.models import Game
@@ -117,7 +118,7 @@ class ViewTests(TestCase):
         game = self.start(self.client)
         page = self.client.get(game.get_absolute_url())
         self.assertEqual(page.status_code, 200)
-        self.assertNotContains(page, game.profile.appellation.name + "</p>")
+        self.assertNotContains(page, escape(game.profile.appellation.name) + "</p>")
         r = self.client.post(reverse("blindtest:guess", args=[game.public_id]), {"q": "Bourgogne"},
                              HTTP_HX_REQUEST="true")
         self.assertEqual(r.status_code, 200)
@@ -136,7 +137,7 @@ class ViewTests(TestCase):
         self.client.post(reverse("blindtest:give_up", args=[game.public_id]))
         other = self.client_class()
         r = other.get(game.get_absolute_url())
-        self.assertContains(r, game.profile.appellation.name)
+        self.assertContains(r, escape(game.profile.appellation.name))
         self.assertNotContains(r, "guess-input")
 
     def test_suggest(self):
