@@ -127,14 +127,17 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   .account { margin-left: 0; width: 100%; order: 3; }
   .nav { order: 2; width: 100%; gap: 1rem; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
   .nav::-webkit-scrollbar { display: none; }
-  .nav-group, .nav-group__menu { display: contents; }
-  .nav-group__toggle { display: none; }
-  .nav .nav-group__menu a { display: inline; padding: .2rem 0; border-bottom: 2px solid transparent; border-radius: 0; }
-  .nav .nav-group__menu a[aria-current="page"] { background: none; border-bottom-color: var(--garnet); }
-  .nav-group__menu span { display: none; }
-  .nav-group__menu strong { font-weight: 500; color: inherit; }
+  /* Mêmes menus que sur ordinateur (Jeux, Explorer). La barre défile en largeur, ce qui couperait un
+     menu posé contre elle : sur téléphone, le menu s'ouvre sur toute la largeur, sous l'en-tête (il se
+     positionne contre .topbar, hors de la barre qui défile). */
+  .nav { gap: .95rem; }
+  .nav-group { position: static; }
+  .nav-group__menu { left: 0; right: 0; top: 100%; min-width: 0; margin: 0; border-radius: 0 0 var(--radius-m) var(--radius-m);
+    border-left: 0; border-right: 0; padding: .4rem var(--gutter) .7rem; white-space: normal;
+    box-shadow: 0 14px 30px -18px rgba(35,38,47,.45); }
+  .nav .nav-group__menu a { padding: .7rem .6rem; }
   /* Trois lignes d'en-tête collées en haut mangeaient un cinquième de l'écran. */
-  .topbar { position: static; }
+  .topbar { position: relative; }
 }
 
 /* ── Mise en page ─────────────────────────────────────────── */
@@ -1052,3 +1055,4 @@ body.map-is-full { overflow: hidden; }
   .map-explorer.is-full .explorer__stage { order: 0; height: 100%; }
 }
 @media (max-width: 560px) { .map-fs span { display: none; } }
+@media (max-width: 420px) { .nav { gap: .7rem; font-size: .9375rem; } .nav-group__toggle { gap: .25rem; } }
