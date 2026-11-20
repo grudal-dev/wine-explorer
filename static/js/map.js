@@ -13,7 +13,6 @@
   const stats = document.getElementById("map-stats");
   const legend = document.getElementById("map-legend");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const SIZE = 1400;
 
   const WINE = { rouge: "#6B1730", blanc: "#D9C36A", rose: "#E59A8E" };
   const TYPE = { grape: "#56662D", aroma: "#B07D22", appellation: "#7A1F3D", region: "#3B5878", molecule: "#2E6E6A" };
@@ -23,32 +22,149 @@
   const regionColor = {};
   let regionNames = {};
 
+  // Tailles constantes à l'écran : un point fait toujours ~16 px et un nom ~12 px, quel que soit le zoom.
+  // Le cadrage d'ensemble reste lisible, et zoomer écarte les points au lieu de les grossir.
+  let K = 1;
+  const px = (v) => () => v * K;
+
   const cy = cytoscape({
     container: document.getElementById("map-cy"),
-    minZoom: 0.3, maxZoom: 6, boxSelectionEnabled: false, autoungrabify: true,
+    minZoom: 0.2, maxZoom: 8, boxSelectionEnabled: false, autoungrabify: true,
     style: [
       { selector: "node", style: {
-        "label": "data(label)", "font-family": "Inter, system-ui, sans-serif", "font-size": 10,
-        "color": "#23262F", "text-valign": "bottom", "text-margin-y": 3, "min-zoomed-font-size": 9,
-        "text-background-color": "#F8F8F4", "text-background-opacity": 0.8, "text-background-padding": 1.5,
-        "width": 12, "height": 12, "background-color": "data(color)", "border-width": 1, "border-color": "#23262F",
-        "transition-property": "opacity", "transition-duration": "150ms",
+        "label": "data(label)", "font-family": "Inter, system-ui, sans-serif", "font-size": px(12), "font-weight": 500,
+        "color": "#23262F", "text-valign": "bottom", "text-margin-y": px(4),
+        "text-background-color": "#F8F8F4", "text-background-opacity": 0.88, "text-background-padding": px(2),
+        "text-background-shape": "roundrectangle",
+        "width": px(12), "height": px(12), "background-color": "data(color)", "border-width": px(1), "border-color": "#23262F",
+        "transition-property": "opacity, width, height, border-width", "transition-duration": "150ms",
       }},
-      { selector: "node[type='profile']", style: { "width": 14, "height": 14, "border-width": 1.5 }},
+      { selector: "node[type='profile']", style: { "width": px(16), "height": px(16), "border-width": px(1.5) }},
+      { selector: "node[type='profile'][wine='blanc']", style: { "border-color": "#8C7424" }},
+      { selector: "node[type='profile'][wine='rose']", style: { "border-color": "#A4584B" }},
       { selector: "node[type='grape']", style: { "shape": "diamond", "font-style": "italic" }},
-      { selector: "node[type='aroma']", style: { "shape": "ellipse", "width": 9, "height": 9, "border-width": 0, "font-style": "italic" }},
-      { selector: "node[type='appellation']", style: { "shape": "round-rectangle", "width": 9, "height": 9 }},
-      { selector: "node[type='region']", style: { "shape": "round-rectangle", "width": 18, "height": 12, "font-weight": 600, "font-size": 12, "min-zoomed-font-size": 0 }},
+      { selector: "node[type='aroma']", style: { "shape": "ellipse", "width": px(10), "height": px(10), "border-width": 0, "font-style": "italic" }},
+      { selector: "node[type='appellation']", style: { "shape": "round-rectangle", "width": px(10), "height": px(10) }},
+      { selector: "node[type='region']", style: { "shape": "round-rectangle", "width": px(20), "height": px(13), "font-weight": 700, "font-size": px(13) }},
       { selector: "node[type='molecule']", style: { "shape": "hexagon" }},
+      // Position du nom choisie par placeLabels : dessous (défaut), dessus, à droite, à gauche.
+      { selector: "node.lab-t", style: { "text-valign": "top", "text-margin-y": px(-4) }},
+      { selector: "node.lab-r", style: { "text-valign": "center", "text-halign": "right", "text-margin-x": px(5), "text-margin-y": 0 }},
+      { selector: "node.lab-l", style: { "text-valign": "center", "text-halign": "left", "text-margin-x": px(-5), "text-margin-y": 0 }},
+      // Libellé masqué quand il chevaucherait un voisin (voir placeLabels) ; il revient au survol et au zoom.
+      { selector: "node.hover", style: { "text-opacity": 1, "text-background-opacity": 0.95, "z-index": 20,
+        "width": px(22), "height": px(22) }},
       { selector: ".dim", style: { "opacity": 0.15, "text-opacity": 0 }},
       { selector: ".off", style: { "display": "none" }},
-      { selector: "node.near", style: { "min-zoomed-font-size": 0, "font-weight": 600, "z-index": 9 }},
-      { selector: "node:selected", style: { "border-width": 4, "border-color": "#7A1F3D", "min-zoomed-font-size": 0,
-        "font-weight": 600, "font-size": 11, "z-index": 10, "overlay-opacity": 0 }},
-      { selector: "edge", style: { "width": "mapData(similarity, 0.5, 1, 1, 5)", "line-color": "#7A1F3D",
+      { selector: "node.near", style: { "text-opacity": 1, "text-background-opacity": 0.95, "font-weight": 600, "z-index": 9 }},
+      // Après .near : un voisin sans place pour son nom reste sans nom (il est listé dans le panneau).
+      { selector: "node.quiet", style: { "text-opacity": 0, "text-background-opacity": 0 }},
+      { selector: "node:selected", style: { "border-color": "#7A1F3D", "text-opacity": 1,
+        "text-background-opacity": 0.95, "font-weight": 700, "font-size": px(13.5), "z-index": 10, "overlay-opacity": 0,
+        "width": px(26), "height": px(26), "border-width": px(4) }},
+      { selector: "edge", style: { "width": (e) => (1.5 + 4.5 * Math.max(0, (e.data("similarity") - 0.5) / 0.5)) * K, "line-color": "#7A1F3D",
         "opacity": 0.55, "curve-style": "straight" }},
     ],
   });
+
+  // ── Libellés sans chevauchement ──────────────────────────────────────
+  // À chaque zoom, on garde les libellés qui tiennent sans toucher un autre libellé ni un point, en
+  // commençant par les vins les plus isolés : à l'arrivée, la carte se lit sans rien faire.
+  const measure = document.createElement("canvas").getContext("2d");
+  let labelTimer = 0;
+  function placeLabels() {
+    const z = cy.zoom();
+    const boxes = [];
+    const W = cy.width(), H = cy.height();
+    const hits = (b) => b[0] < 2 || b[1] < 2 || b[2] > W - 2 || b[3] > H - 2
+      || boxes.some((o) => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
+    // Quand un vin est choisi, les points estompés ne réservent pas de place pour leur nom.
+    const nodes = cy.nodes().not(".off");
+    const named = nodes.not(".dim");
+    nodes.difference(named).addClass("quiet");
+    named.forEach((n) => {
+      const p = n.renderedPosition();
+      const r = (n.width() * z) / 2 + 1;
+      boxes.push([p.x - r, p.y - r, p.x + r, p.y + r]);
+    });
+    // Le vin choisi (toujours nommé) et ses voisins d'abord, puis les plus isolés.
+    const prio = (n) => (n.selected() ? 2 : n.hasClass("near") ? 1 : 0);
+    const ranked = named.sort((a, b) => prio(b) - prio(a) || (b.data("iso") || 0) - (a.data("iso") || 0));
+    cy.batch(() => {
+      ranked.forEach((n) => {
+        n.removeClass("lab-t lab-r lab-l");
+        const fs = n.data("type") === "region" ? 13 : 12;
+        measure.font = `${n.selected() ? 700 : n.hasClass("near") ? 600 : 500} ${n.selected() ? 13.5 : fs}px Inter, system-ui, sans-serif`;
+        const w = measure.measureText(n.data("label") || "").width + 6;
+        const h = fs * 1.35 + 4;
+        const p = n.renderedPosition();
+        const r = (n.width() * z) / 2;
+        const spots = [
+          ["", [p.x - w / 2, p.y + r + 3, p.x + w / 2, p.y + r + 3 + h]],
+          ["lab-t", [p.x - w / 2, p.y - r - 3 - h, p.x + w / 2, p.y - r - 3]],
+          ["lab-r", [p.x + r + 4, p.y - h / 2, p.x + r + 4 + w, p.y + h / 2]],
+          ["lab-l", [p.x - r - 4 - w, p.y - h / 2, p.x - r - 4, p.y + h / 2]],
+        ];
+        const spot = spots.find(([, b]) => !hits(b)) || (n.selected() ? spots[0] : null);
+        if (spot) { boxes.push(spot[1]); if (spot[0]) n.addClass(spot[0]); }
+        n.toggleClass("quiet", !spot);
+      });
+    });
+  }
+  const scheduleLabels = () => { clearTimeout(labelTimer); labelTimer = setTimeout(placeLabels, 60); };
+  let styleFrame = 0;
+  cy.on("zoom", () => {
+    K = 1 / cy.zoom();
+    if (!styleFrame) styleFrame = requestAnimationFrame(() => { styleFrame = 0; cy.style().update(); });
+  });
+  cy.on("zoom pan", scheduleLabels);
+
+  // Isolement de chaque point (distance au plus proche voisin) : les plus isolés gardent leur nom d'abord.
+  function computeIsolation() {
+    const nodes = cy.nodes().not(".off").toArray();
+    nodes.forEach((a) => {
+      const pa = a.position();
+      let best = Infinity;
+      nodes.forEach((b) => {
+        if (a === b) return;
+        const pb = b.position();
+        const d = (pa.x - pb.x) ** 2 + (pa.y - pb.y) ** 2;
+        if (d < best) best = d;
+      });
+      a.data("iso", best);
+    });
+  }
+
+  // t-SNE tasse les vins d'une même famille les uns sur les autres : on écarte les points qui se
+  // touchent (distance minimale `gap`), par petites poussées, sans déplacer les groupes.
+  function spread(gap) {
+    const nodes = cy.nodes("[type='profile']").toArray();
+    const pos = nodes.map((n) => ({ ...n.position() }));
+    for (let it = 0; it < 60; it++) {
+      let moved = false;
+      for (let i = 0; i < pos.length; i++) {
+        for (let j = i + 1; j < pos.length; j++) {
+          const dx = pos[j].x - pos[i].x, dy = pos[j].y - pos[i].y;
+          const d = Math.hypot(dx, dy) || 0.01;
+          if (d >= gap) continue;
+          const push = (gap - d) / 2;
+          const ux = dx / d, uy = dy / d;
+          pos[i].x -= ux * push; pos[i].y -= uy * push;
+          pos[j].x += ux * push; pos[j].y += uy * push;
+          moved = true;
+        }
+      }
+      if (!moved) break;
+    }
+    cy.batch(() => nodes.forEach((n, k) => n.position(pos[k])));
+  }
+
+  function fitAll(animate = false) {
+    cy.resize();
+    const eles = cy.nodes().not(".off");
+    if (animate && !reduceMotion) cy.animate({ fit: { eles, padding: 40 } }, { duration: 300, complete: placeLabels });
+    else { cy.fit(eles, 40); K = 1 / cy.zoom(); cy.style().update(); placeLabels(); }
+  }
 
   function nodeColor(n) {
     if (n.type !== "profile") return n.hue || TYPE[n.type] || "#23262F";
@@ -93,6 +209,8 @@
       ? interpolate(_("%s points. Deux points proches se ressemblent."), [shown])
       : _("Rien à afficher avec ces filtres.");
     drawLegend();
+    computeIsolation();
+    scheduleLabels();
   }
 
   function clearSelection() {
@@ -135,20 +253,23 @@
       group.merge(other);
     });
     if (center) {
-      // On cadre le voisinage sans coller le nez dessus : au-delà de ×2,2 les libellés se chevauchent.
-      cy.fit(group, 120);
-      if (cy.zoom() > 2.2) cy.zoom({ level: 2.2, position: node.position() });
+      // On cadre le voisinage ; points et noms gardent leur taille à l'écran, donc zoomer les écarte.
+      cy.fit(group, 90);
+      if (!reduceMotion) {
+        node.animate({ style: { width: 42 * K, height: 42 * K } }, { duration: 260 })
+          .animate({ style: { width: 26 * K, height: 26 * K } }, { duration: 260, complete: () => { node.removeStyle("width height"); placeLabels(); } });
+      }
     }
+    placeLabels();
   }
 
   cy.on("tap", "node", (e) => select(e.target.id()));
-  cy.on("tap", (e) => { if (e.target === cy) { clearSelection(); cy.$(":selected").unselect(); } });
-  cy.on("mouseover", "node", () => { cy.container().style.cursor = "pointer"; });
-  cy.on("mouseout", "node", () => { cy.container().style.cursor = ""; });
+  cy.on("tap", (e) => { if (e.target === cy) { clearSelection(); cy.$(":selected").unselect(); placeLabels(); } });
+  cy.on("mouseover", "node", (e) => { cy.container().style.cursor = "pointer"; e.target.addClass("hover"); });
+  cy.on("mouseout", "node", (e) => { cy.container().style.cursor = ""; e.target.removeClass("hover"); });
 
-  form.addEventListener("change", () => { clearSelection(); applyFilters(); });
-  document.getElementById("map-fit").addEventListener("click", () =>
-    cy.animate({ fit: { eles: cy.nodes().not(".off"), padding: 40 } }, { duration: reduceMotion ? 0 : 300 }));
+  form.addEventListener("change", () => { clearSelection(); applyFilters(); fitAll(true); });
+  document.getElementById("map-fit").addEventListener("click", () => fitAll(true));
   document.getElementById("map-png").addEventListener("click", () => {
     const a = document.createElement("a");
     a.href = cy.png({ full: true, scale: 2, bg: "#F8F8F4" });
@@ -189,12 +310,33 @@
     [...new Set(data.nodes.filter((n) => n.type === "profile").map((n) => n.root))].sort()
       .forEach((slug, i) => { regionColor[slug] = PALETTE[i % PALETTE.length]; });
     all = data.nodes.map((n) => ({ id: n.id, label: n.label, typeLabel: typeLabels[n.type] || "" }));
+    // Échelle calée sur le cadre : au cadrage, le zoom reste proche de 1 et les points comme les noms
+    // gardent leur taille réelle (avant : dessin sur 2 800 px réduit au quart, noms invisibles).
+    cy.resize();
+    const S = Math.max(300, Math.min(cy.width(), cy.height()) * 0.5);
     cy.add(data.nodes.map((n) => ({
-      group: "nodes", data: { ...n, color: "#23262F" }, position: { x: n.x * SIZE, y: n.y * SIZE },
+      group: "nodes", data: { ...n, color: "#23262F" }, position: { x: n.x * S, y: n.y * S },
     })));
     applyFilters();
-    cy.fit(cy.nodes().not(".off"), 40);
+    fitAll();
+    spread(23 / cy.zoom()); // 23 px à l'écran entre deux centres : les points ne se cachent pas
+    computeIsolation();
+    fitAll();
     if (root.dataset.focus) select(root.dataset.focus, { center: true });
+    // Le cadre peut encore changer de taille (polices, barre de défilement) : on recadre tant que le
+    // visiteur n'a pas touché à la carte.
+    let touched = false;
+    cy.one("tapstart scrollzoom", () => { touched = true; });
+    if (window.ResizeObserver) {
+      let t = 0;
+      new ResizeObserver(() => {
+        clearTimeout(t);
+        t = setTimeout(() => {
+          if (touched || root.dataset.focus) { cy.resize(); placeLabels(); return; }
+          fitAll(); spread(23 / cy.zoom()); computeIsolation(); fitAll();
+        }, 120);
+      }).observe(cy.container());
+    }
   }
 
   start();

@@ -18,15 +18,6 @@
       <p class="small muted">{% translate "Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, même coin de vignoble. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à la main." %}</p>
     </div>
 
-    <div class="rail-group">
-      <label class="label" for="map-search">{% translate "Trouver sur la carte" %}</label>
-      <div class="combo">
-        <input id="map-search" class="input" type="search" placeholder="{% translate "Sancerre, gamay, violette…" %}" autocomplete="off"
-               role="combobox" aria-expanded="false" aria-controls="map-search-list">
-        <ul class="combo__list" id="map-search-list" role="listbox" hidden></ul>
-      </div>
-    </div>
-
     <form id="map-form" class="rail-group" autocomplete="off">
       <fieldset class="checks">
         <legend class="label">{% translate "Sur la carte" %}</legend>
@@ -60,7 +51,6 @@
     </form>
 
     <div class="rail-group">
-      <ul class="map-legend" id="map-legend" aria-label="{% translate "Légende des couleurs" %}"></ul>
       <p class="small muted">{% translate "Cliquez sur un point : ses plus proches voisins se relient à lui. Les axes n'ont pas de signification, seules les distances comptent." %}</p>
       {% if meta.trained %}
       <p class="small muted">{% blocktranslate trimmed with nodes=meta.nodes dim=meta.dim auc=meta.auc_held_out trained=meta.trained %}
@@ -72,14 +62,23 @@
   </aside>
 
   <section class="explorer__stage" aria-label="{% translate "Carte" %}">
-    <div class="stage-bar">
-      <p id="map-stats" class="small muted" aria-live="polite">{% if ready %}{% translate "Chargement…" %}{% else %}{% translate "Aucun vecteur appris pour l'instant. Lancez : python manage.py train_embeddings" %}{% endif %}</p>
+    <div class="stage-bar map-bar">
+      <div class="combo map-search">
+        <label class="visually-hidden" for="map-search">{% translate "Trouver sur la carte" %}</label>
+        <input id="map-search" class="input" type="search" placeholder="{% translate "Chercher un vin, un cépage, un arôme, une région…" %}" autocomplete="off"
+               role="combobox" aria-expanded="false" aria-controls="map-search-list">
+        <ul class="combo__list" id="map-search-list" role="listbox" hidden></ul>
+      </div>
       <div class="stage-bar__actions">
         <button type="button" class="btn btn--ghost btn--small" id="map-fit">{% translate "Recadrer" %}</button>
         <button type="button" class="btn btn--ghost btn--small" id="map-png">{% translate "Exporter en PNG" %}</button>
       </div>
     </div>
-    <div id="map-cy" class="cy"></div>
+    <div class="map-canvas">
+      <div id="map-cy" class="cy"></div>
+      <ul class="map-legend map-legend--overlay" id="map-legend" aria-label="{% translate "Légende des couleurs" %}"></ul>
+      <p id="map-stats" class="map-stats small muted" aria-live="polite">{% if ready %}{% translate "Chargement…" %}{% else %}{% translate "Aucun vecteur appris pour l'instant. Lancez : python manage.py train_embeddings" %}{% endif %}</p>
+    </div>
   </section>
 
   <aside class="explorer__panel" id="map-panel" aria-live="polite">

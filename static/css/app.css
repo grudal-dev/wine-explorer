@@ -1004,3 +1004,21 @@ button.tag { cursor: pointer; font-family: inherit; }
   .weekly__zoom { grid-template-columns: 1fr; }
 }
 @media print { .weekly { display: none; } }
+
+/* ── Carte des goûts : recherche en tête, légende et compte posés sur la carte ── */
+.map-bar { flex-wrap: nowrap; }
+.map-search { flex: 1; max-width: 520px; }
+.map-search .input { width: 100%; padding: .55rem .8rem .55rem 2.2rem; font-size: var(--step-0);
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235B5F69' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat .7rem 50%; }
+.map-canvas { position: relative; flex: 1; min-height: 0; display: flex; }
+.map-canvas .cy { flex: 1; }
+.map-legend--overlay { position: absolute; left: .8rem; bottom: .8rem; margin: 0; padding: .4rem .7rem; z-index: 2;
+  background: rgba(248,248,244,.92); border: 1px solid var(--rule); border-radius: var(--radius-s); pointer-events: none; }
+.map-legend--overlay:empty { display: none; }
+.map-stats { position: absolute; right: .8rem; bottom: .8rem; margin: 0; padding: .3rem .6rem; z-index: 2;
+  background: rgba(248,248,244,.92); border-radius: var(--radius-s); pointer-events: none; }
+@media (max-width: 720px) {
+  .map-bar { flex-wrap: wrap; }
+  .map-search { max-width: none; flex-basis: 100%; }
+  .map-stats { display: none; }
+}

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-20 14:28+0100\n"
+"POT-Creation-Date: 2026-11-20 14:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -905,6 +905,9 @@ msgstr "Search"
 #, python-format
 msgid "Chercher les vins qui sentent %(aroma_name)s"
 msgstr "Find wines that smell of %(aroma_name)s"
+
+msgid "Chercher un vin, un cépage, un arôme, une région…"
+msgstr "Search for a wine, grape, aroma, region…"
 
 msgid "Chianti"
 msgstr "Chianti"
@@ -3276,9 +3279,6 @@ msgstr "Salento"
 
 msgid "San Gimignano"
 msgstr "San Gimignano"
-
-msgid "Sancerre, gamay, violette…"
-msgstr "Sancerre, Gamay, violet…"
 
 msgid ""
 "Sangiovese de la ville perchée de Montepulciano, plus rond que le chianti et plus accessible que le "
