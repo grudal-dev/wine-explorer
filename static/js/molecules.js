@@ -103,17 +103,34 @@
   let colX = [0, 420, 840];
   function layoutColumns() {
     const W = cy.width();
+    // Ordinateur : le cadre grandit avec le nombre de nœuds (la page défile) pour que le graphe reste
+    // au zoom 1. Téléphone : hauteur fixe, comme avant.
+    const canvas = cy.container().parentElement;
+    if (W >= 640) {
+      const counts = [0, 0, 0];
+      cy.nodes().forEach((n) => counts[n.data("layer")]++);
+      const need = Math.min(64 + 36 + Math.max((counts[1] - 1) * 70, (Math.max(counts[0], counts[2]) - 1) * 30, 0) + 40, 1600);
+      const px = `${Math.round(need)}px`;
+      if (canvas.style.minHeight !== px) { canvas.style.minHeight = px; cy.resize(); }
+    } else if (canvas.style.minHeight) {
+      canvas.style.minHeight = ""; cy.resize();
+    }
     const H = cy.height();
     // Téléphone : même dessin qu'avant (hexagone, nom dessous), les étiquettes pleines y seraient trop larges.
     cy.nodes().toggleClass("compact", W < 640);
-    const span = Math.max(W, 760);
-    colX = [Math.max(span * 0.2, 190), span * 0.5, Math.min(span * 0.8, span - 190)];
+    // Téléphone (< 640 px) : dessin inchangé, sur 760 px puis recadré. Au-delà, les colonnes suivent la
+    // largeur réelle du cadre, pour rester au zoom 1 (lisible) sur les écrans moyens.
+    const compact = W < 640;
+    const span = compact ? Math.max(W, 760) : W;
+    colX = compact
+      ? [Math.max(span * 0.2, 190), span * 0.5, Math.min(span * 0.8, span - 190)]
+      : [Math.max(span * 0.2, 165), span * 0.52, Math.min(span * 0.8, span - 150)];
     const layers = [[], [], []];
     cy.nodes().forEach((n) => layers[n.data("layer")].push(n));
     const top = 64;
     const usable = Math.max(H - top - 36, 200);
     const positions = {};
-    let overflow = W < 760;
+    let overflow = compact;
     layers.forEach((nodes, i) => {
       if (i !== 1 && layers[1].length) {
         const rank = new Map(layers[1].map((m, k) => [m.id(), k]));
@@ -352,9 +369,10 @@
     });
   });
 
-  // Légende : ouverte sur grand écran, repliée sur téléphone où elle prendrait la moitié de la page.
+  // Légende : ouverte seulement sur un écran large ET haut ; ailleurs (téléphone, portable avec mise à
+  // l'échelle de Windows) elle prendrait la moitié de la hauteur du graphe.
   const legend = document.getElementById("mol-legend");
-  if (legend && window.matchMedia("(min-width: 721px)").matches) legend.open = true;
+  if (legend && window.matchMedia("(min-width: 721px) and (min-height: 900px)").matches) legend.open = true;
   // La légende change la hauteur du graphe : on le remesure avant de placer les nœuds.
   cy.resize();
   if (legend) legend.addEventListener("toggle", () => { cy.resize(); if (state.start) layoutColumns(); });
