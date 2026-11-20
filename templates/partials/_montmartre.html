@@ -1,0 +1,34 @@
+{% load i18n %}{# Décor de la Fête des Vendanges de Montmartre : voir apps/catalog/seasons.py. #}
+<aside class="primeur primeur--montmartre" id="primeur" aria-labelledby="primeur-title" data-key="terroirs_montmartre_{{ montmartre.start.year }}">
+  <svg class="primeur__bunch primeur__icon primeur__mill" viewBox="0 0 64 80" aria-hidden="true" focusable="false">
+    <path class="mill__hill" d="M0 80 C14 66 50 66 64 80 Z" />
+    <path class="mill__body" d="M24 72 L27 38 H37 L40 72 Z" />
+    <path class="mill__roof" d="M25 39 L32 29 L39 39 Z" />
+    <rect class="mill__door" x="30" y="62" width="4" height="10" rx="2" />
+    <g class="mill__sails">
+      <path d="M32 33 L10 11 L14 7 Z" /><path d="M32 33 L54 11 L50 7 Z" />
+      <path d="M32 33 L10 55 L6 51 Z" /><path d="M32 33 L54 55 L58 51 Z" />
+    </g>
+    <circle class="mill__hub" cx="32" cy="33" r="2.4" />
+    <g class="mill__grapes"><circle cx="12" cy="70" r="2.6"/><circle cx="17" cy="70" r="2.6"/><circle cx="14.5" cy="74.4" r="2.6"/></g>
+  </svg>
+  <div class="primeur__text">
+    <p class="primeur__kicker">{% if montmartre_now %}{% blocktranslate with n=montmartre_edition %}Cette semaine · {{ n }}e édition{% endblocktranslate %}{% elif montmartre.confirmed %}{% blocktranslate with start=montmartre.start|date:"j" end=montmartre.end|date:"j F Y" n=montmartre_edition %}Du {{ start }} au {{ end }} · {{ n }}e édition{% endblocktranslate %}{% else %}{% blocktranslate with n=montmartre_edition %}Début octobre · {{ n }}e édition{% endblocktranslate %}{% endif %}</p>
+    <h2 class="primeur__title" id="primeur-title">{% translate "La Fête des Vendanges de Montmartre" %}</h2>
+    <p class="primeur__body">{% translate "Cinq jours de fête sur la Butte autour du Clos Montmartre, l'une des dernières vignes de Paris : ban des vendanges, grand défilé, parcours du goût." %}</p>
+    <details class="primeur__more">
+      <summary>{% translate "Un peu d'histoire" %}</summary>
+      <p>{% translate "On cultive la vigne autour de Paris depuis l'époque gallo-romaine. Au Moyen Âge, les pentes de la Butte, autour de l'abbaye de Montmartre fondée en 1133, sont couvertes de ceps ; la ville les grignote ensuite parcelle après parcelle." %}</p>
+      <p>{% translate "En 1933, des habitants et des artistes du quartier obtiennent de la Ville de Paris que le dernier terrain libre, au coin de la rue des Saules et de la rue Saint-Vincent, près du Lapin Agile, soit replanté en vigne plutôt que bâti : c'est le Clos Montmartre. Sa première vendange, en 1934, donne lieu à une fête de quartier, renouvelée chaque automne depuis." %}</p>
+      <p>{% translate "Aujourd'hui, quelque 1 700 pieds de 27 cépages, dont le Gamay et le Pinot Noir, donnent un millier et demi de bouteilles, vendues aux enchères au profit des œuvres sociales de l'arrondissement." %}</p>
+    </details>
+    {% if montmartre_gamay_url or montmartre_pinot_url %}
+    <p class="primeur__links">
+      {% if montmartre_gamay_url %}<a href="{{ montmartre_gamay_url }}">{% translate "Le Gamay" %}</a>{% endif %}
+      {% if montmartre_pinot_url %}<a href="{{ montmartre_pinot_url }}">{% translate "Le Pinot Noir" %}</a>{% endif %}
+    </p>
+    {% endif %}
+  </div>
+  <button type="button" class="primeur__close" aria-label="{% translate "Masquer ce bandeau" %}" title="{% translate "Masquer ce bandeau" %}">×</button>
+</aside>
+{% include "partials/_decor_dismiss.html" %}

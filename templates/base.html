@@ -67,7 +67,7 @@
     </div>{% endif %}
   </header>
 
-  {% if seasonal_decor == "beaujolais" %}{% include "partials/_beaujolais.html" %}{% elif seasonal_decor == "vinjaune" %}{% include "partials/_vinjaune.html" %}{% endif %}
+  {% if seasonal_decor %}{% with "partials/_"|add:seasonal_decor|add:".html" as decor_template %}{% include decor_template %}{% endwith %}{% endif %}
 
   {% if messages %}
   <div class="flash" role="status">

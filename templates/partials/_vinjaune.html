@@ -22,13 +22,4 @@
   </div>
   <button type="button" class="primeur__close" aria-label="{% translate "Masquer ce bandeau" %}" title="{% translate "Masquer ce bandeau" %}">×</button>
 </aside>
-<script>
-  (function () {
-    var b = document.getElementById("primeur"), k = b.getAttribute("data-key");
-    try { if (localStorage.getItem(k)) { b.hidden = true; } } catch (e) {}
-    b.querySelector(".primeur__close").addEventListener("click", function () {
-      b.hidden = true;
-      try { localStorage.setItem(k, "1"); } catch (e) {}
-    });
-  })();
-</script>
+{% include "partials/_decor_dismiss.html" %}

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-20 10:33+0100\n"
+"POT-Creation-Date: 2026-11-20 11:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -41,6 +41,10 @@ msgstr "%(attempts_left)s attempts left out of %(max_attempts)s"
 #, python-format
 msgid "%(classification)s de %(region_name)s. Ses vins types, ses cépages et ses arômes."
 msgstr "%(classification)s of %(region_name)s. Its typical wines, grapes and aromas."
+
+#, python-format
+msgid "%(day)s · Pauillac"
+msgstr "%(day)s · Pauillac"
 
 #, python-format
 msgid ""
@@ -261,6 +265,9 @@ msgstr "250 µg/L in wine"
 msgid "3-sulfanylhexanol"
 msgstr "3-mercaptohexanol"
 
+msgid "30 octobre · aujourd'hui · Italie"
+msgstr "30 October · today · Italy"
+
 msgid "30 µg/L dans le vin"
 msgstr "30 µg/L in wine"
 
@@ -284,6 +291,15 @@ msgstr "4-ethylphenol"
 
 msgid "400 µg/L dans le vin"
 msgstr "400 µg/L in wine"
+
+msgid ""
+"42,195 km à travers les vignes et les châteaux du Médoc, au départ et à l'arrivée de Pauillac, depuis 1985."
+" Presque tous les coureurs sont déguisés. Le parcours traverse la rive gauche de Bordeaux : croupes de "
+"graves, Cabernet Sauvignon et crus classés de 1855."
+msgstr ""
+"42.195 km through the vineyards and châteaux of the Médoc, starting and finishing in Pauillac, since 1985. "
+"Almost every runner is in fancy dress. The course crosses Bordeaux's Left Bank: gravel rises, Cabernet "
+"Sauvignon and the 1855 classified growths."
 
 msgid "47 µg/L environ"
 msgstr "about 47 µg/L"
@@ -553,6 +569,13 @@ msgstr "No guesses yet. Go ahead: \"red fruit\", \"chardonnay\", \"Rhône\"…"
 msgid "Aucune statistique pour l'instant."
 msgstr "No statistics yet."
 
+msgid ""
+"Aujourd'hui, quelque 1 700 pieds de 27 cépages, dont le Gamay et le Pinot Noir, donnent un millier et demi "
+"de bouteilles, vendues aux enchères au profit des œuvres sociales de l'arrondissement."
+msgstr ""
+"Today some 1,700 vines of 27 varieties, Gamay and Pinot Noir among them, yield around fifteen hundred "
+"bottles, auctioned for the district's charities."
+
 #, python-format
 msgid "Aussi : %(synonyms)s"
 msgstr "Also: %(synonyms)s"
@@ -792,6 +815,9 @@ msgstr "This wine: %(actual)s"
 msgid "Ce week-end · %(place)s"
 msgstr "This weekend · %(place)s"
 
+msgid "Ce week-end · Pauillac"
+msgstr "This weekend · Pauillac"
+
 msgid "Centre-Loire"
 msgstr "Central Loire"
 
@@ -803,6 +829,10 @@ msgstr "Circle"
 
 msgid "Ces molécules relèvent du socle commun : elles ne distinguent aucun vin en particulier."
 msgstr "These molecules belong to the common base: they do not set any particular wine apart."
+
+#, python-format
+msgid "Cette semaine · %(n)se édition"
+msgstr "This week · edition no. %(n)s"
 
 msgid "Chablisien"
 msgstr "Chablisien"
@@ -890,6 +920,13 @@ msgstr "Choose a start and an end: the shortest path is displayed."
 
 msgid "Château-Chalon"
 msgstr "Château-Chalon"
+
+msgid ""
+"Cinq jours de fête sur la Butte autour du Clos Montmartre, l'une des dernières vignes de Paris : ban des "
+"vendanges, grand défilé, parcours du goût."
+msgstr ""
+"Five days of festivities on the Butte around the Clos Montmartre, one of the last vineyards in Paris: the "
+"harvest proclamation, the grand parade, the tasting trail."
 
 msgid "Cinq vins vous attendent"
 msgstr "Five wines are waiting for you"
@@ -1090,6 +1127,9 @@ msgstr "In which wines"
 msgid "Date"
 msgstr "Date"
 
+msgid "Depuis le 30 octobre · Italie"
+msgstr "Since 30 October · Italy"
+
 msgid "Depuis le début"
 msgstr "All time"
 
@@ -1128,6 +1168,10 @@ msgstr "Layout"
 msgid "Dominant"
 msgstr "Dominant"
 
+#, python-format
+msgid "Du %(start)s au %(end)s · %(n)se édition"
+msgstr "%(start)s to %(end)s · edition no. %(n)s"
+
 msgid "Du verre à la nature"
 msgstr "From glass to nature"
 
@@ -1145,6 +1189,13 @@ msgid ""
 msgstr ""
 "From glass to nature: the molecules that make up a wine's nose, and the plants, fruits or spices where they"
 " are also found. Every link is sourced."
+
+#, python-format
+msgid "Début octobre · %(n)se édition"
+msgstr "Early October · edition no. %(n)s"
+
+msgid "Début septembre · Pauillac"
+msgstr "Early September · Pauillac"
 
 msgid "Décrire un vin"
 msgstr "Describe a wine"
@@ -1223,6 +1274,17 @@ msgstr "Rosé sparkling wine most often made by blending in red wine, moreish wi
 #, python-format
 msgid "Elle fait aussi partie du socle commun de fermentation de %(common_count)s autre%(s)s profil%(s)s."
 msgstr "It is also part of the common fermentation base of %(common_count)s other profile%(s)s."
+
+msgid ""
+"En 1933, des habitants et des artistes du quartier obtiennent de la Ville de Paris que le dernier terrain "
+"libre, au coin de la rue des Saules et de la rue Saint-Vincent, près du Lapin Agile, soit replanté en vigne"
+" plutôt que bâti : c'est le Clos Montmartre. Sa première vendange, en 1934, donne lieu à une fête de "
+"quartier, renouvelée chaque automne depuis."
+msgstr ""
+"In 1933, local residents and artists persuaded the City of Paris to plant the last empty plot, on the "
+"corner of rue des Saules and rue Saint-Vincent near the Lapin Agile, with vines rather than buildings: the "
+"Clos Montmartre. Its first harvest, in 1934, was celebrated with a neighbourhood festival, held every "
+"autumn since."
 
 msgid "En bouche"
 msgstr "On the palate"
@@ -1662,6 +1724,9 @@ msgstr "Up to half of the oil of Eucalyptus dives."
 msgid "L'abus d'alcool est dangereux pour la santé, à consommer avec modération."
 msgstr "Alcohol abuse is dangerous for your health. Please drink in moderation."
 
+msgid "L'acétate d'isoamyle"
+msgstr "Isoamyl acetate"
+
 msgid ""
 "L'alcool de champignon, formé par oxydation de l'acide linoléique. Dans le vin, il évoque le sous-bois ; en"
 " excès, il signale un raisin attaqué par des moisissures."
@@ -1750,6 +1815,9 @@ msgstr "4-MMP correlates very well with the blackcurrant aroma of red wines."
 
 msgid "La 4-MMP, responsable des nuances « buis » ou « genêt » du Sauvignon."
 msgstr "4-MMP, responsible for the \"boxwood\" or \"broom\" nuances of Sauvignon."
+
+msgid "La Fête des Vendanges de Montmartre"
+msgstr "The Montmartre Grape Harvest Festival"
 
 msgid "La Percée du Vin Jaune"
 msgstr "The Percée du Vin Jaune"
@@ -1919,6 +1987,9 @@ msgstr "Beaujolais and its crus"
 msgid "Le Beaujolais nouveau est arrivé"
 msgstr "Beaujolais Nouveau is here"
 
+msgid "Le Cabernet Sauvignon"
+msgstr "Cabernet Sauvignon"
+
 msgid "Le Gamay"
 msgstr "Gamay"
 
@@ -1932,11 +2003,20 @@ msgstr ""
 "under a veil of yeast, never topped up. Savagnin alone, in the 62 cl clavelin bottle: the walnut and curry "
 "notes come from sotolon."
 
+msgid "Le Marathon du Médoc"
+msgstr "The Médoc Marathon"
+
+msgid "Le Médoc"
+msgstr "The Médoc"
+
 msgid "Le Nez"
 msgstr "The Nose"
 
 msgid "Le Nez : comment sont calculées les probabilités"
 msgstr "The Nose: how the probabilities are calculated"
+
+msgid "Le Pinot Noir"
+msgstr "Pinot Noir"
 
 msgid "Le Savagnin"
 msgstr "Savagnin"
@@ -2076,6 +2156,16 @@ msgstr ""
 "nanograms per litre are enough for the boxwood note; beyond that, it turns to \"cat's pee\". In reds, it "
 "carries a good share of the blackcurrant aroma."
 
+#, python-format
+msgid ""
+"Le primeur italien peut être mis en vente dès 0 h 01 le 30 octobre, trois semaines avant le Beaujolais "
+"nouveau. Au moins 40 %% du vin vient d'une macération carbonique, d'où le même nez de banane, porté par "
+"l'acétate d'isoamyle. On l'associe traditionnellement aux châtaignes grillées."
+msgstr ""
+"Italy's primeur wine may go on sale from 00:01 on 30 October, three weeks before Beaujolais Nouveau. At "
+"least 40%% of the wine comes from carbonic maceration, hence the same banana nose, carried by isoamyl "
+"acetate. It is traditionally paired with roasted chestnuts."
+
 msgid ""
 "Le principal arôme du clou de girofle, déjà présent dans le chêne brut et renforcé par le séchage à l'air "
 "et la chauffe. Il apporte au vin élevé en barrique sa note épicée."
@@ -2143,6 +2233,9 @@ msgstr "Today's wine is a %(color)s. On the nose: %(aromas)s…"
 #, python-format
 msgid "Le vin est à environ %(km)s km %(direction)s."
 msgstr "The wine is about %(km)s km %(direction)s."
+
+msgid "Le vino novello est arrivé"
+msgstr "Vino novello is here"
 
 msgid ""
 "Le « Barolo du Sud », aglianico sombre et tannique des collines volcaniques de l'Irpinie, très long à "
@@ -2538,6 +2631,15 @@ msgstr "Important odorant of New World aroma hops."
 msgid "Ombrie"
 msgstr "Umbria"
 
+msgid ""
+"On cultive la vigne autour de Paris depuis l'époque gallo-romaine. Au Moyen Âge, les pentes de la Butte, "
+"autour de l'abbaye de Montmartre fondée en 1133, sont couvertes de ceps ; la ville les grignote ensuite "
+"parcelle après parcelle."
+msgstr ""
+"Vines have grown around Paris since Gallo-Roman times. In the Middle Ages the slopes of the Butte, around "
+"the Abbey of Montmartre founded in 1133, were covered with vines; the city then swallowed them plot by "
+"plot."
+
 msgid "On la retrouve dans"
 msgstr "Also found in"
 
@@ -2634,6 +2736,9 @@ msgstr "No profile with this grape yet."
 
 msgid "Pas encore de vecteur pour cette entité : relancez l'entraînement."
 msgstr "No vector for this entity yet: run the training again."
+
+msgid "Pauillac"
+msgstr "Pauillac"
 
 msgid "Pauillac, syrah, violette…"
 msgstr "Pauillac, Syrah, violet…"
@@ -3235,6 +3340,9 @@ msgstr "Common base"
 msgid "Socle commun des vins"
 msgstr "Common base of all wines"
 
+msgid "Son cousin, le Beaujolais"
+msgstr "Its cousin, Beaujolais"
+
 msgid ""
 "Son essence (rose de Bulgarie) réunit plusieurs molécules du vin : β-damascénone, β-ionone, oxyde de rose, "
 "géraniol et 2-phényléthanol. Les plus rares sont les plus odorantes."
@@ -3476,6 +3584,9 @@ msgstr "A descriptor from its nose"
 
 msgid "Un graphe des appellations, des cépages et des arômes du vin, à parcourir et à filtrer."
 msgstr "A graph of wine appellations, grapes and aromas to browse and filter."
+
+msgid "Un peu d'histoire"
+msgstr "A little history"
 
 msgid ""
 "Un rouge plus rustique et terrien au nord du Médoc, aux sols argileux, tannique dans sa jeunesse, qui gagne"

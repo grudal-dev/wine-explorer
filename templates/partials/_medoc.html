@@ -1,0 +1,25 @@
+{% load i18n %}{# Décor du Marathon du Médoc : voir apps/catalog/seasons.py. Texte informatif (course, terroir, cépage). #}
+<aside class="primeur primeur--medoc" id="primeur" aria-labelledby="primeur-title" data-key="terroirs_medoc_{{ medoc.start.year }}">
+  <svg class="primeur__bunch primeur__icon" viewBox="0 0 64 80" aria-hidden="true" focusable="false">
+    <path class="medal__ribbon" d="M18 2 h11 l7 26 h-11 Z" />
+    <path class="medal__ribbon medal__ribbon--2" d="M46 2 h-11 l-7 26 h11 Z" />
+    <circle class="medal__disc" cx="32" cy="50" r="22" />
+    <circle class="medal__rim" cx="32" cy="50" r="17" />
+    <text class="medal__text" x="32" y="49" text-anchor="middle">42,195</text>
+    <text class="medal__unit" x="32" y="60" text-anchor="middle">km</text>
+  </svg>
+  <div class="primeur__text">
+    <p class="primeur__kicker">{% if medoc_now %}{% translate "Ce week-end · Pauillac" %}{% elif medoc.confirmed %}{% blocktranslate with day=medoc.start|date:"l j F Y" %}{{ day }} · Pauillac{% endblocktranslate %}{% else %}{% translate "Début septembre · Pauillac" %}{% endif %}</p>
+    <h2 class="primeur__title" id="primeur-title">{% translate "Le Marathon du Médoc" %}</h2>
+    <p class="primeur__body">{% translate "42,195 km à travers les vignes et les châteaux du Médoc, au départ et à l'arrivée de Pauillac, depuis 1985. Presque tous les coureurs sont déguisés. Le parcours traverse la rive gauche de Bordeaux : croupes de graves, Cabernet Sauvignon et crus classés de 1855." %}</p>
+    {% if medoc_appellation_url or medoc_region_url or medoc_grape_url %}
+    <p class="primeur__links">
+      {% if medoc_appellation_url %}<a href="{{ medoc_appellation_url }}">{% translate "Pauillac" %}</a>{% endif %}
+      {% if medoc_region_url %}<a href="{{ medoc_region_url }}">{% translate "Le Médoc" %}</a>{% endif %}
+      {% if medoc_grape_url %}<a href="{{ medoc_grape_url }}">{% translate "Le Cabernet Sauvignon" %}</a>{% endif %}
+    </p>
+    {% endif %}
+  </div>
+  <button type="button" class="primeur__close" aria-label="{% translate "Masquer ce bandeau" %}" title="{% translate "Masquer ce bandeau" %}">×</button>
+</aside>
+{% include "partials/_decor_dismiss.html" %}

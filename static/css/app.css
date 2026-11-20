@@ -855,3 +855,97 @@ button.tag { cursor: pointer; font-family: inherit; }
 @media (max-width: 560px) { .primeur__clavelin { width: 2rem; height: 4rem; } }
 @media (prefers-reduced-motion: reduce) { .primeur__clavelin { animation: none; } }
 @media print { .decor-vinjaune .topbar::after { display: none; } }
+
+/* ── Décors de saison : Médoc, Montmartre, novello ──
+   Même schéma que le Beaujolais : chaque décor fixe --decor-garland (guirlande sous l'en-tête) et --decor-logo. */
+.decor-medoc, .decor-montmartre, .decor-novello { --decor-logo-w: 1.15rem; --decor-logo-h: 1.15rem; }
+:is(.decor-medoc, .decor-montmartre, .decor-novello) .topbar::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -13px; height: 14px; pointer-events: none;
+  background: var(--decor-garland) repeat-x 0 0 / 120px 14px; opacity: .9;
+}
+@media (max-width: 760px) { :is(.decor-medoc, .decor-montmartre, .decor-novello) .topbar { position: relative; } }
+:is(.decor-medoc, .decor-montmartre, .decor-novello) .wordmark__disc {
+  width: var(--decor-logo-w); height: var(--decor-logo-h); border-radius: 0; background: var(--decor-logo) center / contain no-repeat;
+}
+@media print { :is(.decor-medoc, .decor-montmartre, .decor-novello) .topbar::after { display: none; } }
+.primeur__icon { width: 3.4rem; height: 4.25rem; }
+@media (max-width: 560px) { .primeur__icon { width: 2.6rem; height: 3.3rem; } }
+
+/* Médoc : bordeaux profond et or des médailles. */
+.decor-medoc {
+  --decor-garland: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14' viewBox='0 0 120 14'%3E%3Cpath d='M0 2 Q30 9 60 2 T120 2' fill='none' stroke='%235D7A2E' stroke-width='1.2'/%3E%3Cpath d='M27 5 c3-4 9-4 11 0 c-2 0-2 3-4 3 c-2-1-3 1-5 0 c0-2-1-2-2-3z' fill='%235D7A2E'/%3E%3Cg fill='%234A0F1F'%3E%3Ccircle cx='86' cy='6' r='2.2'/%3E%3Ccircle cx='90.5' cy='6' r='2.2'/%3E%3Ccircle cx='88.2' cy='9.6' r='2.2'/%3E%3C/g%3E%3C/svg%3E");
+  --decor-logo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 26'%3E%3Cpath d='M5 0 h5 l3 10 h-5z' fill='%237A1F3D'/%3E%3Cpath d='M17 0 h-5 l-3 10 h5z' fill='%235E1630'/%3E%3Ccircle cx='11' cy='17' r='8.5' fill='%23D9A426' stroke='%237A5A12' stroke-width='1.2'/%3E%3Ccircle cx='11' cy='17' r='5.5' fill='none' stroke='%23F2C94C' stroke-width='1'/%3E%3C/svg%3E");
+  --decor-logo-h: 1.4rem;
+}
+.primeur--medoc {
+  background:
+    radial-gradient(circle at 92% -30%, rgba(232,194,122,.16) 0 22%, transparent 23%),
+    radial-gradient(circle at 78% 130%, rgba(232,194,122,.08) 0 18%, transparent 19%),
+    linear-gradient(115deg, #3A0B18 0%, #5E1630 55%, #7A1F3D 100%);
+  box-shadow: 0 8px 26px rgba(74,15,31,.25);
+}
+.primeur--medoc .primeur__kicker { color: #E8C27A; }
+.primeur--medoc .primeur__links a { color: #F5DDA8; }
+.medal__ribbon { fill: #B23A55; }
+.medal__ribbon--2 { fill: #8E2A43; }
+.medal__disc { fill: #D9A426; stroke: #7A5A12; stroke-width: 1.5; }
+.medal__rim { fill: none; stroke: #F2C94C; stroke-width: 1.4; }
+.medal__text { font: 600 9.5px/1 var(--sans); fill: #4A2E08; }
+.medal__unit { font: 600 7px/1 var(--sans); fill: #4A2E08; letter-spacing: .05em; }
+.primeur--medoc .primeur__icon { transform-origin: 50% 0; animation: primeur-sway 3.5s ease-in-out infinite; }
+
+/* Montmartre : nuit bleue de la Butte, moulin et vigne. */
+.decor-montmartre {
+  --decor-garland: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14' viewBox='0 0 120 14'%3E%3Cpath d='M0 2 Q30 9 60 2 T120 2' fill='none' stroke='%235D7A2E' stroke-width='1.2'/%3E%3Cpath d='M27 5 c3-4 9-4 11 0 c-2 0-2 3-4 3 c-2-1-3 1-5 0 c0-2-1-2-2-3z' fill='%235D7A2E'/%3E%3Cg fill='%237A1F3D'%3E%3Ccircle cx='86' cy='6' r='2.2'/%3E%3Ccircle cx='90.5' cy='6' r='2.2'/%3E%3Ccircle cx='88.2' cy='9.6' r='2.2'/%3E%3C/g%3E%3C/svg%3E");
+  --decor-logo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 26'%3E%3Cpath d='M9 25 L10.5 11 H13.5 L15 25 Z' fill='%232A3466'/%3E%3Cpath d='M9.5 11.5 L12 8 L14.5 11.5 Z' fill='%237A1F3D'/%3E%3Cg fill='%232A3466'%3E%3Cpath d='M12 9.5 L2 1 L3.6 -.4 Z'/%3E%3Cpath d='M12 9.5 L22 1 L20.4 -.4 Z'/%3E%3Cpath d='M12 9.5 L2 18 L.6 16.4 Z'/%3E%3Cpath d='M12 9.5 L22 18 L23.4 16.4 Z'/%3E%3C/g%3E%3C/svg%3E");
+  --decor-logo-w: 1.2rem; --decor-logo-h: 1.3rem;
+}
+.primeur--montmartre {
+  background:
+    radial-gradient(circle at 88% -10%, rgba(255,240,200,.18) 0 6%, transparent 6.5%),
+    radial-gradient(circle at 78% 130%, rgba(255,255,255,.07) 0 18%, transparent 19%),
+    linear-gradient(115deg, #161D3A 0%, #26305E 60%, #4A3A6E 100%);
+  box-shadow: 0 8px 26px rgba(22,29,58,.25);
+}
+.primeur--montmartre .primeur__kicker { color: #F2B6C6; }
+.primeur--montmartre .primeur__links a { color: #FAD3DD; }
+.mill__hill { fill: #3E5A2A; }
+.mill__body { fill: #EDE4D3; }
+.mill__roof { fill: #8E2A43; }
+.mill__door { fill: #26305E; }
+.mill__sails path { fill: rgba(237,228,211,.85); stroke: #EDE4D3; stroke-width: 1; }
+.mill__sails { transform-origin: 32px 33px; animation: mill-turn 14s linear infinite; }
+.mill__hub { fill: #8E2A43; }
+.mill__grapes circle { fill: #9A5FA3; }
+@keyframes mill-turn { to { transform: rotate(360deg); } }
+.primeur__more { margin: .55rem 0 0; max-width: 72ch; }
+.primeur__more summary { cursor: pointer; font-weight: 600; color: #fff; width: fit-content; }
+.primeur__more summary:hover { text-decoration: underline; }
+.primeur__more p { margin: .5rem 0 0; color: rgba(255,255,255,.88); font-size: var(--step--1); line-height: 1.55; }
+
+/* Novello : terre cuite, châtaigne et raisin. */
+.decor-novello {
+  --decor-garland: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14' viewBox='0 0 120 14'%3E%3Cpath d='M0 2 Q30 9 60 2 T120 2' fill='none' stroke='%235D7A2E' stroke-width='1.2'/%3E%3Cpath d='M27 5 c3-4 9-4 11 0 c-2 0-2 3-4 3 c-2-1-3 1-5 0 c0-2-1-2-2-3z' fill='%235D7A2E'/%3E%3Cpath d='M84 9 c0-3 2-5 4-6 c2 1 4 3 4 6 c0 2-2 3-4 3 s-4-1-4-3z' fill='%236B3A1C'/%3E%3C/svg%3E");
+  --decor-logo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 13 C3 7 8 4 12 2.5 C16 4 21 7 21 13 C21 18 17 21 12 21 C7 21 3 18 3 13 Z' fill='%236B3A1C'/%3E%3Cpath d='M4 16 C6 19.5 9 21 12 21 C15 21 18 19.5 20 16 C16 18 8 18 4 16 Z' fill='%23D9B27A'/%3E%3C/svg%3E");
+}
+.primeur--novello {
+  background:
+    radial-gradient(circle at 92% -30%, rgba(246,215,167,.16) 0 22%, transparent 23%),
+    radial-gradient(circle at 78% 130%, rgba(246,215,167,.08) 0 18%, transparent 19%),
+    linear-gradient(115deg, #5A2410 0%, #7A3418 55%, #A04A26 100%);
+  box-shadow: 0 8px 26px rgba(90,36,16,.25);
+}
+.primeur--novello .primeur__kicker { color: #F6D7A7; }
+.primeur--novello .primeur__links a { color: #FBE6C4; }
+.chestnut__shell { fill: #6B3A1C; stroke: #3E1F0C; stroke-width: 1.2; }
+.chestnut__base { fill: #D9B27A; }
+.chestnut__tip { fill: #3E1F0C; }
+.chestnut__shine { fill: none; stroke: rgba(255,255,255,.45); stroke-width: 2; stroke-linecap: round; }
+.novello__grapes circle { fill: #4E1A2E; stroke: #B3466A; stroke-width: 1; }
+.primeur--novello .primeur__icon { transform-origin: 50% 90%; animation: clavelin-tilt 5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .primeur--medoc .primeur__icon, .primeur--novello .primeur__icon, .mill__sails { animation: none; }
+}
+.primeur--montmartre .primeur__icon { animation: none; }
+.primeur--montmartre { align-items: flex-start; }

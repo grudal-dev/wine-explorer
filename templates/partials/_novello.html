@@ -1,0 +1,23 @@
+{% load i18n %}{# Décor du vino novello : voir apps/catalog/seasons.py. Texte informatif (réglementation, élaboration). #}
+<aside class="primeur primeur--novello" id="primeur" aria-labelledby="primeur-title" data-key="terroirs_novello_{{ decor_year }}">
+  <svg class="primeur__bunch primeur__icon" viewBox="0 0 64 80" aria-hidden="true" focusable="false">
+    <path class="chestnut__shell" d="M10 46 C10 30 22 22 32 18 C42 22 54 30 54 46 C54 58 44 64 32 64 C20 64 10 58 10 46 Z" />
+    <path class="chestnut__base" d="M12 52 C16 60 24 64 32 64 C40 64 48 60 52 52 C44 56 20 56 12 52 Z" />
+    <path class="chestnut__tip" d="M32 18 L30 11 L34 11 Z" />
+    <path class="chestnut__shine" d="M20 38 C22 32 26 28 30 26" />
+    <g class="novello__grapes"><circle cx="48" cy="16" r="4"/><circle cx="56" cy="16" r="4"/><circle cx="52" cy="23" r="4"/><circle cx="52" cy="9" r="3"/></g>
+  </svg>
+  <div class="primeur__text">
+    <p class="primeur__kicker">{% if novello_today %}{% translate "30 octobre · aujourd'hui · Italie" %}{% else %}{% translate "Depuis le 30 octobre · Italie" %}{% endif %}</p>
+    <h2 class="primeur__title" id="primeur-title">{% translate "Le vino novello est arrivé" %}</h2>
+    <p class="primeur__body">{% translate "Le primeur italien peut être mis en vente dès 0 h 01 le 30 octobre, trois semaines avant le Beaujolais nouveau. Au moins 40 % du vin vient d'une macération carbonique, d'où le même nez de banane, porté par l'acétate d'isoamyle. On l'associe traditionnellement aux châtaignes grillées." %}</p>
+    {% if novello_molecule_url or novello_beaujolais_url %}
+    <p class="primeur__links">
+      {% if novello_molecule_url %}<a href="{{ novello_molecule_url }}">{% translate "L'acétate d'isoamyle" %}</a>{% endif %}
+      {% if novello_beaujolais_url %}<a href="{{ novello_beaujolais_url }}">{% translate "Son cousin, le Beaujolais" %}</a>{% endif %}
+    </p>
+    {% endif %}
+  </div>
+  <button type="button" class="primeur__close" aria-label="{% translate "Masquer ce bandeau" %}" title="{% translate "Masquer ce bandeau" %}">×</button>
+</aside>
+{% include "partials/_decor_dismiss.html" %}

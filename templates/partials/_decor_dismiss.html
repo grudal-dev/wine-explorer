@@ -1,0 +1,11 @@
+{# Croix du bandeau de saison : mémorisée dans localStorage (clé = data-key du bandeau). #}
+<script>
+  (function () {
+    var b = document.getElementById("primeur"), k = b.getAttribute("data-key");
+    try { if (localStorage.getItem(k)) { b.hidden = true; } } catch (e) {}
+    b.querySelector(".primeur__close").addEventListener("click", function () {
+      b.hidden = true;
+      try { localStorage.setItem(k, "1"); } catch (e) {}
+    });
+  })();
+</script>
