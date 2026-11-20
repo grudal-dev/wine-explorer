@@ -29,6 +29,16 @@ hasard (AUC), puis si Le Nez retrouve mieux un vin dont on a masqué un arôme a
 apprise qu'avec le simple repli par famille (rang réciproque moyen). Le modèle final est ensuite
 réentraîné sur tout le graphe.
 
+Attentive FP (option `--molecular`, désactivée)
+------------------------------------------------
+Essai du 20/11/2026 : le vecteur de départ de chaque molécule calculé par Attentive FP (Xiong et al.
+2019, J. Med. Chem. 63:8749) sur son graphe atomique RDKit, entraîné avec le reste. Sur 3 graines ×
+6 découpages : AUC 0,933 → 0,936 (+0,003), vin → molécule 0,961 → 0,964, Le Nez 0,514 → 0,510 (sans
+gain) ; molécule « nouvelle » (`--cold`, tous ses liens vers les vins masqués) : 0,409 → 0,416, au
+niveau du hasard dans les deux cas. 45 molécules, c'est trop peu pour apprendre le lien structure →
+rôle dans le vin : gain non significatif, l'option reste à « none ». À refaire si la base de molécules
+grandit (import Wikidata). Demande `pip install rdkit torch_geometric`.
+
 Limite à garder en tête : les profils sont rédigés à la main. Le modèle apprend la structure de
 ces fiches, pas la chimie de vrais vins.
 """
@@ -53,6 +63,8 @@ HELD_OUT = 0.15
 FOLDS = 6
 SEED = 20261111
 EVAL_KINDS = ("aroma", "grape", "molecule")
+MOLECULAR_MODES = ("none", "afp-add", "afp-only")
+MOLECULAR = "none"
 
 
 def edge_weight(edge) -> float:
@@ -74,8 +86,14 @@ class Command(BaseCommand):
         parser.add_argument("--epochs", type=int, default=EPOCHS)
         parser.add_argument("--seed", type=int, default=SEED)
         parser.add_argument("--folds", type=int, default=FOLDS, help="Nombre de découpages d'évaluation.")
+        parser.add_argument("--cold", action="store_true",
+                            help="Évaluation « molécule nouvelle » : tous les liens vin → molécule de 20 %% des "
+                                 "molécules sont masqués ; n'écrit rien.")
+        parser.add_argument("--molecular", choices=MOLECULAR_MODES, default=MOLECULAR,
+                            help="Vecteur de départ des molécules : appris seul (none), ou calculé par Attentive FP "
+                                 "sur leur graphe atomique, ajouté (afp-add) ou à la place (afp-only).")
 
-    def handle(self, *args, evaluate, epochs, seed, folds, **options):
+    def handle(self, *args, evaluate, epochs, seed, folds, molecular=MOLECULAR, cold=False, **options):
         try:
             import numpy as np
             import torch
@@ -96,19 +114,31 @@ class Command(BaseCommand):
         if len(edges) < 100:
             raise CommandError("Graphe vide : lancez d'abord `python manage.py load_seed`.")
         aux = self._profile_targets(ids, index)
+        mol = self._molecular_graphs(torch, ids) if molecular != "none" else None
+        if mol is not None:
+            mol["mode"] = molecular
+            self.stdout.write(f"Attentive FP ({molecular}) : {len(mol['rows'])} graphes moléculaires.")
         self.stdout.write(f"Graphe : {len(ids)} nœuds, {len(edges)} arêtes, {len({e[2] for e in edges})} relations.")
+
+        if cold:
+            self._cold(torch, ids, types, edges, aux, epochs, seed, folds, mol)
+            return
 
         # 1. Évaluation sur liens masqués, répétée sur plusieurs découpages : un seul découpage
         #    ne laisse qu'une cinquantaine d'arômes masqués, trop peu pour comparer les replis.
         candidates = [k for k, e in enumerate(edges) if e[2] in EVAL_KINDS]
         aucs, totals, cases, masked = [], defaultdict(float), 0, 0
+        kind_aucs = defaultdict(list)
         for fold in range(folds):
             rng = random.Random(seed + fold)
             held = set(rng.sample(candidates, int(len(candidates) * HELD_OUT)))
             train = [e for k, e in enumerate(edges) if k not in held]
             test = [edges[k] for k in sorted(held)]
-            z, decoder = self._train(torch, ids, types, train, aux, epochs, seed + fold)
+            z, decoder = self._train(torch, ids, types, train, aux, epochs, seed + fold, mol)
             aucs.append(self._auc(torch, z, decoder, test, types, edges, seed + fold))
+            for kind in EVAL_KINDS:
+                kind_aucs[kind].append(self._auc(torch, z, decoder, [e for e in test if e[2] == kind],
+                                                 types, edges, seed + fold))
             fold_mrr = self._nose_mrr(np, z.numpy(), ids, index, test)
             for name in ("embedding", "family", "none"):
                 totals[name] += fold_mrr.get(name, 0.0) * fold_mrr["n"]
@@ -121,16 +151,19 @@ class Command(BaseCommand):
             f"Le Nez, arôme masqué ({cases} cas) : rang réciproque moyen {mrr['embedding']:.3f} avec la "
             f"proximité apprise, {mrr['none']:.3f} sans repli, {mrr['family']:.3f} avec le repli par famille."
         ))
+        self.stdout.write("AUC par relation : " + ", ".join(
+            f"vin → {k} {sum(v) / len(v):.3f}" for k, v in kind_aucs.items()))
         if evaluate:
             return
 
         # 2. Modèle final sur tout le graphe, projection 2D, écriture
-        z, _decoder = self._train(torch, ids, types, edges, aux, epochs, seed)
+        z, _decoder = self._train(torch, ids, types, edges, aux, epochs, seed, mol)
         vectors = z.numpy()
         xy = self._project(np, vectors, types, seed)
         payload = {
             "meta": {
-                "trained": date.today().isoformat(), "model": "R-GCN 2 couches + DistMult",
+                "trained": date.today().isoformat(),
+                "model": "R-GCN 2 couches + DistMult" + ("" if mol is None else f" + Attentive FP ({molecular})"),
                 "dim": DIM_OUT, "nodes": len(ids), "edges": len(edges), "epochs": epochs, "seed": seed,
                 "auc_held_out": round(auc, 3),
                 "nose_mrr": {k: (round(v, 3) if isinstance(v, float) else v) for k, v in mrr.items()},
@@ -148,6 +181,75 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f"{len(ids)} vecteurs de dimension {DIM_OUT} écrits dans {DATA_FILE}."))
 
     # ------------------------------------------------------------------
+    def _cold(self, torch, ids, types, edges, aux, epochs, seed, folds, mol):
+        """Molécule « nouvelle » : on cache tous ses liens vers les vins, puis on mesure si le modèle
+        les retrouve (AUC). Seule sa structure (Attentive FP) et ses liens vers la nature restent."""
+        molecules = sorted({e[1] for e in edges if e[2] == "molecule"})
+        aucs = []
+        for fold in range(folds):
+            rng = random.Random(seed + 100 + fold)
+            hidden = set(rng.sample(molecules, max(1, len(molecules) // 5)))
+            train = [e for e in edges if not (e[2] == "molecule" and e[1] in hidden)]
+            test = [e for e in edges if e[2] == "molecule" and e[1] in hidden]
+            z, decoder = self._train(torch, ids, types, train, aux, epochs, seed + fold, mol)
+            aucs.append(self._auc(torch, z, decoder, test, types, edges, seed + fold))
+        self.stdout.write(self.style.SUCCESS(
+            f"Molécule nouvelle, {folds} découpages : AUC vin → molécule {sum(aucs) / len(aucs):.3f} "
+            f"({', '.join(f'{a:.3f}' for a in aucs)})."))
+
+    @staticmethod
+    def _molecular_graphs(torch, ids) -> dict:
+        """Graphe atomique de chaque molécule (RDKit), pour Attentive FP (Xiong et al. 2019).
+
+        Atomes : élément, degré, charge, hybridation, aromaticité, hydrogènes, cycle (21 traits).
+        Liaisons : simple, double, triple, aromatique, conjuguée, en cycle (6 traits).
+        """
+        try:
+            from rdkit import Chem, RDLogger
+            from torch_geometric.data import Batch, Data
+        except ImportError as exc:
+            raise CommandError("Attentive FP demande RDKit et PyTorch Geometric : "
+                               "pip install rdkit torch_geometric") from exc
+        from apps.molecules.models import Molecule
+
+        RDLogger.DisableLog("rdApp.*")
+        hyb = Chem.rdchem.HybridizationType
+        bt = Chem.rdchem.BondType
+
+        def one_hot(value, choices):
+            return [1.0 if value == c else 0.0 for c in choices]
+
+        def atom_features(a):
+            return (one_hot(a.GetSymbol(), ["C", "N", "O", "S"]) + [0.0 if a.GetSymbol() in "CNOS" else 1.0]
+                    + one_hot(min(a.GetDegree(), 4), [0, 1, 2, 3, 4]) + [float(a.GetFormalCharge())]
+                    + one_hot(a.GetHybridization(), [hyb.SP, hyb.SP2, hyb.SP3]) + [float(a.GetIsAromatic())]
+                    + one_hot(min(a.GetTotalNumHs(), 3), [0, 1, 2, 3]) + [float(a.IsInRing())]
+                    + [0.0])  # réserve : 21 traits
+
+        def bond_features(b):
+            return one_hot(b.GetBondType(), [bt.SINGLE, bt.DOUBLE, bt.TRIPLE, bt.AROMATIC]) + [
+                float(b.GetIsConjugated()), float(b.IsInRing())]
+
+        smiles = dict(Molecule.objects.values_list("slug", "smiles"))
+        rows, graphs = [], []
+        for i, node_id in enumerate(ids):
+            kind, slug = node_id.split(":", 1)
+            if kind != "molecule" or not smiles.get(slug):
+                continue
+            m = Chem.MolFromSmiles(smiles[slug])
+            if m is None:
+                continue
+            x = torch.tensor([atom_features(a) for a in m.GetAtoms()])
+            src, dst, attr = [], [], []
+            for b in m.GetBonds():
+                u, v, f = b.GetBeginAtomIdx(), b.GetEndAtomIdx(), bond_features(b)
+                src += [u, v]; dst += [v, u]; attr += [f, f]  # noqa: E702
+            edge_index = torch.tensor([src, dst], dtype=torch.long) if src else torch.zeros(2, 0, dtype=torch.long)
+            edge_attr = torch.tensor(attr) if attr else torch.zeros(0, 6)
+            graphs.append(Data(x=x, edge_index=edge_index, edge_attr=edge_attr))
+            rows.append(i)
+        return {"rows": torch.tensor(rows), "batch": Batch.from_data_list(graphs), "x_dim": 21, "e_dim": 6}
+
     @staticmethod
     def _profile_targets(ids, index) -> dict:
         """Couleur, style et structure en bouche de chaque profil (objectif auxiliaire)."""
@@ -166,7 +268,7 @@ class Command(BaseCommand):
                 "n_colors": len(Color.values), "n_styles": len(Style.values)}
 
     @staticmethod
-    def _train(torch, ids, types, edges, aux, epochs, seed):
+    def _train(torch, ids, types, edges, aux, epochs, seed, mol=None):
         """Entraîne l'encodeur et rend (vecteurs normés, décodeur)."""
         from torch import nn
         from torch.nn import functional as F  # noqa: N812
@@ -202,9 +304,22 @@ class Command(BaseCommand):
                 self.self2 = nn.Linear(DIM_HIDDEN, DIM_OUT)
                 self.rel2 = nn.ModuleList(nn.Linear(DIM_HIDDEN, DIM_OUT, bias=False) for _ in adjacency)
                 self.drop = nn.Dropout(0.2)
+                self.afp = None
+                if mol is not None:
+                    from torch_geometric.nn.models import AttentiveFP
+
+                    self.afp = AttentiveFP(in_channels=mol["x_dim"], hidden_channels=64, out_channels=DIM_HIDDEN,
+                                           edge_dim=mol["e_dim"], num_layers=2, num_timesteps=2, dropout=0.1)
 
             def forward(self):
                 h = self.node.weight + self.kind(type_idx)
+                if self.afp is not None:
+                    b = mol["batch"]
+                    m = self.afp(b.x, b.edge_index, b.edge_attr, b.batch)
+                    if mol["mode"] == "afp-only":  # la molécule n'est plus que sa structure
+                        h = h.index_copy(0, mol["rows"], m + self.kind(type_idx[mol["rows"]]))
+                    else:
+                        h = h.index_add(0, mol["rows"], m)
                 h1 = self.self1(h)
                 for a, lin in zip(adjacency, self.rel1, strict=True):
                     h1 = h1 + a @ lin(h)
