@@ -141,7 +141,7 @@ def _url(name: str, *args) -> str:
 def context(request):
     decor = current_decor()
     if not decor:
-        return {"seasonal_decor": ""}
+        return {"seasonal_decor": "", **_weekly(request)}
     today = timezone.localdate()
     on = sections.enabled()
     cat = "catalogue" in on
@@ -193,6 +193,31 @@ def context(request):
             "novello_beaujolais_url": catalog("region", "beaujolais"),
         })
     return ctx
+
+
+def _weekly(request) -> dict:
+    """Vin de la semaine, quand aucune fête n'occupe le bandeau (voir weekly.py)."""
+    from . import weekly
+
+    path = sections.strip_language(request.path)
+    if not weekly.enabled() or path.startswith(weekly.GAME_PATHS) or path.startswith("/admin"):
+        return {}
+    today = timezone.localdate()
+    profile = weekly.wine_of_the_week(today)
+    if profile is None:
+        return {}
+    year, week, monday = weekly.week_of(today)
+    on = sections.enabled()
+    return {
+        "weekly": profile,
+        "weekly_number": week,
+        "weekly_key": f"terroirs_semaine_{year}_{week}",
+        "weekly_aromas": [pa.aroma for pa in profile.profile_aromas.all()[:4]],
+        "weekly_grapes": [pg for pg in profile.profile_grapes.all()[:3]],
+        "weekly_url": profile.get_absolute_url() if "catalogue" in on else "",
+        "weekly_molecules_url": (_url("molecules:explorer") + f"?depart=profile:{profile.slug}") if "molecules" in on else "",
+        "weekly_until": monday + timedelta(days=6),
+    }
 
 
 def check_percee_calendar(app_configs, **kwargs):

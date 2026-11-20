@@ -78,7 +78,7 @@
     </div>{% endif %}
   </header>
 
-  {% if seasonal_decor %}{% with "partials/_"|add:seasonal_decor|add:".html" as decor_template %}{% include decor_template %}{% endwith %}{% endif %}
+  {% if seasonal_decor %}{% with "partials/_"|add:seasonal_decor|add:".html" as decor_template %}{% include decor_template %}{% endwith %}{% elif weekly %}{% include "partials/_weekly.html" %}{% endif %}
 
   {% if messages %}
   <div class="flash" role="status">

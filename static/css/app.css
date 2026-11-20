@@ -967,3 +967,40 @@ button.tag { cursor: pointer; font-family: inherit; }
   .mol-explorer .explorer__stage { height: auto; }
   .mol-explorer .mol-canvas { min-height: 460px; }
 }
+
+/* ── Vin de la semaine (hors fête) : apps/catalog/weekly.py ──
+   Une carte sobre sur le papier du site, sans décor : un verre de la couleur du vin, sa fiche résumée. */
+.weekly {
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(1rem, 3vw, 2rem); align-items: start;
+  max-width: 1240px; width: calc(100% - 2 * var(--gutter)); margin: 1.6rem auto 0; padding: 1.3rem 3.2rem 1.3rem 1.4rem;
+  background: var(--paper); border: 1px solid var(--rule); border-left: 4px solid var(--garnet); border-radius: var(--radius-m);
+  box-shadow: 0 8px 24px -16px rgba(35,38,47,.35);
+}
+.weekly[hidden] { display: none; }
+.is-app .weekly { display: none; }
+.weekly__glass { width: clamp(4.5rem, 9vw, 7rem); max-width: none; justify-self: start; }
+.weekly__kicker { margin: 0 0 .3rem; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .7rem; font-size: var(--step--1); color: var(--ink-3); }
+.weekly__tag { display: inline-block; padding: .15rem .55rem; border-radius: 999px; background: var(--garnet); color: #fff;
+  font-weight: 600; letter-spacing: .05em; text-transform: uppercase; font-size: .75rem; }
+.weekly__title { margin: 0 0 .15rem; font-size: clamp(1.4rem, 3vw, 1.85rem); }
+.weekly__title a { color: var(--ink); text-decoration: none; }
+.weekly__title a:hover { color: var(--garnet); }
+.weekly__meta { margin: 0 0 .6rem; color: var(--ink-2); font-size: var(--step--1); }
+.weekly__body { margin: 0 0 1rem; max-width: 75ch; }
+.weekly__zoom { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem 1.6rem; padding-top: .9rem; border-top: 1px solid var(--rule); }
+.weekly__h { margin: 0 0 .45rem; font: 600 var(--step--1)/1.2 var(--sans); color: var(--ink-2); letter-spacing: .02em; }
+.weekly__chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .35rem; }
+.weekly__chips li { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .6rem; border: 1px solid var(--rule); border-radius: 999px;
+  background: var(--chalk); font-size: var(--step--1); }
+.weekly__gauges .gauges { gap: .2rem; }
+.weekly__links { margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.weekly__close { background: transparent; color: var(--ink-3); }
+.weekly__close:hover { background: var(--garnet-wash); color: var(--ink); }
+.weekly__close:focus-visible { outline-color: var(--garnet); }
+@media (max-width: 900px) { .weekly__zoom { grid-template-columns: 1fr 1fr; } .weekly__gauges { grid-column: 1 / -1; } }
+@media (max-width: 560px) {
+  .weekly { grid-template-columns: 1fr; padding: 1rem 2.6rem 1rem 1rem; }
+  .weekly__glass { width: 3.5rem; position: absolute; right: 2.8rem; top: 1rem; }
+  .weekly__zoom { grid-template-columns: 1fr; }
+}
+@media print { .weekly { display: none; } }

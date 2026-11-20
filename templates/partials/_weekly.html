@@ -1,0 +1,35 @@
+{% load i18n terroirs_i18n %}{# Vin de la semaine, hors fête : voir apps/catalog/weekly.py. #}
+{% with p=weekly app=weekly.appellation %}
+<aside class="weekly" id="primeur" aria-labelledby="weekly-title" data-key="{{ weekly_key }}">
+  <div class="weekly__glass glass glass--{{ p.color }}" aria-hidden="true"><div class="glass__disc"></div><div class="glass__meniscus"></div></div>
+  <div class="weekly__main">
+    <p class="weekly__kicker"><span class="weekly__tag">{% translate "Vin de la semaine" %}</span>
+      {% blocktranslate trimmed with n=weekly_number until=weekly_until|date:"j F" %}semaine {{ n }}, jusqu'au {{ until }}{% endblocktranslate %}</p>
+    <h2 class="weekly__title" id="weekly-title">{% if weekly_url %}<a href="{{ weekly_url }}">{{ p.name|tr }}</a>{% else %}{{ p.name|tr }}{% endif %}</h2>
+    <p class="weekly__meta">{{ app.name|tr }} · {{ app.region.root.name|tr }}{% if app.region.parent %} ({{ app.region.name|tr }}){% endif %} · {{ p.get_color_display|lower }}, {{ p.get_style_display|lower }}</p>
+    <p class="weekly__body">{{ p.description|tr }}</p>
+    <div class="weekly__zoom">
+      <div>
+        <h3 class="weekly__h">{% translate "Au nez" %}</h3>
+        <ul class="weekly__chips">{% for a in weekly_aromas %}<li><span class="family-dot" style="background: {{ a.family.color }}"></span>{{ a.name|tr|capfirst }}</li>{% endfor %}</ul>
+      </div>
+      <div>
+        <h3 class="weekly__h">{% translate "Cépages" %}</h3>
+        <ul class="weekly__chips">{% for pg in weekly_grapes %}<li>{{ pg.grape.name|tr }} <span class="muted">{{ pg.share }} %</span></li>{% endfor %}</ul>
+      </div>
+      <div class="weekly__gauges">
+        <h3 class="weekly__h">{% translate "En bouche" %}</h3>
+        {% include "partials/gauges.html" with structure=p.structure %}
+      </div>
+    </div>
+    {% if weekly_url or weekly_molecules_url %}
+    <p class="weekly__links">
+      {% if weekly_url %}<a class="btn btn--small" href="{{ weekly_url }}">{% translate "Sa fiche complète" %}</a>{% endif %}
+      {% if weekly_molecules_url %}<a class="btn btn--ghost btn--small" href="{{ weekly_molecules_url }}">{% translate "Ses molécules" %}</a>{% endif %}
+    </p>
+    {% endif %}
+  </div>
+  <button type="button" class="primeur__close weekly__close" aria-label="{% translate "Masquer ce bandeau" %}" title="{% translate "Masquer ce bandeau" %}">×</button>
+</aside>
+{% endwith %}
+{% include "partials/_decor_dismiss.html" %}

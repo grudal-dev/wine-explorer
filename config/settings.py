@@ -42,6 +42,8 @@ CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
 # Sections servies (vide = toutes) : voir apps/catalog/sections.py
 PUBLIC_SECTIONS = env_list("DJANGO_PUBLIC_SECTIONS")
 # Décor de saison : auto | off | medoc | montmartre | novello | beaujolais | vinjaune. Voir apps/catalog/seasons.py
+# Vin de la semaine dans le bandeau quand aucune fête n'est en cours (apps/catalog/weekly.py).
+WINE_OF_THE_WEEK = os.environ.get("WINE_OF_THE_WEEK", "true").strip().lower() not in ("0", "false", "no", "off")
 SEASONAL_DECOR = os.environ.get("SEASONAL_DECOR", "auto").strip().lower() or "auto"
 
 INSTALLED_APPS = [

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-20 13:18+0100\n"
+"POT-Creation-Date: 2026-11-20 14:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -3255,6 +3255,9 @@ msgstr "Result"
 msgid "Sa couleur (fermentation malolactique…)"
 msgstr "Its colour (malolactic fermentation…)"
 
+msgid "Sa fiche complète"
+msgstr "Full profile"
+
 msgid "Sa fiche s'affiche ici, avec ses liens. Double-cliquez pour centrer le graphe sur son voisinage."
 msgstr "Its details appear here, with its links. Double-click to centre the graph on its neighbourhood."
 
@@ -3757,6 +3760,9 @@ msgstr "Wine"
 #, python-format
 msgid "Vin %(color)s"
 msgstr "%(color)s wine"
+
+msgid "Vin de la semaine"
+msgstr "Wine of the week"
 
 #, python-format
 msgid ""
@@ -5309,6 +5315,10 @@ msgstr "grilled salmon"
 
 msgid "sec"
 msgstr "dry"
+
+#, python-format
+msgid "semaine %(n)s, jusqu'au %(until)s"
+msgstr "week %(n)s, until %(until)s"
 
 msgid "seul"
 msgstr "on its own"
