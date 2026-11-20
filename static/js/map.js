@@ -14,7 +14,18 @@
   const legend = document.getElementById("map-legend");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const WINE = { rouge: "#6B1730", blanc: "#D9C36A", rose: "#E59A8E" };
+  const WINE = { rouge: "#6B1730", blanc: "#D9C36A", rose: "#F4AFA6" };
+  // Nuances (voir api_map) : blancs du paille clair (sec, 0) à l'ambre (liquoreux, 5) ; rouges du rubis
+  // clair (tanins souples) au grenat d'encre (tanins serrés) ; rosés saumon clair. Les trois familles
+  // ne se recouvrent pas : le rubis le plus clair reste plus sombre et plus froid que le rosé.
+  const WHITES = ["#F1E9B6", "#E8D785", "#DEC25A", "#D3A73C", "#C68A28", "#B06C1B"];
+  const REDS = ["#C2475F", "#C2475F", "#A53150", "#842041", "#621332", "#3F0A22"];
+  const BORDER = { blanc: "#8C7424", rose: "#B0574C", rouge: "#23262F" };
+  function wineShade(n) {
+    if (n.wine === "blanc") return WHITES[Math.max(0, Math.min(5, n.sweet ?? 0))];
+    if (n.wine === "rouge") return REDS[Math.max(0, Math.min(5, n.tannin ?? 3))];
+    return WINE.rose;
+  }
   const TYPE = { grape: "#56662D", aroma: "#B07D22", appellation: "#7A1F3D", region: "#3B5878", molecule: "#2E6E6A" };
   // Palette qualitative pour les régions (12 teintes distinctes sur fond clair).
   const PALETTE = ["#7A1F3D", "#3B5878", "#56662D", "#B07D22", "#2E6E6A", "#A4502A", "#6B4A8A", "#C2334D",
@@ -25,32 +36,38 @@
   // Tailles constantes à l'écran : un point fait toujours ~16 px et un nom ~12 px, quel que soit le zoom.
   // Le cadrage d'ensemble reste lisible, et zoomer écarte les points au lieu de les grossir.
   let K = 1;
-  const px = (v) => () => v * K;
+  // Téléphone : points et écarts plus petits (138 points de 16 px ne tiennent pas en 390 px sans se
+  // toucher) ; les noms gardent leur taille.
+  const SMALL = document.getElementById("map-cy").clientWidth < 640;
+  const SZ = SMALL ? 0.68 : 1;
+  const GAP = SMALL ? 13.5 : 20;
+  const px = (v) => () => v * K * SZ;   // tailles des points et des traits
+  const pt = (v) => () => v * K;        // tailles des textes
 
   const cy = cytoscape({
     container: document.getElementById("map-cy"),
     minZoom: 0.2, maxZoom: 8, boxSelectionEnabled: false, autoungrabify: true,
     style: [
       { selector: "node", style: {
-        "label": "data(label)", "font-family": "Inter, system-ui, sans-serif", "font-size": px(12), "font-weight": 500,
-        "color": "#23262F", "text-valign": "bottom", "text-margin-y": px(4),
-        "text-background-color": "#F8F8F4", "text-background-opacity": 0.88, "text-background-padding": px(2),
+        "label": "data(label)", "font-family": "Inter, system-ui, sans-serif", "font-size": pt(12), "font-weight": 500,
+        "color": "#23262F", "text-valign": "bottom", "text-margin-y": pt(4),
+        "text-background-color": "#F8F8F4", "text-background-opacity": 0.88, "text-background-padding": pt(2),
         "text-background-shape": "roundrectangle",
         "width": px(12), "height": px(12), "background-color": "data(color)", "border-width": px(1), "border-color": "#23262F",
         "transition-property": "opacity, width, height, border-width", "transition-duration": "150ms",
       }},
       { selector: "node[type='profile']", style: { "width": px(16), "height": px(16), "border-width": px(1.5) }},
-      { selector: "node[type='profile'][wine='blanc']", style: { "border-color": "#8C7424" }},
-      { selector: "node[type='profile'][wine='rose']", style: { "border-color": "#A4584B" }},
+      { selector: "node[type='profile'][wine='blanc']", style: { "border-color": BORDER.blanc }},
+      { selector: "node[type='profile'][wine='rose']", style: { "border-color": BORDER.rose, "border-width": px(2) }},
       { selector: "node[type='grape']", style: { "shape": "diamond", "font-style": "italic" }},
       { selector: "node[type='aroma']", style: { "shape": "ellipse", "width": px(10), "height": px(10), "border-width": 0, "font-style": "italic" }},
       { selector: "node[type='appellation']", style: { "shape": "round-rectangle", "width": px(10), "height": px(10) }},
-      { selector: "node[type='region']", style: { "shape": "round-rectangle", "width": px(20), "height": px(13), "font-weight": 700, "font-size": px(13) }},
+      { selector: "node[type='region']", style: { "shape": "round-rectangle", "width": px(20), "height": px(13), "font-weight": 700, "font-size": pt(13) }},
       { selector: "node[type='molecule']", style: { "shape": "hexagon" }},
       // Position du nom choisie par placeLabels : dessous (défaut), dessus, à droite, à gauche.
-      { selector: "node.lab-t", style: { "text-valign": "top", "text-margin-y": px(-4) }},
-      { selector: "node.lab-r", style: { "text-valign": "center", "text-halign": "right", "text-margin-x": px(5), "text-margin-y": 0 }},
-      { selector: "node.lab-l", style: { "text-valign": "center", "text-halign": "left", "text-margin-x": px(-5), "text-margin-y": 0 }},
+      { selector: "node.lab-t", style: { "text-valign": "top", "text-margin-y": pt(-4) }},
+      { selector: "node.lab-r", style: { "text-valign": "center", "text-halign": "right", "text-margin-x": pt(5), "text-margin-y": 0 }},
+      { selector: "node.lab-l", style: { "text-valign": "center", "text-halign": "left", "text-margin-x": pt(-5), "text-margin-y": 0 }},
       // Libellé masqué quand il chevaucherait un voisin (voir placeLabels) ; il revient au survol et au zoom.
       { selector: "node.hover", style: { "text-opacity": 1, "text-background-opacity": 0.95, "z-index": 20,
         "width": px(22), "height": px(22) }},
@@ -60,7 +77,7 @@
       // Après .near : un voisin sans place pour son nom reste sans nom (il est listé dans le panneau).
       { selector: "node.quiet", style: { "text-opacity": 0, "text-background-opacity": 0 }},
       { selector: "node:selected", style: { "border-color": "#7A1F3D", "text-opacity": 1,
-        "text-background-opacity": 0.95, "font-weight": 700, "font-size": px(13.5), "z-index": 10, "overlay-opacity": 0,
+        "text-background-opacity": 0.95, "font-weight": 700, "font-size": pt(13.5), "z-index": 10, "overlay-opacity": 0,
         "width": px(26), "height": px(26), "border-width": px(4) }},
       { selector: "edge", style: { "width": (e) => (1.5 + 4.5 * Math.max(0, (e.data("similarity") - 0.5) / 0.5)) * K, "line-color": "#7A1F3D",
         "opacity": 0.55, "curve-style": "straight" }},
@@ -136,12 +153,13 @@
   }
 
   // t-SNE tasse les vins d'une même famille les uns sur les autres : on écarte les points qui se
-  // touchent (distance minimale `gap`), par petites poussées, sans déplacer les groupes.
+  // touchent (distance `gap`), mais chaque point reste attiré par sa place d'origine (ressort) :
+  // les petits groupes restent des groupes, séparés par du vide.
   function spread(gap) {
     const nodes = cy.nodes("[type='profile']").toArray();
-    const pos = nodes.map((n) => ({ ...n.position() }));
-    for (let it = 0; it < 60; it++) {
-      let moved = false;
+    const home = nodes.map((n) => ({ ...n.position() }));
+    const pos = home.map((p) => ({ ...p }));
+    for (let it = 0; it < 120; it++) {
       for (let i = 0; i < pos.length; i++) {
         for (let j = i + 1; j < pos.length; j++) {
           const dx = pos[j].x - pos[i].x, dy = pos[j].y - pos[i].y;
@@ -151,12 +169,29 @@
           const ux = dx / d, uy = dy / d;
           pos[i].x -= ux * push; pos[i].y -= uy * push;
           pos[j].x += ux * push; pos[j].y += uy * push;
-          moved = true;
         }
       }
-      if (!moved) break;
+      // Le ressort faiblit au fil des passes : les dernières ne font plus qu'écarter, sans chevauchement.
+      const k = 0.06 * Math.max(0, 1 - it / 80);
+      for (let i = 0; k && i < pos.length; i++) {
+        pos[i].x += (home[i].x - pos[i].x) * k;
+        pos[i].y += (home[i].y - pos[i].y) * k;
+      }
     }
     cy.batch(() => nodes.forEach((n, k) => n.position(pos[k])));
+  }
+
+  // Écarter fait grandir la carte, donc recadrer la dézoome et resserre les points à l'écran : on
+  // répète jusqu'à ce que l'écart à l'écran (GAP) tienne.
+  function settle() {
+    for (let i = 0; i < 5; i++) {
+      const z = cy.zoom();
+      spread(GAP / z);
+      fitAll();
+      if (cy.zoom() > z * 0.97) break;
+    }
+    computeIsolation();
+    placeLabels();
   }
 
   function fitAll(animate = false) {
@@ -169,21 +204,46 @@
   function nodeColor(n) {
     if (n.type !== "profile") return n.hue || TYPE[n.type] || "#23262F";
     if (form.color.value === "region") return regionColor[n.root] || "#8A8D94";
-    return WINE[n.wine] || "#23262F";
+    return wineShade(n);
   }
 
   function drawLegend() {
     legend.innerHTML = "";
-    const entries = form.color.value === "region"
-      ? Object.keys(regionColor).map((slug) => [regionColor[slug], regionNames[slug] || slug])
-      : [[WINE.rouge, _("Rouge")], [WINE.blanc, _("Blanc")], [WINE.rose, _("Rosé")]];
-    entries.forEach(([color, label]) => {
+    legend.classList.toggle("is-scales", form.color.value !== "region");
+    if (form.color.value === "region") {
+      Object.keys(regionColor).forEach((slug) => {
+        const li = document.createElement("li");
+        const dot = document.createElement("i");
+        dot.style.background = regionColor[slug];
+        li.append(dot, document.createTextNode(regionNames[slug] || slug));
+        legend.appendChild(li);
+      });
+      return;
+    }
+    // Couleur du vin : une échelle par famille.
+    const scale = (title, colors, from, to, border) => {
       const li = document.createElement("li");
-      const dot = document.createElement("i");
-      dot.style.background = color;
-      li.append(dot, document.createTextNode(label));
+      li.className = "map-legend__scale";
+      const strong = document.createElement("strong");
+      strong.textContent = title;
+      const ramp = document.createElement("span");
+      ramp.className = "map-legend__ramp";
+      colors.forEach((c) => {
+        const i = document.createElement("i");
+        i.style.background = c;
+        i.style.borderColor = border;
+        ramp.appendChild(i);
+      });
+      const ends = document.createElement("span");
+      ends.className = "map-legend__ends";
+      ends.textContent = `${from} → ${to}`;
+      li.append(strong, ramp, ends);
       legend.appendChild(li);
-    });
+    };
+    scale(_("Blancs"), WHITES, _("sec"), _("liquoreux"), BORDER.blanc);
+    scale(_("Rouges"), REDS.slice(1), _("tanins souples"), _("serrés"), BORDER.rouge);
+    scale(_("Rosés"), [WINE.rose], "", "", BORDER.rose);
+    legend.lastChild.querySelector(".map-legend__ends").remove();
   }
 
   function applyFilters() {
@@ -256,8 +316,8 @@
       // On cadre le voisinage ; points et noms gardent leur taille à l'écran, donc zoomer les écarte.
       cy.fit(group, 90);
       if (!reduceMotion) {
-        node.animate({ style: { width: 42 * K, height: 42 * K } }, { duration: 260 })
-          .animate({ style: { width: 26 * K, height: 26 * K } }, { duration: 260, complete: () => { node.removeStyle("width height"); placeLabels(); } });
+        node.animate({ style: { width: 42 * K * SZ, height: 42 * K * SZ } }, { duration: 260 })
+          .animate({ style: { width: 26 * K * SZ, height: 26 * K * SZ } }, { duration: 260, complete: () => { node.removeStyle("width height"); placeLabels(); } });
       }
     }
     placeLabels();
@@ -319,9 +379,7 @@
     })));
     applyFilters();
     fitAll();
-    spread(23 / cy.zoom()); // 23 px à l'écran entre deux centres : les points ne se cachent pas
-    computeIsolation();
-    fitAll();
+    settle();
     if (root.dataset.focus) select(root.dataset.focus, { center: true });
     // Le cadre peut encore changer de taille (polices, barre de défilement) : on recadre tant que le
     // visiteur n'a pas touché à la carte.
@@ -333,7 +391,7 @@
         clearTimeout(t);
         t = setTimeout(() => {
           if (touched || root.dataset.focus) { cy.resize(); placeLabels(); return; }
-          fitAll(); spread(23 / cy.zoom()); computeIsolation(); fitAll();
+          fitAll(); settle();
         }, 120);
       }).observe(cy.container());
     }

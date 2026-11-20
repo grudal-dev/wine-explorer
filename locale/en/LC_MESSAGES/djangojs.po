@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-18 18:11+0100\n"
+"POT-Creation-Date: 2026-11-20 14:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -84,8 +84,8 @@ msgstr "No results with these filters. Widen the selection."
 msgid "Aucune molécule spécifique pour ce vin dans nos sources."
 msgstr "No specific molecule for this wine in our sources."
 
-msgid "Blanc"
-msgstr "White"
+msgid "Blancs"
+msgstr "Whites"
 
 msgid "Chargement…"
 msgstr "Loading…"
@@ -117,11 +117,11 @@ msgstr "Back to this molecule"
 msgid "Rien à afficher avec ces filtres."
 msgstr "Nothing to show with these filters."
 
-msgid "Rosé"
-msgstr "Rosé"
+msgid "Rosés"
+msgstr "Rosés"
 
-msgid "Rouge"
-msgstr "Red"
+msgid "Rouges"
+msgstr "Reds"
 
 msgid "Socle commun ajouté : ce vin a peu de molécules propres."
 msgstr "Common base added: this wine has few molecules of its own."
@@ -137,6 +137,9 @@ msgstr "grapes"
 
 msgid "familles"
 msgstr "families"
+
+msgid "liquoreux"
+msgstr "sweet"
 
 msgid "marqueur établi"
 msgstr "established marker"
@@ -158,6 +161,15 @@ msgstr "regions"
 
 msgid "sans limite"
 msgstr "no limit"
+
+msgid "sec"
+msgstr "dry"
+
+msgid "serrés"
+msgstr "firm"
+
+msgid "tanins souples"
+msgstr "soft tannins"
 
 msgid "éléments naturels"
 msgstr "natural sources"

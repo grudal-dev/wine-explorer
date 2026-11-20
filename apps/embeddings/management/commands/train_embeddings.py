@@ -64,6 +64,7 @@ FOLDS = 6
 SEED = 20261111
 EVAL_KINDS = ("aroma", "grape", "molecule")
 MOLECULAR_MODES = ("none", "afp-add", "afp-only")
+PERPLEXITY = 5  # carte des goûts : petits groupes séparés (15 avant le 20/11 : deux gros blocs)
 MOLECULAR = "none"
 
 
@@ -86,6 +87,10 @@ class Command(BaseCommand):
         parser.add_argument("--epochs", type=int, default=EPOCHS)
         parser.add_argument("--seed", type=int, default=SEED)
         parser.add_argument("--folds", type=int, default=FOLDS, help="Nombre de découpages d'évaluation.")
+        parser.add_argument("--reproject", action="store_true",
+                            help="Recalculer seulement la carte 2D à partir des vecteurs déjà écrits (sans entraîner).")
+        parser.add_argument("--perplexity", type=float, default=PERPLEXITY,
+                            help="Perplexité du t-SNE de la carte : plus elle est basse, plus les groupes sont petits.")
         parser.add_argument("--cold", action="store_true",
                             help="Évaluation « molécule nouvelle » : tous les liens vin → molécule de 20 %% des "
                                  "molécules sont masqués ; n'écrit rien.")
@@ -93,7 +98,8 @@ class Command(BaseCommand):
                             help="Vecteur de départ des molécules : appris seul (none), ou calculé par Attentive FP "
                                  "sur leur graphe atomique, ajouté (afp-add) ou à la place (afp-only).")
 
-    def handle(self, *args, evaluate, epochs, seed, folds, molecular=MOLECULAR, cold=False, **options):
+    def handle(self, *args, evaluate, epochs, seed, folds, molecular=MOLECULAR, cold=False, reproject=False,
+               perplexity=PERPLEXITY, **options):
         try:
             import numpy as np
             import torch
@@ -102,6 +108,16 @@ class Command(BaseCommand):
         from django.utils import translation
 
         from apps.explorer.graph import full_graph
+
+        if reproject:
+            payload = json.loads(DATA_FILE.read_text(encoding="utf-8"))
+            vectors = np.array(payload["vectors"])
+            xy = self._project(np, vectors, payload["types"], payload["meta"].get("seed", seed), perplexity)
+            payload["xy"] = [[round(float(x), 4), round(float(y), 4)] for x, y in xy]
+            payload["meta"]["perplexity"] = perplexity
+            DATA_FILE.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+            self.stdout.write(self.style.SUCCESS(f"Carte recalculée (perplexité {perplexity}) dans {DATA_FILE}."))
+            return
 
         translation.activate("fr")
         graph = full_graph()
@@ -159,13 +175,13 @@ class Command(BaseCommand):
         # 2. Modèle final sur tout le graphe, projection 2D, écriture
         z, _decoder = self._train(torch, ids, types, edges, aux, epochs, seed, mol)
         vectors = z.numpy()
-        xy = self._project(np, vectors, types, seed)
+        xy = self._project(np, vectors, types, seed, perplexity)
         payload = {
             "meta": {
                 "trained": date.today().isoformat(),
                 "model": "R-GCN 2 couches + DistMult" + ("" if mol is None else f" + Attentive FP ({molecular})"),
                 "dim": DIM_OUT, "nodes": len(ids), "edges": len(edges), "epochs": epochs, "seed": seed,
-                "auc_held_out": round(auc, 3),
+                "auc_held_out": round(auc, 3), "perplexity": perplexity,
                 "nose_mrr": {k: (round(v, 3) if isinstance(v, float) else v) for k, v in mrr.items()},
             },
             "ids": ids,
@@ -463,7 +479,7 @@ class Command(BaseCommand):
         return {**{k: v / max(n, 1) for k, v in totals.items()}, "n": n}
 
     @staticmethod
-    def _project(np, vectors, types, seed):
+    def _project(np, vectors, types, seed, perplexity=PERPLEXITY):
         """Carte 2D, ramenée dans [-1, 1].
 
         Les vins sont projetés entre eux (t-SNE, distance cosinus) : ce sont eux que la carte
@@ -474,7 +490,7 @@ class Command(BaseCommand):
         from sklearn.manifold import TSNE
 
         wines = np.array([i for i, t in enumerate(types) if t == "profile"])
-        xy_w = TSNE(n_components=2, metric="cosine", perplexity=min(15, len(wines) - 1), init="pca",
+        xy_w = TSNE(n_components=2, metric="cosine", perplexity=min(perplexity, len(wines) - 1), init="pca",
                     random_state=seed % (2 ** 31), learning_rate="auto").fit_transform(vectors[wines])
         xy_w = xy_w - xy_w.mean(axis=0)
         xy_w = xy_w / np.abs(xy_w).max()

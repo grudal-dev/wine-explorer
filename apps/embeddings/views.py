@@ -29,6 +29,11 @@ def api_map(request):
     sp = space()
     if sp is None:
         return JsonResponse({"nodes": []})
+    # Nuances de couleur des vins sur la carte : sucrosité des blancs, tanins des rouges (0 à 5).
+    from apps.catalog.models import WineProfile
+
+    shades = {f"profile:{slug}": {"sweet": sweet, "tannin": tannin}
+              for slug, sweet, tannin in WineProfile.objects.values_list("slug", "sweetness", "tannin")}
     nodes = []
     for node_id, kind, (x, y) in zip(sp.ids, sp.types, sp.xy, strict=True):
         if kind not in MAP_TYPES:
@@ -37,7 +42,7 @@ def api_map(request):
         if info is None:
             continue  # entité retirée depuis l'entraînement
         info.pop("type_label")
-        nodes.append({**info, "x": x, "y": y})
+        nodes.append({**info, **shades.get(node_id, {}), "x": x, "y": y})
     return JsonResponse({"nodes": nodes})
 
 

@@ -76,7 +76,9 @@
     </div>
     <div class="map-canvas">
       <div id="map-cy" class="cy"></div>
-      <ul class="map-legend map-legend--overlay" id="map-legend" aria-label="{% translate "Légende des couleurs" %}"></ul>
+    </div>
+    <div class="map-foot">
+      <ul class="map-legend map-legend--foot" id="map-legend" aria-label="{% translate "Légende des couleurs" %}"></ul>
       <p id="map-stats" class="map-stats small muted" aria-live="polite">{% if ready %}{% translate "Chargement…" %}{% else %}{% translate "Aucun vecteur appris pour l'instant. Lancez : python manage.py train_embeddings" %}{% endif %}</p>
     </div>
   </section>
