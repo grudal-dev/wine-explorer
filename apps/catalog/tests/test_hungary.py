@@ -20,6 +20,9 @@ class HungaryTests(TestCase):
     def setUpTestData(cls):
         call_command("load_seed", country="all", stdout=StringIO())
 
+    def tearDown(self):
+        translation.activate("fr")  # une requête en anglais laisse la langue active
+
     def hungarian(self):
         return WineProfile.objects.filter(appellation__country__code="HU")
 
@@ -46,7 +49,8 @@ class HungaryTests(TestCase):
         app = Appellation.objects.get(slug="tokaj")
         self.assertEqual(self.client.get(app.get_absolute_url()).status_code, 200)
         self.assertEqual(self.client.get(app.region.get_absolute_url()).status_code, 200)
-        self.assertEqual(self.client.get("/en" + self.hungarian().first().get_absolute_url()).status_code, 200)
+        url = "/en" + self.hungarian().first().get_absolute_url()
+        self.assertEqual(self.client.get(url).status_code, 200)
 
     def test_blind_test(self):
         game = Game.objects.create(profile=WineProfile.objects.get(slug="tokaji-aszu"), max_attempts=8)

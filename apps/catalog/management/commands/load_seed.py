@@ -20,6 +20,7 @@ from pathlib import Path
 import yaml
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
+from django.utils import translation
 from django.utils.text import slugify
 
 from apps.catalog.models import (
@@ -57,7 +58,13 @@ class Command(BaseCommand):
         parser.add_argument("--skip-molecules", action="store_true",
                             help="Ne pas recharger la section Molécules (load_molecules).")
 
-    def handle(self, *args, country, check, skip_molecules=False, **options):
+    def handle(self, *args, **options):
+        # Les noms par défaut des profils (« Chablis blanc ») et leurs slugs dépendent de la langue active :
+        # toujours charger en français, même si une requête en anglais l'a laissé actif.
+        with translation.override("fr"):
+            return self._handle(*args, **options)
+
+    def _handle(self, *args, country, check, skip_molecules=False, **options):
         folders = self._folders(country)
         stats: dict[str, int] = {}
         try:
