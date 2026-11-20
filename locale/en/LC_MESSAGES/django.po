@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-20 11:04+0100\n"
+"POT-Creation-Date: 2026-11-20 13:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -975,6 +975,13 @@ msgstr "Click a molecule"
 msgid "Code INAO"
 msgstr "INAO code"
 
+msgid ""
+"Collines volcaniques du nord-est de la Hongrie, au confluent du Bodrog et de la Tisza, dont les brumes "
+"d'automne font naître la pourriture noble."
+msgstr ""
+"Volcanic hills in north-eastern Hungary, where the Bodrog meets the Tisza, whose autumn mists bring on "
+"noble rot."
+
 msgid "Collio"
 msgstr "Collio"
 
@@ -1135,6 +1142,15 @@ msgstr "All time"
 
 msgid "Des"
 msgstr "Our"
+
+msgid ""
+"Des baies aszú, ratatinées une à une par la pourriture noble, macérées dans un moût ou un vin de base puis "
+"longuement élevées en fût. Au moins 120 g/L de sucre, mais une acidité si vive que le vin paraît moins doux"
+" qu'un sauternes. Le nombre de puttonyos (hottes de baies par fût) ne subsiste que pour 5 et 6."
+msgstr ""
+"Aszú berries, shrivelled one by one by noble rot, are macerated in must or a base wine and then aged for a "
+"long time in cask. At least 120 g/L of sugar, but such vivid acidity that the wine tastes less sweet than a"
+" Sauternes. The number of puttonyos (hods of berries per cask) survives only for 5 and 6."
 
 msgid "Descripteur du nez"
 msgstr "Nose descriptor"
@@ -1578,6 +1594,12 @@ msgstr "History"
 msgid "Historique chaud-froid"
 msgstr "Hot-cold history"
 
+msgid "Hongrie (Furmint × Bouvier)"
+msgstr "Hungary (Furmint × Bouvier)"
+
+msgid "Hongrie (Hárslevelű × Bouvier)"
+msgstr "Hungary (Hárslevelű × Bouvier)"
+
 msgid "IBMP"
 msgstr "2-isobutyl-3-methoxypyrazine"
 
@@ -1990,6 +2012,13 @@ msgstr "Beaujolais Nouveau is here"
 msgid "Le Cabernet Sauvignon"
 msgstr "Cabernet Sauvignon"
 
+msgid ""
+"Le Furmint vinifié en sec, devenu le second visage de Tokaj : coing et pomme, une acidité tendue et une "
+"touche fumée que l'on attribue aux sols volcaniques."
+msgstr ""
+"Furmint made dry, now Tokaj's second face: quince and apple, taut acidity and a smoky touch credited to the"
+" volcanic soils."
+
 msgid "Le Gamay"
 msgstr "Gamay"
 
@@ -2094,6 +2123,15 @@ msgstr ""
 "The reference dataset is deliberately small and clean: each profile was written and checked by hand, then "
 "validated automatically on loading (grapes, aromas and regions must exist, the blend must add up to 100%%)."
 
+msgid ""
+"Le jus qui s'écoule de lui-même des baies aszú entassées, sans pressurage. Plus de 450 g/L de sucre, et une"
+" fermentation si lente qu'elle dépasse à peine quelques degrés d'alcool en plusieurs années. Un sirop d'une"
+" acidité intacte, servi à la cuillère."
+msgstr ""
+"The juice that runs off the piled-up aszú berries under their own weight, without pressing. Over 450 g/L of"
+" sugar, and a fermentation so slow that it barely reaches a few degrees of alcohol in several years. A "
+"syrup with its acidity intact, served by the spoonful."
+
 msgid "Le même vin pour tout le monde aujourd'hui. Une seule partie, comptée au classement."
 msgstr "The same wine for everyone today. A single game, counted in the leaderboard."
 
@@ -2119,6 +2157,13 @@ msgstr "The feminine Pinot of the Côte de Beaune, delicate and floral, right ne
 
 msgid "Le pinot noir le plus viril de la côte, sombre et structuré, qui évolue vers le sous-bois et le gibier."
 msgstr "The most virile Pinot Noir of the Côte, dark and structured, evolving towards undergrowth and game."
+
+msgid ""
+"Le plus ancien vignoble délimité au monde (1737) pour ses vins de pourriture noble. Furmint et Hárslevelű y"
+" donnent des liquoreux à l'acidité tranchante, mais aussi des blancs secs et des vins élevés sous voile."
+msgstr ""
+"The world's oldest vineyard classification (1737) for noble-rot wines. Furmint and Hárslevelű give sweet "
+"wines of cutting acidity here, but also dry whites and wines aged under flor."
 
 msgid "Le plus exubérant des blancs, explosif de litchi et de rose, souvent avec une touche de sucre."
 msgstr "The most exuberant of whites, bursting with lychee and rose, often with a touch of sugar."
@@ -2307,6 +2352,9 @@ msgstr ""
 "Ionones take their name from the violet (ion in Greek): β-ionone carries the violet note of Pinot Noir, "
 "Syrah or Malbec."
 
+msgid "Les liens entre vins, cépages, arômes et régions."
+msgstr "The links between wines, grapes, aromas and regions."
+
 msgid "Les molécules"
 msgstr "The molecules"
 
@@ -2353,6 +2401,9 @@ msgstr "The graph vectors have not been learned yet. Run: python manage.py train
 
 msgid "Les vins qui la rappellent"
 msgstr "Wines that recall it"
+
+msgid "Les vins rapprochés par ressemblance."
+msgstr "Wines placed close together by likeness."
 
 msgid "Les éléments naturels"
 msgstr "Natural sources"
@@ -2557,6 +2608,13 @@ msgstr "Same appellation"
 
 msgid "Même sous-région, mais autre appellation."
 msgstr "Same sub-region, but another appellation."
+
+msgid ""
+"Même vendange de grappes entières que le Szamorodni sec, mais le sucre reste (édes) : moins concentré qu'un"
+" Aszú, plus simple et plus abordable, avec une note de noix due à l'élevage."
+msgstr ""
+"The same whole-bunch harvest as dry Szamorodni, but the sugar stays (édes): less concentrated than an Aszú,"
+" simpler and more affordable, with a nutty note from cask ageing."
 
 msgid "Navigation principale"
 msgstr "Main navigation"
@@ -3449,6 +3507,12 @@ msgstr "Thiol"
 
 msgid "Thiols variétaux recensés dans le Grenache, le Merlot, le Cabernet-Sauvignon et les rosés de Provence."
 msgstr "Varietal thiols recorded in Grenache, Merlot, Cabernet Sauvignon and Provence rosés."
+
+msgid "Tokaj"
+msgstr "Tokaj"
+
+msgid "Tokaj-Hegyalja"
+msgstr "Tokaj-Hegyalja"
 
 msgid "Toscane"
 msgstr "Tuscany"
@@ -4357,6 +4421,9 @@ msgstr "inferred"
 msgid "effervescent"
 msgstr "sparkling"
 
+msgid "en fin de repas"
+msgstr "at the end of a meal"
+
 msgid "enrichit les appellations avec leur identifiant officiel et leur nombre de communes."
 msgstr "enriches the appellations with their official identifier and their number of villages."
 
@@ -4494,6 +4561,9 @@ msgstr "mature cheeses"
 msgid "fromages de brebis"
 msgstr "sheep's milk cheeses"
 
+msgid "fromages de chèvre"
+msgstr "goat's cheeses"
+
 msgid "fromages doux"
 msgstr "mild cheeses"
 
@@ -4502,6 +4572,9 @@ msgstr "fresh cheeses"
 
 msgid "fromages à pâte dure"
 msgstr "hard cheeses"
+
+msgid "fromages à pâte persillée"
+msgstr "blue cheeses"
 
 msgid "fruit de la passion"
 msgstr "passion fruit"
@@ -4632,6 +4705,9 @@ msgstr "iodine"
 
 msgid "jacquier"
 msgstr "jackfruit"
+
+msgid "jambon cru"
+msgstr "cured ham"
 
 msgid "jambon de San Daniele"
 msgstr "San Daniele ham"
@@ -4939,6 +5015,9 @@ msgstr "pear"
 msgid "poisson de lac"
 msgstr "lake fish"
 
+msgid "poisson de rivière"
+msgstr "river fish"
+
 msgid "poisson grillé"
 msgstr "grilled fish"
 
@@ -5010,6 +5089,9 @@ msgstr "roast suckling pig"
 
 msgid "pot-au-feu"
 msgstr "pot-au-feu"
+
+msgid "poulet au paprika"
+msgstr "chicken paprikash"
 
 msgid "poulet aux morilles"
 msgstr "chicken with morels"
@@ -5228,6 +5310,9 @@ msgstr "grilled salmon"
 msgid "sec"
 msgstr "dry"
 
+msgid "seul"
+msgstr "on its own"
+
 msgid "silex"
 msgstr "flint"
 
@@ -5252,6 +5337,9 @@ msgstr "sotolon"
 msgid "souchet rond"
 msgstr "nut grass (Cyperus rotundus)"
 
+msgid "soupe aux champignons"
+msgstr "mushroom soup"
+
 msgid "souple"
 msgstr "supple"
 
@@ -5269,6 +5357,9 @@ msgstr "speck"
 
 msgid "structuré"
 msgstr "structured"
+
+msgid "strudel aux abricots"
+msgstr "apricot strudel"
 
 msgid "sucré"
 msgstr "sugary"
@@ -5305,6 +5396,9 @@ msgstr "lemon tart"
 
 msgid "tarte aux abricots"
 msgstr "apricot tart"
+
+msgid "tarte aux noix"
+msgstr "walnut tart"
 
 msgid "tarte flambée"
 msgstr "tarte flambée"
@@ -5464,6 +5558,14 @@ msgstr "\"%(text)s\" is not in the graph."
 msgid "« %(text)s » ne correspond à aucune région, appellation ou cépage connu."
 msgstr "\"%(text)s\" does not match any known region, appellation or grape."
 
+msgid ""
+"« Tel qu'il est né » : des grappes entières, baies botrytisées comprises, vinifiées jusqu'à la sécheresse "
+"(száraz) puis élevées plusieurs années sous un voile de levures dans des fûts en vidange. Un cousin du vin "
+"jaune et du fino."
+msgstr ""
+"“As it was born”: whole bunches, botrytised berries included, fermented to dryness (száraz) and then aged "
+"for several years under a veil of yeast in part-filled casks. A cousin of vin jaune and fino."
+
 #, python-format
 msgid "· %(molar_mass)s g/mol"
 msgstr "· %(molar_mass)s g/mol"
@@ -5521,6 +5623,9 @@ msgstr "to the east"
 
 msgid "à l'ouest"
 msgstr "to the west"
+
+msgid "à la cuillère"
+msgstr "by the spoonful"
 
 msgid "à trouver"
 msgstr "to find"

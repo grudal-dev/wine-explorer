@@ -1,0 +1,8 @@
+# Régions viticoles hongroises (noms usuels). Pour l'instant : Tokaj seul.
+# Coordonnées : centre approximatif, pour la carte et les indices de distance.
+country: {code: HU, name: Hongrie}
+regions:
+  - name: Tokaj-Hegyalja
+    lat: 48.20
+    lng: 21.35
+    description: Collines volcaniques du nord-est de la Hongrie, au confluent du Bodrog et de la Tisza, dont les brumes d'automne font naître la pourriture noble.

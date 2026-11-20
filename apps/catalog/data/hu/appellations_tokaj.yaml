@@ -1,0 +1,72 @@
+# Appellations et profils types — Hongrie (Tokaj).
+# Règles de l'AOP Tokaj (cahier des charges hongrois, version de 2013 et suivantes) : Aszú d'au moins
+# 120 g/L de sucre résiduel (« 5 puttonyos » ; « 6 puttonyos » à partir de 150 g/L), catégories 3 et
+# 4 puttonyos supprimées ; Eszencia d'au moins 450 g/L ; Szamorodni sec (száraz) ou doux (édes).
+# Encépagements : ordres de grandeur, pas des chiffres officiels. À faire relire par un œnologue.
+# structure : [corps, acidité, tanins, sucrosité], échelle 0-5.
+
+- appellation: Tokaj
+  region: Tokaj-Hegyalja
+  classification: AOC
+  lat: 48.123
+  lng: 21.411
+  description: "Le plus ancien vignoble délimité au monde (1737) pour ses vins de pourriture noble. Furmint et Hárslevelű y donnent des liquoreux à l'acidité tranchante, mais aussi des blancs secs et des vins élevés sous voile."
+  profiles:
+    - name: Tokaji Aszú
+      color: blanc
+      style: liquoreux
+      grapes: {Furmint: 70, Hárslevelű: 20, Zéta: 5, Muscat à petits grains: 5}
+      aromas: {abricot: 3, zeste d'orange: 3, coing: 2, miel: 2, fruits confits: 2, safran: 1, noix: 1}
+      structure: [4, 5, 0, 5]
+      price: [30, 150]
+      aging: [10, 60]
+      temp: 10-12 °C
+      pairings: [foie gras, fromages à pâte persillée, strudel aux abricots]
+      description: "Des baies aszú, ratatinées une à une par la pourriture noble, macérées dans un moût ou un vin de base puis longuement élevées en fût. Au moins 120 g/L de sucre, mais une acidité si vive que le vin paraît moins doux qu'un sauternes. Le nombre de puttonyos (hottes de baies par fût) ne subsiste que pour 5 et 6."
+
+    - name: Tokaji Eszencia
+      color: blanc
+      style: liquoreux
+      grapes: {Furmint: 60, Hárslevelű: 30, Muscat à petits grains: 10}
+      aromas: {abricot: 3, miel: 3, fruits confits: 3, coing: 2, caramel: 2, zeste d'orange: 2}
+      structure: [5, 5, 0, 5]
+      price: [150, 800]
+      aging: [20, 100]
+      temp: 10-12 °C
+      pairings: [à la cuillère, seul, en fin de repas]
+      description: "Le jus qui s'écoule de lui-même des baies aszú entassées, sans pressurage. Plus de 450 g/L de sucre, et une fermentation si lente qu'elle dépasse à peine quelques degrés d'alcool en plusieurs années. Un sirop d'une acidité intacte, servi à la cuillère."
+
+    - name: Tokaji Szamorodni sec
+      color: blanc
+      style: oxydatif
+      grapes: {Furmint: 70, Hárslevelű: 30}
+      aromas: {noix: 3, curry: 2, pomme mûre: 2, amande: 2, coing: 1, brioche: 1}
+      structure: [3, 4, 0, 0]
+      price: [20, 45]
+      aging: [5, 30]
+      temp: 12-14 °C
+      pairings: [jambon cru, fromages affinés, soupe aux champignons]
+      description: "« Tel qu'il est né » : des grappes entières, baies botrytisées comprises, vinifiées jusqu'à la sécheresse (száraz) puis élevées plusieurs années sous un voile de levures dans des fûts en vidange. Un cousin du vin jaune et du fino."
+
+    - name: Tokaji Szamorodni doux
+      color: blanc
+      style: liquoreux
+      grapes: {Furmint: 70, Hárslevelű: 25, Muscat à petits grains: 5}
+      aromas: {abricot: 2, miel: 2, coing: 2, noix: 1, zeste d'orange: 1, pomme mûre: 1}
+      structure: [3, 4, 0, 4]
+      price: [15, 40]
+      aging: [5, 20]
+      temp: 10-12 °C
+      pairings: [fromages à pâte dure, tarte aux noix, cuisine épicée]
+      description: "Même vendange de grappes entières que le Szamorodni sec, mais le sucre reste (édes) : moins concentré qu'un Aszú, plus simple et plus abordable, avec une note de noix due à l'élevage."
+
+    - name: Tokaji Furmint sec
+      color: blanc
+      grapes: {Furmint: 100}
+      aromas: {coing: 2, pomme verte: 2, citron: 2, poire: 1, pierre mouillée: 2, fumé: 1}
+      structure: [3, 5, 0, 0]
+      price: [12, 50]
+      aging: [3, 15]
+      temp: 10-12 °C
+      pairings: [poisson de rivière, poulet au paprika, fromages de chèvre]
+      description: "Le Furmint vinifié en sec, devenu le second visage de Tokaj : coing et pomme, une acidité tendue et une touche fumée que l'on attribue aux sols volcaniques."
