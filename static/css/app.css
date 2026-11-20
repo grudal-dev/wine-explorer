@@ -1029,3 +1029,26 @@ button.tag { cursor: pointer; font-family: inherit; }
 .map-legend__ends { color: var(--ink-3); }
 .map-legend--foot.is-scales { gap: .3rem 1.4rem; }
 @media (max-width: 720px) { .map-explorer .explorer__stage { height: 74vh; } }
+
+/* ── Carte des goûts en plein écran (bouton, touche F) ──
+   :fullscreen (API) ou .is-fullscreen (repli Safari iPhone) ; .is-full est posée dans les deux cas. */
+.map-fs { display: inline-flex; align-items: center; gap: .4rem; }
+.map-fs .map-fs__close { display: none; }
+.map-explorer.is-full .map-fs .map-fs__open { display: none; }
+.map-explorer.is-full .map-fs .map-fs__close { display: inline; }
+.map-explorer.is-full {
+  position: fixed; inset: 0; z-index: 1000; width: 100vw; height: 100vh; height: 100dvh; min-height: 0;
+  grid-template-columns: minmax(0, 1fr) 320px; background: var(--paper);
+}
+.map-explorer:fullscreen { background: var(--paper); }
+.map-explorer:-webkit-full-screen { background: var(--paper); width: 100%; height: 100%; }
+.map-explorer.is-full .explorer__rail { display: none; }
+.map-explorer.is-full .explorer__stage { height: auto; min-height: 0; }
+.map-explorer.is-full .explorer__panel { grid-column: auto; border-top: 0; border-left: 1px solid var(--rule); overflow-y: auto; }
+body.map-is-full { overflow: hidden; }
+@media (max-width: 900px) {
+  .map-explorer.is-full { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr); }
+  .map-explorer.is-full .explorer__panel { display: none; }
+  .map-explorer.is-full .explorer__stage { order: 0; height: 100%; }
+}
+@media (max-width: 560px) { .map-fs span { display: none; } }

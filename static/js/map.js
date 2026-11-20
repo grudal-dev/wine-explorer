@@ -330,6 +330,46 @@
 
   form.addEventListener("change", () => { clearSelection(); applyFilters(); fitAll(true); });
   document.getElementById("map-fit").addEventListener("click", () => fitAll(true));
+
+  // ── Plein écran ─────────────────────────────────────────────────────────
+  // API Fullscreen sur toute la carte (barre, carte, fiche) ; sinon (Safari sur iPhone), la carte
+  // occupe toute la fenêtre par une classe. Échap ou le bouton en sortent ; on recadre à chaque bascule.
+  const fsBtn = document.getElementById("map-fullscreen");
+  const fsLabel = fsBtn.querySelector("span");
+  const nativeFs = !!(root.requestFullscreen || root.webkitRequestFullscreen);
+  const isFull = () => !!(document.fullscreenElement || document.webkitFullscreenElement) || root.classList.contains("is-fullscreen");
+  function syncFs() {
+    const on = isFull();
+    root.classList.toggle("is-full", on);
+    fsBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    fsLabel.textContent = on ? fsBtn.dataset.on : fsBtn.dataset.off;
+    fsBtn.title = fsLabel.textContent;
+    document.body.classList.toggle("map-is-full", on);
+    requestAnimationFrame(() => { cy.resize(); fitAll(); });
+  }
+  function toggleFs() {
+    if (isFull()) {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (document.webkitFullscreenElement) document.webkitExitFullscreen();
+      else { root.classList.remove("is-fullscreen"); syncFs(); }
+      return;
+    }
+    if (nativeFs) {
+      const req = root.requestFullscreen || root.webkitRequestFullscreen;
+      Promise.resolve(req.call(root)).catch(() => { root.classList.add("is-fullscreen"); syncFs(); });
+    } else {
+      root.classList.add("is-fullscreen");
+      syncFs();
+    }
+  }
+  fsBtn.addEventListener("click", toggleFs);
+  document.addEventListener("fullscreenchange", syncFs);
+  document.addEventListener("webkitfullscreenchange", syncFs);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && root.classList.contains("is-fullscreen")) { root.classList.remove("is-fullscreen"); syncFs(); }
+    if ((e.key === "f" || e.key === "F") && !e.ctrlKey && !e.metaKey && !e.altKey
+        && !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) toggleFs();
+  });
   document.getElementById("map-png").addEventListener("click", () => {
     const a = document.createElement("a");
     a.href = cy.png({ full: true, scale: 2, bg: "#F8F8F4" });
