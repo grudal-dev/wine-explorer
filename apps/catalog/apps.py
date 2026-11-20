@@ -93,5 +93,8 @@ class CatalogConfig(AppConfig):
     verbose_name = "Catalogue"
 
     def ready(self):
+        from .seasons import check_percee_calendar
+
         checks.register(check_data_loaded)
+        checks.register(check_percee_calendar)
         post_migrate.connect(load_missing_data, sender=self)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-19 19:31+0100\n"
+"POT-Creation-Date: 2026-11-20 10:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -115,6 +115,10 @@ msgstr "%(s_name)s, in nature"
 #, python-format
 msgid "%(shared)s arôme%(s)s en commun"
 msgstr "%(shared)s shared aroma%(s)s"
+
+#, python-format
+msgid "%(start)s et %(end)s · %(place)s"
+msgstr "%(start)s and %(end)s · %(place)s"
 
 #, python-format
 msgid "%(won)s sur %(played)s"
@@ -784,6 +788,10 @@ msgstr "What was hottest"
 msgid "Ce vin : %(actual)s"
 msgstr "This wine: %(actual)s"
 
+#, python-format
+msgid "Ce week-end · %(place)s"
+msgstr "This weekend · %(place)s"
+
 msgid "Centre-Loire"
 msgstr "Central Loire"
 
@@ -879,6 +887,9 @@ msgstr "Pick aromas and the site suggests the wines whose nose comes closest."
 
 msgid "Choisissez un départ et une arrivée : le chemin le plus court s'affiche."
 msgstr "Choose a start and an end: the shortest path is displayed."
+
+msgid "Château-Chalon"
+msgstr "Château-Chalon"
 
 msgid "Cinq vins vous attendent"
 msgstr "Five wines are waiting for you"
@@ -1740,6 +1751,9 @@ msgstr "4-MMP correlates very well with the blackcurrant aroma of red wines."
 msgid "La 4-MMP, responsable des nuances « buis » ou « genêt » du Sauvignon."
 msgstr "4-MMP, responsible for the \"boxwood\" or \"broom\" nuances of Sauvignon."
 
+msgid "La Percée du Vin Jaune"
+msgstr "The Percée du Vin Jaune"
+
 msgid "La benzaldéhyde, issue de l'amygdaline, est l'odorant dominant de l'amande."
 msgstr "Benzaldehyde, derived from amygdalin, is the dominant odorant of almond."
 
@@ -1908,11 +1922,24 @@ msgstr "Beaujolais Nouveau is here"
 msgid "Le Gamay"
 msgstr "Gamay"
 
+#, python-format
+msgid ""
+"Le Jura met en perce les premiers tonneaux du millésime %(vintage)s, après au moins six ans et trois mois "
+"sous voile de levures, sans ouillage. Du Savagnin seul, en clavelin de 62 cl : les notes de noix et de "
+"curry viennent du sotolon."
+msgstr ""
+"The Jura broaches the first casks of the %(vintage)s vintage, after at least six years and three months "
+"under a veil of yeast, never topped up. Savagnin alone, in the 62 cl clavelin bottle: the walnut and curry "
+"notes come from sotolon."
+
 msgid "Le Nez"
 msgstr "The Nose"
 
 msgid "Le Nez : comment sont calculées les probabilités"
 msgstr "The Nose: how the probabilities are calculated"
+
+msgid "Le Savagnin"
+msgstr "Savagnin"
 
 msgid ""
 "Le bois de tonnellerie apporte au vin des lactones (noix de coco), de la vanilline, de l'eugénol et, une "
@@ -2071,6 +2098,9 @@ msgstr "The most structured red of the Côte de Beaune, on iron-rich clay, firm 
 
 msgid "Le royaume du gamay sur granite, des primeurs gouleyants aux crus de garde."
 msgstr "The kingdom of Gamay on granite, from easy-drinking nouveau wines to age-worthy crus."
+
+msgid "Le sotolon"
+msgstr "Sotolon"
 
 msgid "Le talon de la botte, chaud et sec, aux rouges généreux."
 msgstr "The heel of the boot, hot and dry, with generous reds."
