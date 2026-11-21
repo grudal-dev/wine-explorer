@@ -967,9 +967,17 @@ button.tag { cursor: pointer; font-family: inherit; }
   .mol-explorer .explorer__rail, .mol-explorer .explorer__panel { max-height: max(calc(100vh - 58px), 600px); position: sticky; top: 58px; }
   .mol-explorer .mol-canvas { min-height: 440px; }
 }
-@media (min-width: 721px) and (max-width: 1100px) {
+@media (max-width: 1100px) {
   .mol-explorer .explorer__stage { height: auto; }
+}
+@media (min-width: 721px) and (max-width: 1100px) {
   .mol-explorer .mol-canvas { min-height: 460px; }
+}
+/* Téléphone : le cadre du dessin (bouquet ou table) fait la hauteur de son contenu. Sans cela, il
+   débordait de la scène (62 vh) et sa légende passait par-dessus les réglages et la fiche. */
+@media (max-width: 720px) {
+  .mol-explorer .explorer__stage { height: auto; }
+  .mol-explorer .mol-canvas { min-height: 440px; }
 }
 
 /* ── Vin de la semaine (hors fête) : apps/catalog/weekly.py ──
