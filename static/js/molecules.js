@@ -95,18 +95,18 @@
       { selector: "edge.hl[kind='found_in']", style: { "line-color": C.molecule, "width": 1.8 }},
       { selector: "node:selected", style: { "border-width": 4, "border-color": C.garnet, "overlay-opacity": 0 }},
       // ── Bouquet (vue d'un vin, ordinateur) : le verre en bas, les molécules montent en bulles ──
-      { selector: "node.bq[type='profile']", style: { "shape": "rectangle", "width": 74, "height": 124,
-        "background-opacity": 0, "border-width": 0, "background-image": (n) => glass(n.data("wine")),
+      { selector: "node.bq[type='profile']", style: { "shape": "ellipse", "width": () => 96 * SC, "height": () => 96 * SC,
+        "background-opacity": 0, "border-width": 0, "background-image": (n) => robe(n.data("wine")),
         "background-fit": "contain", "background-clip": "none", "label": "data(label)", "text-valign": "bottom",
         "text-halign": "center", "text-margin-x": 0, "text-margin-y": 10, "font-family": "Fraunces, Georgia, serif",
         "font-size": 21, "font-weight": 600, "text-background-opacity": 0, "text-max-width": 260 }},
       { selector: "node.bq[type='molecule']", style: { "shape": "ellipse",
-        "width": (n) => 58 + 14 * (n.data("strength") || 1), "height": (n) => 58 + 14 * (n.data("strength") || 1),
+        "width": (n) => bubble(n), "height": (n) => bubble(n),
         "padding": "0px", "background-color": "data(hue)", "border-width": 7, "border-color": "data(hue)", "border-opacity": 0.2,
         "label": bubbleLabel, "color": "#fff", "font-family": "Fraunces, Georgia, serif", "font-style": "italic",
         "font-weight": 600, "font-size": (n) => ((n.data("strength") || 1) >= 3 ? 14.5 : (n.data("odor") || "").length > 10 ? 10.5 : 12), "text-valign": "center",
         "text-halign": "center", "text-margin-x": 0, "text-margin-y": 0, "text-wrap": "wrap",
-        "text-max-width": (n) => 48 + 14 * (n.data("strength") || 1), "text-background-opacity": 0, "line-height": 1.15 }},
+        "text-max-width": (n) => bubble(n) - 10, "text-background-opacity": 0, "line-height": 1.15 }},
       { selector: "node.bq[type='molecule'][tier='family']", style: { "background-opacity": 0.75 }},
       { selector: "node.bq[type='molecule'][tier='universal'], node.bq[type='molecule'][?universal]", style: {
         "background-opacity": 0.42, "color": C.ink, "border-opacity": 0.1 }},
@@ -120,30 +120,50 @@
       { selector: "edge.bq[kind='found_in']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
         "opacity": 0.4, "width": 1.2 }},
       // Couronne d'une molécule : la molécule en grande bulle au centre, les vins en petits verres autour.
-      { selector: "node.bq[type='molecule'][?root]", style: { "width": 132, "height": 132, "font-size": 16,
-        "text-max-width": 116, "border-width": 10, "border-opacity": 0.22, "label": rootLabel }},
-      { selector: "node.bq.ring[type='profile']", style: { "width": 20, "height": 34, "font-family": "Inter, system-ui, sans-serif",
+      { selector: "node.bq[type='molecule'][?root]", style: { "width": () => 132 * SC, "height": () => 132 * SC,
+        "font-size": () => 16 * SC, "text-max-width": () => 116 * SC, "border-width": 10, "border-opacity": 0.22, "label": rootLabel }},
+      { selector: "node.bq.ring[type='profile']", style: { "width": 24, "height": 24, "font-family": "Inter, system-ui, sans-serif",
         "font-size": 12, "font-weight": 500, "color": C.ink, "text-valign": "center", "text-halign": "center",
         "text-margin-x": "data(lx)", "text-margin-y": "data(ly)", "text-rotation": "data(rot)", "text-wrap": "none",
         "text-background-opacity": 0 }},
+      { selector: "node.bq.grid[type='profile']", style: { "width": 26, "height": 26, "font-family": "Inter, system-ui, sans-serif",
+        "font-size": 11.5, "font-weight": 500, "color": C.ink, "text-valign": "bottom", "text-halign": "center",
+        "text-margin-x": 0, "text-margin-y": 6, "text-rotation": 0, "text-wrap": "wrap", "text-max-width": "data(tw)",
+        "text-background-opacity": 0 }},
+      { selector: "node.bq[type='source'][?root]", style: { "shape": "ellipse", "width": () => 124 * SC, "height": () => 124 * SC,
+        "background-color": "data(hue)", "border-width": 10, "border-color": "data(hue)", "border-opacity": 0.22,
+        "label": "data(label)", "color": "#fff", "font-family": "Fraunces, Georgia, serif", "font-weight": 600,
+        "font-size": () => 17 * SC, "text-wrap": "wrap", "text-max-width": () => 104 * SC, "padding": "0px" }},
+      { selector: "edge.bq.grid", style: { "curve-style": "straight", "opacity": 0 }},
       { selector: "edge.bq.ring[kind='contains']", style: { "curve-style": "straight", "opacity": 0.45,
         "width": "mapData(strength, 1, 3, 1.2, 4)" }},
+      { selector: "edge.bq.minor", style: { "opacity": 0.05 }},
+      { selector: "edge.bq.hl", style: { "opacity": 0.9 }},
       { selector: "node.bq:selected", style: { "border-color": C.garnet, "border-opacity": 1, "border-width": 4 }},
       { selector: "node.bq.hl[type='molecule']", style: { "border-color": "data(hue)", "border-opacity": 0.35, "border-width": 9 }},
     ],
   });
 
-  // Verre dessiné (couleur du vin) : nœud du vin dans le bouquet.
-  const ROBE = { rouge: "#6E1A33", blanc: "#E2C766", rose: "#E89A8C" };
-  function glass(wine) {
-    const fill = ROBE[wine] || ROBE.rouge;
-    return "data:image/svg+xml;utf8," + encodeURIComponent(
-      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -116 100 168'>"
-      + "<path d='M-46 -112 H46 C46 -58 28 -26 0 -22 C-28 -26 -46 -58 -46 -112 Z' fill='#fff' stroke='#23262F' stroke-width='2.5'/>"
-      + `<path d='M-43 -80 H43 C40 -50 24 -28 0 -25 C-24 -28 -40 -50 -43 -80 Z' fill='${fill}'/>`
-      + "<path d='M0 -22 V40' stroke='#23262F' stroke-width='2.5'/>"
-      + "<path d='M-30 46 Q0 34 30 46' fill='none' stroke='#23262F' stroke-width='2.5' stroke-linecap='round'/></svg>");
+  // Le vin vu du dessus : la robe en disques concentriques (même dessin que les fiches vin).
+  const ROBES = {
+    rouge: ["#F1E4D6", "#C2475F", "#8E2A45", "#6E1A33"],
+    blanc: ["#F4ECD8", "#F3E3A0", "#E6CF73", "#D9BC4E"],
+    rose: ["#F6EBE4", "#F6C7BD", "#EFA697", "#E08A7A"],
+  };
+  const robeCache = {};
+  function robe(wine) {
+    const c = ROBES[wine] || ROBES.rouge;
+    if (!robeCache[wine]) {
+      robeCache[wine] = "data:image/svg+xml;utf8," + encodeURIComponent(
+        "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'>"
+        + `<circle cx='50' cy='50' r='49' fill='${c[0]}'/><circle cx='50' cy='50' r='41' fill='${c[1]}'/>`
+        + `<circle cx='50' cy='50' r='32' fill='${c[2]}'/><circle cx='50' cy='50' r='23' fill='${c[3]}'/>`
+        + "<ellipse cx='36' cy='34' rx='10' ry='5.5' fill='#fff' opacity='.35'/></svg>");
+    }
+    return robeCache[wine];
   }
+  // Échelle des bulles : 1 sur ordinateur, un peu moins sur téléphone.
+  let SC = 1;
   // Dans une bulle : l'odeur d'abord (« poivre noir »), le nom de la molécule dessous, abrégé s'il est long.
   function bubbleLabel(n) {
     const name = n.data("label") || "";
@@ -158,91 +178,214 @@
     return odor && odor.toLowerCase() !== name.toLowerCase() ? `${odor}\n${name}` : name;
   }
   const wide = () => cy.width() >= 640;
-  const bouquetMode = () => state.start.startsWith("profile:") && wide();
-  const ringMode = () => state.start.startsWith("molecule:") && wide();
+  function bubble(n) {
+    if (n.data("root")) return 132 * SC;
+    if (n.data("sz")) return n.data("sz") * SC;   // taille imposée par la vue (soleil)
+    return (58 + 14 * (n.data("strength") || 1)) * SC;
+  }
+  // Une vue par point de départ : un vin en bouquet ; une molécule en couronne de vins ; un élément
+  // naturel en soleil (lui au centre, ses molécules, puis leurs vins). Sur téléphone, le bouquet se
+  // resserre et les deux autres deviennent une table : l'entité en haut, les vins en verres alignés.
   function layout() {
-    if (bouquetMode()) layoutBouquet();
-    else if (ringMode()) layoutRing();
+    SC = wide() ? 1 : 0.86;
+    if (state.start.startsWith("profile:")) layoutBouquet(!wide());
+    else if (state.start.startsWith("molecule:")) { if (wide()) layoutRing(); else layoutGrid(); }
+    else if (state.start.startsWith("source:")) { if (wide()) layoutSun(); else layoutGrid(); }
     else layoutColumns();
+    cy.style().update();
+  }
+  function prepare(height, classes) {
+    const canvas = cy.container().parentElement;
+    canvas.classList.add("is-bouquet");
+    const want = `${Math.round(height)}px`;
+    if (canvas.style.minHeight !== want) { canvas.style.minHeight = want; cy.resize(); }
+    cy.elements().removeClass("bq ring grid").addClass(`bq ${classes}`);
+    cy.nodes().removeClass("compact");
+  }
+  const byColour = { rouge: 0, rose: 1, blanc: 2 };
+  function strengthOf(w) {
+    return Math.max(0, ...w.connectedEdges("[kind='contains']").map((e) => e.data("strength") || 0));
+  }
+  function sortWines(list) {
+    return list.sort((a, b) => (byColour[a.data("wine")] ?? 3) - (byColour[b.data("wine")] ?? 3)
+      || strengthOf(b) - strengthOf(a) || (a.data("label") || "").localeCompare(b.data("label") || ""));
+  }
+  // Noms des vins en rayons autour d'un cercle, lisibles de gauche à droite.
+  function radialLabel(w, a) {
+    const rad = (d) => (d * Math.PI) / 180;
+    const ux = Math.sin(rad(a)), uy = -Math.cos(rad(a));
+    measureCtx.font = "500 12px Inter, system-ui, sans-serif";
+    const off = measureCtx.measureText(w.data("label") || "").width / 2 + 18;
+    let rot = Math.atan2(uy, ux);
+    if (ux < 0) rot += Math.PI;
+    w.data({ lx: ux * off, ly: uy * off, rot });
+    return { ux, uy };
+  }
+  // Étiquettes en rangées centrées (éléments naturels), retour à la ligne quand la largeur est pleine.
+  function rowsOf(nodes, top, W, gapY = 50) {
+    measureCtx.font = "400 12.5px Inter, system-ui, sans-serif";
+    const out = {};
+    let row = [], width = 0, y = top;
+    const flush = () => {
+      let x = W / 2 - width / 2;
+      row.forEach(({ n, w }) => { out[n.id()] = { x: x + w / 2, y }; x += w + 10; });
+      row = []; width = 0; y += gapY;
+    };
+    nodes.forEach((n) => {
+      const w = measureCtx.measureText(n.data("label") || "").width + 30;
+      if (row.length && width + w + 10 > W - 24) flush();
+      width += (row.length ? 10 : 0) + w;
+      row.push({ n, w });
+    });
+    if (row.length) flush();
+    return { positions: out, bottom: y - gapY };
   }
 
   // ── Couronne : une molécule au centre, ses vins en verres tout autour (par couleur), sa nature au-dessus ──
   const measureCtx = document.createElement("canvas").getContext("2d");
   function layoutRing() {
-    const canvas = cy.container().parentElement;
-    canvas.classList.add("is-bouquet");
-    const wines = cy.nodes("[type='profile']");
-    // Le cadre se règle sur la largeur : un cercle de rayon R, plus la place des noms et de la nature.
     const R0 = Math.max(170, Math.min(cy.width() / 2 - 150, 330));
     // Au-dessus : la nature (0,86 R) ; en dessous : le cercle et les noms qui en partent (≈ 190 px).
-    const want = `${Math.round(1.86 * R0 + 260)}px`;
-    if (canvas.style.minHeight !== want) { canvas.style.minHeight = want; cy.resize(); }
-    cy.elements().addClass("bq ring");
-    cy.nodes().removeClass("compact");
+    prepare(1.86 * R0 + 260, "ring");
     const W = cy.width(), H = cy.height();
     const rad = (d) => (d * Math.PI) / 180;
-    const cx = W / 2;
-    const positions = {};
-
-    // Les vins : rouges, rosés puis blancs, du lien le plus sûr au plus faible, sur l'arc du bas
-    // (de 62° à 298°, le haut est laissé à la nature). Les noms rayonnent vers l'extérieur.
-    const order = { rouge: 0, rose: 1, blanc: 2 };
-    const list = wines.toArray().sort((a, b) => (order[a.data("wine")] ?? 3) - (order[b.data("wine")] ?? 3)
-      || (b.connectedEdges()[0]?.data("strength") || 0) - (a.connectedEdges()[0]?.data("strength") || 0)
-      || (a.data("label") || "").localeCompare(b.data("label") || ""));
-    const R = R0;
+    const cx = W / 2, R = R0;
     const cyy = Math.max(0.86 * R + 50, H - R - 200);
+    const positions = {};
     cy.nodes("[type='molecule']").forEach((m) => { positions[m.id()] = { x: cx, y: cyy }; });
+    // Les vins sur l'arc du bas (de 62° à 298°) : le haut est laissé à la nature.
+    const list = sortWines(cy.nodes("[type='profile']").toArray());
     const n = list.length;
-    const from = 62, to = 298;
-    measureCtx.font = "500 12px Inter, system-ui, sans-serif";
     list.forEach((w, k) => {
-      const a = n > 1 ? from + ((to - from) * k) / (n - 1) : 180;
-      const ux = Math.sin(rad(a)), uy = -Math.cos(rad(a));
+      const a = n > 1 ? 62 + (236 * k) / (n - 1) : 180;
+      const { ux, uy } = radialLabel(w, a);
       positions[w.id()] = { x: cx + R * ux, y: cyy + R * uy };
-      const half = measureCtx.measureText(w.data("label") || "").width / 2;
-      const off = half + 18;
-      // Lecture de gauche à droite : à gauche du cercle, on retourne le texte.
-      let rot = Math.atan2(uy, ux);
-      if (ux < 0) rot += Math.PI;
-      w.data({ lx: ux * off, ly: uy * off, rot });
     });
-    // La nature : une couronne d'étiquettes dans l'éventail du haut.
+    // La nature : deux rangées en quinconce dans l'éventail du haut.
     const srcs = cy.nodes("[type='source']").toArray();
-    const ns = srcs.length;
-    // Deux rangées en quinconce au-dessus de la bulle, écartées pour que les étiquettes ne se touchent pas.
-    const rows = [[], []];
-    srcs.forEach((s, k) => rows[k % 2].push(s));
-    measureCtx.font = "400 12.5px Inter, system-ui, sans-serif";
-    rows.forEach((row, r) => {
-      const y = cyy - R * (r ? 0.62 : 0.86);
-      const widths = row.map((s) => measureCtx.measureText(s.data("label") || "").width + 30);
-      const total = widths.reduce((a, b) => a + b, 0) + 12 * Math.max(0, row.length - 1);
-      let x = cx - total / 2;
-      row.forEach((s, k) => { positions[s.id()] = { x: x + widths[k] / 2, y }; x += widths[k] + 12; });
+    const rows = [srcs.filter((_s, k) => k % 2 === 0), srcs.filter((_s, k) => k % 2 === 1)];
+    rows.forEach((row, r) => Object.assign(positions, rowsOf(row, cyy - R * (r ? 0.62 : 0.86), W).positions));
+    run(positions, false);
+  }
+
+  // ── Soleil : un élément naturel au centre, ses molécules autour, leurs vins en couronne ──
+  function layoutSun() {
+    const R0 = Math.max(170, Math.min(cy.width() / 2 - 175, 320));
+    prepare(2 * R0 + 400, "ring");
+    const W = cy.width(), H = cy.height();
+    const rad = (d) => (d * Math.PI) / 180;
+    const cx = W / 2, cyy = H / 2 + 10, R = R0;
+    const positions = {};
+    const source = cy.nodes("[type='source']");
+    const mols = cy.nodes("[type='molecule']").toArray();
+    // Chaque vin n'est relié qu'à sa molécule principale (lien le plus fort) ; les autres liens
+    // restent là, très pâles, et s'allument au survol : sinon, toile d'araignée.
+    const main = {};
+    cy.edges("[kind='contains']").removeClass("minor");
+    cy.nodes("[type='profile']").forEach((w) => {
+      const es = w.connectedEdges("[kind='contains']").sort((a, b) => (b.data("strength") || 0) - (a.data("strength") || 0));
+      main[w.id()] = es[0] ? es[0].target().id() : null;
+      es.slice(1).addClass("minor");
+    });
+    cy.nodes("[type='molecule']").removeData("sz");
+    if (mols.length === 1) {
+      mols[0].data("sz", 112);
+      // Une seule molécule (poivre noir → rotundone) : elle au centre, l'élément naturel au-dessus,
+      // les vins en arc dessous, comme la couronne d'une molécule.
+      positions[mols[0].id()] = { x: cx, y: cyy };
+      source.forEach((s) => { positions[s.id()] = { x: cx, y: cyy - R * 0.78 }; });
+      const list = sortWines(cy.nodes("[type='profile']").toArray());
+      const n = list.length;
+      list.forEach((w, k) => {
+        const a = n > 1 ? 62 + (236 * k) / (n - 1) : 180;
+        const { ux, uy } = radialLabel(w, a);
+        positions[w.id()] = { x: cx + R * ux, y: cyy + R * uy };
+      });
+      run(positions, false);
+      return;
+    }
+    source.forEach((s) => { positions[s.id()] = { x: cx, y: cyy }; });
+    // Un secteur par molécule, proportionné au nombre de vins dont elle est la molécule principale.
+    const groups = mols.map((m) => ({ m, wines: sortWines(cy.nodes("[type='profile']").filter((w) => main[w.id()] === m.id()).toArray()) }))
+      .sort((p, q) => q.wines.length - p.wines.length);
+    // Les molécules qui portent le plus de vins d'abord ; leur bulle grandit avec ce nombre.
+    groups.forEach((g) => g.m.data("sz", 64 + 6 * Math.min(g.wines.length, 6)));
+    const nw = groups.reduce((t, g) => t + g.wines.length, 0);
+    const r1 = Math.max(130, R * 0.52);
+    // Chaque secteur est assez large pour sa bulle, et pour ses vins espacés d'au moins 8°.
+    const need = (g) => Math.max((((g.m.data("sz") + 22) / r1) * 180) / Math.PI, g.wines.length * 8);
+    const sum = groups.reduce((t, g) => t + need(g), 0);
+    let a0 = 0;
+    groups.forEach((g) => {
+      const span = (need(g) * 360) / sum;
+      const mid = a0 + span / 2;
+      positions[g.m.id()] = { x: cx + r1 * Math.sin(rad(mid)), y: cyy - r1 * Math.cos(rad(mid)) };
+      const k = g.wines.length;
+      g.wines.forEach((w, i) => {
+        const a = a0 + (span * (i + 0.5)) / k;
+        const { ux, uy } = radialLabel(w, a);
+        positions[w.id()] = { x: cx + R * ux, y: cyy + R * uy };
+      });
+      a0 += span;
     });
     run(positions, false);
   }
 
+  // ── Table (téléphone) : l'entité en haut, ses molécules s'il y a lieu, puis les vins alignés ──
+  function layoutGrid() {
+    const W = cy.width();
+    const root = cy.nodes("[?root]");
+    const mols = root.data("type") === "source" ? cy.nodes("[type='molecule']").toArray() : [];
+    const wines = sortWines(cy.nodes("[type='profile']").toArray());
+    const perRow = 4, molRows = Math.ceil(mols.length / perRow);
+    const cols = 3, cellW = (W - 16) / cols, cellH = 78;
+    const wineTop = 170 + (molRows ? molRows * 92 + 10 : 0);
+    const others = root.data("type") === "molecule" ? cy.nodes("[type='source']").toArray() : [];
+    const srcRows = others.length ? rowsOf(others, 0, W, 50) : null;
+    const srcH = srcRows ? srcRows.bottom + 50 : 0;
+    prepare(wineTop + srcH + Math.ceil(wines.length / cols) * cellH + 30, "grid");
+    const positions = {};
+    positions[root.id()] = { x: W / 2, y: 86 };
+    mols.forEach((m, k) => {
+      const row = Math.floor(k / perRow), inRow = Math.min(perRow, mols.length - row * perRow);
+      positions[m.id()] = { x: W / 2 + ((k % perRow) - (inRow - 1) / 2) * (W / perRow), y: 210 + row * 92 };
+    });
+    wines.forEach((w, k) => {
+      const row = Math.floor(k / cols), col = k % cols;
+      w.data({ tw: cellW - 10 });
+      positions[w.id()] = { x: 8 + cellW * (col + 0.5), y: wineTop + row * cellH };
+    });
+    // Molécule au centre : sa nature en rangées sous les vins (elle se lit aussi dans la fiche).
+    if (srcRows) {
+      const y0 = wineTop + Math.ceil(wines.length / cols) * cellH + 10;
+      Object.entries(srcRows.positions).forEach(([id, p]) => { positions[id] = { x: p.x, y: p.y + y0 }; });
+    }
+    run(positions, false);
+  }
+
   // ── Bouquet : le vin en bas, ses molécules en éventail au-dessus, la nature en couronne ──
-  function layoutBouquet() {
-    const canvas = cy.container().parentElement;
-    canvas.classList.add("is-bouquet");
-    if (canvas.style.minHeight !== "820px") { canvas.style.minHeight = "820px"; cy.resize(); }
-    cy.elements().addClass("bq").removeClass("ring");
-    cy.nodes().removeClass("compact");
+  function layoutBouquet(compact = false) {
+    prepare(compact ? 760 : 820, "");
     const W = cy.width(), H = cy.height();
     const rad = (d) => (d * Math.PI) / 180;
-    const ox = W / 2, oy = H - 230;           // foyer de l'éventail, au-dessus du verre
+    const ox = W / 2, oy = H - (compact ? 190 : 230);   // foyer de l'éventail, au-dessus du vin
     const positions = {};
-    cy.nodes("[type='profile']").forEach((n) => { positions[n.id()] = { x: ox, y: H - 150 }; });
+    cy.nodes("[type='profile']").forEach((n) => { positions[n.id()] = { x: ox, y: H - (compact ? 110 : 150) }; });
+    // Téléphone : la nature en rangées tout en haut, l'éventail des molécules dessous.
+    let topLimit = 70;
+    if (compact) {
+      const srcRows = rowsOf(cy.nodes("[type='source']").toArray(), 30, W, 50);
+      Object.assign(positions, srcRows.positions);
+      topLimit = srcRows.bottom + 40;
+    }
     // Molécules : les plus sûres au centre, en quinconce sur deux ou trois anneaux.
     const mols = cy.nodes("[type='molecule']").sort((a, b) => (b.data("strength") || 0) - (a.data("strength") || 0)
       || (a.data("universal") ? 1 : 0) - (b.data("universal") ? 1 : 0));
     const n = mols.length;
     const slots = [...Array(n).keys()].sort((a, b) => Math.abs(a - (n - 1) / 2) - Math.abs(b - (n - 1) / 2));
     const rings = n > 9 ? [1, 0.78, 0.56] : [1, 0.7];
-    const rx = Math.min(W * 0.4, 360), ry = Math.min((oy - 60) * 0.68, 390);
+    const rx = compact ? W * 0.34 : Math.min(W * 0.4, 360);
+    const ry = compact ? Math.max(120, (oy - topLimit) * 0.8) : Math.min((oy - 60) * 0.68, 390);
     const spanM = Math.min(140, 40 + n * 14);
     const angle = {};
     mols.forEach((m, k) => {
@@ -253,7 +396,7 @@
       positions[m.id()] = { x: ox + rx * ring * Math.sin(rad(a)), y: oy - ry * ring * Math.cos(rad(a)) };
     });
     // Les bulles ne se touchent pas : on les écarte deux à deux (au-dessus du verre, dans le cadre).
-    const size = (m) => (58 + 14 * (m.data("strength") || 1)) / 2;
+    const size = (m) => bubble(m) / 2;
     const ms = mols.toArray();
     for (let it = 0; it < 60; it++) {
       let moved = false;
@@ -271,10 +414,11 @@
       ms.forEach((m) => {
         const p = positions[m.id()], r = size(m);
         p.x = Math.min(W - r - 10, Math.max(r + 10, p.x));
-        p.y = Math.min(oy - r + 10, Math.max(r + 70, p.y));
+        p.y = Math.min(oy - r + 10, Math.max(r + topLimit, p.y));
       });
       if (!moved) break;
     }
+    if (compact) { run(positions, false); return; }
     // Éléments naturels : une couronne au-dessus, dans l'ordre des molécules qu'ils prolongent.
     const srcs = cy.nodes("[type='source']").toArray().map((s) => {
       const as = s.incomers("node").map((m) => angle[m.id()]).filter((v) => v !== undefined);
@@ -283,7 +427,7 @@
     const ns = srcs.length;
     const sx = Math.min(W / 2 - 70, rx * 1.5), sy = oy - 34;
     const spanS = Math.min(170, 60 + ns * 9);
-    const bubbles = mols.map((m) => ({ ...positions[m.id()], r: (58 + 14 * (m.data("strength") || 1)) / 2 + 8 }));
+    const bubbles = mols.map((m) => ({ ...positions[m.id()], r: bubble(m) / 2 + 8 }));
     const placed = [];
     srcs.forEach(({ s }, k) => {
       const a = ns > 1 ? -spanS / 2 + (spanS * k) / (ns - 1) : 0;
@@ -302,6 +446,7 @@
     run(positions, false);
   }
 
+
   // ── Disposition en colonnes ─────────────────────────────────────────────
   // Les colonnes occupent la largeur du cadre ; l'espacement vertical s'adapte au nombre de
   // nœuds pour garder des libellés lisibles (zoom 1) tant que tout tient à l'écran.
@@ -312,7 +457,7 @@
     // au zoom 1. Téléphone : hauteur fixe, comme avant.
     const canvas = cy.container().parentElement;
     canvas.classList.remove("is-bouquet");
-    cy.elements().removeClass("bq ring");
+    cy.elements().removeClass("bq ring grid");
     if (W >= 640) {
       const counts = [0, 0, 0];
       cy.nodes().forEach((n) => counts[n.data("layer")]++);
@@ -404,7 +549,7 @@
     stats.textContent = _("Chargement…");
     let data;
     try {
-      const more = kind === "molecule" && wide() ? "&vins=32" : "";
+      const more = kind === "molecule" || kind === "source" ? "&vins=32" : "";
       data = await Combo.getJSON(`${API}?kind=${kind}&slug=${encodeURIComponent(slug)}${query()}${more}`);
     } catch (err) {
       stats.textContent = _("Impossible de charger ce graphe.");

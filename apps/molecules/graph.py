@@ -266,8 +266,8 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
             return (-best[p][0], -specific, -len(per_profile[p]), d.profiles[p]["label"])
 
         ranked = sorted(best, key=rank)
-        truncated = max(0, len(ranked) - MAX_PROFILES)
-        for pslug in ranked[:MAX_PROFILES]:
+        truncated = max(0, len(ranked) - max_profiles)
+        for pslug in ranked[:max_profiles]:
             pid = f"profile:{pslug}"
             nodes[pid] = _node("profile", d.profiles[pslug], 0)
             for mslug, strength, basis, tier in per_profile[pslug]:
