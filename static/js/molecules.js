@@ -123,7 +123,7 @@
       // Vue d'un vin : les éléments naturels qui portent un arôme du vin sont proches et nets ; les autres
       // (la fraise du furanéol dans un tawny) restent plus haut, pâles, et s'éclairent avec leur molécule.
       { selector: "node.bq.bouquet[type='source'][?near]", style: { "border-width": 2, "color": C.ink, "font-weight": 500 }},
-      { selector: "node.bq.bouquet[type='source'][!near]", style: { "opacity": 0.5, "font-size": 11.5, "border-style": "dashed" }},
+      { selector: "node.bq.bouquet[type='source'][!near]", style: { "opacity": 0.5, "font-size": 11.5 }},
       { selector: "node.bq.bouquet.hl[type='source']", style: { "opacity": 1 }},
       { selector: "edge.bq[kind='contains']", style: { "curve-style": "unbundled-bezier",
         "control-point-distances": (e) => [-(e.target().position("x") - e.source().position("x")) * 0.32],
@@ -153,7 +153,7 @@
       { selector: "edge.bq.grid", style: { "curve-style": "straight", "opacity": 0 }},
       { selector: "edge.bq.ring[kind='contains']", style: { "curve-style": "straight", "opacity": 0.45,
         "width": "mapData(strength, 1, 3, 1.2, 4)" }},
-      { selector: "edge.bq.bouquet[kind='found_in'][!near]", style: { "opacity": 0.1, "line-style": "dashed" }},
+      { selector: "edge.bq.bouquet[kind='found_in'][!near]", style: { "opacity": 0.1 }},
       { selector: "edge.bq.minor", style: { "opacity": 0.05 }},
       { selector: "edge.bq.hl", style: { "opacity": 0.9 }},
       { selector: "node.bq:selected", style: { "border-color": C.garnet, "border-opacity": 1, "border-width": 4 }},
