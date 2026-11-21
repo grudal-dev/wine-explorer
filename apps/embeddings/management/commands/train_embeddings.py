@@ -66,6 +66,15 @@ EVAL_KINDS = ("aroma", "grape", "molecule")
 MOLECULAR_MODES = ("none", "afp-add", "afp-only")
 PERPLEXITY = 5  # carte des goûts : petits groupes séparés (15 avant le 20/11 : deux gros blocs)
 MOLECULAR = "none"
+# Niveau d'un vin (prix, garde) : sans lui, Margaux ressemblait plus à un Bordeaux Supérieur qu'à un Pauillac.
+#   none  : le modèle ignore le niveau ;
+#   aux   : il doit retrouver le prix et la garde à partir du vecteur (objectif auxiliaire, comme la bouche) ;
+#   nodes : chaque vin est relié à une gamme de prix et à une durée de garde (nœuds « level », jamais écrits) ;
+#   both  : les deux.
+LEVEL_MODES = ("none", "aux", "nodes", "both")
+LEVEL = "nodes"   # choix du 21/11/2026 après probe_level (27/33 cas « niveau », 24/24 garde-fous)
+PRICE_TIERS = (12, 25, 50, 100)   # € : prix médian de la fiche
+AGING_TIERS = (3, 7, 15)          # ans : garde médiane
 
 
 def edge_weight(edge) -> float:
@@ -94,12 +103,14 @@ class Command(BaseCommand):
         parser.add_argument("--cold", action="store_true",
                             help="Évaluation « molécule nouvelle » : tous les liens vin → molécule de 20 %% des "
                                  "molécules sont masqués ; n'écrit rien.")
+        parser.add_argument("--level", choices=LEVEL_MODES, default=LEVEL,
+                            help="Prise en compte du niveau du vin (prix, garde) : voir LEVEL_MODES.")
         parser.add_argument("--molecular", choices=MOLECULAR_MODES, default=MOLECULAR,
                             help="Vecteur de départ des molécules : appris seul (none), ou calculé par Attentive FP "
                                  "sur leur graphe atomique, ajouté (afp-add) ou à la place (afp-only).")
 
     def handle(self, *args, evaluate, epochs, seed, folds, molecular=MOLECULAR, cold=False, reproject=False,
-               perplexity=PERPLEXITY, **options):
+               perplexity=PERPLEXITY, level=LEVEL, **options):
         try:
             import numpy as np
             import torch
@@ -129,7 +140,10 @@ class Command(BaseCommand):
                  for e in graph.edges if not (e.kind == "molecule" and e.tier == "universal")]
         if len(edges) < 100:
             raise CommandError("Graphe vide : lancez d'abord `python manage.py load_seed`.")
+        if level in ("nodes", "both"):
+            self._add_level_nodes(ids, index, types, edges)
         aux = self._profile_targets(ids, index)
+        aux["level_on"] = level in ("aux", "both")
         mol = self._molecular_graphs(torch, ids) if molecular != "none" else None
         if mol is not None:
             mol["mode"] = molecular
@@ -174,14 +188,16 @@ class Command(BaseCommand):
 
         # 2. Modèle final sur tout le graphe, projection 2D, écriture
         z, _decoder = self._train(torch, ids, types, edges, aux, epochs, seed, mol)
-        vectors = z.numpy()
+        keep = [i for i, t in enumerate(types) if t != "level"]  # les gammes ne servent qu'à l'entraînement
+        ids, types = [ids[i] for i in keep], [types[i] for i in keep]
+        vectors = z.numpy()[keep]
         xy = self._project(np, vectors, types, seed, perplexity)
         payload = {
             "meta": {
                 "trained": date.today().isoformat(),
                 "model": "R-GCN 2 couches + DistMult" + ("" if mol is None else f" + Attentive FP ({molecular})"),
                 "dim": DIM_OUT, "nodes": len(ids), "edges": len(edges), "epochs": epochs, "seed": seed,
-                "auc_held_out": round(auc, 3), "perplexity": perplexity,
+                "auc_held_out": round(auc, 3), "perplexity": perplexity, "level": level,
                 "nose_mrr": {k: (round(v, 3) if isinstance(v, float) else v) for k, v in mrr.items()},
             },
             "ids": ids,
@@ -271,7 +287,9 @@ class Command(BaseCommand):
         """Couleur, style et structure en bouche de chaque profil (objectif auxiliaire)."""
         from apps.catalog.models import Color, Style, WineProfile
 
-        rows, structure, colors, styles = [], [], [], []
+        import math
+
+        rows, structure, colors, styles, levels = [], [], [], [], []
         for p in WineProfile.objects.all():
             node = f"profile:{p.slug}"
             if node not in index:
@@ -280,8 +298,32 @@ class Command(BaseCommand):
             structure.append([p.body / 5, p.acidity / 5, p.tannin / 5, p.sweetness / 5])
             colors.append(Color.values.index(p.color))
             styles.append(Style.values.index(p.style))
-        return {"rows": rows, "structure": structure, "colors": colors, "styles": styles,
+            price, aging = _medians(p)
+            levels.append([min(1.0, math.log1p(price) / math.log1p(300)), min(1.0, aging / 30)])
+        return {"rows": rows, "structure": structure, "colors": colors, "styles": styles, "levels": levels,
                 "n_colors": len(Color.values), "n_styles": len(Style.values)}
+
+    @staticmethod
+    def _add_level_nodes(ids, index, types, edges) -> None:
+        """Relie chaque vin à sa gamme de prix et à sa durée de garde (nœuds ajoutés en place)."""
+        from bisect import bisect_right
+
+        from apps.catalog.models import WineProfile
+
+        def node(name):
+            if name not in index:
+                index[name] = len(ids)
+                ids.append(name)
+                types.append("level")
+            return index[name]
+
+        for p in WineProfile.objects.all():
+            src = index.get(f"profile:{p.slug}")
+            if src is None:
+                continue
+            price, aging = _medians(p)
+            edges.append((src, node(f"level:prix-{bisect_right(PRICE_TIERS, price)}"), "level_price", 1.0))
+            edges.append((src, node(f"level:garde-{bisect_right(AGING_TIERS, aging)}"), "level_aging", 1.0))
 
     @staticmethod
     def _train(torch, ids, types, edges, aux, epochs, seed, mol=None):
@@ -362,6 +404,7 @@ class Command(BaseCommand):
             "structure": nn.Linear(DIM_OUT, 4),
             "color": nn.Linear(DIM_OUT, aux["n_colors"]),
             "style": nn.Linear(DIM_OUT, aux["n_styles"]),
+            "level": nn.Linear(DIM_OUT, 2),
         })
         params = [*encoder.parameters(), *decoder.parameters(), *heads.parameters()]
         optimizer = torch.optim.Adam(params, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
@@ -379,6 +422,8 @@ class Command(BaseCommand):
         aux_structure = torch.tensor(aux["structure"])
         aux_colors = torch.tensor(aux["colors"])
         aux_styles = torch.tensor(aux["styles"])
+        aux_levels = torch.tensor(aux["levels"])
+        level_on = aux.get("level_on", False)
 
         for _epoch in range(epochs):
             encoder.train()
@@ -397,6 +442,7 @@ class Command(BaseCommand):
                 F.mse_loss(torch.sigmoid(heads["structure"](zp)), aux_structure) * 4
                 + F.cross_entropy(heads["color"](zp), aux_colors)
                 + F.cross_entropy(heads["style"](zp), aux_styles)
+                + (F.mse_loss(torch.sigmoid(heads["level"](zp)), aux_levels) * 4 if level_on else 0)
             )
             loss.backward()
             optimizer.step()
@@ -505,3 +551,10 @@ class Command(BaseCommand):
             weights = np.exp(8 * (sims[top] - sims[top].max()))
             xy[i] = (weights[:, None] * xy_w[top]).sum(axis=0) / weights.sum() + rng.normal(0, 0.012, 2)
         return np.clip(xy, -1, 1)
+
+
+def _medians(p) -> tuple[float, float]:
+    """Prix médian (€) et garde médiane (ans) d'une fiche ; valeurs moyennes si non renseignés."""
+    price = ((p.price_min or 15) + (p.price_max or p.price_min or 15)) / 2
+    aging = ((p.aging_min or 0) + (p.aging_max or p.aging_min or 4)) / 2
+    return price, aging
