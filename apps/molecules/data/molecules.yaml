@@ -545,7 +545,7 @@
   smiles: CC1OC(=O)C(O)=C1C
   odor: noix, curry, fenugrec, sirop d'érable
   threshold: 7 µg/L environ
-  refs: [pham1995, robinson2006]
+  refs: [pham1995, robinson2006, silvaferreira2003]
   aromas: [curry, noix]
   description: >
     La molécule du vin jaune : 120 à 268 µg/L se forment pendant six ans sous voile, à partir
@@ -554,7 +554,10 @@
     prématurée.
   wine:
     - {styles: [oxydatif], strength: 3, ref: pham1995}
-    - {styles: [liquoreux, mute], strength: 1, ref: robinson2006}
+    # Porto : 5 µg/L à un an, jusqu'à 958 µg/L à soixante ans, seuil 19 µg/L (silvaferreira2003) :
+    # un ruby, un LBV ou un vintage restent sous le seuil ; seuls les vins à long élevage oxydatif en ont.
+    - {oxidative: true, strength: 3, ref: silvaferreira2003}
+    - {styles: [liquoreux], strength: 1, ref: robinson2006}
   nature:
     - {source: fenugrec, ref: robinson2006, note: "Composant majeur de l'épice."}
     - {source: livèche, ref: blank1993, note: "Odorant clé de l'extrait de livèche."}
@@ -791,7 +794,9 @@
     pruneau. Elle dépasse toujours son seuil dans les vins oxydés et se forme davantage avec des
     raisins vendangés tard.
   wine:
-    - {styles: [mute], strength: 1, ref: pons2013}
+    # Plus abondante dans les rouges oxydés (pons2013) : suit l'élevage oxydatif, pas le mutage
+    # (un ruby ou un muscat muté jeune n'en ont pas de raison particulière).
+    - {oxidative: true, strength: 1, ref: pons2013}
 
 - name: lactone massoia
   name_en: massoia lactone

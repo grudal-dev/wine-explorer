@@ -33,6 +33,17 @@ class OxidativeAgeingTests(TestCase):
             profile__slug="sancerre-blanc", molecule__slug="3-sulfanylhexanol").exists())
 
 
+    def test_sotolon_follows_oxidative_ageing_not_fortification(self):
+        # Un ruby, un LBV, un vintage ou un muscat muté n'ont pas de sotolon ; le tawny, oui, en force 3.
+        for slug in ["porto-ruby", "porto-late-bottled-vintage", "porto-vintage", "muscat-de-rivesaltes-blanc"]:
+            self.assertFalse(ProfileMolecule.objects.filter(profile__slug=slug, molecule__slug="sotolon").exists(), slug)
+        self.assertFalse(ProfileMolecule.objects.filter(profile__slug="porto-ruby", molecule__slug="mnd").exists())
+        self.assertFalse(ProfileMolecule.objects.filter(profile__slug="muscat-de-rivesaltes-blanc", molecule__slug="mnd").exists())
+        tawny = ProfileMolecule.objects.get(profile__slug="porto-tawny-10-ans", molecule__slug="sotolon")
+        self.assertEqual(tawny.strength, 3)
+        self.assertIn("silvaferreira2003", {r["ref"] for r in tawny.reasons})
+
+
 class BouquetNotesTests(TestCase):
     """Vue d'un vin : la bulle porte l'arôme du vin qui justifie le lien ; les éléments naturels
     sans arôme commun avec le vin sont marqués « lointains » et limités."""

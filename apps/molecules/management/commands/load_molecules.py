@@ -40,7 +40,7 @@ MOLECULE_KEYS = {
     "aromas", "aroma_ref", "aroma_max", "universal", "description", "wine", "nature",
     "families", "family_ref", "fades",
 }
-RULE_KEYS = {"grapes", "styles", "colors", "all", "strength", "ref", "min_share"}
+RULE_KEYS = {"grapes", "styles", "colors", "oxidative", "all", "strength", "ref", "min_share"}
 
 
 class Command(BaseCommand):
@@ -170,6 +170,8 @@ class Command(BaseCommand):
                 r = {"strength": strength, "ref": rule["ref"], "min_share": rule.get("min_share", MIN_SHARE)}
                 if rule.get("all"):
                     r["all"] = True
+                if rule.get("oxidative"):
+                    r["oxidative"] = True
                 if "grapes" in rule:
                     r["grapes"] = []
                     for label in rule["grapes"]:
@@ -345,6 +347,9 @@ class Command(BaseCommand):
                             share, gname = shares[gid]
                             reasons.append({"basis": Basis.GRAPE, "strength": r["strength"],
                                             "label": f"{gname} ({share} % de l'encépagement)", "ref": r["ref"]})
+                    if r.get("oxidative") and p.oxidative:
+                        reasons.append({"basis": Basis.STYLE, "strength": r["strength"],
+                                        "label": gettext_noop("Long élevage oxydatif"), "ref": r["ref"]})
                     if p.style in r.get("styles", []):
                         reasons.append({"basis": Basis.STYLE, "strength": r["strength"],
                                         "label": f"Style {p.get_style_display().lower()}", "ref": r["ref"]})
