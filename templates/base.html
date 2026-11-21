@@ -39,7 +39,6 @@
         </div>
       </div>
       {% endif %}
-      {% if 'nose' in sections %}<a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>{% translate "Trouve mon vin" %}</a>{% endif %}
       {% if 'comparer' in sections or 'carte' in sections or 'molecules' in sections or 'graphe' in sections %}
       <div class="nav-group" data-nav-group>
         <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-explore"
@@ -52,6 +51,7 @@
         </div>
       </div>
       {% endif %}
+      {% if 'nose' in sections %}<a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>{% translate "Trouve mon vin" %}</a>{% endif %}
       {% if 'catalogue' in sections %}<a href="{% url 'catalog:index' %}" {% if p|slice:":10" == "/catalogue" %}aria-current="page"{% endif %}>{% translate "Catalogue" %}</a>{% endif %}
       {% endwith %}
     </nav>
