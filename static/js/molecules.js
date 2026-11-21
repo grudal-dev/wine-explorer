@@ -184,12 +184,23 @@
   // Une vue par point de départ : un vin en bouquet ; une molécule en couronne de vins ; un élément
   // naturel en soleil (lui au centre, ses molécules, puis leurs vins). Sur téléphone, le bouquet se
   // resserre et les deux autres deviennent une table : l'entité en haut, les vins en verres alignés.
+  // Cytoscape bloque le défilement du navigateur à chaque glissé ; en vue fixe, on ne lui transmet pas les
+  // mouvements du doigt (le toucher sur un nœud, lui, passe).
+  let stillView = false;
+  cy.container().parentElement.addEventListener("touchmove", (ev) => { if (stillView) ev.stopPropagation(); }, true);
   function layout() {
     SC = wide() ? 1 : 0.86;
     if (state.start.startsWith("profile:")) layoutBouquet(!wide());
     else if (state.start.startsWith("molecule:")) { if (wide()) layoutRing(); else layoutGrid(); }
     else if (state.start.startsWith("source:")) { if (wide()) layoutSun(); else layoutGrid(); }
     else layoutColumns();
+    // Téléphone : le bouquet, la table et leurs verres tiennent dans le cadre. On rend le doigt à la
+    // page : glisser fait défiler, sans déplacer ni zoomer le dessin (toucher un nœud marche toujours).
+    const still = !wide() && cy.container().parentElement.classList.contains("is-bouquet");
+    cy.userPanningEnabled(!still);
+    cy.userZoomingEnabled(!still);
+    cy.container().style.touchAction = still ? "pan-y" : "";
+    stillView = still;
     cy.style().update();
   }
   function prepare(height, classes) {
