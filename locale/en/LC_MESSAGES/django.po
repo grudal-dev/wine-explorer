@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-21 10:49+0100\n"
+"POT-Creation-Date: 2026-11-21 14:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -1240,6 +1240,9 @@ msgstr "Layout"
 msgid "Dominant"
 msgstr "Dominant"
 
+msgid "Douro"
+msgstr "Douro"
+
 #, python-format
 msgid "Du %(start)s au %(end)s · %(n)se édition"
 msgstr "%(start)s to %(end)s · edition no. %(n)s"
@@ -1264,6 +1267,9 @@ msgid ""
 msgstr ""
 "From glass to nature: the molecules that make up a wine's nose, and the plants, fruits or spices where they"
 " are also found. Every link is sourced."
+
+msgid "Dão / Douro"
+msgstr "Dão / Douro"
 
 #, python-format
 msgid "Début octobre · %(n)se édition"
@@ -1400,11 +1406,21 @@ msgstr ""
 "Between power and finesse, a harmonious, consistent red with clean black fruit and well-integrated cedary "
 "oak."
 
+msgid ""
+"Entre une molécule et un élément naturel, il suit le niveau de preuve : épais si une publication le source,"
+" fin si le lien vient de Wikidata."
+msgstr ""
+"Between a molecule and a natural source, it follows the level of evidence: thick if a publication backs it,"
+" thin if the link comes from Wikidata."
+
 msgid "Entre-deux-Mers"
 msgstr "Entre-deux-Mers"
 
 msgid "Environnement de la vigne"
 msgstr "Vineyard environment"
+
+msgid "Espagne (Rioja) / Douro"
+msgstr "Spain (Rioja) / Douro"
 
 msgid "Espagne / Languedoc"
 msgstr "Spain / Languedoc"
@@ -1603,6 +1619,9 @@ msgstr "Gaillac"
 
 msgid "Gaillac / Limoux"
 msgstr "Gaillac / Limoux"
+
+msgid "Galice / Douro"
+msgstr "Galicia / Douro"
 
 msgid "Gallura"
 msgstr "Gallura"
@@ -1888,9 +1907,6 @@ msgstr ""
 msgid "L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible."
 msgstr "Line thickness follows the strength of the link: established marker, likely or plausible."
 
-msgid "Entre une molécule et un élément naturel, il suit le niveau de preuve : épais si une publication le source, fin si le lien vient de Wikidata."
-msgstr "Between a molecule and a natural source, it follows the level of evidence: thick if a publication backs it, thin if the link comes from Wikidata."
-
 msgid "L'étiquette à reconstituer"
 msgstr "The label to piece together"
 
@@ -1983,6 +1999,14 @@ msgstr "Italy's largest producing region, from Amarone to prosecco bubbles."
 
 msgid "La plus grande île de la Méditerranée, entre soleil et pentes volcaniques."
 msgstr "The largest island in the Mediterranean, between sun and volcanic slopes."
+
+msgid ""
+"La plus récente des déclinaisons (2008) : des cépages rouges pressés après une courte macération, puis "
+"mutés à l'eau-de-vie. Fraise et framboise, une rondeur sucrée et une fraîcheur de fruits rouges ; fait pour"
+" les cocktails glacés."
+msgstr ""
+"The newest member of the family (2008): red grapes pressed after a short maceration, then fortified with "
+"grape spirit. Strawberry and raspberry, a sweet roundness and red-fruit freshness; made for iced cocktails."
 
 msgid "La robe et le style sont déjà visibles sur la fiche : cet essai n'est pas compté."
 msgstr "The colour and style are already shown on the sheet: this attempt is not counted."
@@ -2241,6 +2265,15 @@ msgstr ""
 "elegance that hides a real ability to age."
 
 msgid ""
+"Le plus jeune et le plus fruité des vins de sa famille : deux à trois ans en cuve ou en grand foudre, qui "
+"gardent la robe rubis et le fruit. Un rouge muté à l'eau-de-vie de raisin, sucré et puissant, sans la "
+"complexité d'un long élevage."
+msgstr ""
+"The youngest and fruitiest of its family: two to three years in tank or large vat, which keep the ruby "
+"colour and the fruit. A red fortified with grape spirit, sweet and powerful, without the complexity of long"
+" ageing."
+
+msgid ""
 "Le plus septentrional des grands rouges languedociens, frais grâce aux nuits fraîches sous la montagne, au "
 "fruit noir et à la garrigue."
 msgstr ""
@@ -2299,6 +2332,15 @@ msgstr "The most structured red of the Côte de Beaune, on iron-rich clay, firm 
 msgid "Le royaume du gamay sur granite, des primeurs gouleyants aux crus de garde."
 msgstr "The kingdom of Gamay on granite, from easy-drinking nouveau wines to age-worthy crus."
 
+msgid ""
+"Le sommet de la gamme : une année exceptionnelle, déclarée par chaque maison seulement quelques fois par "
+"décennie, deux ans en fût puis de longues décennies en bouteille. Encre noire, violette, tanins massifs ; "
+"avec l'âge le dépôt oblige à carafer, et les fruits cèdent la place au cuir et aux épices."
+msgstr ""
+"The top of the range: an exceptional year, declared by each house only a few times a decade, two years in "
+"cask then long decades in bottle. Black ink, violet, massive tannins; with age the sediment calls for "
+"decanting, and the fruit gives way to leather and spice."
+
 msgid "Le sotolon"
 msgstr "Sotolon"
 
@@ -2336,6 +2378,15 @@ msgstr ""
 msgid "Le vin"
 msgstr "The wine"
 
+msgid ""
+"Le vin d'une seule année, élevé quatre à six ans en fût avant la mise : l'esprit d'un millésime déclaré, "
+"mais prêt plus tôt et à prix plus doux. Fruits noirs, chocolat et épices, des tanins encore fermes ; la "
+"version non filtrée se garde bien davantage."
+msgstr ""
+"The wine of a single year, aged four to six years in cask before bottling: the spirit of a declared "
+"vintage, but ready sooner and at a gentler price. Black fruit, chocolate and spice, tannins still firm; the"
+" unfiltered version keeps much longer."
+
 #, python-format
 msgid "Le vin du jour est un %(color)s. Au nez : %(aromas)s…"
 msgstr "Today's wine is a %(color)s. On the nose: %(aromas)s…"
@@ -2343,6 +2394,15 @@ msgstr "Today's wine is a %(color)s. On the nose: %(aromas)s…"
 #, python-format
 msgid "Le vin est à environ %(km)s km %(direction)s."
 msgstr "The wine is about %(km)s km %(direction)s."
+
+msgid ""
+"Le vin muté des cépages blancs, vinifié comme un rouge puis arrêté à l'eau-de-vie, du plus sec au plus "
+"doux. Pêche, fleurs blanches, amande et un peu d'orange. On le boit glacé, à l'apéritif, seul ou allongé de"
+" tonic."
+msgstr ""
+"The fortified wine of white grapes, made like a red then stopped with spirit, from driest to sweetest. "
+"Peach, white flowers, almond and a little orange. Drunk ice-cold as an aperitif, neat or lengthened with "
+"tonic."
 
 msgid "Le vino novello est arrivé"
 msgstr "Vino novello is here"
@@ -2578,6 +2638,9 @@ msgstr "Best score today: %(points)s points (%(user)s)"
 
 msgid "Mille kilomètres de fleuve et de styles, du muscadet océanique aux sauvignons du Centre."
 msgstr "A thousand kilometres of river and styles, from oceanic Muscadet to the Sauvignons of the Centre."
+
+msgid "Minho / Douro"
+msgstr "Minho / Douro"
 
 msgid "Minéral"
 msgstr "Mineral"
@@ -3766,6 +3829,15 @@ msgstr ""
 "A more rustic, earthy red from the north of the Médoc, on clay soils, tannic in its youth, gaining depth "
 "over the years."
 
+msgid ""
+"Un tawny d'une seule récolte (colheita), au moins sept ans en fût et souvent bien davantage, avec l'année "
+"de vendange sur l'étiquette. Plus rare et plus singulier qu'un tawny d'âge : même noix, même café, même "
+"écorce d'orange, mais d'une précision de millésime."
+msgstr ""
+"A tawny from a single harvest (colheita), at least seven years in cask and often much more, with the "
+"harvest year on the label. Rarer and more singular than an aged tawny: the same walnut, coffee and orange "
+"peel, with the precision of a vintage."
+
 msgid "Un vin au hasard"
 msgstr "A random wine"
 
@@ -3840,6 +3912,13 @@ msgstr "Vallée de la Marne"
 msgid "Vallée du Rhône"
 msgstr "Rhône Valley"
 
+msgid ""
+"Vallée encaissée du nord du Portugal, aux étés brûlants et aux hivers froids, dont les terrasses de schiste"
+" dévalent jusqu'au fleuve et sont classées à l'Unesco."
+msgstr ""
+"A deep valley in northern Portugal, with scorching summers and cold winters, whose schist terraces run down"
+" to the river and are listed by UNESCO."
+
 msgid "Valpolicella"
 msgstr "Valpolicella"
 
@@ -3849,11 +3928,29 @@ msgstr "Valpolicella \"re-passed\" over amarone pomace, richer and deeper than p
 msgid "Victoires"
 msgstr "Wins"
 
+msgid ""
+"Vieilli en petits fûts de chêne qui l'oxydent lentement : la robe vire à l'ambre tuilé et les fruits rouges"
+" cèdent la place aux fruits secs. L'âge porté sur l'étiquette (10, 20, 30 ou 40 ans) est une moyenne "
+"d'assemblage, pas un millésime. Noix, caramel, orange confite."
+msgstr ""
+"Aged in small oak casks that oxidise it slowly: the colour turns tawny amber and the red fruit gives way to"
+" dried fruit. The age on the label (10, 20, 30 or 40 years) is a blend average, not a vintage. Walnut, "
+"caramel, candied orange."
+
 msgid "Vieillissement et oxydation"
 msgstr "Ageing and oxidation"
 
 msgid "Vignoble confidentiel, berceau du vin jaune et des vins sous voile."
 msgstr "A tiny vineyard, the cradle of vin jaune and wines aged under flor."
+
+msgid ""
+"Vignoble de schistes en terrasses, délimité dès 1756, où l'on arrête la fermentation du moût en ajoutant de"
+" l'eau-de-vie de raisin : le sucre reste, l'alcool monte vers 20 %. Des fruits noirs de la jeunesse aux "
+"fruits secs d'un long élevage en fût, la gamme est la plus étendue de tous les vins mutés."
+msgstr ""
+"Terraced schist vineyards, demarcated as early as 1756, where fermentation is stopped by adding grape "
+"spirit: the sugar stays and the alcohol climbs to about 20%. From the black fruit of youth to the dried "
+"fruit of long cask ageing, the range is the widest of any fortified wine."
 
 msgid "Vignobles de montagne aux nuits fraîches, où les blancs gardent une grande précision."
 msgstr "Mountain vineyards with cool nights, where white wines keep great precision."
@@ -4065,6 +4162,9 @@ msgstr "bitter almond"
 msgid "amande amère, noyau de cerise, massepain"
 msgstr "bitter almond, cherry stone, marzipan"
 
+msgid "amandes salées"
+msgstr "salted almonds"
+
 msgid "ample"
 msgstr "full"
 
@@ -4088,6 +4188,9 @@ msgstr "appellations"
 
 msgid "apéritif"
 msgstr "aperitif"
+
+msgid "apéritif allongé de tonic"
+msgstr "aperitif lengthened with tonic"
 
 msgid "arrosticini"
 msgstr "arrosticini"
@@ -4341,6 +4444,9 @@ msgstr "hot"
 msgid "chevreuil"
 msgstr "roe deer"
 
+msgid "chocolat noir"
+msgstr "dark chocolate"
+
 msgid "choucroute"
 msgstr "choucroute"
 
@@ -4385,6 +4491,9 @@ msgstr "clove"
 
 msgid "clou de girofle, épicé"
 msgstr "clove, spicy"
+
+msgid "cocktails"
+msgstr "cocktails"
 
 msgid "coing"
 msgstr "quince"
@@ -4433,6 +4542,9 @@ msgstr "shellfish"
 
 msgid "crème"
 msgstr "cream"
+
+msgid "crème brûlée"
+msgstr "crème brûlée"
 
 msgid "crémant"
 msgstr "crémant"
@@ -4656,6 +4768,9 @@ msgstr "wild strawberry"
 msgid "fraise, caramel, barbe à papa"
 msgstr "strawberry, caramel, candyfloss"
 
+msgid "fraises"
+msgstr "strawberries"
+
 msgid "framboise"
 msgstr "raspberry"
 
@@ -4778,6 +4893,9 @@ msgstr "morello cherry"
 
 msgid "groseille"
 msgstr "redcurrant"
+
+msgid "gâteau aux noix"
+msgstr "walnut cake"
 
 msgid "géraniol"
 msgstr "geraniol"
@@ -5010,6 +5128,9 @@ msgstr "nerol"
 
 msgid "olive noire"
 msgstr "black olive"
+
+msgid "olives"
+msgstr "olives"
 
 msgid "orange"
 msgstr "orange"

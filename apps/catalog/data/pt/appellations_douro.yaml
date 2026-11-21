@@ -1,0 +1,101 @@
+# Appellation et profils types — Portugal (Douro : porto).
+# Règles de la DOP Porto (Instituto dos Vinhos do Douro e do Porto) : moût muté en cours de fermentation à
+# l'aguardente (eau-de-vie de raisin à 77 % vol. environ), vin final de 19 à 22 % vol. ; Ruby et Tawny
+# classiques d'au moins 2 ans de fût ou de cuve ; Late Bottled Vintage mis en bouteille entre la 4e et
+# la 6e année après la vendange ; Vintage déclaré les années exceptionnelles, 2 à 3 ans en fût, puis
+# longue garde en bouteille ; Tawny d'âge (10, 20, 30, 40 ans) = âge moyen de l'assemblage ;
+# Colheita = tawny d'une seule récolte, au moins 7 ans de fût.
+# Encépagements : ordres de grandeur (les maisons assemblent plus de cent cépages autorisés), pas des
+# chiffres officiels. À faire relire par un œnologue.
+# structure : [corps, acidité, tanins, sucrosité], échelle 0-5.
+
+- appellation: Porto
+  region: Douro
+  classification: DOC
+  lat: 41.165
+  lng: -7.790
+  description: "Vignoble de schistes en terrasses, délimité dès 1756, où l'on arrête la fermentation du moût en ajoutant de l'eau-de-vie de raisin : le sucre reste, l'alcool monte vers 20 %. Des fruits noirs de la jeunesse aux fruits secs d'un long élevage en fût, la gamme est la plus étendue de tous les vins mutés."
+  profiles:
+    - name: Porto Ruby
+      color: rouge
+      style: mute
+      grapes: {Touriga Franca: 30, Tinta Roriz: 25, Touriga Nacional: 20, Tinta Barroca: 15, Tinto Cão: 10}
+      aromas: {cerise noire: 3, mûre: 3, prune: 2, cacao: 2, framboise: 1, poivre noir: 1}
+      structure: [4, 3, 3, 4]
+      price: [8, 20]
+      aging: [1, 10]
+      temp: 16-18 °C
+      pairings: [fromages à pâte persillée, fondant au chocolat, gâteau aux noix]
+      description: "Le plus jeune et le plus fruité des vins de sa famille : deux à trois ans en cuve ou en grand foudre, qui gardent la robe rubis et le fruit. Un rouge muté à l'eau-de-vie de raisin, sucré et puissant, sans la complexité d'un long élevage."
+
+    - name: Porto Late Bottled Vintage
+      color: rouge
+      style: mute
+      grapes: {Touriga Franca: 30, Tinta Roriz: 25, Touriga Nacional: 25, Tinta Barroca: 10, Tinto Cão: 10}
+      aromas: {mûre: 3, cassis: 2, cacao: 3, prune: 2, violette: 1, poivre noir: 1, chêne: 1, café: 1}
+      structure: [4, 3, 4, 4]
+      price: [12, 35]
+      aging: [4, 25]
+      temp: 16-18 °C
+      pairings: [fondant au chocolat, fromages à pâte persillée, noix]
+      description: "Le vin d'une seule année, élevé quatre à six ans en fût avant la mise : l'esprit d'un millésime déclaré, mais prêt plus tôt et à prix plus doux. Fruits noirs, chocolat et épices, des tanins encore fermes ; la version non filtrée se garde bien davantage."
+
+    - name: Porto Vintage
+      color: rouge
+      style: mute
+      grapes: {Touriga Franca: 30, Touriga Nacional: 30, Tinta Roriz: 20, Tinta Barroca: 10, Tinto Cão: 10}
+      aromas: {mûre: 3, cassis: 3, violette: 2, cacao: 2, poivre noir: 2, réglisse: 2, café: 1, cèdre: 1}
+      structure: [5, 3, 5, 4]
+      price: [60, 500]
+      aging: [15, 80]
+      temp: 16-18 °C
+      pairings: [fromages à pâte persillée, noix, chocolat noir]
+      description: "Le sommet de la gamme : une année exceptionnelle, déclarée par chaque maison seulement quelques fois par décennie, deux ans en fût puis de longues décennies en bouteille. Encre noire, violette, tanins massifs ; avec l'âge le dépôt oblige à carafer, et les fruits cèdent la place au cuir et aux épices."
+
+    - name: Porto Tawny 10 ans
+      color: rouge
+      style: mute
+      grapes: {Touriga Franca: 30, Tinta Roriz: 30, Touriga Nacional: 15, Tinta Barroca: 15, Tinto Cão: 10}
+      aromas: {noix: 3, caramel: 3, zeste d'orange: 2, figue sèche: 2, café: 2, noisette: 2, cannelle: 1, tabac: 1}
+      structure: [4, 3, 2, 4]
+      price: [18, 40]
+      aging: [2, 15]
+      temp: 12-14 °C
+      pairings: [crème brûlée, tarte aux noix, foie gras]
+      description: "Vieilli en petits fûts de chêne qui l'oxydent lentement : la robe vire à l'ambre tuilé et les fruits rouges cèdent la place aux fruits secs. L'âge porté sur l'étiquette (10, 20, 30 ou 40 ans) est une moyenne d'assemblage, pas un millésime. Noix, caramel, orange confite."
+
+    - name: Porto Colheita
+      color: rouge
+      style: mute
+      grapes: {Touriga Franca: 30, Tinta Roriz: 30, Tinta Barroca: 20, Tinto Cão: 10, Tinta Amarela: 10}
+      aromas: {noix: 3, café: 3, caramel: 3, figue sèche: 2, zeste d'orange: 2, tabac: 2, noisette: 1, cèdre: 1}
+      structure: [4, 3, 1, 4]
+      price: [30, 150]
+      aging: [5, 80]
+      temp: 12-14 °C
+      pairings: [fromages affinés, crème brûlée, noix]
+      description: "Un tawny d'une seule récolte (colheita), au moins sept ans en fût et souvent bien davantage, avec l'année de vendange sur l'étiquette. Plus rare et plus singulier qu'un tawny d'âge : même noix, même café, même écorce d'orange, mais d'une précision de millésime."
+
+    - name: Porto blanc
+      color: blanc
+      style: mute
+      grapes: {Malvasia Fina: 30, Viosinho: 25, Gouveio: 25, Rabigato: 15, Códega do Larinho: 5}
+      aromas: {pêche jaune: 2, zeste d'orange: 2, fleurs blanches: 2, amande: 2, abricot: 1, miel: 1, noix: 1}
+      structure: [3, 3, 0, 4]
+      price: [8, 25]
+      aging: [1, 6]
+      temp: 6-8 °C
+      pairings: [amandes salées, olives, apéritif allongé de tonic]
+      description: "Le vin muté des cépages blancs, vinifié comme un rouge puis arrêté à l'eau-de-vie, du plus sec au plus doux. Pêche, fleurs blanches, amande et un peu d'orange. On le boit glacé, à l'apéritif, seul ou allongé de tonic."
+
+    - name: Porto rosé
+      color: rose
+      style: mute
+      grapes: {Touriga Franca: 40, Tinta Roriz: 30, Tinta Barroca: 20, Touriga Nacional: 10}
+      aromas: {fraise: 3, framboise: 3, cerise: 2, rose: 1, zeste d'orange: 1}
+      structure: [3, 3, 1, 4]
+      price: [10, 25]
+      aging: [1, 3]
+      temp: 6-8 °C
+      pairings: [fraises, cocktails, apéritif]
+      description: "La plus récente des déclinaisons (2008) : des cépages rouges pressés après une courte macération, puis mutés à l'eau-de-vie. Fraise et framboise, une rondeur sucrée et une fraîcheur de fruits rouges ; fait pour les cocktails glacés."

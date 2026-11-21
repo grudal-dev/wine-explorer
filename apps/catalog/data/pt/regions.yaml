@@ -1,0 +1,8 @@
+# Régions viticoles portugaises (noms usuels). Pour l'instant : le Douro seul, pour le porto.
+# Coordonnées : centre approximatif, pour la carte et les indices de distance.
+country: {code: PT, name: Portugal}
+regions:
+  - name: Douro
+    lat: 41.17
+    lng: -7.60
+    description: Vallée encaissée du nord du Portugal, aux étés brûlants et aux hivers froids, dont les terrasses de schiste dévalent jusqu'au fleuve et sont classées à l'Unesco.

@@ -1,0 +1,14 @@
+# Cépages portugais du Douro. Le Tinta Roriz est le tempranillo espagnol (Aragonez dans le sud du Portugal) ;
+# le Gouveio est le godello galicien. Ils sont déclarés ici sous leur nom du Douro.
+- {name: Touriga Nacional, skin: noir, origin: Dão / Douro}
+- {name: Touriga Franca, skin: noir, origin: Douro, synonyms: [Touriga Francesa]}
+- {name: Tinta Roriz, skin: noir, origin: Espagne (Rioja) / Douro, synonyms: [Aragonez, Tempranillo]}
+- {name: Tinta Barroca, skin: noir, origin: Douro}
+- {name: Tinto Cão, skin: noir, origin: Douro}
+- {name: Tinta Amarela, skin: noir, origin: Douro, synonyms: [Trincadeira, Trincadeira Preta]}
+- {name: Sousão, skin: noir, origin: Minho / Douro, synonyms: [Vinhão]}
+- {name: Malvasia Fina, skin: blanc, origin: Douro, synonyms: [Boal]}
+- {name: Viosinho, skin: blanc, origin: Douro}
+- {name: Gouveio, skin: blanc, origin: Galice / Douro, synonyms: [Godello]}
+- {name: Rabigato, skin: blanc, origin: Douro}
+- {name: Códega do Larinho, skin: blanc, origin: Douro}
