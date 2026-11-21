@@ -467,6 +467,7 @@ button.tag { cursor: pointer; font-family: inherit; }
 .wheel__aromas button[aria-pressed="true"] { background: var(--hue); border-color: var(--hue); color: #fff; }
 
 .nose__results { position: sticky; top: 80px; }
+@media (max-width: 900px) { .nose__results { position: static; } }   /* après la règle ci-dessus : sinon elle l'emporte et les résultats recouvrent la roue */
 .nose-empty { padding: 2rem; border: 1px dashed var(--ink-3); border-radius: var(--radius-m); }
 .results-title { margin-bottom: .2rem; }
 .ranking { list-style: none; padding: 0; margin: 1rem 0 0; counter-reset: rank; }
