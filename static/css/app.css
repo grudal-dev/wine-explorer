@@ -1073,9 +1073,11 @@ body.map-is-full { overflow: hidden; }
 .duel-pick__mark { position: absolute; left: .9rem; width: .7rem; height: .7rem; border-radius: 50%; pointer-events: none; }
 .duel-pick__field--a .duel-pick__mark { background: var(--duel-a); }
 .duel-pick__field--b .duel-pick__mark { background: var(--duel-b); }
-.duel-pick__select { width: 100%; min-height: 44px; padding: .55rem .9rem .55rem 2.2rem; border: 1px solid var(--rule); border-radius: 999px;
-  background: #fff; font: inherit; color: var(--ink); appearance: auto; }
-.duel-pick__select:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+.duel-pick__input { width: 100%; min-height: 44px; padding: .55rem .9rem .55rem 2.2rem; border: 1px solid var(--rule); border-radius: 999px;
+  background: #fff; font: inherit; color: var(--ink); }
+.duel-pick__input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+.duel-pick__input::-webkit-search-cancel-button { display: none; }
+.duel-pick__field .combo__list { text-align: left; }
 .duel-pick__swap { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%;
   border: 1px solid var(--rule); color: var(--ink-2); background: #fff; }
 .duel-pick__swap:hover { color: var(--ink); border-color: var(--ink-3); }
@@ -1095,14 +1097,9 @@ body.map-is-full { overflow: hidden; }
 .duel-gauge { display: block; width: 300px; max-width: 100%; height: auto; }
 .duel-head__note { margin: 0; font-size: var(--step--1); color: var(--ink-3); text-align: center; }
 
-.duel-mouth { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; padding: 1.75rem 0;
+.duel-mouth { display: flex; justify-content: center; padding: 1.5rem 0;
   border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-.duel-dial-cell { margin: 0; display: flex; flex-direction: column; align-items: center; gap: .3rem; }
-.duel-dial { display: block; width: 132px; max-width: 100%; height: auto; }
-.duel-dial-cell figcaption { display: flex; gap: .5rem; font-weight: 500; }
-.duel-delta { color: var(--ink-3); font-weight: 600; }
-.duel-delta--a { color: var(--duel-a); }
-.duel-delta--b { color: var(--duel-b); }
+.duel-radar { display: block; width: 524px; max-width: 100%; height: auto; overflow: visible; }
 
 .duel-nose { display: block; width: 100%; height: auto; overflow: visible; }
 .duel-nose--narrow { display: none; max-width: 346px; margin: 0 auto; }
@@ -1125,8 +1122,7 @@ body.map-is-full { overflow: hidden; }
   .duel-head__gauge { grid-column: 1 / -1; grid-row: 2; }
   .duel-gauge { width: 260px; }
   .duel-wine__name { font-size: 1.6rem; }
-  .duel-mouth { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.2rem; column-gap: .5rem; }
-  .duel-dial { width: 128px; }
+  .duel-mouth { padding: 1rem 0; }
   .duel-nose--wide { display: none; }
   .duel-nose--narrow { display: block; }
   .duel-sig { grid-template-columns: 1fr; gap: .7rem; }

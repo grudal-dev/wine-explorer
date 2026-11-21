@@ -25,7 +25,7 @@ class CompareTests(TestCase):
         r = self.client.get("/comparer/barolo-rouge/gevrey-chambertin-rouge/")
         self.assertEqual(r.status_code, 200)
         html = r.content.decode()
-        for part in ("duel-gauge", "duel-dial", "duel-nose--wide", "duel-nose--narrow", "Tanins"):
+        for part in ("duel-gauge", "duel-radar", "duel-nose--wide", "duel-nose--narrow", "Tanins"):
             self.assertIn(part, html)
 
     def test_start_and_form_redirect(self):
@@ -108,3 +108,27 @@ class MapGroupsTests(TestCase):
         labels = [g["label"] for g in groups.values()]
         self.assertIn("Bulles", labels)
         self.assertTrue(any(lab.startswith("Rouges · ") for lab in labels))
+
+
+class CompareSearchTests(TestCase):
+    """Recherche des vins à comparer : par nom, appellation, région ou cépage."""
+
+    @classmethod
+    def setUpTestData(cls):
+        from io import StringIO
+
+        from django.core.management import call_command
+        call_command("load_seed", country="all", stdout=StringIO())
+
+    def find(self, q):
+        return [r["slug"] for r in self.client.get("/comparer/api/vins/", {"q": q}).json()["results"]]
+
+    def test_by_name_without_accents(self):
+        self.assertEqual(self.find("cote rotie")[0], "cote-rotie-rouge")
+
+    def test_by_grape_and_words(self):
+        self.assertIn("barolo-rouge", self.find("nebbiolo"))
+        self.assertTrue(all("blanc" in s for s in self.find("chablis blanc")))
+
+    def test_empty(self):
+        self.assertEqual(self.find(""), [])

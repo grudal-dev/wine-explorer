@@ -1,21 +1,35 @@
 """Page « Comparer » : deux vins face à face."""
 
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from apps.catalog.i18n import tr
 from apps.catalog.models import WineProfile
+from apps.catalog.text import normalize
 
 from . import compare, compare_svg
 
 
-def _choices():
-    wines = WineProfile.objects.select_related("appellation__country").order_by("appellation__country__name", "name")
-    groups: dict[str, list] = {}
+def search(request):
+    """Vins dont le nom, l'appellation, la région ou un cépage contient tous les mots tapés."""
+    words = normalize(request.GET.get("q", "")).split()
+    if not words:
+        return JsonResponse({"results": []})
+    wines = WineProfile.objects.select_related("appellation__region", "appellation__country").prefetch_related(
+        "profile_grapes__grape")
+    found = []
     for w in wines:
-        groups.setdefault(tr(w.appellation.country.name), []).append((w.slug, tr(w.name)))
-    return sorted(groups.items())
+        name = normalize(tr(w.name))
+        hay = " ".join([name, normalize(w.appellation.name), normalize(tr(w.appellation.region.name)),
+                        normalize(tr(w.appellation.country.name)),
+                        *(normalize(pg.grape.name) for pg in w.profile_grapes.all())])
+        if all(word in hay for word in words):
+            rank = (0 if name.startswith(words[0]) else 1 if words[0] in name else 2, name)
+            found.append((rank, {"slug": w.slug, "label": tr(w.name),
+                                 "hint": f"{tr(w.appellation.region.name)} · {w.get_color_display().lower()}"}))
+    found.sort(key=lambda x: x[0])
+    return JsonResponse({"results": [f for _r, f in found[:8]]})
 
 
 def start(request):
@@ -36,7 +50,7 @@ def duel(request, a, b):
         "profile_grapes__grape")
     wa = get_object_or_404(qs, slug=a)
     wb = get_object_or_404(qs, slug=b)
-    ctx = {"choices": _choices(), "same": wa.pk == wb.pk}
+    ctx = {"same": wa.pk == wb.pk}
     if not ctx["same"]:
         d = compare.duel(wa, wb)
         name_a, name_b = tr(wa.name), tr(wb.name)
@@ -44,7 +58,7 @@ def duel(request, a, b):
         ctx.update(
             name_a=name_a, name_b=name_b,
             gauge=compare_svg.gauge(d["percent"], d["band"]) if d["percent"] is not None else "",
-            dials=[{**m, "svg": compare_svg.dial(m["a"], m["b"], m["label"], name_a, name_b)} for m in d["mouth"]],
+            radar=compare_svg.radar(d["mouth"], name_a, name_b),
             nose_wide=compare_svg.nose_wide(d["nose"], name_a, name_b),
             nose_narrow=compare_svg.nose_narrow(d["nose"], name_a, name_b),
         )

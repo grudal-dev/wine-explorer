@@ -4,29 +4,27 @@
 {% block description %}{% blocktranslate trimmed %}{{ name_a }} face à {{ name_b }} : proximité, bouche, arômes en commun et molécules qui les distinguent.{% endblocktranslate %}{% endblock %}
 {% block content %}
 <div class="duel">
-  <form class="duel-pick" method="get" action="{% url 'compare:start' %}">
-    <label class="duel-pick__field duel-pick__field--a">
-      <span class="visually-hidden">{% translate "Premier vin" %}</span>
+  <form class="duel-pick" id="duel-pick" method="get" action="{% url 'compare:start' %}" data-search="{% url 'compare:search' %}">
+    <div class="duel-pick__field duel-pick__field--a combo">
+      <label class="visually-hidden" for="duel-a">{% translate "Premier vin" %}</label>
       <span class="duel-pick__mark" aria-hidden="true"></span>
-      <select name="a" class="duel-pick__select">
-        {% for country, wines in choices %}<optgroup label="{{ country }}">
-          {% for slug, label in wines %}<option value="{{ slug }}" {% if slug == a.slug %}selected{% endif %}>{{ label }}</option>{% endfor %}
-        </optgroup>{% endfor %}
-      </select>
-    </label>
+      <input id="duel-a" class="duel-pick__input" type="search" value="{{ name_a }}" autocomplete="off" spellcheck="false"
+             placeholder="{% translate "Un vin, une appellation, un cépage…" %}" role="combobox" aria-expanded="false" aria-controls="duel-list-a" data-slot="a">
+      <ul class="combo__list" id="duel-list-a" role="listbox" hidden></ul>
+      <input type="hidden" name="a" value="{{ a.slug }}">
+    </div>
     <a class="duel-pick__swap" href="{% url 'compare:duel' b.slug a.slug %}" aria-label="{% translate "Inverser les deux vins" %}">
       <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h13l-4-4"/><path d="M17 17H4l4 4"/></svg>
     </a>
-    <label class="duel-pick__field duel-pick__field--b">
-      <span class="visually-hidden">{% translate "Second vin" %}</span>
+    <div class="duel-pick__field duel-pick__field--b combo">
+      <label class="visually-hidden" for="duel-b">{% translate "Second vin" %}</label>
       <span class="duel-pick__mark" aria-hidden="true"></span>
-      <select name="b" class="duel-pick__select">
-        {% for country, wines in choices %}<optgroup label="{{ country }}">
-          {% for slug, label in wines %}<option value="{{ slug }}" {% if slug == b.slug %}selected{% endif %}>{{ label }}</option>{% endfor %}
-        </optgroup>{% endfor %}
-      </select>
-    </label>
-    <button type="submit" class="btn duel-pick__go">{% translate "Comparer" %}</button>
+      <input id="duel-b" class="duel-pick__input" type="search" value="{{ name_b }}" autocomplete="off" spellcheck="false"
+             placeholder="{% translate "Un vin, une appellation, un cépage…" %}" role="combobox" aria-expanded="false" aria-controls="duel-list-b" data-slot="b">
+      <ul class="combo__list" id="duel-list-b" role="listbox" hidden></ul>
+      <input type="hidden" name="b" value="{{ b.slug }}">
+    </div>
+    <noscript><button type="submit" class="btn duel-pick__go">{% translate "Comparer" %}</button></noscript>
   </form>
 
   <h1 class="visually-hidden">{% blocktranslate trimmed %}{{ name_a }} et {{ name_b }}{% endblocktranslate %}</h1>
@@ -55,16 +53,7 @@
 
   <section class="duel-mouth" aria-labelledby="duel-mouth">
     <h2 id="duel-mouth" class="visually-hidden">{% translate "En bouche" %}</h2>
-    {% for m in dials %}
-    <figure class="duel-dial-cell">
-      {{ m.svg }}
-      <figcaption>{{ m.label }}
-        {% if m.delta > 0 %}<span class="duel-delta duel-delta--a">+{{ m.delta }}</span>
-        {% elif m.delta < 0 %}<span class="duel-delta duel-delta--b">+{% widthratio m.delta 1 -1 %}</span>
-        {% else %}<span class="duel-delta">=</span>{% endif %}
-      </figcaption>
-    </figure>
-    {% endfor %}
+    {{ radar }}
   </section>
 
   <section class="duel-nose-wrap" aria-labelledby="duel-nose">
@@ -82,4 +71,8 @@
   {% endif %}
   {% endif %}
 </div>
+{% endblock %}
+{% block scripts %}{% load static %}
+<script src="{% static 'js/combo.js' %}" defer></script>
+<script src="{% static 'js/compare.js' %}" defer></script>
 {% endblock %}

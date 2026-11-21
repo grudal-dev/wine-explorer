@@ -31,6 +31,7 @@ DISALLOWED = (
     "/molecules/api/",
     "/molecules/fiche/",
     "/carte/api/",
+    "/comparer/api/",
     "/carte/fiche/",
     "/le-nez/api/",
 )

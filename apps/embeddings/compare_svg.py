@@ -1,4 +1,4 @@
-"""Dessins SVG de la page Comparer : jauge de proximité, cadrans de bouche, face-à-face des arômes.
+"""Dessins SVG de la page Comparer : jauge de proximité, toile de la bouche, face-à-face des arômes.
 
 Les couleurs des deux vins viennent des variables CSS `--duel-a` et `--duel-b` ; tout le reste
 reprend la palette du site. Les SVG sont produits côté serveur (aucune bibliothèque de dessin) et
@@ -76,23 +76,40 @@ def gauge(value: int, word: str, size: int = 300):
     return _svg("".join(p), size, h, label, "duel-gauge")
 
 
-# ── cadran de bouche ──────────────────────────────────────────────────────
-def dial(va: int, vb: int, name: str, name_a: str, name_b: str, size: int = 132):
-    cx = cy = size / 2
-    sw = size * 0.07
-    r1 = size * 0.44
-    r2 = r1 - sw * 1.7
+# ── toile de la bouche (radar) ───────────────────────────────────────────
+def radar(mouth: list[dict], name_a: str, name_b: str, size: int = 340):
+    """Une seule toile pour les deux vins : un axe par critère (0 à 5), A et B superposés."""
+    n = len(mouth)
+    pad_x, pad_y = 92, 42
+    w, h = size + 2 * pad_x, size + 2 * pad_y
+    cx, cy, r = w / 2, h / 2, size / 2
+    angles = [360 * k / n for k in range(n)]
     p = []
-    for r, v, c in ((r1, va, A), (r2, vb, B)):
-        p.append(_stroke(_arc(cx, cy, r, -130, 130), TRACK, sw))
-        if v:
-            p.append(_stroke(_arc(cx, cy, r, -130, -130 + 52 * v), c, sw))
-    fs = round(size * 0.2)
-    p.append(f'<text x="{cx}" y="{cy + size * 0.08:.1f}" text-anchor="middle" font-family="{SERIF}" font-weight="600" font-size="{fs}">'
-             f'<tspan style="fill: {A}">{va}</tspan><tspan dx="{size * 0.03:.0f}" style="fill: {RULE}">/</tspan>'
-             f'<tspan dx="{size * 0.03:.0f}" style="fill: {B}">{vb}</tspan></text>')
-    label = _("%(name)s : %(a)s %(va)s sur 5, %(b)s %(vb)s sur 5") % {"name": name, "a": name_a, "va": va, "b": name_b, "vb": vb}
-    return _svg("".join(p), size, size * 0.82, label, "duel-dial")
+    for level in range(1, 6):  # anneaux 1 à 5
+        pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in (_pt(cx, cy, r * level / 5, a) for a in angles))
+        p.append(f'<polygon points="{pts}" fill="{PAPER if level == 5 else "none"}" '
+                 f'style="stroke: {RULE if level == 5 else TRACK}" stroke-width="1"/>')
+    for a in angles:
+        x, y = _pt(cx, cy, r, a)
+        p.append(f'<line x1="{cx:.1f}" y1="{cy:.1f}" x2="{x:.1f}" y2="{y:.1f}" style="stroke: {TRACK}" stroke-width="1"/>')
+    for key, color in (("a", A), ("b", B)):
+        pts = [_pt(cx, cy, r * m[key] / 5, a) for m, a in zip(mouth, angles, strict=True)]
+        poly = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+        p.append(f'<polygon points="{poly}" style="fill: {color}; stroke: {color}" fill-opacity=".16" '
+                 f'stroke-width="2.5" stroke-linejoin="round"/>')
+        p += [f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" style="fill: {color}"/>' for x, y in pts]
+    for m, a in zip(mouth, angles, strict=True):
+        x, y = _pt(cx, cy, r + 22, a)
+        anchor = "middle" if a in (0, 180) else ("start" if a < 180 else "end")
+        dy = -6 if a == 0 else (14 if a == 180 else -2)
+        p.append(_text(x, y + dy, m["label"], 15, anchor=anchor, weight=600))
+        p.append(f'<text x="{x:.1f}" y="{y + dy + 19:.1f}" text-anchor="{anchor}" font-family="{SERIF}" font-weight="600" '
+                 f'font-size="15"><tspan style="fill: {A}">{m["a"]}</tspan><tspan dx="4" style="fill: {RULE}">/</tspan>'
+                 f'<tspan dx="4" style="fill: {B}">{m["b"]}</tspan></text>')
+    label = _("En bouche, sur 5 : ") + " ; ".join(
+        _("%(name)s %(a)s pour %(wa)s, %(b)s pour %(wb)s") % {"name": m["label"].lower(), "a": m["a"], "wa": name_a,
+                                                                "b": m["b"], "wb": name_b} for m in mouth)
+    return _svg("".join(p), w, h, label, "duel-radar")
 
 
 # ── taches de vin ─────────────────────────────────────────────────────────

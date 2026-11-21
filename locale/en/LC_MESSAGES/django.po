@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-21 15:43+0100\n"
+"POT-Creation-Date: 2026-11-21 16:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -93,8 +93,8 @@ msgid "%(n_wines)s vin%(s)s"
 msgstr "%(n_wines)s wine%(s)s"
 
 #, python-format
-msgid "%(name)s : %(a)s %(va)s sur 5, %(b)s %(vb)s sur 5"
-msgstr "%(name)s: %(a)s %(va)s out of 5, %(b)s %(vb)s out of 5"
+msgid "%(name)s %(a)s pour %(wa)s, %(b)s pour %(wb)s"
+msgstr "%(name)s %(a)s for %(wa)s, %(b)s for %(wb)s"
 
 #, python-format
 msgid "%(name)s : arômes, encépagement, bouche, prix et accords."
@@ -1376,6 +1376,9 @@ msgstr ""
 
 msgid "En bouche"
 msgstr "On the palate"
+
+msgid "En bouche, sur 5 : "
+msgstr "On the palate, out of 5: "
 
 msgid ""
 "En broyant l'amande, l'amygdaline se scinde en benzaldéhyde, d'où l'odeur d'amande amère et de noyau de "
@@ -3923,6 +3926,9 @@ msgstr "A mystery wine and a few clues: find its region, appellation and grapes 
 
 msgid "Un vin tiré au hasard, autant de fois que vous voulez. Pour s'entraîner."
 msgstr "A wine drawn at random, as many times as you like. For practice."
+
+msgid "Un vin, une appellation, un cépage…"
+msgstr "A wine, an appellation, a grape…"
 
 msgid "Une famille d'arômes de son nez"
 msgstr "An aroma family from its nose"
