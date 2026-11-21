@@ -86,7 +86,7 @@
   smiles: CC(=O)CC(C)(C)S
   odor: buis, bourgeon de cassis, genêt
   threshold: 0,8 ng/L en solution modèle, 3 ng/L dans le vin
-  refs: [darriet1995, tominaga1995]
+  refs: [darriet1995, tominaga1995, bueno2021]
   aromas: [buis, bourgeon de cassis, cassis]
   description: >
     Le premier thiol variétal identifié dans le Sauvignon, en 1993-1995 à Bordeaux. Absent du
@@ -94,6 +94,7 @@
     le libère pendant la fermentation. Quelques nanogrammes par litre suffisent pour la note de
     buis ; au-delà, elle tourne au « pipi de chat ». Dans les rouges, c'est elle qui porte une
     bonne part de l'arôme de cassis.
+  fades: {oxidative: true, ref: bueno2021}
   wine:
     - {grapes: [Sauvignon Blanc], strength: 3, ref: darriet1995}
     - {grapes: [Cabernet Sauvignon, Merlot], strength: 1, ref: rigou2014}
@@ -110,7 +111,7 @@
   smiles: CCCC(S)CCO
   odor: pamplemousse, fruit de la passion, agrumes
   threshold: 60 ng/L en solution modèle
-  refs: [tominaga1998, tominaga2000b, bouchilloux1998]
+  refs: [tominaga1998, tominaga2000b, bouchilloux1998, bueno2021]
   aromas: [pamplemousse, fruit de la passion]
   families: [Agrumes, Fruits exotiques]
   description: >
@@ -118,6 +119,7 @@
     Sémillon, mais aussi dans les rouges bordelais et les rosés, où il porte une partie du
     fruit. Comme la 4-MMP, il dort dans le raisin sous forme de précurseur inodore. Il est
     fragile à l'oxygène : les rosés le perdent en quelques mois.
+  fades: {oxidative: true, ref: bueno2021}
   wine:
     - {grapes: [Sauvignon Blanc], strength: 3, ref: tominaga1998}
     - {grapes: [Petit Manseng, Gros Manseng, Colombard, Sémillon], strength: 2, ref: tominaga2000b}
@@ -135,13 +137,14 @@
   smiles: CCCC(S)CCOC(C)=O
   odor: buis, fruit de la passion, pamplemousse
   threshold: 2 à 4 ng/L en solution modèle
-  refs: [tominaga1996]
+  refs: [tominaga1996, bueno2021]
   aromas: [fruit de la passion, buis]
   aroma_max: 1
   description: >
     Forme acétylée du 3-sulfanylhexanol, fabriquée par la levure. Plus puissante, plus
     « tropicale » et encore plus instable : elle s'hydrolyse en quelques mois de bouteille.
     C'est l'une des signatures des Sauvignons jeunes.
+  fades: {oxidative: true, ref: bueno2021}
   wine:
     - {grapes: [Sauvignon Blanc], strength: 3, ref: tominaga1996}
   nature:
@@ -340,13 +343,14 @@
   origin: fermentation
   smiles: CC(C)CCOC(C)=O
   odor: banane, bonbon anglais, poire
-  refs: [escudero2010, delafuente2020]
+  refs: [escudero2010, delafuente2020, marais1980]
   aromas: [banane]
   universal: true
   description: >
     L'ester de la banane, produit par la levure. Il domine dans les vins jeunes fermentés à
     basse température et dans les primeurs : la « banane » d'un Beaujolais nouveau, c'est
     lui. Il s'estompe en quelques mois.
+  fades: {oxidative: true, ref: marais1980}
   wine:
     - {all: true, strength: 1, ref: escudero2010}
   nature:
@@ -690,7 +694,7 @@
   smiles: CCC(C)C(=O)OCC
   odor: fruits noirs, pomme, ananas
   threshold: 18 µg/L dans le vin
-  refs: [pineau2009, francis2015]
+  refs: [pineau2009, francis2015, lytra2017]
   aromas: [mûre, cerise noire, prune]
   aroma_max: 1
   families: [Fruits noirs]

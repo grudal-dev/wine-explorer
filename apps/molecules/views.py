@@ -11,7 +11,7 @@ from django.views.decorators.http import require_GET
 from apps.catalog.i18n import tr_reason
 from apps.catalog.models import WineProfile
 
-from . import graph
+from . import facts, graph
 from .models import (
     Basis,
     ChemicalFamily,
@@ -179,6 +179,7 @@ def molecule_detail(request, slug):
         "common_count": len(links) - len(specific),
         "bibliography": sorted((refs[k] for k in cited if k in refs), key=lambda r: (r.authors, r.year or 0)),
         "family_label": ChemicalFamily(mol.family).label,
+        "fact": facts.for_molecule(mol.slug),
     })
 
 

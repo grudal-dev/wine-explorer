@@ -88,7 +88,8 @@ class RuleTests(TestCase):
             self.assertLessEqual(pm.strength, 2)
 
     def test_universal_reaches_everyone(self):
-        n = WineProfile.objects.count()
+        # Tous, sauf les vins à élevage oxydatif : l'ester s'y est hydrolysé (règle « fades »).
+        n = WineProfile.objects.filter(oxidative=False).count()
         self.assertEqual(ProfileMolecule.objects.filter(molecule__slug="acetate-disoamyle").count(), n)
         beaujolais = self.link("beaujolais-rouge", "acetate-disoamyle")
         self.assertEqual(beaujolais.basis, Basis.AROMA)  # la « banane » prime sur le socle commun

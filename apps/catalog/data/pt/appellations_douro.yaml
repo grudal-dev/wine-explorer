@@ -55,6 +55,7 @@
     - name: Porto Tawny 10 ans
       color: rouge
       style: mute
+      oxidative: true
       grapes: {Touriga Franca: 30, Tinta Roriz: 30, Touriga Nacional: 15, Tinta Barroca: 15, Tinto Cão: 10}
       aromas: {noix: 3, caramel: 3, zeste d'orange: 2, figue sèche: 2, café: 2, noisette: 2, cannelle: 1, tabac: 1}
       structure: [4, 3, 2, 4]
@@ -67,6 +68,7 @@
     - name: Porto Colheita
       color: rouge
       style: mute
+      oxidative: true
       grapes: {Touriga Franca: 30, Tinta Roriz: 30, Tinta Barroca: 20, Tinto Cão: 10, Tinta Amarela: 10}
       aromas: {noix: 3, café: 3, caramel: 3, figue sèche: 2, zeste d'orange: 2, tabac: 2, noisette: 1, cèdre: 1}
       structure: [4, 3, 1, 4]

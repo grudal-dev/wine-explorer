@@ -30,10 +30,12 @@
   };
 
   function moleculeLabel(n) {
-    const odor = n.data("odor");
+    const odor = n.data("note") || n.data("odor");
     return odor && odor.toLowerCase() !== n.data("label").toLowerCase() ? `${n.data("label")}\n${odor}` : n.data("label");
   }
 
+  const measureCtx = document.createElement("canvas").getContext("2d");
+  const LINE = 1.15;   // interligne des bulles, partagé par le style et la mesure
   const state = { start: "", trail: [], common: false, family: true, wikidata: true };
   const query = () => `${state.common ? "&commun=1" : ""}${state.family ? "" : "&famille=0"}${state.wikidata ? "" : "&wikidata=0"}`;
 
@@ -103,10 +105,11 @@
       { selector: "node.bq[type='molecule']", style: { "shape": "ellipse",
         "width": (n) => bubble(n), "height": (n) => bubble(n),
         "padding": "0px", "background-color": "data(hue)", "border-width": 7, "border-color": "data(hue)", "border-opacity": 0.2,
-        "label": bubbleLabel, "color": "#fff", "font-family": "Fraunces, Georgia, serif", "font-style": "italic",
-        "font-weight": 600, "font-size": (n) => ((n.data("strength") || 1) >= 3 ? 14.5 : (n.data("odor") || "").length > 10 ? 10.5 : 12), "text-valign": "center",
+        "label": (n) => fitBubble(n).text, "color": "#fff", "font-family": "Fraunces, Georgia, serif", "font-style": "italic",
+        "font-weight": 600, "font-size": (n) => fitBubble(n).size, "text-valign": "center",
         "text-halign": "center", "text-margin-x": 0, "text-margin-y": 0, "text-wrap": "wrap",
-        "text-max-width": (n) => bubble(n) - 10, "text-background-opacity": 0, "line-height": 1.15 }},
+        // Les lignes sont coupées par fitBubble ; la largeur maximale ne doit pas les recouper.
+        "text-max-width": (n) => bubble(n) + 40, "text-background-opacity": 0, "line-height": LINE }},
       { selector: "node.bq[type='molecule'][tier='family']", style: { "background-opacity": 0.75 }},
       { selector: "node.bq[type='molecule'][tier='universal'], node.bq[type='molecule'][?universal]", style: {
         "background-opacity": 0.42, "color": C.ink, "border-opacity": 0.1 }},
@@ -114,11 +117,20 @@
         "padding": "9px", "background-color": "#FFFFFF", "border-width": 1.3, "border-color": "data(hue)",
         "label": "data(label)", "font-size": 12.5, "color": C.ink2, "text-valign": "center", "text-halign": "center",
         "text-margin-x": 0, "text-background-opacity": 0 }},
+      // Vue d'un vin : les éléments naturels qui portent un arôme du vin sont proches et nets ; les autres
+      // (la fraise du furanéol dans un tawny) restent plus haut, pâles, et s'éclairent avec leur molécule.
+      { selector: "node.bq.bouquet[type='source'][?near]", style: { "border-width": 2, "color": C.ink, "font-weight": 500 }},
+      { selector: "node.bq.bouquet[type='source'][!near]", style: { "opacity": 0.5, "font-size": 11.5, "border-style": "dashed" }},
+      { selector: "node.bq.bouquet.hl[type='source']", style: { "opacity": 1 }},
       { selector: "edge.bq[kind='contains']", style: { "curve-style": "unbundled-bezier",
         "control-point-distances": (e) => [-(e.target().position("x") - e.source().position("x")) * 0.32],
         "control-point-weights": [0.55], "opacity": 0.75, "width": "mapData(strength, 1, 3, 2, 6)" }},
+      // Une pastille à chaque bout du trait : on voit à quelle bulle et à quel élément naturel il s'accroche.
       { selector: "edge.bq[kind='found_in']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
-        "opacity": 0.42, "width": "mapData(strength, 1, 3, 1, 2.8)" }},
+        "opacity": 0.42, "width": "mapData(strength, 1, 3, 1, 2.8)",
+        "source-arrow-shape": "circle", "target-arrow-shape": "circle", "arrow-scale": 1.5,
+        "source-arrow-color": (e) => e.target().data("hue"), "target-arrow-color": (e) => e.target().data("hue") }},
+      { selector: "edge.bq.bouquet[kind='found_in'][?near]", style: { "opacity": 0.7 }},
       // Couronne d'une molécule : la molécule en grande bulle au centre, les vins en petits verres autour.
       { selector: "node.bq[type='molecule'][?root]", style: { "width": () => 132 * SC, "height": () => 132 * SC,
         "font-size": () => 16 * SC, "text-max-width": () => 116 * SC, "border-width": 10, "border-opacity": 0.22, "label": rootLabel }},
@@ -137,6 +149,7 @@
       { selector: "edge.bq.grid", style: { "curve-style": "straight", "opacity": 0 }},
       { selector: "edge.bq.ring[kind='contains']", style: { "curve-style": "straight", "opacity": 0.45,
         "width": "mapData(strength, 1, 3, 1.2, 4)" }},
+      { selector: "edge.bq.bouquet[kind='found_in'][!near]", style: { "opacity": 0.1, "line-style": "dashed" }},
       { selector: "edge.bq.minor", style: { "opacity": 0.05 }},
       { selector: "edge.bq.hl", style: { "opacity": 0.9 }},
       { selector: "node.bq:selected", style: { "border-color": C.garnet, "border-opacity": 1, "border-width": 4 }},
@@ -162,13 +175,74 @@
   }
   // Échelle des bulles : 1 sur ordinateur, un peu moins sur téléphone.
   let SC = 1;
-  // Dans une bulle : l'odeur d'abord (« poivre noir »), le nom de la molécule dessous, abrégé s'il est long.
-  function bubbleLabel(n) {
+  // Dans une bulle : d'abord l'arôme qui relie la molécule à ce vin (« caramel » pour le furanéol d'un
+  // tawny ; à défaut sa première odeur), puis le nom de la molécule en entier. Le nom se coupe aux espaces,
+  // après un trait d'union ou après un préfixe chimique (« 2-méthyl-|butanoate »), et la taille du texte
+  // baisse jusqu'à ce que chaque ligne tienne dans le cercle. Les points de suspension ne servent
+  // qu'en dernier recours, sous 8,5 px.
+  const PREFIXES = /(diméthyl|méthyl|éthyl|phényl|furfuryl|sulfanyl|mercapto|hydroxy|isopropyl|isobutyl|benzène|pyrrole|hexén|octén)(?=[a-zà-ÿ]{4,})/gi;
+  function tokens(name) {
+    // Morceaux insécables ; « sep » dit ce qui les relie : une espace, ou rien (coupure dans un mot,
+    // marquée d'un trait d'union en fin de ligne si le morceau ne finit pas déjà par un).
+    const out = [];
+    name.split(/\s+/).forEach((word, wi) => {
+      const parts = word.replace(PREFIXES, "$1\u0000").replace(/([a-zà-ÿ]{3,}-)(?=[a-zà-ÿ]{3,})/gi, "$1\u0000")
+        .split("\u0000").filter(Boolean);
+      parts.forEach((p, pi) => out.push({ text: p, sep: pi === 0 ? (wi === 0 ? "" : " ") : "" }));
+    });
+    return out;
+  }
+  function wrap(toks, width, measure) {
+    const lines = [];
+    let cur = "";
+    toks.forEach((t, i) => {
+      const glued = cur ? cur + t.sep + t.text : t.text;
+      if (!cur || measure(glued + (toks[i + 1] && !toks[i + 1].sep && !t.text.endsWith("-") ? "-" : "")) <= width) { cur = glued; return; }
+      lines.push(t.sep || cur.endsWith("-") ? cur : `${cur}-`);
+      cur = t.text;
+    });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+  const fitCache = new Map();
+  function fitBubble(n) {
     const name = n.data("label") || "";
-    const room = 6 + 2 * (n.data("strength") || 1);
-    const short = name.length > room ? `${name.slice(0, room - 1)}…` : name;
-    const odor = n.data("odor") || "";
-    return odor && odor.toLowerCase() !== name.toLowerCase() ? `${odor}\n${short}` : short;
+    const note = n.data("note") || n.data("odor") || "";
+    const d = bubble(n);
+    const key = `${d}|${note}|${name}`;
+    if (fitCache.has(key)) return fitCache.get(key);
+    const head = note && note.toLowerCase() !== name.toLowerCase() ? [note] : [];
+    const r = d / 2 - 3;
+    const max = (n.data("strength") || 1) >= 3 ? 14.5 : 12.5;
+    let best = null;
+    for (let fs = max; fs >= 8.5 && !best; fs -= 0.5) {
+      measureCtx.font = `italic 600 ${fs}px Fraunces, Georgia, serif`;
+      const measure = (t) => measureCtx.measureText(t).width;
+      const room = (k, i) => {   // largeur de la corde du cercle à la hauteur de la ligne i sur k
+        const y = Math.abs(i - (k - 1) / 2) * fs * LINE + fs * 0.45;
+        return y >= r ? 0 : 2 * Math.sqrt(r * r - y * y);
+      };
+      for (let k = head.length + 1; k <= head.length + 3 && !best; k++) {
+        const lines = [...head, ...wrap(tokens(name), room(k, head.length), measure)];
+        if (lines.length > k) continue;
+        if (lines.every((l, i) => measure(l) <= room(lines.length, i))) best = { text: lines.join("\n"), size: fs };
+      }
+    }
+    if (!best) {   // dernier recours : 8,5 px, nom sur deux lignes, la seconde abrégée
+      measureCtx.font = "italic 600 8.5px Fraunces, Georgia, serif";
+      const measure = (t) => measureCtx.measureText(t).width;
+      const lines = wrap(tokens(name), d * 0.78, measure).slice(0, 2);
+      let last = lines[lines.length - 1];
+      while (last.length > 3 && measure(`${last}…`) > d * 0.72) last = last.slice(0, -1);
+      if (lines.join("") !== name.replace(/\s+/g, "")) lines[lines.length - 1] = `${last.replace(/-$/, "")}…`;
+      best = { text: [...head, ...lines].join("\n"), size: 8.5 };
+    }
+    fitCache.set(key, best);
+    return best;
+  }
+  // Les mesures faites avant le chargement de Fraunces sont refaites avec la vraie police.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => { fitCache.clear(); cy.style().update(); });
   }
   function rootLabel(n) {
     const odor = n.data("odor") || "";
@@ -208,7 +282,7 @@
     canvas.classList.add("is-bouquet");
     const want = `${Math.round(height)}px`;
     if (canvas.style.minHeight !== want) { canvas.style.minHeight = want; cy.resize(); }
-    cy.elements().removeClass("bq ring grid").addClass(`bq ${classes}`);
+    cy.elements().removeClass("bq ring grid bouquet").addClass(`bq ${classes}`);
     cy.nodes().removeClass("compact");
   }
   const byColour = { rouge: 0, rose: 1, blanc: 2 };
@@ -251,7 +325,6 @@
   }
 
   // ── Couronne : une molécule au centre, ses vins en verres tout autour (par couleur), sa nature au-dessus ──
-  const measureCtx = document.createElement("canvas").getContext("2d");
   function layoutRing() {
     const R0 = Math.max(170, Math.min(cy.width() / 2 - 150, 330));
     // Au-dessus : la nature (0,86 R) ; en dessous : le cercle et les noms qui en partent (≈ 190 px).
@@ -374,19 +447,43 @@
 
   // ── Bouquet : le vin en bas, ses molécules en éventail au-dessus, la nature en couronne ──
   function layoutBouquet(compact = false) {
-    prepare(compact ? 760 : 820, "");
+    const allSrc = cy.nodes("[type='source']").toArray();
+    const nearSrc = allSrc.filter((s) => s.data("near")), farSrc = allSrc.filter((s) => !s.data("near"));
+    const positions = {};
+    if (!compact) {
+      // Ordinateur : les proches en couronne au-dessus des bulles, comme avant ; les lointains dans une
+      // bande tout en haut, qui agrandit le cadre d'autant (sans eux, la couronne les accueille tous).
+      prepare(820, "bouquet");
+      let band = 0;
+      if (farSrc.length && nearSrc.length) {
+        const rows = rowsOf(farSrc, 30, cy.width(), 44);
+        band = rows.bottom + 26;
+        prepare(820 + band, "bouquet");
+        Object.assign(positions, rows.positions);
+      }
+      placeBubbles(positions, 70 + band, false, band ? nearSrc : allSrc, band);
+      return;
+    }
+    // Téléphone : la nature en rangées en haut, les lointains tout en haut, les proches juste au-dessus
+    // des bulles ; le cadre grandit d'autant que les rangées descendent.
+    prepare(760, "bouquet");
+    const W = cy.width();
+    let y = 30;
+    [farSrc, nearSrc].forEach((group) => {
+      if (!group.length) return;
+      const rows = rowsOf(group, y, W, 46);
+      Object.assign(positions, rows.positions);
+      y = rows.bottom + 54;
+    });
+    const topLimit = Math.max(70, y - 14);
+    if (topLimit > 150) prepare(760 + topLimit - 150, "bouquet");
+    placeBubbles(positions, topLimit, true);
+  }
+  function placeBubbles(positions, topLimit, compact, crown = [], band = 0) {
     const W = cy.width(), H = cy.height();
     const rad = (d) => (d * Math.PI) / 180;
-    const ox = W / 2, oy = H - (compact ? 190 : 230);   // foyer de l'éventail, au-dessus du vin
-    const positions = {};
+    const ox = W / 2, oy = H - (compact ? 190 : 230);
     cy.nodes("[type='profile']").forEach((n) => { positions[n.id()] = { x: ox, y: H - (compact ? 110 : 150) }; });
-    // Téléphone : la nature en rangées tout en haut, l'éventail des molécules dessous.
-    let topLimit = 70;
-    if (compact) {
-      const srcRows = rowsOf(cy.nodes("[type='source']").toArray(), 30, W, 50);
-      Object.assign(positions, srcRows.positions);
-      topLimit = srcRows.bottom + 40;
-    }
     // Molécules : les plus sûres au centre, en quinconce sur deux ou trois anneaux.
     const mols = cy.nodes("[type='molecule']").sort((a, b) => (b.data("strength") || 0) - (a.data("strength") || 0)
       || (a.data("universal") ? 1 : 0) - (b.data("universal") ? 1 : 0));
@@ -396,7 +493,7 @@
     // révèle après aération reste près du verre. L'ordre vient de la donnée « attaque », jamais affichée.
     const ringOf = { 1: 1, 2: n > 9 ? 0.78 : 0.7, 3: n > 9 ? 0.56 : 0.5 };
     const rx = compact ? W * 0.34 : Math.min(W * 0.4, 360);
-    const ry = compact ? Math.max(120, (oy - topLimit) * 0.8) : Math.min((oy - 60) * 0.68, 390);
+    const ry = compact ? Math.max(120, (oy - topLimit) * 0.8) : Math.min((oy - 60 - band) * 0.68, 390);
     const spanM = Math.min(140, 40 + n * 14);
     const angle = {};
     mols.forEach((m, k) => {
@@ -431,21 +528,23 @@
     }
     if (compact) { run(positions, false); return; }
     // Éléments naturels : une couronne au-dessus, dans l'ordre des molécules qu'ils prolongent.
-    const srcs = cy.nodes("[type='source']").toArray().map((s) => {
+    const sx = Math.min(W / 2 - 70, rx * 1.5), sy = oy - 34 - band;
+    const bubbles = mols.map((m) => ({ ...positions[m.id()], r: bubble(m) / 2 + 8 }));
+    // Les étiquettes de la bande du haut comptent comme obstacles.
+    const placed = Object.entries(positions).filter(([id]) => cy.getElementById(id).data("type") === "source")
+      .map(([id, q]) => ({ ...q, half: ((cy.getElementById(id).data("label") || "").length * 7 + 22) / 2 }));
+    const srcs = crown.map((s) => {
       const as = s.incomers("node").map((m) => angle[m.id()]).filter((v) => v !== undefined);
       return { s, a: as.length ? as.reduce((x, y) => x + y, 0) / as.length : 0 };
     }).sort((p, q) => p.a - q.a);
     const ns = srcs.length;
-    const sx = Math.min(W / 2 - 70, rx * 1.5), sy = oy - 34;
     const spanS = Math.min(170, 60 + ns * 9);
-    const bubbles = mols.map((m) => ({ ...positions[m.id()], r: bubble(m) / 2 + 8 }));
-    const placed = [];
     srcs.forEach(({ s }, k) => {
       const a = ns > 1 ? -spanS / 2 + (spanS * k) / (ns - 1) : 0;
       let r = k % 2 ? 0.88 : 1;
       const half = ((s.data("label") || "").length * 7 + 22) / 2;
       const at = () => ({ x: Math.min(W - half - 8, Math.max(half + 8, ox + sx * r * Math.sin(rad(a)))),
-        y: Math.max(26, oy - sy * r * Math.cos(rad(a))) });
+        y: Math.max(26 + band, oy - sy * r * Math.cos(rad(a))) });
       // Une étiquette ne doit couvrir ni une bulle ni une autre étiquette : on la pousse vers l'extérieur.
       const hits = (p) => bubbles.some((b) => Math.abs(p.x - b.x) < half + b.r && Math.abs(p.y - b.y) < 14 + b.r)
         || placed.some((q) => Math.abs(p.x - q.x) < half + q.half + 6 && Math.abs(p.y - q.y) < 32);

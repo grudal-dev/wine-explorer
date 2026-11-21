@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-21 16:22+0100\n"
+"POT-Creation-Date: 2026-11-21 16:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -2366,6 +2366,9 @@ msgstr "The most structured red of the Côte de Beaune, on iron-rich clay, firm 
 
 msgid "Le royaume du gamay sur granite, des primeurs gouleyants aux crus de garde."
 msgstr "The kingdom of Gamay on granite, from easy-drinking nouveau wines to age-worthy crus."
+
+msgid "Le saviez-vous ?"
+msgstr "Did you know?"
 
 msgid ""
 "Le sommet de la gamme : une année exceptionnelle, déclarée par chaque maison seulement quelques fois par "

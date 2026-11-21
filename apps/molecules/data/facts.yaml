@@ -1,0 +1,63 @@
+# « Le saviez-vous ? » : faits courts, tirés des fiches des molécules et de leurs sources.
+# molecule : nom de la fiche (molecules.yaml) ; ref : clé de references.yaml ; text / text_en : une ou
+# deux phrases, sans nommer d'appellation (l'encart s'affiche aussi à la fin d'un blind test).
+- molecule: rotundone
+  ref: wood2008
+  text: Le poivre de la Syrah et celui du moulin sont la même molécule, la rotundone. Environ une personne sur cinq ne la sent pas du tout, même à forte dose.
+  text_en: The pepper in Syrah and the pepper in your grinder are the same molecule, rotundone. About one person in five cannot smell it at all, even at high levels.
+- molecule: acétate d'isoamyle
+  ref: marais1980
+  text: La banane d'un vin primeur vient d'un ester fabriqué par la levure, l'acétate d'isoamyle. Il s'hydrolyse vite et disparaît en quelques mois, d'autant plus vite que le vin est gardé au chaud.
+  text_en: The banana note of a young nouveau wine comes from an ester made by yeast, isoamyl acetate. It hydrolyses quickly and fades within months, faster still when the wine is kept warm.
+- molecule: 3-sulfanylhexanol
+  ref: bueno2021
+  text: Les thiols du Sauvignon (buis, pamplemousse, fruit de la passion) sont détruits par l'oxygène. Dans un vin longuement élevé au contact de l'air, comme un tawny ou un vin jaune, on ne les attend plus.
+  text_en: Sauvignon's thiols (boxwood, grapefruit, passion fruit) are destroyed by oxygen. In a wine aged for years in contact with air, such as a tawny port or a vin jaune, they are no longer expected.
+- molecule: 4-MMP
+  ref: darriet1995
+  text: Le raisin de Sauvignon ne sent pas le buis. Le thiol responsable y est attaché à un acide aminé, inodore, et c'est la levure qui le libère pendant la fermentation.
+  text_en: Sauvignon grapes do not smell of boxwood. The thiol responsible is bound to an odourless amino acid in the berry, and yeast releases it during fermentation.
+- molecule: pyrroleméthanethiol
+  ref: gros2017
+  text: La noisette d'un Chardonnay ne doit rien à la noisette. Ses deux molécules, identifiées en 2017, n'ont encore jamais été trouvées dans un produit naturel.
+  text_en: The hazelnut in a Chardonnay owes nothing to hazelnuts. Its two molecules, identified in 2017, have never yet been found in any natural product.
+- molecule: lactone du vin
+  ref: smith2015
+  text: La lactone du vin, l'une de ses molécules les plus puissantes, a d'abord été isolée en 1975… dans l'urine de koala.
+  text_en: Wine lactone, one of the most potent molecules in wine, was first isolated in 1975… from koala urine.
+- molecule: 1,8-cinéole
+  ref: capone2011
+  text: La note d'eucalyptus de certains rouges vient des arbres qui bordent la vigne. Leurs feuilles tombent dans la vendange et la molécule passe dans le vin pendant la macération.
+  text_en: The eucalyptus note in some reds comes from trees growing next to the vines. Their leaves fall into the harvest and the molecule passes into the wine during maceration.
+- molecule: TDN
+  ref: smith2015
+  text: La note pétrolée des vieux Rieslings se forme en bouteille, à partir de précurseurs du raisin. Plus les grappes ont pris le soleil, plus elle sera marquée.
+  text_en: The petrol note of aged Riesling forms in the bottle from grape precursors. The more sun the bunches received, the stronger it becomes.
+- molecule: sulfure de diméthyle
+  ref: picard2015
+  text: La truffe des grands vins âgés vient d'un précurseur du raisin qui se dégrade lentement en bouteille, à l'abri de l'oxygène.
+  text_en: The truffle note of great aged wines comes from a grape precursor that breaks down slowly in the bottle, away from oxygen.
+- molecule: sotolon
+  ref: pham1995
+  text: Le vin jaune gagne ses notes de noix et de curry pendant six ans sous un voile de levures. Le sotolon s'y forme à partir de l'éthanal que ces levures produisent.
+  text_en: Vin jaune gains its walnut and curry notes during six years under a veil of yeast. Sotolon forms there from the acetaldehyde those yeasts produce.
+- molecule: cinnamate d'éthyle
+  ref: moio1995
+  text: Un Pinot noir peut sentir la cannelle sans avoir jamais vu le bois. L'épice vient alors du raisin et de la fermentation, pas du fût.
+  text_en: A Pinot Noir can smell of cinnamon without ever touching oak. The spice then comes from the grape and the fermentation, not the barrel.
+- molecule: IBMP
+  ref: roujou2000
+  text: Le poivron vert du Cabernet se dégrade à la lumière pendant la maturation. Un raisin vendangé tôt ou resté à l'ombre en garde davantage.
+  text_en: The green pepper note of Cabernet breaks down in sunlight as the grapes ripen. Fruit picked early or left in the shade keeps more of it.
+- molecule: β-damascénone
+  ref: pineau2007
+  text: La β-damascénone, présente dans presque tous les vins, ne sent pas grand-chose seule. Elle agit en exhausteur et amplifie le fruit des autres molécules.
+  text_en: β-Damascenone, found in almost every wine, smells of little on its own. It works as an enhancer, amplifying the fruit of other molecules.
+- molecule: 2-méthylbutanoate d'éthyle
+  ref: lytra2017
+  text: Tous les arômes de fruit ne s'effacent pas avec l'âge. Certains esters des rouges, dont celui des fruits noirs, augmentent au contraire pendant des années de bouteille.
+  text_en: Not every fruit aroma fades with age. Some red-wine esters, including the one behind black fruit, actually increase over years in the bottle.
+- molecule: β-ionone
+  ref: barter2015
+  text: Comme pour le poivre, une partie de la population est presque insensible à la violette de la β-ionone, pour des raisons génétiques.
+  text_en: As with pepper, part of the population is almost blind to the violet note of β-ionone, for genetic reasons.

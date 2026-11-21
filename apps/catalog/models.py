@@ -164,6 +164,11 @@ class WineProfile(SluggedModel):
     acidity = models.PositiveSmallIntegerField("acidité", default=3)
     tannin = models.PositiveSmallIntegerField("tanins", default=0)
     sweetness = models.PositiveSmallIntegerField("sucrosité", default=1)
+    oxidative = models.BooleanField(
+        "élevage oxydatif", default=False,
+        help_text="Long élevage au contact de l'air (tawny, vin jaune…) : les thiols et les acétates "
+                  "de fermentation y ont disparu.",
+    )
 
     price_min = models.PositiveIntegerField("prix min (€)", null=True, blank=True)
     price_max = models.PositiveIntegerField("prix max (€)", null=True, blank=True)

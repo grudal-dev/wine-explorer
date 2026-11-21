@@ -38,7 +38,7 @@ WIKIDATA_FILE = DATA_DIR / "wikidata_occurrences.json"
 MOLECULE_KEYS = {
     "name", "name_en", "synonyms", "family", "origin", "smiles", "odor", "threshold", "refs",
     "aromas", "aroma_ref", "aroma_max", "universal", "description", "wine", "nature",
-    "families", "family_ref",
+    "families", "family_ref", "fades",
 }
 RULE_KEYS = {"grapes", "styles", "colors", "all", "strength", "ref", "min_share"}
 
@@ -197,8 +197,14 @@ class Command(BaseCommand):
             family_ref = item.get("family_ref") or aroma_ref
             if fam_ids:
                 self._ref(refs, family_ref, name)
+            fades = item.get("fades") or {}
+            if set(fades) - {"oxidative", "ref"} or (fades and not fades.get("ref")):
+                raise ValueError(f"{name}: règle « fades » invalide {fades}")
+            if fades:
+                self._ref(refs, fades["ref"], name)
             molecules.append(mol)
             rules.append({
+                "fades_oxidative": bool(fades.get("oxidative")),
                 "mol": mol, "parsed": parsed, "aromas": {a.pk for a in mol_aromas}, "aroma_ref": aroma_ref,
                 "aroma_max": item.get("aroma_max", 2), "families": fam_ids, "family_ref": family_ref,
             })
@@ -322,6 +328,10 @@ class Command(BaseCommand):
                 p_families.setdefault(pa.aroma.family_id, []).append(pa.aroma.name)
                 fam_names[pa.aroma.family_id] = pa.aroma.family.name
             for rule in rules:
+                # Molécule fragile disparue pendant un long élevage oxydatif (thiols, acétates) :
+                # aucun lien, quelles que soient les autres raisons.
+                if rule["fades_oxidative"] and p.oxidative:
+                    continue
                 mol, parsed, mol_aromas = rule["mol"], rule["parsed"], rule["aromas"]
                 aroma_ref, aroma_max = rule["aroma_ref"], rule["aroma_max"]
                 reasons = []

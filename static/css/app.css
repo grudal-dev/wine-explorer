@@ -1138,3 +1138,10 @@ body.map-is-full { overflow: hidden; }
 .mol-canvas.is-bouquet { background:
   radial-gradient(ellipse 46% 52% at 50% 64%, #EFDFCB 0%, #F3E8DA 48%, rgba(248, 248, 244, 0) 78%), var(--paper); }
 .mol-canvas.is-bouquet .mol-columns { display: none; }
+
+/* « Le saviez-vous ? » : fiche d'une molécule, fin de blind test */
+.fact { margin: 1.2rem 0 0; padding: .9rem 1.1rem 1rem; border-left: 3px solid var(--verdigris); background: var(--paper); border-radius: 0 var(--radius-m) var(--radius-m) 0; }
+.outcome .fact { background: rgba(255, 255, 255, .6); }
+.fact__title { margin: 0 0 .3rem; font: 600 .78rem/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--verdigris); }
+.fact__text { margin: 0; font: italic 400 var(--step-1)/1.4 var(--serif); color: var(--ink); }
+.fact__meta { margin: .45rem 0 0; color: var(--ink-3); }

@@ -18,6 +18,24 @@
   container: Macrowine 2010, IVES Conference Series
   url: https://ives-openscience.eu/47369
   note: Socle aromatique commun à tous les vins (éthanol et 27 composés de fermentation).
+- key: bueno2021
+  authors: Bueno-Aventín, Escudero, Fernández-Zurbano, Ferreira
+  year: 2021
+  title: Role of Grape-Extractable Polyphenols in the Generation of Strecker Aldehydes and in the Instability of Polyfunctional Mercaptans during Model Wine Oxidation
+  container: Journal of Agricultural and Food Chemistry, 69(50), 15290-15300
+  doi: 10.1021/acs.jafc.1c05880
+- key: marais1980
+  authors: Marais, Pool
+  year: 1980
+  title: Effect of storage time and temperature on the volatile composition and quality of dry white table wines
+  container: Vitis, 19, 151-164
+  url: https://ojs.openagrar.de/index.php/VITIS/article/view/6402
+- key: lytra2017
+  authors: Lytra, Franc, Cameleyre, Barbe
+  year: 2017
+  title: Study of Substituted Ester Formation in Red Wine by the Development of a New Method for Quantitative Determination and Enantiomeric Separation of Their Corresponding Acids
+  container: Journal of Agricultural and Food Chemistry, 65(24), 5018-5025
+  doi: 10.1021/acs.jafc.7b00979
 - key: smith2015
   authors: Smith, Schulkin, Kassara, Barter, Solomon et al.
   year: 2015

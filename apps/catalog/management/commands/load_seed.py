@@ -44,7 +44,7 @@ COMMON = "fr"  # référentiel commun de cépages et d'arômes
 
 PROFILE_KEYS = {
     "name", "color", "style", "grapes", "aromas", "structure", "price", "aging",
-    "temp", "pairings", "description",
+    "temp", "pairings", "description", "oxidative",
 }
 APPELLATION_KEYS = {"appellation", "region", "classification", "lat", "lng", "profiles", "description"}
 
@@ -263,6 +263,8 @@ class Command(BaseCommand):
                 "acidity": acidity,
                 "tannin": tannin,
                 "sweetness": sweetness,
+                # Le style oxydatif (vin jaune, Szamorodni sec) l'est par définition ; ailleurs, on le déclare.
+                "oxidative": bool(prof.get("oxidative", style == Style.OXYDATIF)),
                 "price_min": price[0],
                 "price_max": price[1],
                 "aging_min": aging[0],

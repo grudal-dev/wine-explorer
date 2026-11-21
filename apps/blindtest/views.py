@@ -9,6 +9,7 @@ from django.views.decorators.http import require_GET, require_POST
 
 from apps.analytics.tracking import track
 from apps.catalog.models import Color, WineProfile
+from apps.molecules import facts as molecule_facts
 
 from . import engine
 from .models import Game
@@ -116,6 +117,8 @@ def _game_context(game: Game, error: str = "") -> dict:
         "sheet": engine.tasting_sheet(game),
         "guesses": game.guesses.all(),
         "error": error,
+        # Fin de partie : un « Le saviez-vous ? » sur une molécule du vin joué (jamais avant, il trahirait le vin).
+        "fact": molecule_facts.for_profile(game.profile, seed=str(game.public_id)) if game.is_over else None,
     }
 
 

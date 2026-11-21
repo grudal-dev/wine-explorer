@@ -76,6 +76,7 @@
             <button class="btn btn--ghost" type="submit">{% translate "Nouvelle partie libre" %}</button></form>
           {% endif %}
         </div>
+        {% include "molecules/_fact.html" %}
       </div>
     {% elif game.is_owner %}
       <form class="guess-form" method="post" action="{% url 'blindtest:guess' game.public_id %}"

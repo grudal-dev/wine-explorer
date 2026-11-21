@@ -28,6 +28,7 @@ KIND_COLORS = {
 }
 MAX_PROFILES = 18
 MAX_SOURCES_PER_MOLECULE = 4   # en partant d'un vin ; la fiche de la molécule les liste toutes
+MAX_FAR_PER_MOLECULE = 2       # éléments naturels sans arôme commun avec le vin, par molécule
 AUTO_COMMON_BELOW = 6          # socle commun ajouté d'office sous ce nombre de molécules
 
 
@@ -46,6 +47,10 @@ class Data:
     occ_refs: dict[tuple[str, str], str] = field(default_factory=dict)
     occ_imported: set[tuple[str, str]] = field(default_factory=set)
     refs: dict[str, dict] = field(default_factory=dict)
+    # Arôme du vin qui justifie le lien (« caramel » pour le furanéol du tawny), sinon absent.
+    link_note: dict[tuple[str, str], tuple[str, str]] = field(default_factory=dict)   # (arôme, couleur)
+    # Arômes de chaque vin (identifiants) : un élément naturel qui en porte un est « pertinent ».
+    profile_aromas: dict[str, set[int]] = field(default_factory=lambda: defaultdict(set))
 
 
 def link_tier(reasons: list[dict]) -> str:
@@ -81,7 +86,8 @@ def _data(version: tuple) -> Data:
     }
     sources = {
         s.slug: {"slug": s.slug, "label": s.name, "kind": s.kind, "kind_label": NaturalSource.Kind(s.kind).label,
-                 "hue": KIND_COLORS[s.kind], "url": s.get_absolute_url(), "imported": s.imported}
+                 "hue": KIND_COLORS[s.kind], "url": s.get_absolute_url(), "imported": s.imported,
+                 "aroma": s.aroma_id}
         for s in NaturalSource.objects.all()
     }
     # Couleur d'une molécule : celle de la famille d'arômes de sa première note d'odeur (poivre noir →
@@ -110,8 +116,25 @@ def _data(version: tuple) -> Data:
     # Ordre des éléments naturels d'une molécule : celui qui porte le même nom qu'un de ses
     # descripteurs (poivre noir pour la rotundone), puis ceux qu'une note commente, puis les autres.
     mol_aromas: dict[int, set[int]] = defaultdict(set)
-    for mid, aid in Molecule.aromas.through.objects.values_list("molecule_id", "aroma_id"):
+    mol_aromas_by_slug: dict[str, set[int]] = defaultdict(set)
+    for mid, mslug, aid in Molecule.aromas.through.objects.values_list("molecule_id", "molecule__slug", "aroma_id"):
         mol_aromas[mid].add(aid)
+        mol_aromas_by_slug[mslug].add(aid)
+    # Arômes des vins, et pour chaque lien l'arôme commun le plus intense (à égalité, le premier
+    # de la molécule par ordre alphabétique, pour un affichage stable).
+    from apps.catalog.models import ProfileAroma
+
+    p_int: dict[str, dict[int, tuple[int, str, str]]] = defaultdict(dict)
+    for pslug, aid, intensity, aname, ahue in ProfileAroma.objects.values_list(
+        "profile__slug", "aroma_id", "intensity", "aroma__name", "aroma__family__color"
+    ):
+        p_int[pslug][aid] = (intensity, aname, ahue)
+        d.profile_aromas[pslug].add(aid)
+    for (pslug, mslug) in d.link_refs:
+        common = [p_int[pslug][a] for a in mol_aromas_by_slug[mslug] if a in p_int[pslug]]
+        if common:
+            _, name, hue = sorted(common, key=lambda x: (-x[0], x[1]))[0]
+            d.link_note[(pslug, mslug)] = (name, hue)
     occs = list(Occurrence.objects.select_related("molecule", "source", "reference").only(
         "molecule__slug", "source__slug", "source__aroma_id", "source__name", "reference__key", "imported", "note"
     ))
@@ -218,17 +241,33 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
                 hidden_common += 1
                 continue
             mid = f"molecule:{mslug}"
-            nodes[mid] = _node("molecule", d.molecules[mslug], 1, strength=strength, tier=tier)
+            extra = {"strength": strength, "tier": tier}
+            if note := d.link_note.get((slug, mslug)):
+                # La bulle prend la couleur de cet arôme : le furanéol d'un tawny est caramel, pas fraise.
+                extra["note"], extra["hue"] = tr(note[0]), note[1]
+            nodes[mid] = _node("molecule", d.molecules[mslug], 1, **extra)
             edges.append(_edge(pid, mid, "contains", strength, basis, tier))
+            # Éléments naturels : ceux qui portent un arôme de ce vin (« cannelle » pour l'eugénol
+            # d'un vin noté cannelle) sont « proches » ; les autres (la fraise du furanéol dans un
+            # tawny) restent visibles mais en retrait, au plus MAX_FAR_PER_MOLECULE par molécule.
             srcs = sources_of(mslug)
-            # Les éléments déjà présents (partagés par plusieurs molécules) passent en premier.
-            srcs = sorted(srcs, key=lambda x: (f"source:{x}" not in nodes, srcs.index(x)))
-            hidden_sources += max(0, len(srcs) - MAX_SOURCES_PER_MOLECULE)
-            for sslug in srcs[:MAX_SOURCES_PER_MOLECULE]:
+            near = [x for x in srcs if d.sources[x]["aroma"] in d.profile_aromas[slug]]
+            far = [x for x in srcs if x not in near]
+            # Parmi les autres, ceux déjà présents (partagés par plusieurs molécules) passent en premier.
+            far = sorted(far, key=lambda x: (f"source:{x}" not in nodes, srcs.index(x)))
+            shown = near[:MAX_SOURCES_PER_MOLECULE]
+            shown += far[:max(0, min(MAX_FAR_PER_MOLECULE, MAX_SOURCES_PER_MOLECULE - len(shown)))]
+            hidden_sources += len(srcs) - len(shown)
+            for sslug in shown:
                 sid = f"source:{sslug}"
-                nodes.setdefault(sid, _node("source", d.sources[sslug], 2))
+                is_near = sslug in near
+                if sid not in nodes:
+                    nodes[sid] = _node("source", d.sources[sslug], 2, near=is_near)
+                elif is_near:
+                    nodes[sid]["data"]["near"] = True
                 edges.append(_edge(mid, sid, "found_in", _occ_strength(d, mslug, sslug),
                                    tier="imported" if (mslug, sslug) in d.occ_imported else "specific"))
+                edges[-1]["data"]["near"] = is_near
 
     elif kind == "molecule":
         if slug not in d.molecules:

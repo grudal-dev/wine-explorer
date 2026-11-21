@@ -1,0 +1,5 @@
+{% load i18n %}{% if fact %}<aside class="fact" aria-label="{% translate "Le saviez-vous ?" %}">
+  <p class="fact__title">{% translate "Le saviez-vous ?" %}</p>
+  <p class="fact__text">{{ fact.text }}</p>
+  <p class="fact__meta small">{% if fact.molecule %}<a href="{{ fact.molecule.get_absolute_url }}">{{ fact.molecule.display_name }}</a>{% endif %}{% if fact.reference %}{% if fact.molecule %} · {% endif %}{% if fact.reference.link %}<a href="{{ fact.reference.link }}" target="_blank" rel="noopener">{{ fact.reference.short }}</a>{% else %}{{ fact.reference.short }}{% endif %}{% endif %}</p>
+</aside>{% endif %}
