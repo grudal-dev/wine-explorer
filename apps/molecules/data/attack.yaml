@@ -1,0 +1,54 @@
+# Attaque : à quel moment le nez reconnaît la molécule dans le verre (jugement d'expert, à faire relire).
+# Pas la volatilité seule : un arôme très volatil ou perçu à de très faibles doses saute au nez dès
+# la première inspiration ; les molécules lourdes ou discrètes se révèlent après quelques secondes,
+# avec l'aération ou le vieillissement. Sert uniquement à la hauteur des bulles dans le bouquet :
+# rien n'est affiché à l'écran (pas de « notes de tête / de fond »).
+#   1 = d'emblée   2 = nez ouvert (valeur par défaut)   3 = après aération
+1:
+  - ethanal
+  - sulfure-de-dimethyle
+  - diacetyle
+  - z-3-hexen-1-ol
+  - butanoate-dethyle
+  - acetate-disoamyle
+  - 2-methylbutanoate-dethyle
+  - hexanoate-dethyle
+  - 4-mmp
+  - 3-sulfanylhexanol
+  - acetate-de-3-sulfanylhexyle
+  - ibmp
+  - rotundone
+  - beta-ionone
+2:
+  - benzaldehyde
+  - 2-furfurylthiol
+  - phenylacetaldehyde
+  - 2-phenylethanol
+  - 1-octen-3-ol
+  - benzenemethanethiol
+  - pyrrolemethanethiol
+  - piperitone
+  - linalol
+  - geraniol
+  - oxyde-de-rose-cis
+  - 1-8-cineole
+  - alpha-terpineol
+  - nerol
+  - citronellol
+  - leucate-dethyle
+  - cinnamate-dethyle
+  - beta-damascenone
+3:
+  - 4-ethylphenol
+  - gaiacol
+  - 4-ethylgaiacol
+  - eugenol
+  - sotolon
+  - furaneol
+  - vanilline
+  - whisky-lactone
+  - gamma-nonalactone
+  - lactone-du-vin
+  - lactone-massoia
+  - mnd
+  - tdn

@@ -392,7 +392,9 @@
       || (a.data("universal") ? 1 : 0) - (b.data("universal") ? 1 : 0));
     const n = mols.length;
     const slots = [...Array(n).keys()].sort((a, b) => Math.abs(a - (n - 1) / 2) - Math.abs(b - (n - 1) / 2));
-    const rings = n > 9 ? [1, 0.78, 0.56] : [1, 0.7];
+    // Hauteur : ce que le nez reconnaît d'emblée (poivre, cassis, buis…) monte le plus haut, ce qui se
+    // révèle après aération reste près du verre. L'ordre vient de la donnée « attaque », jamais affichée.
+    const ringOf = { 1: 1, 2: n > 9 ? 0.78 : 0.7, 3: n > 9 ? 0.56 : 0.5 };
     const rx = compact ? W * 0.34 : Math.min(W * 0.4, 360);
     const ry = compact ? Math.max(120, (oy - topLimit) * 0.8) : Math.min((oy - 60) * 0.68, 390);
     const spanM = Math.min(140, 40 + n * 14);
@@ -400,7 +402,7 @@
     mols.forEach((m, k) => {
       const slot = slots[k];
       const a = n > 1 ? -spanM / 2 + (spanM * slot) / (n - 1) : 0;
-      const ring = rings[slot % rings.length];
+      const ring = ringOf[m.data("att")] || ringOf[2];
       angle[m.id()] = a;
       positions[m.id()] = { x: ox + rx * ring * Math.sin(rad(a)), y: oy - ry * ring * Math.cos(rad(a)) };
     });

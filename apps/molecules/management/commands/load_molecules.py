@@ -93,6 +93,14 @@ class Command(BaseCommand):
             for label in [g.name, *g.synonyms]:
                 grapes[normalize(label)] = g
 
+        attack = {}
+        for level, slugs in self._read("attack.yaml").items():
+            if level not in (1, 2, 3):
+                raise ValueError(f"attack.yaml : niveau inconnu {level}")
+            for sl in slugs:
+                if sl in attack:
+                    raise ValueError(f"attack.yaml : {sl} classée deux fois")
+                attack[sl] = level
         molecules, rules = [], []
         seen_slugs = set()
         for order, item in enumerate(self._read("molecules.yaml")):
@@ -124,6 +132,7 @@ class Command(BaseCommand):
                     "threshold": str(item.get("threshold", "")),
                     "description": " ".join(item.get("description", "").split()),
                     "universal": bool(item.get("universal", False)),
+                    "attack": attack.pop(slug, 2),
                     "order": order,
                 },
             )
@@ -194,6 +203,8 @@ class Command(BaseCommand):
                 "aroma_max": item.get("aroma_max", 2), "families": fam_ids, "family_ref": family_ref,
             })
 
+        if attack:
+            raise ValueError(f"attack.yaml : molécules inconnues {sorted(attack)}")
         Molecule.objects.exclude(slug__in=seen_slugs).delete()
         n_imported = self._load_wikidata(refs, sources)
         n_links = self._link_profiles(rules)

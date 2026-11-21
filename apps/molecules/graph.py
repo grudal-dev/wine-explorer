@@ -75,7 +75,7 @@ def _data(version: tuple) -> Data:
     }
     molecules = {
         m.slug: {"slug": m.slug, "label": m.name, "family": m.family, "family_label": ChemicalFamily(m.family).label,
-                 "origin": m.origin, "universal": m.universal, "formula": m.formula, "odor": m.odor,
+                 "origin": m.origin, "universal": m.universal, "attack": m.attack, "formula": m.formula, "odor": m.odor,
                  "url": m.get_absolute_url()}
         for m in Molecule.objects.all()
     }
@@ -151,6 +151,7 @@ def _node(kind: str, info: dict, layer: int, **extra) -> dict:
     elif kind == "molecule":
         payload["family"] = info["family"]
         payload["universal"] = info["universal"]
+        payload["att"] = info.get("attack", 2)
         # Première note de l'odeur : « rotundone » ne dit rien, « poivre noir » si.
         payload["odor"] = tr(info.get("odor", "")).split(",")[0].strip()
         payload["hue"] = info.get("hue", "#2E6E6A")

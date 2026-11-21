@@ -97,6 +97,11 @@ class Molecule(SluggedModel):
         "socle commun", default=False,
         help_text="Présente dans pratiquement tous les vins (fermentation).",
     )
+    attack = models.PositiveSmallIntegerField(
+        "attaque", default=2,
+        help_text="Quand le nez la reconnaît : 1 d'emblée, 2 nez ouvert, 3 après aération (data/attack.yaml). "
+                  "Sert à la hauteur des bulles du bouquet, jamais affichée.",
+    )
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta(SluggedModel.Meta):
