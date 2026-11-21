@@ -161,6 +161,14 @@ def _node(kind: str, info: dict, layer: int, **extra) -> dict:
     return {"group": "nodes", "data": payload}
 
 
+def _occ_strength(d: "Data", molecule: str, source: str) -> int:
+    """Épaisseur d'un lien molécule ↔ élément naturel = niveau de preuve : 3 sourcé par une publication,
+    2 vérifié à la main sans notice, 1 importé de Wikidata (aucune force propre n'existe en base)."""
+    if (molecule, source) in d.occ_imported:
+        return 1
+    return 3 if (molecule, source) in d.occ_refs else 2
+
+
 def _edge(a: str, b: str, kind: str, strength: int = 1, basis: str = "", tier: str = "specific") -> dict:
     return {"group": "edges", "data": {
         "id": f"{a}>{b}", "source": a, "target": b, "kind": kind, "strength": strength, "basis": basis,
@@ -218,7 +226,7 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
             for sslug in srcs[:MAX_SOURCES_PER_MOLECULE]:
                 sid = f"source:{sslug}"
                 nodes.setdefault(sid, _node("source", d.sources[sslug], 2))
-                edges.append(_edge(mid, sid, "found_in",
+                edges.append(_edge(mid, sid, "found_in", _occ_strength(d, mslug, sslug),
                                    tier="imported" if (mslug, sslug) in d.occ_imported else "specific"))
 
     elif kind == "molecule":
@@ -237,7 +245,7 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
             sid = f"source:{sslug}"
             nodes[sid] = _node("source", d.sources[sslug], 2)
             tier = "imported" if (slug, sslug) in d.occ_imported else "specific"
-            edges.append(_edge(mid, sid, "found_in", tier=tier))
+            edges.append(_edge(mid, sid, "found_in", _occ_strength(d, slug, sslug), tier=tier))
 
     elif kind == "source":
         if slug not in d.sources:
@@ -253,7 +261,7 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
             mid = f"molecule:{mslug}"
             nodes[mid] = _node("molecule", d.molecules[mslug], 1)
             tier = "imported" if (mslug, slug) in d.occ_imported else "specific"
-            edges.append(_edge(mid, sid, "found_in", tier=tier))
+            edges.append(_edge(mid, sid, "found_in", _occ_strength(d, mslug, slug), tier=tier))
             for row in d.by_molecule_profiles.get(mslug, []):
                 if not keep(row):
                     continue

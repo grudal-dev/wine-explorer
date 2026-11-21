@@ -87,7 +87,7 @@
       { selector: "edge[basis='aroma']", style: { "line-color": C.aroma }},
       { selector: "edge[basis='universal']", style: { "line-color": C.universal, "line-style": "dashed" }},
       { selector: "edge[basis='family']", style: { "line-color": "#D9C08E", "line-style": "dotted", "width": 1.8 }},
-      { selector: "edge[kind='found_in']", style: { "line-color": "#B9CCCA", "width": 1.2 }},
+      { selector: "edge[kind='found_in']", style: { "line-color": "#B9CCCA", "width": "mapData(strength, 1, 3, 1.2, 3.6)" }},
       { selector: "edge[kind='found_in'][tier='imported']", style: { "line-style": "dashed", "opacity": 0.6 }},
       { selector: ".faded", style: { "opacity": 0.12, "text-opacity": 0.25 }},
       { selector: "node.hl", style: { "border-width": 2, "border-color": C.ink }},
@@ -118,7 +118,7 @@
         "control-point-distances": (e) => [-(e.target().position("x") - e.source().position("x")) * 0.32],
         "control-point-weights": [0.55], "opacity": 0.75, "width": "mapData(strength, 1, 3, 2, 6)" }},
       { selector: "edge.bq[kind='found_in']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
-        "opacity": 0.4, "width": 1.2 }},
+        "opacity": 0.42, "width": "mapData(strength, 1, 3, 1, 2.8)" }},
       // Couronne d'une molécule : la molécule en grande bulle au centre, les vins en petits verres autour.
       { selector: "node.bq[type='molecule'][?root]", style: { "width": () => 132 * SC, "height": () => 132 * SC,
         "font-size": () => 16 * SC, "text-max-width": () => 116 * SC, "border-width": 10, "border-opacity": 0.22, "label": rootLabel }},

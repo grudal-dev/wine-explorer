@@ -1888,6 +1888,9 @@ msgstr ""
 msgid "L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible."
 msgstr "Line thickness follows the strength of the link: established marker, likely or plausible."
 
+msgid "Entre une molécule et un élément naturel, il suit le niveau de preuve : épais si une publication le source, fin si le lien vient de Wikidata."
+msgstr "Between a molecule and a natural source, it follows the level of evidence: thick if a publication backs it, thin if the link comes from Wikidata."
+
 msgid "L'étiquette à reconstituer"
 msgstr "The label to piece together"
 
