@@ -1128,3 +1128,8 @@ body.map-is-full { overflow: hidden; }
 .nav-group--games .nav-group__toggle { background: var(--garnet-2); color: #fff; border: 0; border-radius: 999px; padding: .3rem .95rem; }
 .nav-group--games .nav-group__toggle:hover, .nav-group--games.is-open .nav-group__toggle { background: var(--garnet); color: #fff; }
 .nav-group--games .nav-group__toggle[aria-current="page"] { color: #fff; background: var(--garnet); box-shadow: inset 0 -2px 0 rgba(255, 255, 255, .55); }
+
+/* Molécules, vue d'un vin : le bouquet monte du verre, sur un halo chaud. */
+.mol-canvas.is-bouquet { background:
+  radial-gradient(ellipse 46% 52% at 50% 64%, #EFDFCB 0%, #F3E8DA 48%, rgba(248, 248, 244, 0) 78%), var(--paper); }
+.mol-canvas.is-bouquet .mol-columns { display: none; }

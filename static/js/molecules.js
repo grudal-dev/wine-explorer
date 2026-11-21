@@ -94,8 +94,135 @@
       { selector: "edge.hl", style: { "opacity": 1, "z-index": 9 }},
       { selector: "edge.hl[kind='found_in']", style: { "line-color": C.molecule, "width": 1.8 }},
       { selector: "node:selected", style: { "border-width": 4, "border-color": C.garnet, "overlay-opacity": 0 }},
+      // ── Bouquet (vue d'un vin, ordinateur) : le verre en bas, les molécules montent en bulles ──
+      { selector: "node.bq[type='profile']", style: { "shape": "rectangle", "width": 74, "height": 124,
+        "background-opacity": 0, "border-width": 0, "background-image": (n) => glass(n.data("wine")),
+        "background-fit": "contain", "background-clip": "none", "label": "data(label)", "text-valign": "bottom",
+        "text-halign": "center", "text-margin-x": 0, "text-margin-y": 10, "font-family": "Fraunces, Georgia, serif",
+        "font-size": 21, "font-weight": 600, "text-background-opacity": 0, "text-max-width": 260 }},
+      { selector: "node.bq[type='molecule']", style: { "shape": "ellipse",
+        "width": (n) => 58 + 14 * (n.data("strength") || 1), "height": (n) => 58 + 14 * (n.data("strength") || 1),
+        "padding": "0px", "background-color": "data(hue)", "border-width": 7, "border-color": "data(hue)", "border-opacity": 0.2,
+        "label": bubbleLabel, "color": "#fff", "font-family": "Fraunces, Georgia, serif", "font-style": "italic",
+        "font-weight": 600, "font-size": (n) => ((n.data("strength") || 1) >= 3 ? 14.5 : (n.data("odor") || "").length > 10 ? 10.5 : 12), "text-valign": "center",
+        "text-halign": "center", "text-margin-x": 0, "text-margin-y": 0, "text-wrap": "wrap",
+        "text-max-width": (n) => 48 + 14 * (n.data("strength") || 1), "text-background-opacity": 0, "line-height": 1.15 }},
+      { selector: "node.bq[type='molecule'][tier='family']", style: { "background-opacity": 0.75 }},
+      { selector: "node.bq[type='molecule'][tier='universal'], node.bq[type='molecule'][?universal]", style: {
+        "background-opacity": 0.42, "color": C.ink, "border-opacity": 0.1 }},
+      { selector: "node.bq[type='source']", style: { "shape": "round-rectangle", "width": "label", "height": 26,
+        "padding": "9px", "background-color": "#FFFFFF", "border-width": 1.3, "border-color": "data(hue)",
+        "label": "data(label)", "font-size": 12.5, "color": C.ink2, "text-valign": "center", "text-halign": "center",
+        "text-margin-x": 0, "text-background-opacity": 0 }},
+      { selector: "edge.bq[kind='contains']", style: { "curve-style": "unbundled-bezier",
+        "control-point-distances": (e) => [-(e.target().position("x") - e.source().position("x")) * 0.32],
+        "control-point-weights": [0.55], "opacity": 0.75, "width": "mapData(strength, 1, 3, 2, 6)" }},
+      { selector: "edge.bq[kind='found_in']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
+        "opacity": 0.4, "width": 1.2 }},
+      { selector: "node.bq:selected", style: { "border-color": C.garnet, "border-opacity": 1, "border-width": 4 }},
+      { selector: "node.bq.hl[type='molecule']", style: { "border-color": "data(hue)", "border-opacity": 0.35, "border-width": 9 }},
     ],
   });
+
+  // Verre dessiné (couleur du vin) : nœud du vin dans le bouquet.
+  const ROBE = { rouge: "#6E1A33", blanc: "#E2C766", rose: "#E89A8C" };
+  function glass(wine) {
+    const fill = ROBE[wine] || ROBE.rouge;
+    return "data:image/svg+xml;utf8," + encodeURIComponent(
+      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -116 100 168'>"
+      + "<path d='M-46 -112 H46 C46 -58 28 -26 0 -22 C-28 -26 -46 -58 -46 -112 Z' fill='#fff' stroke='#23262F' stroke-width='2.5'/>"
+      + `<path d='M-43 -80 H43 C40 -50 24 -28 0 -25 C-24 -28 -40 -50 -43 -80 Z' fill='${fill}'/>`
+      + "<path d='M0 -22 V40' stroke='#23262F' stroke-width='2.5'/>"
+      + "<path d='M-30 46 Q0 34 30 46' fill='none' stroke='#23262F' stroke-width='2.5' stroke-linecap='round'/></svg>");
+  }
+  // Dans une bulle : l'odeur d'abord (« poivre noir »), le nom de la molécule dessous, abrégé s'il est long.
+  function bubbleLabel(n) {
+    const name = n.data("label") || "";
+    const room = 6 + 2 * (n.data("strength") || 1);
+    const short = name.length > room ? `${name.slice(0, room - 1)}…` : name;
+    const odor = n.data("odor") || "";
+    return odor && odor.toLowerCase() !== name.toLowerCase() ? `${odor}\n${short}` : short;
+  }
+  const bouquetMode = () => state.start.startsWith("profile:") && cy.width() >= 640;
+  function layout() { if (bouquetMode()) layoutBouquet(); else layoutColumns(); }
+
+  // ── Bouquet : le vin en bas, ses molécules en éventail au-dessus, la nature en couronne ──
+  function layoutBouquet() {
+    const canvas = cy.container().parentElement;
+    canvas.classList.add("is-bouquet");
+    if (canvas.style.minHeight !== "820px") { canvas.style.minHeight = "820px"; cy.resize(); }
+    cy.elements().addClass("bq");
+    cy.nodes().removeClass("compact");
+    const W = cy.width(), H = cy.height();
+    const rad = (d) => (d * Math.PI) / 180;
+    const ox = W / 2, oy = H - 230;           // foyer de l'éventail, au-dessus du verre
+    const positions = {};
+    cy.nodes("[type='profile']").forEach((n) => { positions[n.id()] = { x: ox, y: H - 150 }; });
+    // Molécules : les plus sûres au centre, en quinconce sur deux ou trois anneaux.
+    const mols = cy.nodes("[type='molecule']").sort((a, b) => (b.data("strength") || 0) - (a.data("strength") || 0)
+      || (a.data("universal") ? 1 : 0) - (b.data("universal") ? 1 : 0));
+    const n = mols.length;
+    const slots = [...Array(n).keys()].sort((a, b) => Math.abs(a - (n - 1) / 2) - Math.abs(b - (n - 1) / 2));
+    const rings = n > 9 ? [1, 0.78, 0.56] : [1, 0.7];
+    const rx = Math.min(W * 0.4, 360), ry = Math.min((oy - 60) * 0.68, 390);
+    const spanM = Math.min(140, 40 + n * 14);
+    const angle = {};
+    mols.forEach((m, k) => {
+      const slot = slots[k];
+      const a = n > 1 ? -spanM / 2 + (spanM * slot) / (n - 1) : 0;
+      const ring = rings[slot % rings.length];
+      angle[m.id()] = a;
+      positions[m.id()] = { x: ox + rx * ring * Math.sin(rad(a)), y: oy - ry * ring * Math.cos(rad(a)) };
+    });
+    // Les bulles ne se touchent pas : on les écarte deux à deux (au-dessus du verre, dans le cadre).
+    const size = (m) => (58 + 14 * (m.data("strength") || 1)) / 2;
+    const ms = mols.toArray();
+    for (let it = 0; it < 60; it++) {
+      let moved = false;
+      for (let i = 0; i < ms.length; i++) {
+        for (let j = i + 1; j < ms.length; j++) {
+          const p = positions[ms[i].id()], q = positions[ms[j].id()];
+          const need = size(ms[i]) + size(ms[j]) + 30; // halo de 7 px de chaque bulle compris
+          const dx = q.x - p.x, dy = q.y - p.y, d = Math.hypot(dx, dy) || 0.01;
+          if (d >= need) continue;
+          const push = (need - d) / 2, ux = dx / d, uy = dy / d;
+          p.x -= ux * push; p.y -= uy * push; q.x += ux * push; q.y += uy * push;
+          moved = true;
+        }
+      }
+      ms.forEach((m) => {
+        const p = positions[m.id()], r = size(m);
+        p.x = Math.min(W - r - 10, Math.max(r + 10, p.x));
+        p.y = Math.min(oy - r + 10, Math.max(r + 70, p.y));
+      });
+      if (!moved) break;
+    }
+    // Éléments naturels : une couronne au-dessus, dans l'ordre des molécules qu'ils prolongent.
+    const srcs = cy.nodes("[type='source']").toArray().map((s) => {
+      const as = s.incomers("node").map((m) => angle[m.id()]).filter((v) => v !== undefined);
+      return { s, a: as.length ? as.reduce((x, y) => x + y, 0) / as.length : 0 };
+    }).sort((p, q) => p.a - q.a);
+    const ns = srcs.length;
+    const sx = Math.min(W / 2 - 70, rx * 1.5), sy = oy - 34;
+    const spanS = Math.min(170, 60 + ns * 9);
+    const bubbles = mols.map((m) => ({ ...positions[m.id()], r: (58 + 14 * (m.data("strength") || 1)) / 2 + 8 }));
+    const placed = [];
+    srcs.forEach(({ s }, k) => {
+      const a = ns > 1 ? -spanS / 2 + (spanS * k) / (ns - 1) : 0;
+      let r = k % 2 ? 0.88 : 1;
+      const half = ((s.data("label") || "").length * 7 + 22) / 2;
+      const at = () => ({ x: Math.min(W - half - 8, Math.max(half + 8, ox + sx * r * Math.sin(rad(a)))),
+        y: Math.max(26, oy - sy * r * Math.cos(rad(a))) });
+      // Une étiquette ne doit couvrir ni une bulle ni une autre étiquette : on la pousse vers l'extérieur.
+      const hits = (p) => bubbles.some((b) => Math.abs(p.x - b.x) < half + b.r && Math.abs(p.y - b.y) < 14 + b.r)
+        || placed.some((q) => Math.abs(p.x - q.x) < half + q.half + 6 && Math.abs(p.y - q.y) < 32);
+      let p = at();
+      for (let i = 0; i < 24 && hits(p); i++) { r += 0.04; p = at(); }
+      placed.push({ ...p, half });
+      positions[s.id()] = p;
+    });
+    run(positions, false);
+  }
 
   // ── Disposition en colonnes ─────────────────────────────────────────────
   // Les colonnes occupent la largeur du cadre ; l'espacement vertical s'adapte au nombre de
@@ -106,6 +233,8 @@
     // Ordinateur : le cadre grandit avec le nombre de nœuds (la page défile) pour que le graphe reste
     // au zoom 1. Téléphone : hauteur fixe, comme avant.
     const canvas = cy.container().parentElement;
+    canvas.classList.remove("is-bouquet");
+    cy.elements().removeClass("bq");
     if (W >= 640) {
       const counts = [0, 0, 0];
       cy.nodes().forEach((n) => counts[n.data("layer")]++);
@@ -163,6 +292,7 @@
   }
 
   function placeColumnLabels() {
+    if (cy.container().parentElement.classList.contains("is-bouquet")) { columns.forEach((el) => { el.hidden = true; }); return; }
     const pan = cy.pan();
     const z = cy.zoom();
     const present = new Set(cy.nodes().map((n) => n.data("layer")));
@@ -205,7 +335,7 @@
     state.start = id;
     cy.elements().remove();
     cy.add(data.elements);
-    layoutColumns();
+    layout();
     if (!reduceMotion) {
       cy.nodes().forEach((n) => {
         n.style("opacity", 0);
@@ -350,8 +480,8 @@
   familyBox.addEventListener("change", () => { state.family = familyBox.checked; if (state.start) load(state.start, { push: false }); });
   if (wikiBox) wikiBox.addEventListener("change", () => { state.wikidata = wikiBox.checked; if (state.start) load(state.start, { push: false }); });
 
-  document.getElementById("mol-fit").addEventListener("click", () => layoutColumns());
-  window.addEventListener("resize", () => { clearTimeout(window.__molResize); window.__molResize = setTimeout(layoutColumns, 200); });
+  document.getElementById("mol-fit").addEventListener("click", () => layout());
+  window.addEventListener("resize", () => { clearTimeout(window.__molResize); window.__molResize = setTimeout(layout, 200); });
   document.getElementById("mol-png").addEventListener("click", () => {
     const a = document.createElement("a");
     a.href = cy.png({ full: true, scale: 2, bg: "#F8F8F4" });
@@ -375,7 +505,7 @@
   if (legend && window.matchMedia("(min-width: 721px) and (min-height: 900px)").matches) legend.open = true;
   // La légende change la hauteur du graphe : on le remesure avant de placer les nœuds.
   cy.resize();
-  if (legend) legend.addEventListener("toggle", () => { cy.resize(); if (state.start) layoutColumns(); });
+  if (legend) legend.addEventListener("toggle", () => { cy.resize(); if (state.start) layout(); });
 
   // Le cadre change de hauteur quand la ligne de résumé ou la légende passent sur plusieurs lignes :
   // on remesure, sinon le bas du graphe est coupé.
@@ -386,7 +516,7 @@
       if (Math.abs(h - lastH) < 2) return;
       lastH = h;
       clearTimeout(window.__molResize);
-      window.__molResize = setTimeout(() => { cy.resize(); if (state.start) layoutColumns(); }, 120);
+      window.__molResize = setTimeout(() => { cy.resize(); if (state.start) layout(); }, 120);
     }).observe(cy.container());
   }
 

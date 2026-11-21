@@ -84,6 +84,21 @@ def _data(version: tuple) -> Data:
                  "hue": KIND_COLORS[s.kind], "url": s.get_absolute_url(), "imported": s.imported}
         for s in NaturalSource.objects.all()
     }
+    # Couleur d'une molécule : celle de la famille d'arômes de sa première note d'odeur (poivre noir →
+    # épices), à défaut de son premier arôme ; sert au bouquet (vue d'un vin).
+    from apps.catalog.models import Aroma
+    from apps.catalog.text import normalize as _norm
+
+    aroma_hue = {_norm(a.name): a.family.color for a in Aroma.objects.select_related("family")}
+    first_hue: dict[str, str] = {}
+    for m in Molecule.objects.prefetch_related("aromas__family"):
+        notes = [_norm(x) for x in m.odor.split(",") if x.strip()]
+        hue = next((aroma_hue[n] for n in notes if n in aroma_hue), None)
+        if hue is None:
+            hue = next((a.family.color for a in m.aromas.all()), None)
+        first_hue[m.slug] = hue or "#2E6E6A"
+    for slug, info in molecules.items():
+        info["hue"] = first_hue.get(slug, "#2E6E6A")
     d = Data(profiles, molecules, sources)
     for pm in ProfileMolecule.objects.select_related("profile", "molecule").only(
         "strength", "basis", "reasons", "profile__slug", "molecule__slug"
@@ -138,6 +153,7 @@ def _node(kind: str, info: dict, layer: int, **extra) -> dict:
         payload["universal"] = info["universal"]
         # Première note de l'odeur : « rotundone » ne dit rien, « poivre noir » si.
         payload["odor"] = tr(info.get("odor", "")).split(",")[0].strip()
+        payload["hue"] = info.get("hue", "#2E6E6A")
     elif kind == "source":
         payload["hue"] = info["hue"]
         payload["imported"] = info.get("imported", False)
