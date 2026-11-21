@@ -1,6 +1,6 @@
 # Cépages hongrois. Le muscat de Tokaj (Sárgamuskotály) est le Muscat à petits grains de data/fr/grapes.yaml.
 - {name: Furmint, skin: blanc, origin: Tokaj, synonyms: [Šipon, Moslavac, Mosler]}
-- {name: Hárslevelű, skin: blanc, origin: Tokaj, synonyms: [Harslevelu, Lindenblättrige]}
-- {name: Zéta, skin: blanc, origin: Hongrie (Furmint × Bouvier), synonyms: [Zeta, Oremus]}
-- {name: Kövérszőlő, skin: blanc, origin: Tokaj, synonyms: [Koverszolo]}
+- {name: Hárslevelű, skin: blanc, origin: Tokaj, synonyms: [Lindenblättrige]}
+- {name: Zéta, skin: blanc, origin: Hongrie (Furmint × Bouvier), synonyms: [Oremus]}
+- {name: Kövérszőlő, skin: blanc, origin: Tokaj}
 - {name: Kabar, skin: blanc, origin: Hongrie (Hárslevelű × Bouvier)}

@@ -1,10 +1,9 @@
 # Cépages italiens. Ceux qui existent déjà dans data/fr/grapes.yaml (merlot, chardonnay…) n'y sont pas répétés.
-# Pinot nero, moscato et cannonau sont des alias de cépages français (voir data/fr/grapes.yaml).
+# Pinot nero, moscato, cannonau, sangiovese et vermentino sont déclarés dans data/fr/grapes.yaml.
 - {name: Nebbiolo, skin: noir, origin: Piémont, synonyms: [Spanna, Chiavennasca]}
 - {name: Vespolina, skin: noir, origin: Haut-Piémont}
 - {name: Barbera, skin: noir, origin: Piémont}
 - {name: Dolcetto, skin: noir, origin: Piémont}
-- {name: Sangiovese, skin: noir, origin: Toscane, synonyms: [Sangioveto, Prugnolo Gentile]}
 - {name: Corvina, skin: noir, origin: Vénétie}
 - {name: Corvinone, skin: noir, origin: Vénétie}
 - {name: Rondinella, skin: noir, origin: Vénétie}
@@ -29,4 +28,3 @@
 - {name: Friulano, skin: blanc, origin: Frioul, synonyms: [Tocai Friulano]}
 - {name: Ribolla Gialla, skin: blanc, origin: Frioul}
 - {name: Vernaccia di San Gimignano, skin: blanc, origin: Toscane, synonyms: [Vernaccia]}
-- {name: Vermentino, skin: blanc, origin: Ligurie / Sardaigne}

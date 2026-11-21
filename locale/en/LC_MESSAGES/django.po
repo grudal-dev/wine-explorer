@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-20 15:08+0100\n"
+"POT-Creation-Date: 2026-11-21 09:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -2427,11 +2427,8 @@ msgstr ""
 msgid "Liens par famille d'arômes"
 msgstr "Links by aroma family"
 
-msgid "Ligurie / Provence"
-msgstr "Liguria / Provence"
-
-msgid "Ligurie / Sardaigne"
-msgstr "Liguria / Sardinia"
+msgid "Ligurie / Sardaigne / Provence"
+msgstr "Liguria / Sardinia / Provence"
 
 msgid "Limites"
 msgstr "Limitations"
@@ -3525,6 +3522,9 @@ msgstr "Tokaj-Hegyalja"
 
 msgid "Toscane"
 msgstr "Tuscany"
+
+msgid "Toscane / Corse"
+msgstr "Tuscany / Corsica"
 
 msgid "Total"
 msgstr "Total"

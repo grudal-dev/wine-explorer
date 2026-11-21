@@ -1,14 +1,16 @@
 from django.db.models import Count, Prefetch
-from django.shortcuts import get_object_or_404, render
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 
+from .grapes import MERGED
 from .i18n import tr
 from .models import Appellation, Aroma, AromaFamily, Grape, ProfileAroma, Region, WineProfile
 
 
 def home(request):
-    from django.shortcuts import redirect
     from django.utils import translation
 
     # Une adresse par langue : le français vit sur « / », l'anglais sur « /en/ ». Seule la page d'accueil
@@ -121,7 +123,17 @@ def grape_list(request):
 
 
 def grape_detail(request, slug):
-    grape = get_object_or_404(Grape, slug=slug)
+    grape = Grape.objects.filter(slug=slug).first()
+    if grape is None:
+        # Ancienne fiche fusionnée (Rolle → Vermentino) ou nom local : redirection permanente.
+        merged = MERGED.get(slug)
+        target = Grape.objects.filter(slug=merged).first() if merged else None
+        if target is None:
+            target = next((g for g in Grape.objects.only("slug", "synonyms")
+                           if any(slugify(s) == slug for s in g.synonyms or [])), None)
+        if target is None:
+            raise Http404
+        return redirect(target.get_absolute_url(), permanent=True)
     links = (
         grape.profile_links.select_related("profile__appellation__region__parent")
         .order_by("-share", "profile__name")

@@ -23,6 +23,7 @@ from django.db import transaction
 from django.utils import translation
 from django.utils.text import slugify
 
+from apps.catalog.grapes import merge_grape
 from apps.catalog.models import (
     Appellation,
     Aroma,
@@ -203,7 +204,18 @@ class Command(BaseCommand):
             )
             for label in [item["name"], *item.get("synonyms", [])]:
                 lookup[normalize(label)] = grape
+        self._retire_renamed_grapes(lookup)
         return lookup
+
+    @staticmethod
+    def _retire_renamed_grapes(lookup: dict[str, Grape]) -> None:
+        """Une fiche en base dont le nom est devenu le synonyme d'un autre cépage (Rolle,
+        désormais synonyme de Vermentino) est fusionnée dans celui-ci : un nom, un cépage."""
+        declared = {g.pk for g in lookup.values()}
+        for grape in Grape.objects.exclude(pk__in=declared):
+            target = lookup.get(normalize(grape.name))
+            if target is not None:
+                merge_grape(Grape, ProfileGrape, grape, target)
 
     def _load_aromas(self, path: Path) -> dict[str, Aroma]:
         lookup: dict[str, Aroma] = {}
