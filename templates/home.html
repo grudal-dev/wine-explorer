@@ -68,13 +68,17 @@
 </div>
 
 <section class="section grid grid--3">
-  <a class="entry" href="{% url 'explorer:explorer' %}">
+  {% if 'comparer' in sections %}<a class="entry" href="{% url 'compare:start' %}">
+    <h3>{% translate "Comparer deux vins" %}</h3>
+    <p>{% translate "Barolo ou Gevrey-Chambertin ? La bouche, les arômes en commun et les molécules qui les distinguent, face à face." %}</p>
+    <span class="entry__go">{% translate "Comparer" %}</span>
+  </a>{% elif 'graphe' in sections %}<a class="entry" href="{% url 'explorer:explorer' %}">
     <h3>{% translate "Le graphe" %}</h3>
     <p>{% translate "Naviguez de la région à l'appellation, du cépage à l'arôme. Cherchez le chemin qui relie le chablis au litchi." %}</p>
     <span class="entry__go">{% translate "Explorer" %}</span>
-  </a>
+  </a>{% endif %}
   <a class="entry" href="{% url 'nose:nose' %}">
-    <h3>{% translate "Le Nez" %}</h3>
+    <h3>{% translate "Trouve mon vin" %}</h3>
     <p>{% translate "Décrivez ce que vous sentez dans le verre : nous proposons les cinq vins les plus probables." %}</p>
     <span class="entry__go">{% translate "Décrire un vin" %}</span>
   </a>

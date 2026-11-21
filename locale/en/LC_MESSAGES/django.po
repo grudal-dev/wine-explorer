@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-21 09:33+0100\n"
+"POT-Creation-Date: 2026-11-21 10:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -93,6 +93,10 @@ msgid "%(n_wines)s vin%(s)s"
 msgstr "%(n_wines)s wine%(s)s"
 
 #, python-format
+msgid "%(name)s : %(a)s %(va)s sur 5, %(b)s %(vb)s sur 5"
+msgstr "%(name)s: %(a)s %(va)s out of 5, %(b)s %(vb)s out of 5"
+
+#, python-format
 msgid "%(name)s : arômes, encépagement, bouche, prix et accords."
 msgstr "%(name)s: aromas, grape blend, palate, price and food pairings."
 
@@ -103,6 +107,18 @@ msgstr "%(name)s: the wines and appellations where it is found."
 #, python-format
 msgid "%(name)s, arôme de la famille %(family_name)s : les vins qui l'expriment."
 msgstr "%(name)s, an aroma from the %(family_name)s family: the wines that express it."
+
+#, python-format
+msgid "%(name_a)s et %(name_b)s"
+msgstr "%(name_a)s and %(name_b)s"
+
+#, python-format
+msgid "%(name_a)s et %(name_b)s, comparés"
+msgstr "%(name_a)s and %(name_b)s, compared"
+
+#, python-format
+msgid "%(name_a)s face à %(name_b)s : proximité, bouche, arômes en commun et molécules qui les distinguent."
+msgstr "%(name_a)s against %(name_b)s: closeness, palate, shared aromas and the molecules that set them apart."
 
 #, python-format
 msgid "%(points)s points"
@@ -489,6 +505,10 @@ msgstr "Aromas: minimum intensity"
 msgid "Arômes associés"
 msgstr "Associated aromas"
 
+#, python-format
+msgid "Arômes voisins : %(pairs)s"
+msgstr "Neighbouring aromas: %(pairs)s"
+
 msgid "Assemblage blanc des collines de marnes et de grès, structuré et complexe, à la frontière slovène."
 msgstr "A white blend from hills of marl and sandstone on the Slovenian border, structured and complex."
 
@@ -504,6 +524,10 @@ msgstr "On the nose: %(aroma)s (%(level)s)"
 
 msgid "Au nez, il rappelle"
 msgstr "On the nose, it recalls"
+
+#, python-format
+msgid "Au nez. Seulement %(a)s : %(only_a)s. En commun : %(common)s. Seulement %(b)s : %(only_b)s."
+msgstr "On the nose. Only %(a)s: %(only_a)s. Shared: %(common)s. Only %(b)s: %(only_b)s."
 
 msgid "Au pied des Alpes lombardes, des bulles élaborées par la méthode traditionnelle."
 msgstr "At the foot of the Lombard Alps, sparkling wines made by the traditional method."
@@ -529,8 +553,8 @@ msgstr "No profile available."
 msgid "Aucun profil ne correspond avec ces couleurs. Décochez une couleur pour élargir."
 msgstr "No profile matches with these colours. Untick a colour to widen the search."
 
-msgid "Aucun profil ne le cite encore. Il reste utile dans Le Nez, par sa famille."
-msgstr "No profile mentions it yet. It is still useful in The Nose, through its family."
+msgid "Aucun profil ne le cite encore. Il reste utile dans Trouve mon vin, par sa famille."
+msgstr "No profile mentions it yet. It still helps in Find my wine, through its family."
 
 msgid "Aucun profil type n'y est rattaché par une règle spécifique."
 msgstr "No wine profile is linked to it by a specific rule."
@@ -600,6 +624,13 @@ msgid ""
 msgstr ""
 "Dried berry of the pepper vine. Black and white pepper contain rotundone at levels about 10,000 times "
 "higher than a very peppery wine."
+
+msgid ""
+"Barolo ou Gevrey-Chambertin ? La bouche, les arômes en commun et les molécules qui les distinguent, face à "
+"face."
+msgstr ""
+"Barolo or Gevrey-Chambertin? The palate, the shared aromas and the molecules that set them apart, side by "
+"side."
 
 msgid "Barème"
 msgstr "Scoring"
@@ -918,6 +949,9 @@ msgstr "Choose a starting point"
 msgid "Choisissez des arômes : le site vous propose les vins dont le nez s'en rapproche."
 msgstr "Pick aromas and the site suggests the wines whose nose comes closest."
 
+msgid "Choisissez deux vins différents."
+msgstr "Pick two different wines."
+
 msgid "Choisissez un départ et une arrivée : le chemin le plus court s'affiche."
 msgstr "Choose a start and an end: the shortest path is displayed."
 
@@ -1016,6 +1050,12 @@ msgstr "Sommelier's note"
 
 msgid "Communes"
 msgstr "Communes"
+
+msgid "Comparer"
+msgstr "Compare"
+
+msgid "Comparer deux vins"
+msgstr "Compare two wines"
 
 msgid "Complément"
 msgstr "Minor grapes"
@@ -1171,6 +1211,9 @@ msgstr "Descriptors it evokes"
 msgid "Deux pyrroleméthanethiols, seuils de 0,7 et 1,4 ng/L, jamais observés jusqu'ici dans un produit naturel."
 msgstr "Two pyrrolemethanethiols, thresholds of 0.7 and 1.4 ng/L, never observed in a natural product until now."
 
+msgid "Deux vins face à face : bouche, arômes, molécules."
+msgstr "Two wines side by side: palate, aromas, molecules."
+
 msgid ""
 "Deux vins mystère, les mêmes pour tout le monde, renouvelés chaque jour. Un résultat par jour et par jeu, "
 "un classement pour les départager."
@@ -1201,6 +1244,9 @@ msgid "Du verre à la nature : les molécules odorantes d'un vin et les plantes,
 msgstr ""
 "From glass to nature: the odorous molecules of a wine and the plants, fruits or spices where they are also "
 "found."
+
+msgid "Du verre à la nature : les molécules odorantes."
+msgstr "From glass to nature: the odorant molecules."
 
 msgid ""
 "Du verre à la nature : les molécules qui font le nez d'un vin, et les plantes, fruits ou épices où on les "
@@ -1254,6 +1300,9 @@ msgstr "Start"
 
 msgid "Départ :"
 msgstr "Start:"
+
+msgid "EN COMMUN"
+msgstr "SHARED"
 
 msgid "Effervescent"
 msgstr "Sparkling"
@@ -1694,6 +1743,9 @@ msgstr "Information"
 msgid "Initiale de la région"
 msgstr "First letter of the region"
 
+msgid "Inverser les deux vins"
+msgstr "Swap the two wines"
+
 msgid "Irpinie"
 msgstr "Irpinia"
 
@@ -1895,6 +1947,9 @@ msgstr ""
 "acetaldehyde. It is also found in botrytised sweet wines, rancio vins doux naturels and port. In a young "
 "dry white, it betrays premature oxidation."
 
+msgid "La molécule qui distingue chaque vin"
+msgstr "The molecule that sets each wine apart"
+
 msgid "La nature"
 msgstr "Nature"
 
@@ -2040,12 +2095,6 @@ msgstr "The Médoc Marathon"
 
 msgid "Le Médoc"
 msgstr "The Médoc"
-
-msgid "Le Nez"
-msgstr "The Nose"
-
-msgid "Le Nez : comment sont calculées les probabilités"
-msgstr "The Nose: how the probabilities are calculated"
 
 msgid "Le Pinot Noir"
 msgstr "Pinot Noir"
@@ -2335,8 +2384,10 @@ msgid "Les descripteurs dominants de chaque appellation."
 msgstr "The dominant descriptors of each appellation."
 
 #, python-format
-msgid "Les descripteurs utilisés dans les fiches, le blind test et Le Nez, regroupés en %(families)s familles."
-msgstr "The descriptors used in the profiles, the blind tasting and The Nose, grouped into %(families)s families."
+msgid ""
+"Les descripteurs utilisés dans les fiches, le blind test et Trouve mon vin, regroupés en %(families)s "
+"familles."
+msgstr "The descriptors used in the wine pages, the blind test and Find my wine, grouped into %(families)s families."
 
 msgid "Les défis du jour"
 msgstr "Today's challenges"
@@ -2704,6 +2755,9 @@ msgstr "Also found in"
 msgid "On la retrouve dans la nature"
 msgstr "Found in nature"
 
+msgid "Opposés"
+msgstr "Opposites"
+
 msgid "Options d'affichage"
 msgstr "Display options"
 
@@ -2871,6 +2925,9 @@ msgstr "Why in %(profile_name)s"
 msgid "Pourquoi un vin contient une molécule"
 msgstr "Why a wine contains a molecule"
 
+msgid "Premier vin"
+msgstr "First wine"
+
 msgid "Principal constituant de l'huile essentielle des feuilles."
 msgstr "Main constituent of the leaf essential oil."
 
@@ -2891,6 +2948,9 @@ msgid "Prochain indice au prochain essai manqué : %(next_clue)s."
 msgstr "Next clue after your next missed attempt: %(next_clue)s."
 
 msgid "Proche"
+msgstr "Close"
+
+msgid "Proches"
 msgstr "Close"
 
 msgid ""
@@ -2939,6 +2999,13 @@ msgstr "Provence"
 
 msgid "Provence / Languedoc"
 msgstr "Provence / Languedoc"
+
+msgid "Proximité"
+msgstr "Closeness"
+
+#, python-format
+msgid "Proximité %(value)s sur 100 : %(word)s"
+msgstr "Closeness %(value)s out of 100: %(word)s"
 
 msgid ""
 "Proximités apprises par un réseau de neurones sur le graphe : arômes, cépages, bouche et géographie "
@@ -3319,6 +3386,9 @@ msgstr "Log in"
 msgid "Se déconnecter"
 msgstr "Log out"
 
+msgid "Second vin"
+msgstr "Second wine"
+
 msgid "Service"
 msgstr "Serving"
 
@@ -3581,6 +3651,12 @@ msgstr "Third Thursday of November"
 msgid "Troisième jeudi de novembre · aujourd'hui"
 msgstr "Third Thursday of November · today"
 
+msgid "Trouve mon vin"
+msgstr "Find my wine"
+
+msgid "Trouve mon vin : comment sont calculées les probabilités"
+msgstr "Find my wine: how the probabilities are computed"
+
 msgid "Trouver sur la carte"
 msgstr "Find on the map"
 
@@ -3600,6 +3676,9 @@ msgstr "Found in %(attempts_used)s attempt%(s)s."
 #, python-format
 msgid "Trouvé en %(n)s proposition%(s)s."
 msgstr "Found in %(n)s guess%(s)s."
+
+msgid "Très proches"
+msgstr "Very close"
 
 msgid "Tubercules où la molécule fut d'abord isolée, d'où son nom."
 msgstr "Tubers from which the molecule was first isolated, hence its name."
@@ -3991,6 +4070,9 @@ msgstr "aperitif"
 msgid "arrosticini"
 msgstr "arrosticini"
 
+msgid "arômes voisins"
+msgstr "neighbouring aromas"
+
 msgid "asperges"
 msgstr "asparagus"
 
@@ -4023,6 +4105,9 @@ msgstr "to the south-west"
 
 msgid "aubépine"
 msgstr "hawthorn"
+
+msgid "aucun arôme en commun"
+msgstr "no shared aroma"
 
 msgid "austère"
 msgstr "austere"
@@ -5015,6 +5100,10 @@ msgstr "braised dishes"
 msgid "plats mijotés"
 msgstr "slow-cooked dishes"
 
+#, python-format
+msgid "plus proches que %(percent)s %% des paires de vins"
+msgstr "closer than %(percent)s%% of wine pairs"
+
 msgid "points"
 msgstr "points"
 
@@ -5601,6 +5690,9 @@ msgstr "To play"
 
 msgid "Élevage sous bois"
 msgstr "Oak ageing"
+
+msgid "Éloignés"
+msgstr "Far apart"
 
 msgid "Élément naturel"
 msgstr "Natural source"

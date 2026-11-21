@@ -13,7 +13,7 @@
       {% for l in links %}
       <li><span class="robe robe--{{ l.profile.color }}"></span><a href="{{ l.profile.get_absolute_url }}">{{ l.profile.name|tr }}</a>
         <span class="meta">{{ l.get_intensity_display }}</span></li>
-      {% empty %}<li class="muted">{% translate "Aucun profil ne le cite encore. Il reste utile dans Le Nez, par sa famille." %}</li>
+      {% empty %}<li class="muted">{% translate "Aucun profil ne le cite encore. Il reste utile dans Trouve mon vin, par sa famille." %}</li>
       {% endfor %}
     </ul>
   </div>

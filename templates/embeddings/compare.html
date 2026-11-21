@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% blocktranslate trimmed %}{{ name_a }} et {{ name_b }}, comparés{% endblocktranslate %}{% endblock %}
+{% block description %}{% blocktranslate trimmed %}{{ name_a }} face à {{ name_b }} : proximité, bouche, arômes en commun et molécules qui les distinguent.{% endblocktranslate %}{% endblock %}
+{% block content %}
+<div class="duel">
+  <form class="duel-pick" method="get" action="{% url 'compare:start' %}">
+    <label class="duel-pick__field duel-pick__field--a">
+      <span class="visually-hidden">{% translate "Premier vin" %}</span>
+      <span class="duel-pick__mark" aria-hidden="true"></span>
+      <select name="a" class="duel-pick__select">
+        {% for country, wines in choices %}<optgroup label="{{ country }}">
+          {% for slug, label in wines %}<option value="{{ slug }}" {% if slug == a.slug %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </optgroup>{% endfor %}
+      </select>
+    </label>
+    <a class="duel-pick__swap" href="{% url 'compare:duel' b.slug a.slug %}" aria-label="{% translate "Inverser les deux vins" %}">
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h13l-4-4"/><path d="M17 17H4l4 4"/></svg>
+    </a>
+    <label class="duel-pick__field duel-pick__field--b">
+      <span class="visually-hidden">{% translate "Second vin" %}</span>
+      <span class="duel-pick__mark" aria-hidden="true"></span>
+      <select name="b" class="duel-pick__select">
+        {% for country, wines in choices %}<optgroup label="{{ country }}">
+          {% for slug, label in wines %}<option value="{{ slug }}" {% if slug == b.slug %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </optgroup>{% endfor %}
+      </select>
+    </label>
+    <button type="submit" class="btn duel-pick__go">{% translate "Comparer" %}</button>
+  </form>
+
+  <h1 class="visually-hidden">{% blocktranslate trimmed %}{{ name_a }} et {{ name_b }}{% endblocktranslate %}</h1>
+
+  {% if same %}
+  <p class="duel-same">{% translate "Choisissez deux vins différents." %}</p>
+  {% else %}
+  <section class="duel-head" aria-label="{% translate "Proximité" %}">
+    <div class="duel-wine duel-wine--a">
+      <span class="duel-wine__bar" aria-hidden="true"></span>
+      <a class="duel-wine__name" href="{{ a.get_absolute_url }}">{{ name_a }}</a>
+      <span class="duel-wine__sub">{{ sub_a }}</span>
+    </div>
+    {% if gauge %}
+    <div class="duel-head__gauge">
+      {{ gauge }}
+      <p class="duel-head__note">{% blocktranslate trimmed %}plus proches que {{ percent }} % des paires de vins{% endblocktranslate %}</p>
+    </div>
+    {% endif %}
+    <div class="duel-wine duel-wine--b">
+      <span class="duel-wine__bar" aria-hidden="true"></span>
+      <a class="duel-wine__name" href="{{ b.get_absolute_url }}">{{ name_b }}</a>
+      <span class="duel-wine__sub">{{ sub_b }}</span>
+    </div>
+  </section>
+
+  <section class="duel-mouth" aria-labelledby="duel-mouth">
+    <h2 id="duel-mouth" class="visually-hidden">{% translate "En bouche" %}</h2>
+    {% for m in dials %}
+    <figure class="duel-dial-cell">
+      {{ m.svg }}
+      <figcaption>{{ m.label }}
+        {% if m.delta > 0 %}<span class="duel-delta duel-delta--a">+{{ m.delta }}</span>
+        {% elif m.delta < 0 %}<span class="duel-delta duel-delta--b">+{% widthratio m.delta 1 -1 %}</span>
+        {% else %}<span class="duel-delta">=</span>{% endif %}
+      </figcaption>
+    </figure>
+    {% endfor %}
+  </section>
+
+  <section class="duel-nose-wrap" aria-labelledby="duel-nose">
+    <h2 id="duel-nose" class="visually-hidden">{% translate "Au nez" %}</h2>
+    {{ nose_wide }}
+    {{ nose_narrow }}
+  </section>
+
+  {% if sig_a or sig_b %}
+  <section class="duel-sig" aria-labelledby="duel-sig">
+    <h2 id="duel-sig" class="visually-hidden">{% translate "La molécule qui distingue chaque vin" %}</h2>
+    <p class="duel-sig__item duel-sig__item--a">{% if sig_a %}<span class="duel-sig__dot" aria-hidden="true"></span><a href="{{ sig_a.url }}">{{ sig_a.name }}</a><em>{{ sig_a.odor }}</em>{% endif %}</p>
+    <p class="duel-sig__item duel-sig__item--b">{% if sig_b %}<em>{{ sig_b.odor }}</em><a href="{{ sig_b.url }}">{{ sig_b.name }}</a><span class="duel-sig__dot" aria-hidden="true"></span>{% endif %}</p>
+  </section>
+  {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

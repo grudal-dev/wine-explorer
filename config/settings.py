@@ -41,6 +41,8 @@ if DEBUG and env_bool("DJANGO_ALLOW_LAN", True):
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
 # Sections servies (vide = toutes) : voir apps/catalog/sections.py
 PUBLIC_SECTIONS = env_list("DJANGO_PUBLIC_SECTIONS")
+# Sections servies mais cachées : absentes des menus, des liens et du plan du site, joignables par leur adresse.
+HIDDEN_SECTIONS = env_list("DJANGO_HIDDEN_SECTIONS", "graphe")
 # Décor de saison : auto | off | medoc | montmartre | novello | beaujolais | vinjaune. Voir apps/catalog/seasons.py
 # Vin de la semaine dans le bandeau quand aucune fête n'est en cours (apps/catalog/weekly.py).
 WINE_OF_THE_WEEK = os.environ.get("WINE_OF_THE_WEEK", "true").strip().lower() not in ("0", "false", "no", "off")

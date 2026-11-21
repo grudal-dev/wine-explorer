@@ -58,7 +58,7 @@ class EnglishTests(TestCase):
     def test_language_switch(self):
         r = self.client.post(reverse("set_language"), {"language": "en", "next": "/le-nez/"})
         self.assertRedirects(r, "/en/le-nez/", fetch_redirect_response=False)
-        self.assertContains(self.client.get("/en/le-nez/"), "The Nose")
+        self.assertContains(self.client.get("/en/le-nez/"), "Find my wine")
         r = self.client.post(reverse("set_language"), {"language": "fr", "next": "/en/le-nez/"})
         self.assertRedirects(r, "/le-nez/", fetch_redirect_response=False)
         self.assertContains(self.client.get("/le-nez/"), "La roue des arômes")

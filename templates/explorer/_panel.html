@@ -28,7 +28,7 @@
     <button type="button" class="btn btn--ghost btn--small" data-set-path="a" data-id="{{ node_id }}" data-label="{{ obj.name|tr }}">{% translate "Départ" %}</button>
     <button type="button" class="btn btn--ghost btn--small" data-set-path="b" data-id="{{ node_id }}" data-label="{{ obj.name|tr }}">{% translate "Arrivée" %}</button>
     {% if obj.get_absolute_url and kind != "family" %}<a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">{% translate "Fiche" %}</a>{% endif %}
-    {% if kind == "aroma" %}<a class="btn btn--ghost btn--small" href="{% url 'nose:nose' %}?a={{ obj.id }}">{% translate "Le Nez" %}</a>{% endif %}
+    {% if kind == "aroma" %}<a class="btn btn--ghost btn--small" href="{% url 'nose:nose' %}?a={{ obj.id }}">{% translate "Trouve mon vin" %}</a>{% endif %}
     {% if kind == "molecule" or kind == "source" or kind == "profile" %}<a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}?depart={{ node_id }}">{% translate "Du verre à la nature" %}</a>{% endif %}
   </div>
 

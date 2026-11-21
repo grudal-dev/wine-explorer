@@ -88,7 +88,9 @@ class _Base(Sitemap):
         return super().get_urls(page=page, site=site, protocol=protocol)
 
     def _on(self, path: str) -> bool:
-        return sections.path_enabled(path)
+        hidden = sections.enabled() - sections.visible()
+        return sections.path_enabled(path) and not any(
+            sections.strip_language(path).startswith(sections.SECTIONS[name]) for name in hidden)
 
 
 class StaticPages(_Base):
@@ -180,6 +182,23 @@ class NaturalSources(_Model):
         return NaturalSource.objects.order_by("slug")
 
 
+class Duels(_Base):
+    """Les duels mis en avant de la page Comparer (les paires dont les deux vins existent)."""
+    priority = 0.6
+    changefreq = "monthly"
+
+    def items(self):
+        from apps.embeddings.compare import FEATURED
+
+        if not self._on("/comparer/"):
+            return []
+        known = set(WineProfile.objects.values_list("slug", flat=True))
+        return [pair for pair in FEATURED if set(pair) <= known]
+
+    def location(self, pair):
+        return reverse("compare:duel", args=pair)
+
+
 SITEMAPS = {
     "pages": StaticPages,
     "vins": Profiles,
@@ -189,4 +208,5 @@ SITEMAPS = {
     "aromes": Aromas,
     "molecules": Molecules,
     "nature": NaturalSources,
+    "duels": Duels,
 }

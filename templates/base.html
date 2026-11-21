@@ -30,7 +30,7 @@
     <nav class="nav" aria-label="{% translate "Navigation principale" %}">
       {% with p=path_no_lang %}
       {% if 'blindtest' in sections or 'chaudfroid' in sections %}
-      <div class="nav-group" data-nav-group>
+      <div class="nav-group nav-group--games" data-nav-group>
         <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-games"
                 {% if p|slice:":11" == "/blind-test" or p|slice:":12" == "/chaud-froid" %}aria-current="page"{% endif %}>{% translate "Jeux" %}</button>
         <div class="nav-group__menu" id="nav-games">
@@ -39,21 +39,19 @@
         </div>
       </div>
       {% endif %}
-      {% if 'nose' in sections %}<a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>{% translate "Le Nez" %}</a>{% endif %}
-      {# Graphe et Carte réunis dans un même menu ; un seul lien si une seule des deux sections est servie. #}
-      {% if 'graphe' in sections and 'carte' in sections %}
+      {% if 'nose' in sections %}<a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>{% translate "Trouve mon vin" %}</a>{% endif %}
+      {% if 'comparer' in sections or 'carte' in sections or 'molecules' in sections or 'graphe' in sections %}
       <div class="nav-group" data-nav-group>
         <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-explore"
-                {% if p|slice:":7" == "/graphe" or p|slice:":6" == "/carte" %}aria-current="page"{% endif %}>{% translate "Explorer" %}</button>
+                {% if p|slice:":9" == "/comparer" or p|slice:":6" == "/carte" or p|slice:":10" == "/molecules" or p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}>{% translate "Explorer" %}</button>
         <div class="nav-group__menu" id="nav-explore">
-          <a href="{% url 'explorer:explorer' %}" {% if p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}><strong>{% translate "Graphe" %}</strong><span>{% translate "Les liens entre vins, cépages, arômes et régions." %}</span></a>
-          <a href="{% url 'embeddings:map' %}" {% if p|slice:":6" == "/carte" %}aria-current="page"{% endif %}><strong>{% translate "Carte des goûts" %}</strong><span>{% translate "Les vins rapprochés par ressemblance." %}</span></a>
+          {% if 'comparer' in sections %}<a href="{% url 'compare:start' %}" {% if p|slice:":9" == "/comparer" %}aria-current="page"{% endif %}><strong>{% translate "Comparer" %}</strong><span>{% translate "Deux vins face à face : bouche, arômes, molécules." %}</span></a>{% endif %}
+          {% if 'carte' in sections %}<a href="{% url 'embeddings:map' %}" {% if p|slice:":6" == "/carte" %}aria-current="page"{% endif %}><strong>{% translate "Carte des goûts" %}</strong><span>{% translate "Les vins rapprochés par ressemblance." %}</span></a>{% endif %}
+          {% if 'molecules' in sections %}<a href="{% url 'molecules:explorer' %}" {% if p|slice:":10" == "/molecules" %}aria-current="page"{% endif %}><strong>{% translate "Molécules" %}</strong><span>{% translate "Du verre à la nature : les molécules odorantes." %}</span></a>{% endif %}
+          {% if 'graphe' in sections %}<a href="{% url 'explorer:explorer' %}" {% if p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}><strong>{% translate "Graphe" %}</strong><span>{% translate "Les liens entre vins, cépages, arômes et régions." %}</span></a>{% endif %}
         </div>
       </div>
-      {% elif 'graphe' in sections %}<a href="{% url 'explorer:explorer' %}" {% if p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}>{% translate "Graphe" %}</a>
-      {% elif 'carte' in sections %}<a href="{% url 'embeddings:map' %}" {% if p|slice:":6" == "/carte" %}aria-current="page"{% endif %}>{% translate "Carte" %}</a>
       {% endif %}
-      {% if 'molecules' in sections %}<a href="{% url 'molecules:explorer' %}" {% if p|slice:":10" == "/molecules" %}aria-current="page"{% endif %}>{% translate "Molécules" %}</a>{% endif %}
       {% if 'catalogue' in sections %}<a href="{% url 'catalog:index' %}" {% if p|slice:":10" == "/catalogue" %}aria-current="page"{% endif %}>{% translate "Catalogue" %}</a>{% endif %}
       {% endwith %}
     </nav>

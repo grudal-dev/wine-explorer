@@ -34,6 +34,7 @@ urlpatterns += i18n_patterns(
     path("chaud-froid/", include("apps.nose.urls_hotcold")),
     path("molecules/", include("apps.molecules.urls")),
     path("carte/", include("apps.embeddings.urls")),
+    path("comparer/", include("apps.embeddings.urls_compare")),
     path("compte/", include("apps.accounts.urls")),
     path("jsi18n/", JavaScriptCatalog.as_view(packages=["apps.catalog"]), name="javascript-catalog"),
     prefix_default_language=False,

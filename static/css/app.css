@@ -1056,3 +1056,75 @@ body.map-is-full { overflow: hidden; }
 }
 @media (max-width: 560px) { .map-fs span { display: none; } }
 @media (max-width: 420px) { .nav { gap: .7rem; font-size: .9375rem; } .nav-group__toggle { gap: .25rem; } }
+
+/* ───────────── Comparer : deux vins face à face ───────────── */
+.duel { --duel-a: #8C1C3E; --duel-b: #2D5F95; max-width: 1088px; margin: 0 auto; display: flex; flex-direction: column; gap: 3rem; }
+.duel-pick { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .6rem; }
+.duel-pick__field { position: relative; display: flex; align-items: center; flex: 0 1 19rem; min-width: 0; }
+.duel-pick__mark { position: absolute; left: .9rem; width: .7rem; height: .7rem; border-radius: 50%; pointer-events: none; }
+.duel-pick__field--a .duel-pick__mark { background: var(--duel-a); }
+.duel-pick__field--b .duel-pick__mark { background: var(--duel-b); }
+.duel-pick__select { width: 100%; min-height: 44px; padding: .55rem .9rem .55rem 2.2rem; border: 1px solid var(--rule); border-radius: 999px;
+  background: #fff; font: inherit; color: var(--ink); appearance: auto; }
+.duel-pick__select:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+.duel-pick__swap { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--rule); color: var(--ink-2); background: #fff; }
+.duel-pick__swap:hover { color: var(--ink); border-color: var(--ink-3); }
+.duel-pick__go { min-height: 44px; border-radius: 999px; }
+
+.duel-head { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: end; gap: 2rem; }
+.duel-wine { display: flex; flex-direction: column; gap: .6rem; padding-bottom: .5rem; min-width: 0; }
+.duel-wine--b { align-items: flex-end; text-align: right; }
+.duel-wine__bar { width: 28px; height: 4px; border-radius: 2px; }
+.duel-wine--a .duel-wine__bar { background: var(--duel-a); }
+.duel-wine--b .duel-wine__bar { background: var(--duel-b); }
+.duel-wine__name { font-family: var(--serif); font-weight: 600; font-size: clamp(1.9rem, 4.2vw, 3.25rem); line-height: 1; letter-spacing: -.02em;
+  color: var(--ink); text-decoration: none; overflow-wrap: break-word; hyphens: auto; }
+.duel-wine__name:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; }
+.duel-wine__sub { color: var(--ink-2); font-size: var(--step--1); }
+.duel-head__gauge { display: flex; flex-direction: column; align-items: center; gap: .35rem; }
+.duel-gauge { display: block; width: 300px; max-width: 100%; height: auto; }
+.duel-head__note { margin: 0; font-size: var(--step--1); color: var(--ink-3); text-align: center; }
+
+.duel-mouth { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; padding: 1.75rem 0;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.duel-dial-cell { margin: 0; display: flex; flex-direction: column; align-items: center; gap: .3rem; }
+.duel-dial { display: block; width: 132px; max-width: 100%; height: auto; }
+.duel-dial-cell figcaption { display: flex; gap: .5rem; font-weight: 500; }
+.duel-delta { color: var(--ink-3); font-weight: 600; }
+.duel-delta--a { color: var(--duel-a); }
+.duel-delta--b { color: var(--duel-b); }
+
+.duel-nose { display: block; width: 100%; height: auto; overflow: visible; }
+.duel-nose--narrow { display: none; max-width: 346px; margin: 0 auto; }
+
+.duel-sig { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+.duel-sig__item { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+.duel-sig__item--b { justify-content: flex-end; text-align: right; }
+.duel-sig__item a { font-weight: 600; color: var(--ink); text-decoration: none; }
+.duel-sig__item a:hover { text-decoration: underline; }
+.duel-sig__item em { color: var(--ink-2); }
+.duel-sig__dot { width: 8px; height: 8px; border-radius: 50%; align-self: center; flex: none; }
+.duel-sig__item--a .duel-sig__dot { background: var(--duel-a); }
+.duel-sig__item--b .duel-sig__dot { background: var(--duel-b); }
+.duel-same { text-align: center; color: var(--ink-2); }
+
+@media (max-width: 760px) {
+  .duel { gap: 2rem; }
+  .duel-pick__field { flex: 1 1 100%; }
+  .duel-head { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .duel-head__gauge { grid-column: 1 / -1; grid-row: 2; }
+  .duel-gauge { width: 260px; }
+  .duel-wine__name { font-size: 1.6rem; }
+  .duel-mouth { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.2rem; column-gap: .5rem; }
+  .duel-dial { width: 128px; }
+  .duel-nose--wide { display: none; }
+  .duel-nose--narrow { display: block; }
+  .duel-sig { grid-template-columns: 1fr; gap: .7rem; }
+  .duel-sig__item--b { justify-content: flex-start; text-align: left; flex-direction: row-reverse; justify-content: flex-end; }
+}
+
+/* Menu : « Jeux » en pastille foncée, filet entre les deux blocs d'Explorer */
+.nav-group--games .nav-group__toggle { background: var(--garnet-2); color: #fff; border: 0; border-radius: 999px; padding: .3rem .95rem; }
+.nav-group--games .nav-group__toggle:hover, .nav-group--games.is-open .nav-group__toggle { background: var(--garnet); color: #fff; }
+.nav-group--games .nav-group__toggle[aria-current="page"] { color: #fff; background: var(--garnet); box-shadow: inset 0 -2px 0 rgba(255, 255, 255, .55); }

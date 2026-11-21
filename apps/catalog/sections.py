@@ -16,6 +16,7 @@ from django.utils import translation
 SECTIONS = {
     "molecules": "/molecules/",
     "carte": "/carte/",
+    "comparer": "/comparer/",
     "catalogue": "/catalogue/",
     "graphe": "/graphe/",
     "blindtest": "/blind-test/",
@@ -34,6 +35,12 @@ def enabled() -> frozenset[str]:
             f"Valeurs possibles : {', '.join(SECTIONS)}."
         )
     return frozenset(configured) if configured else frozenset(SECTIONS)
+
+
+def visible() -> frozenset[str]:
+    """Sections servies et montrées : `DJANGO_HIDDEN_SECTIONS` (défaut : graphe) en retire du menu, des liens
+    et du plan du site sans les fermer ; une section cachée reste joignable par son adresse."""
+    return enabled() - frozenset(getattr(settings, "HIDDEN_SECTIONS", []))
 
 
 def language_of(path: str) -> str | None:
@@ -72,4 +79,4 @@ class SectionGateMiddleware:
 
 
 def context(request):
-    return {"sections": enabled(), "path_no_lang": strip_language(request.path)}
+    return {"sections": visible(), "path_no_lang": strip_language(request.path)}
