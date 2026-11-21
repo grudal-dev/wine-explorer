@@ -95,11 +95,11 @@
       { selector: "edge.hl[kind='found_in']", style: { "line-color": C.molecule, "width": 1.8 }},
       { selector: "node:selected", style: { "border-width": 4, "border-color": C.garnet, "overlay-opacity": 0 }},
       // ── Bouquet (vue d'un vin, ordinateur) : le verre en bas, les molécules montent en bulles ──
-      { selector: "node.bq[type='profile']", style: { "shape": "ellipse", "width": () => 96 * SC, "height": () => 96 * SC,
-        "background-opacity": 0, "border-width": 0, "background-image": (n) => robe(n.data("wine")),
+      { selector: "node.bq[type='profile']", style: { "shape": "rectangle", "width": () => 74 * SC, "height": () => 124 * SC,
+        "background-opacity": 0, "border-width": 0, "background-image": (n) => glass(n.data("wine")),
         "background-fit": "contain", "background-clip": "none", "label": "data(label)", "text-valign": "bottom",
-        "text-halign": "center", "text-margin-x": 0, "text-margin-y": 10, "font-family": "Fraunces, Georgia, serif",
-        "font-size": 21, "font-weight": 600, "text-background-opacity": 0, "text-max-width": 260 }},
+        "text-halign": "center", "text-margin-x": 0, "text-margin-y": () => 10 * SC, "font-family": "Fraunces, Georgia, serif",
+        "font-size": () => 21 * SC, "font-weight": 600, "text-background-opacity": 0, "text-max-width": () => 260 * SC }},
       { selector: "node.bq[type='molecule']", style: { "shape": "ellipse",
         "width": (n) => bubble(n), "height": (n) => bubble(n),
         "padding": "0px", "background-color": "data(hue)", "border-width": 7, "border-color": "data(hue)", "border-opacity": 0.2,
@@ -122,13 +122,13 @@
       // Couronne d'une molécule : la molécule en grande bulle au centre, les vins en petits verres autour.
       { selector: "node.bq[type='molecule'][?root]", style: { "width": () => 132 * SC, "height": () => 132 * SC,
         "font-size": () => 16 * SC, "text-max-width": () => 116 * SC, "border-width": 10, "border-opacity": 0.22, "label": rootLabel }},
-      { selector: "node.bq.ring[type='profile']", style: { "width": 24, "height": 24, "font-family": "Inter, system-ui, sans-serif",
+      { selector: "node.bq.ring[type='profile']", style: { "width": 20, "height": 34, "font-family": "Inter, system-ui, sans-serif",
         "font-size": 12, "font-weight": 500, "color": C.ink, "text-valign": "center", "text-halign": "center",
         "text-margin-x": "data(lx)", "text-margin-y": "data(ly)", "text-rotation": "data(rot)", "text-wrap": "none",
         "text-background-opacity": 0 }},
-      { selector: "node.bq.grid[type='profile']", style: { "width": 26, "height": 26, "font-family": "Inter, system-ui, sans-serif",
+      { selector: "node.bq.grid[type='profile']", style: { "width": 24, "height": 40, "font-family": "Inter, system-ui, sans-serif",
         "font-size": 11.5, "font-weight": 500, "color": C.ink, "text-valign": "bottom", "text-halign": "center",
-        "text-margin-x": 0, "text-margin-y": 6, "text-rotation": 0, "text-wrap": "wrap", "text-max-width": "data(tw)",
+        "text-margin-x": 0, "text-margin-y": 5, "text-rotation": 0, "text-wrap": "wrap", "text-max-width": "data(tw)",
         "text-background-opacity": 0 }},
       { selector: "node.bq[type='source'][?root]", style: { "shape": "ellipse", "width": () => 124 * SC, "height": () => 124 * SC,
         "background-color": "data(hue)", "border-width": 10, "border-color": "data(hue)", "border-opacity": 0.22,
@@ -144,23 +144,21 @@
     ],
   });
 
-  // Le vin vu du dessus : la robe en disques concentriques (même dessin que les fiches vin).
-  const ROBES = {
-    rouge: ["#F1E4D6", "#C2475F", "#8E2A45", "#6E1A33"],
-    blanc: ["#F4ECD8", "#F3E3A0", "#E6CF73", "#D9BC4E"],
-    rose: ["#F6EBE4", "#F6C7BD", "#EFA697", "#E08A7A"],
-  };
-  const robeCache = {};
-  function robe(wine) {
-    const c = ROBES[wine] || ROBES.rouge;
-    if (!robeCache[wine]) {
-      robeCache[wine] = "data:image/svg+xml;utf8," + encodeURIComponent(
-        "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'>"
-        + `<circle cx='50' cy='50' r='49' fill='${c[0]}'/><circle cx='50' cy='50' r='41' fill='${c[1]}'/>`
-        + `<circle cx='50' cy='50' r='32' fill='${c[2]}'/><circle cx='50' cy='50' r='23' fill='${c[3]}'/>`
-        + "<ellipse cx='36' cy='34' rx='10' ry='5.5' fill='#fff' opacity='.35'/></svg>");
+  // Le verre, dessiné aux couleurs du vin. Largeur et hauteur explicites, et dessin fait à grande
+  // taille : le verre reste net quand on zoome, sans quoi il flou ou se déforme.
+  const ROBE = { rouge: "#6E1A33", blanc: "#E2C766", rose: "#E89A8C" };
+  const glassCache = {};
+  function glass(wine) {
+    const fill = ROBE[wine] || ROBE.rouge;
+    if (!glassCache[fill]) {
+      glassCache[fill] = "data:image/svg+xml;utf8," + encodeURIComponent(
+        "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='672' viewBox='-50 -116 100 168'>"
+        + "<path d='M-46 -112 H46 C46 -58 28 -26 0 -22 C-28 -26 -46 -58 -46 -112 Z' fill='#fff' stroke='#23262F' stroke-width='2.5' stroke-linejoin='round'/>"
+        + `<path d='M-43 -80 H43 C40 -50 24 -28 0 -25 C-24 -28 -40 -50 -43 -80 Z' fill='${fill}'/>`
+        + "<path d='M0 -22 V40' stroke='#23262F' stroke-width='2.5'/>"
+        + "<path d='M-30 46 Q0 34 30 46' fill='none' stroke='#23262F' stroke-width='2.5' stroke-linecap='round'/></svg>");
     }
-    return robeCache[wine];
+    return glassCache[fill];
   }
   // Échelle des bulles : 1 sur ordinateur, un peu moins sur téléphone.
   let SC = 1;
@@ -338,7 +336,7 @@
     const mols = root.data("type") === "source" ? cy.nodes("[type='molecule']").toArray() : [];
     const wines = sortWines(cy.nodes("[type='profile']").toArray());
     const perRow = 4, molRows = Math.ceil(mols.length / perRow);
-    const cols = 3, cellW = (W - 16) / cols, cellH = 78;
+    const cols = 3, cellW = (W - 16) / cols, cellH = 92;
     const wineTop = 170 + (molRows ? molRows * 92 + 10 : 0);
     const others = root.data("type") === "molecule" ? cy.nodes("[type='source']").toArray() : [];
     const srcRows = others.length ? rowsOf(others, 0, W, 50) : null;
