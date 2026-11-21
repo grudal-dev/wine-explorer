@@ -68,6 +68,9 @@ class BouquetNotesTests(TestCase):
         self.assertEqual(furaneol["note"], "caramel")       # pas « fraise »
         self.assertEqual(furaneol["odor"], "fraise")        # l'odeur propre reste dans la donnée
         self.assertNotEqual(furaneol["hue"], graph.data().molecules["furaneol"]["hue"])
+        # Reliée par un arôme du vin : bulle pleine ; par la seule couleur (diacétyle d'un rouge) : grisée.
+        self.assertTrue(furaneol.get("direct"))
+        self.assertFalse(nodes["molecule:diacetyle"].get("direct"))
 
     def test_near_and_far_sources(self):
         nodes, data = self._nodes("porto-tawny-10-ans")

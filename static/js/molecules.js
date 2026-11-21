@@ -111,6 +111,9 @@
         // Les lignes sont coupées par fitBubble ; la largeur maximale ne doit pas les recouper.
         "text-max-width": (n) => bubble(n) + 40, "text-background-opacity": 0, "line-height": LINE }},
       { selector: "node.bq[type='molecule'][tier='family']", style: { "background-opacity": 0.75 }},
+      { selector: "node.bq.bouquet[type='molecule'][!direct]", style: { "background-color": "#CFCAC0", "background-opacity": 1,
+        "border-color": "#CFCAC0", "border-opacity": 0.35, "color": C.ink2 }},
+      { selector: "node.bq.bouquet.hl[type='molecule'][!direct]", style: { "background-color": "data(hue)", "color": "#fff" }},
       { selector: "node.bq[type='molecule'][tier='universal'], node.bq[type='molecule'][?universal]", style: {
         "background-opacity": 0.42, "color": C.ink, "border-opacity": 0.1 }},
       { selector: "node.bq[type='source']", style: { "shape": "round-rectangle", "width": "label", "height": 26,
@@ -125,6 +128,7 @@
       { selector: "edge.bq[kind='contains']", style: { "curve-style": "unbundled-bezier",
         "control-point-distances": (e) => [-(e.target().position("x") - e.source().position("x")) * 0.32],
         "control-point-weights": [0.55], "opacity": 0.75, "width": "mapData(strength, 1, 3, 2, 6)" }},
+      { selector: "edge.bq.bouquet[kind='contains']", style: { "opacity": (e) => (e.target().data("direct") ? 0.75 : 0.3) }},
       // Une pastille à chaque bout du trait : on voit à quelle bulle et à quel élément naturel il s'accroche.
       { selector: "edge.bq[kind='found_in']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
         "opacity": 0.42, "width": "mapData(strength, 1, 3, 1, 2.8)",
@@ -180,7 +184,7 @@
   // après un trait d'union ou après un préfixe chimique (« 2-méthyl-|butanoate »), et la taille du texte
   // baisse jusqu'à ce que chaque ligne tienne dans le cercle. Les points de suspension ne servent
   // qu'en dernier recours, sous 8,5 px.
-  const PREFIXES = /(diméthyl|méthyl|éthyl|phényl|furfuryl|sulfanyl|mercapto|hydroxy|isopropyl|isobutyl|benzène|pyrrole|hexén|octén)(?=[a-zà-ÿ]{4,})/gi;
+  const PREFIXES = /(diméthyl|méthyl|méthane|éthyl|phényl|furfuryl|sulfanyl|mercapto|hydroxy|isopropyl|isobutyl|benzène|pyrrole|hexén|octén)(?=[a-zà-ÿ]{4,})/gi;
   function tokens(name) {
     // Morceaux insécables ; « sep » dit ce qui les relie : une espace, ou rien (coupure dans un mot,
     // marquée d'un trait d'union en fin de ligne si le morceau ne finit pas déjà par un).
@@ -206,10 +210,14 @@
   }
   const fitCache = new Map();
   function fitBubble(n) {
+    const d = bubble(n);
+    return fitAt(n, d, true);
+  }
+  // Ajuste le texte à une bulle de diamètre d ; sans « last », renvoie null quand rien ne tient à 8,5 px.
+  function fitAt(n, d, last) {
     const name = n.data("label") || "";
     const note = n.data("note") || n.data("odor") || "";
-    const d = bubble(n);
-    const key = `${d}|${note}|${name}`;
+    const key = `${d}|${note}|${name}|${last ? 1 : 0}`;
     if (fitCache.has(key)) return fitCache.get(key);
     const head = note && note.toLowerCase() !== name.toLowerCase() ? [note] : [];
     const r = d / 2 - 3;
@@ -222,12 +230,13 @@
         const y = Math.abs(i - (k - 1) / 2) * fs * LINE + fs * 0.45;
         return y >= r ? 0 : 2 * Math.sqrt(r * r - y * y);
       };
-      for (let k = head.length + 1; k <= head.length + 3 && !best; k++) {
+      for (let k = head.length + 1; k <= head.length + 4 && !best; k++) {
         const lines = [...head, ...wrap(tokens(name), room(k, head.length), measure)];
         if (lines.length > k) continue;
         if (lines.every((l, i) => measure(l) <= room(lines.length, i))) best = { text: lines.join("\n"), size: fs };
       }
     }
+    if (!best && !last) { fitCache.set(key, null); return null; }
     if (!best) {   // dernier recours : 8,5 px, nom sur deux lignes, la seconde abrégée
       measureCtx.font = "italic 600 8.5px Fraunces, Georgia, serif";
       const measure = (t) => measureCtx.measureText(t).width;
@@ -253,7 +262,16 @@
   function bubble(n) {
     if (n.data("root")) return 132 * SC;
     if (n.data("sz")) return n.data("sz") * SC;   // taille imposée par la vue (soleil)
-    return (58 + 14 * (n.data("strength") || 1)) * SC;
+    // Bulles resserrées ; dans la vue d'un vin, celles qu'aucun arôme du vin ne justifie (diacétyle
+    // d'un rouge, esters de fermentation…) sont plus petites encore, et grisées.
+    const base = 46 + 12 * (n.data("strength") || 1);
+    const indirect = n.hasClass("bouquet") && !n.data("direct");
+    const d = (indirect ? base * 0.84 : base) * SC;
+    // Un nom long (« pyrroleméthanethiol ») agrandit un peu sa bulle plutôt que d'être abrégé.
+    for (const grow of [1, 1.12, 1.25, 1.38, 1.52]) {
+      if (fitAt(n, d * grow, false)) return d * grow;
+    }
+    return d * 1.52;
   }
   // Une vue par point de départ : un vin en bouquet ; une molécule en couronne de vins ; un élément
   // naturel en soleil (lui au centre, ses molécules, puis leurs vins). Sur téléphone, le bouquet se

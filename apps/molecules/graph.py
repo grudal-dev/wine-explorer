@@ -245,6 +245,7 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
             if note := d.link_note.get((slug, mslug)):
                 # La bulle prend la couleur de cet arôme : le furanéol d'un tawny est caramel, pas fraise.
                 extra["note"], extra["hue"] = tr(note[0]), note[1]
+                extra["direct"] = True   # reliée par un arôme du vin, pas seulement par cépage, style ou couleur
             nodes[mid] = _node("molecule", d.molecules[mslug], 1, **extra)
             edges.append(_edge(pid, mid, "contains", strength, basis, tier))
             # Éléments naturels : ceux qui portent un arôme de ce vin (« cannelle » pour l'eugénol
