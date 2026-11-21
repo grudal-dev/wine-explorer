@@ -44,6 +44,15 @@ class AutoloadTests(TestCase):
         self.assertTrue(WineProfile.objects.filter(appellation__country__code="IT").exists())
         self.assertFalse(WineProfile.objects.filter(profile_molecules__isnull=True).exists())
 
+    def test_new_appellation_in_loaded_country(self):
+        """Crus du Beaujolais ajoutés à une France déjà en base : le déploiement suivant les charge."""
+        call_command("load_seed", country="all", stdout=StringIO())
+        WineProfile.objects.filter(appellation__slug="chiroubles").delete()
+        from apps.catalog.models import Appellation
+        Appellation.objects.filter(slug="chiroubles").delete()
+        self.run_hook()
+        self.assertTrue(WineProfile.objects.filter(slug="chiroubles-rouge").exists())
+
     def test_startup_warning(self):
         with mock.patch("sys.argv", ["manage.py", "runserver"]):
             self.assertEqual([w.id for w in check_data_loaded(None)], ["catalog.W001"])

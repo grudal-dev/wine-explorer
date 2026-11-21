@@ -25,6 +25,7 @@ from apps.catalog.i18n import tr
 from apps.catalog.index import search_guess
 from apps.catalog.models import Appellation, Grape, Region, WineProfile
 from apps.catalog.text import normalize
+from apps.catalog.twins import are_twins
 
 from .models import Game, Guess
 
@@ -394,6 +395,13 @@ def _evaluate(match, t: Target, found: dict) -> tuple[str, str, bool]:
             found["region"] = True
             return V.HIT, gettext("C'est bien un %(appellation)s !") % {"appellation": t.appellation.name}, True
         guessed = Appellation.objects.select_related("region", "region__parent").get(pk=match.pk)
+        # Jumelles au verre (Fleurie / Chiroubles…) : accepté, à condition qu'elle fasse cette couleur.
+        if are_twins(t.appellation.slug, guessed.slug) and t.profile.color in (guessed.colors or []):
+            found["appellation"] = True
+            found["region"] = True
+            return V.HIT, gettext(
+                "Accepté : c'était un %(appellation)s, presque impossible à distinguer d'un %(guess)s au verre."
+            ) % {"appellation": t.appellation.name, "guess": guessed.name}, True
         hint = distance_hint(guessed, t.appellation)
         if guessed.region.root.id == t.region.id:
             found["region"] = True

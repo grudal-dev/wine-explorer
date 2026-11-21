@@ -14,13 +14,16 @@ def _autoload_enabled() -> bool:
 
 
 def _missing_countries() -> list[str]:
-    """Dossiers de données dont le pays n'a encore aucun profil en base."""
+    """Dossiers de données dont le pays n'a encore aucun profil en base, ou dont une appellation
+    du YAML manque en base (appellations ajoutées à un pays déjà chargé, ex. les crus du Beaujolais)."""
     import yaml
+    from django.utils.text import slugify
 
     from apps.catalog.management.commands.load_seed import DATA_DIR
 
-    from .models import WineProfile
+    from .models import Appellation, WineProfile
 
+    known = set(Appellation.objects.values_list("slug", flat=True))
     missing = []
     for folder in sorted(DATA_DIR.iterdir()):
         regions = folder / "regions.yaml"
@@ -30,6 +33,12 @@ def _missing_countries() -> list[str]:
             code = yaml.safe_load(fh)["country"]["code"]
         if not WineProfile.objects.filter(appellation__country__code=code).exists():
             missing.append(folder.name)
+            continue
+        for path in sorted(folder.glob("appellations_*.yaml")):
+            with path.open(encoding="utf-8") as fh:
+                if any(slugify(e["appellation"]) not in known for e in yaml.safe_load(fh) or []):
+                    missing.append(folder.name)
+                    break
     return missing
 
 
@@ -52,7 +61,8 @@ def load_missing_data(sender, verbosity=1, **kwargs):
         if not WineProfile.objects.exists():
             call_command("load_seed", country="all", stdout=out)
         elif missing := _missing_countries():
-            # Un pays livré après le premier déploiement (ex. l'Italie) : on le charge seul.
+            # Un pays livré après le premier déploiement (ex. l'Italie), ou de nouvelles appellations
+            # dans un pays déjà chargé : on recharge ce pays seul (load_seed est idempotent).
             call_command("load_seed", country=",".join(missing), stdout=out)
         elif not ProfileMolecule.objects.exists():
             call_command("load_molecules", stdout=out)

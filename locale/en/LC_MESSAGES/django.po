@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-21 14:31+0100\n"
+"POT-Creation-Date: 2026-11-21 15:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -397,6 +397,10 @@ msgstr "Abandoned"
 
 msgid "Abruzzes"
 msgstr "Abruzzo"
+
+#, python-format
+msgid "Accepté : c'était un %(appellation)s, presque impossible à distinguer d'un %(guess)s au verre."
+msgstr "Accepted: it was a %(appellation)s, almost impossible to tell from a %(guess)s in the glass."
 
 msgid "Accords"
 msgstr "Food pairings"
@@ -2177,6 +2181,13 @@ msgstr ""
 "age."
 
 msgid ""
+"Le cru le plus au nord, au contact du Mâconnais, sur granites et argiles à silex : fruits rouges, fleurs et"
+" une touche épicée."
+msgstr ""
+"The northernmost cru, on the edge of the Mâconnais, on granite and flinty clay: red fruit, flowers and a "
+"spicy touch."
+
+msgid ""
 "Le cru le plus charnu du granit beaujolais ; autour de la Côte du Py, il « morgonne » en vieillissant vers "
 "des notes de cerise à l'eau-de-vie."
 msgstr ""
@@ -2185,6 +2196,13 @@ msgstr ""
 
 msgid "Le cru le plus floral du Beaujolais, gracieux et soyeux sur granite rose."
 msgstr "The most floral cru of Beaujolais, graceful and silky on pink granite."
+
+msgid ""
+"Le cru le plus haut perché, entre 250 et 450 mètres, sur un granite léger : un rouge aérien, floral et "
+"fruité, à boire jeune et frais."
+msgstr ""
+"The highest cru, between 250 and 450 metres, on light granite: an airy, floral and fruity red, to drink "
+"young and cool."
 
 #, python-format
 msgid "Le descripteur « %(aroma_name)s »"
@@ -2265,6 +2283,13 @@ msgstr ""
 "elegance that hides a real ability to age."
 
 msgid ""
+"Le plus jeune des crus (1988), sur des sables granitiques : fruits rouges croquants, une pointe épicée et "
+"une souplesse qui en fait un vin de copains."
+msgstr ""
+"The youngest cru (1988), on granitic sands: crunchy red fruit, a hint of spice and a suppleness that makes "
+"it a wine for friends."
+
+msgid ""
 "Le plus jeune et le plus fruité des vins de sa famille : deux à trois ans en cuve ou en grand foudre, qui "
 "gardent la robe rubis et le fruit. Un rouge muté à l'eau-de-vie de raisin, sucré et puissant, sans la "
 "complexité d'un long élevage."
@@ -2272,6 +2297,13 @@ msgstr ""
 "The youngest and fruitiest of its family: two to three years in tank or large vat, which keep the ruby "
 "colour and the fruit. A red fortified with grape spirit, sweet and powerful, without the complexity of long"
 " ageing."
+
+msgid ""
+"Le plus petit des crus, voisin du plus célèbre cru de garde, dont il partage le granite et la structure : "
+"fruits noirs, rose fanée et une garde de dix ans."
+msgstr ""
+"The smallest cru, neighbour of the most famous ageing cru, with which it shares granite and structure: "
+"black fruit, faded rose and ten years of ageing potential."
 
 msgid ""
 "Le plus septentrional des grands rouges languedociens, frais grâce aux nuits fraîches sous la montagne, au "
@@ -2507,6 +2539,13 @@ msgstr "The molecules that %(source_name)s shares with wine, and the wines that 
 
 msgid "Les parties jouées sans compte sur cet appareil vous seront rattachées."
 msgstr "Games played without an account on this device will be attached to your account."
+
+msgid ""
+"Les pentes d'un ancien volcan, sur des roches bleues très dures : un gamay plus concentré et plus minéral "
+"que celui de la plaine qui l'entoure, aux fruits rouges mûrs et à la finale saline."
+msgstr ""
+"The slopes of an ancient volcano, on very hard blue rock: a gamay more concentrated and mineral than that "
+"of the surrounding plain, with ripe red fruit and a saline finish."
 
 msgid "Les pentes du volcan éteint Vulture, terre de l'aglianico."
 msgstr "The slopes of the extinct Vulture volcano, land of aglianico."
@@ -3724,6 +3763,13 @@ msgstr "All regions"
 msgid "Tranquille sec"
 msgstr "Still, dry"
 
+msgid ""
+"Trente-huit communes du nord, sur les mêmes granites que les crus : un gamay un cran plus concentré que le "
+"générique, fruité et gourmand, à boire dans ses trois premières années."
+msgstr ""
+"Thirty-eight northern villages, on the same granite as the crus: a gamay a notch more concentrated than the"
+" generic, fruity and generous, to drink within three years."
+
 msgid "Trentin-Haut-Adige"
 msgstr "Trentino-South Tyrol"
 
@@ -3798,6 +3844,9 @@ msgstr "An account keeps your blind tasting history and puts you on the daily ch
 
 msgid "Un conservatoire de cépages autochtones, du tannat au manseng."
 msgstr "A conservatory of native grape varieties, from Tannat to Manseng."
+
+msgid "Un cru charpenté sur granite et schistes, aux fruits noirs et à la pivoine, épicé en vieillissant."
+msgstr "A structured cru on granite and schist, with black fruit and peony, turning spicy with age."
 
 msgid ""
 "Un des esters ramifiés qui, avec le propanoate et le 2-méthylpropanoate d'éthyle, orientent le fruit des "
@@ -4719,6 +4768,9 @@ msgstr "fillet of beef with truffles"
 msgid "filet de veau"
 msgstr "fillet of veal"
 
+msgid "filet mignon"
+msgstr "pork tenderloin"
+
 msgid "fleur d'oranger"
 msgstr "orange blossom"
 
@@ -4797,6 +4849,9 @@ msgstr "sheep's milk cheeses"
 
 msgid "fromages de chèvre"
 msgstr "goat's cheeses"
+
+msgid "fromages de chèvre secs"
+msgstr "aged goat cheeses"
 
 msgid "fromages doux"
 msgstr "mild cheeses"
@@ -5340,6 +5395,9 @@ msgstr "chicken paprikash"
 msgid "poulet aux morilles"
 msgstr "chicken with morels"
 
+msgid "poulet rôti"
+msgstr "roast chicken"
+
 msgid "poulet à la crème"
 msgstr "chicken in cream sauce"
 
@@ -5506,6 +5564,9 @@ msgstr "raw scallops"
 msgid "salade de chèvre"
 msgstr "goat's cheese salad"
 
+msgid "salade lyonnaise"
+msgstr "Lyonnaise salad"
+
 msgid "salade niçoise"
 msgstr "salade niçoise"
 
@@ -5645,6 +5706,9 @@ msgstr "lemon tart"
 msgid "tarte aux abricots"
 msgstr "apricot tart"
 
+msgid "tarte aux légumes"
+msgstr "vegetable tart"
+
 msgid "tarte aux noix"
 msgstr "walnut tart"
 
@@ -5665,6 +5729,9 @@ msgstr "tender"
 
 msgid "tendu"
 msgstr "taut"
+
+msgid "terrine de campagne"
+msgstr "country terrine"
 
 msgid "thon"
 msgstr "tuna"

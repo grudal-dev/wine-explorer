@@ -304,6 +304,111 @@
       pairings: [charcuterie, tarte salée]
       description: Le plus étendu des crus, fruité et franc, autour du mont du même nom.
 
+- appellation: Côte de Brouilly
+  region: Beaujolais
+  lat: 46.095
+  lng: 4.690
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {cerise: 2, framboise: 2, prune: 2, violette: 1, pierre mouillée: 2, poivre noir: 1}
+      structure: [3, 4, 2, 1]
+      price: [12, 28]
+      aging: [2, 8]
+      temp: 14-15 °C
+      pairings: [volaille rôtie, terrine de campagne, fromages de chèvre secs]
+      description: "Les pentes d'un ancien volcan, sur des roches bleues très dures : un gamay plus concentré et plus minéral que celui de la plaine qui l'entoure, aux fruits rouges mûrs et à la finale saline."
+
+- appellation: Régnié
+  region: Beaujolais
+  lat: 46.135
+  lng: 4.640
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {framboise: 3, groseille: 2, cerise: 2, pivoine: 1, poivre noir: 1}
+      structure: [2, 4, 2, 1]
+      price: [10, 22]
+      aging: [1, 6]
+      temp: 14 °C
+      pairings: [charcuterie, poulet rôti, tarte aux légumes]
+      description: "Le plus jeune des crus (1988), sur des sables granitiques : fruits rouges croquants, une pointe épicée et une souplesse qui en fait un vin de copains."
+
+- appellation: Chiroubles
+  region: Beaujolais
+  lat: 46.183
+  lng: 4.656
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {fraise: 2, framboise: 2, violette: 2, pivoine: 2, groseille: 1}
+      structure: [2, 4, 1, 1]
+      price: [10, 22]
+      aging: [1, 5]
+      temp: 13-14 °C
+      pairings: [saucisson, salade lyonnaise, poisson grillé]
+      description: "Le cru le plus haut perché, entre 250 et 450 mètres, sur un granite léger : un rouge aérien, floral et fruité, à boire jeune et frais."
+
+- appellation: Saint-Amour
+  region: Beaujolais
+  lat: 46.244
+  lng: 4.738
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {framboise: 2, cerise: 2, pivoine: 2, rose: 1, poivre noir: 1, abricot: 1}
+      structure: [2, 4, 2, 1]
+      price: [12, 25]
+      aging: [2, 6]
+      temp: 14 °C
+      pairings: [volaille à la crème, filet mignon, fromages doux]
+      description: "Le cru le plus au nord, au contact du Mâconnais, sur granites et argiles à silex : fruits rouges, fleurs et une touche épicée."
+
+- appellation: Juliénas
+  region: Beaujolais
+  lat: 46.239
+  lng: 4.708
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {cerise: 2, cassis: 2, pivoine: 2, violette: 1, cannelle: 1, prune: 1}
+      structure: [3, 4, 2, 1]
+      price: [12, 28]
+      aging: [3, 10]
+      temp: 14-15 °C
+      pairings: [coq au vin, gibier à plume, fromages affinés]
+      description: "Un cru charpenté sur granite et schistes, aux fruits noirs et à la pivoine, épicé en vieillissant."
+
+- appellation: Chénas
+  region: Beaujolais
+  lat: 46.214
+  lng: 4.716
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {cerise noire: 2, pivoine: 2, rose: 1, prune: 2, réglisse: 1, sous-bois: 1}
+      structure: [3, 4, 3, 1]
+      price: [12, 28]
+      aging: [4, 12]
+      temp: 15 °C
+      pairings: [bœuf bourguignon, gibier, fromages à pâte dure]
+      description: "Le plus petit des crus, voisin du plus célèbre cru de garde, dont il partage le granite et la structure : fruits noirs, rose fanée et une garde de dix ans."
+
+- appellation: Beaujolais-Villages
+  region: Beaujolais
+  lat: 46.150
+  lng: 4.620
+  profiles:
+    - color: rouge
+      grapes: {Gamay: 100}
+      aromas: {framboise: 2, cerise: 2, fraise: 2, pivoine: 1, groseille: 1, banane: 1}
+      structure: [2, 4, 1, 1]
+      price: [8, 16]
+      aging: [1, 4]
+      temp: 13-14 °C
+      pairings: [charcuterie, quiche, burger]
+      description: "Trente-huit communes du nord, sur les mêmes granites que les crus : un gamay un cran plus concentré que le générique, fruité et gourmand, à boire dans ses trois premières années."
+
 # ───────────── Champagne ─────────────
 - appellation: Champagne
   region: Champagne

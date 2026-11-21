@@ -1,0 +1,18 @@
+# Appellations jumelles au verre : à l'aveugle, même un dégustateur aguerri les confond.
+# Au blind test, proposer l'une quand la réponse est l'autre compte comme trouvé (si elle
+# produit la couleur du vin à deviner). Le jeu annonce alors la vraie réponse.
+# Décision de l'utilisateur (21/11/2026) : « deviner Fleurie implique avoir bon pour Chiroubles ».
+# Ne mettre ici que des appellations vraiment indiscernables ; les groupes ne se recoupent pas.
+
+# Beaujolais : trois familles de crus
+- [Fleurie, Chiroubles, Saint-Amour]                # légers et floraux
+- [Brouilly, Côte de Brouilly, Régnié]              # fruités et souples
+- [Morgon, Moulin-à-Vent, Chénas, Juliénas]         # charpentés, de garde
+- [Beaujolais, Beaujolais-Villages]
+
+# Loire
+- [Chinon, Bourgueil]                               # cabernet franc de Touraine
+- [Sancerre, Pouilly-Fumé]                          # sauvignon du Centre-Loire (blanc seulement)
+
+# Rhône méridional
+- [Gigondas, Vacqueyras]

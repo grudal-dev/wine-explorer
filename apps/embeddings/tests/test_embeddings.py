@@ -75,7 +75,8 @@ class ViewTests(TestCase):
         self.assertContains(page, "Carte des goûts")
         nodes = self.client.get(reverse("embeddings:api_map")).json()["nodes"]
         wines = [n for n in nodes if n["type"] == "profile"]
-        self.assertEqual(len(wines), 98)
+        from apps.catalog.models import WineProfile
+        self.assertEqual(len(wines), WineProfile.objects.count())  # tous les vins chargés (ici la France)
         self.assertTrue(all(-1.01 <= n["x"] <= 1.01 and -1.01 <= n["y"] <= 1.01 for n in nodes))
         self.assertIn(wines[0]["wine"], {"rouge", "blanc", "rose"})
 
