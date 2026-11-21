@@ -348,11 +348,12 @@
     const wines = sortWines(cy.nodes("[type='profile']").toArray());
     const perRow = 4, molRows = Math.ceil(mols.length / perRow);
     const cols = 3, cellW = (W - 16) / cols, cellH = 92;
-    const wineTop = 170 + (molRows ? molRows * 92 + 10 : 0);
     const others = root.data("type") === "molecule" ? cy.nodes("[type='source']").toArray() : [];
     const srcRows = others.length ? rowsOf(others, 0, W, 50) : null;
-    const srcH = srcRows ? srcRows.bottom + 50 : 0;
-    prepare(wineTop + srcH + Math.ceil(wines.length / cols) * cellH + 30, "grid");
+    // Molécule au centre : sa nature d'abord, juste sous elle (plus lisible), puis les vins.
+    const srcH = srcRows ? srcRows.bottom + 70 : 0;
+    const wineTop = 170 + (molRows ? molRows * 92 + 10 : 0) + srcH;
+    prepare(wineTop + Math.ceil(wines.length / cols) * cellH + 30, "grid");
     const positions = {};
     positions[root.id()] = { x: W / 2, y: 86 };
     mols.forEach((m, k) => {
@@ -364,9 +365,8 @@
       w.data({ tw: cellW - 10 });
       positions[w.id()] = { x: 8 + cellW * (col + 0.5), y: wineTop + row * cellH };
     });
-    // Molécule au centre : sa nature en rangées sous les vins (elle se lit aussi dans la fiche).
     if (srcRows) {
-      const y0 = wineTop + Math.ceil(wines.length / cols) * cellH + 10;
+      const y0 = 170;
       Object.entries(srcRows.positions).forEach(([id, p]) => { positions[id] = { x: p.x, y: p.y + y0 }; });
     }
     run(positions, false);
