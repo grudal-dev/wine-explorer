@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-21 10:34+0100\n"
+"POT-Creation-Date: 2026-11-21 10:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -758,6 +758,9 @@ msgstr "Crisp, saline white facing the Thau lagoon, the natural companion to she
 msgid "Blanc « tradition » souvent élevé sous voile, oxydatif léger avec des notes de noix fraîche."
 msgstr "\"Tradition\" white often aged under flor, lightly oxidative with notes of fresh walnut."
 
+msgid "Blancs"
+msgstr "Whites"
+
 msgid "Blind test"
 msgstr "Blind tasting"
 
@@ -1171,8 +1174,15 @@ msgstr "DOC"
 msgid "DOCG"
 msgstr "DOCG"
 
+#, python-format
+msgid "Dans %(n)s vins"
+msgstr "In %(n)s wines"
+
 msgid "Dans quels vins"
 msgstr "In which wines"
+
+msgid "Dans un vin"
+msgstr "In one wine"
 
 msgid "Date"
 msgstr "Date"
@@ -3145,6 +3155,9 @@ msgstr "Food rosé, dark and vinous, the opposite of pale rosés. The only Rhôn
 msgid "Rosé tendre et légèrement sucré, gourmand de fruits rouges, à servir bien frais en apéritif."
 msgstr "Tender, slightly sweet rosé, moreish with red fruit, to serve well chilled as an aperitif."
 
+msgid "Rosés"
+msgstr "Rosés"
+
 msgid "Rouge"
 msgstr "Red"
 
@@ -3297,6 +3310,9 @@ msgid ""
 msgstr ""
 "Velvety red on a limestone plateau, full and fleshy, its ripe black fruit softened by Merlot. With age it "
 "slides towards truffle and undergrowth."
+
+msgid "Rouges"
+msgstr "Reds"
 
 msgid "Roussillon"
 msgstr "Roussillon"

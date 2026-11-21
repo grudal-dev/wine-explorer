@@ -4,6 +4,7 @@ from collections import defaultdict
 from django.db.models import Count, Prefetch
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils.translation import gettext
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
 
@@ -81,7 +82,12 @@ def api_graph(request):
     common = None if raw == "auto" else raw in {"1", "true", "on"}
     family = request.GET.get("famille", "1") not in {"0", "false", "off"}
     imported = request.GET.get("wikidata", "1") not in {"0", "false", "off"}
-    result = graph.build(kind, slug, common=common, family=family, imported=imported)
+    # Vue « bouquet » d'une molécule (ordinateur) : jusqu'à 32 vins en couronne au lieu de 18 en colonne.
+    try:
+        max_profiles = max(1, min(int(request.GET.get("vins", graph.MAX_PROFILES)), 60))
+    except ValueError:
+        max_profiles = graph.MAX_PROFILES
+    result = graph.build(kind, slug, common=common, family=family, imported=imported, max_profiles=max_profiles)
     if result is None:
         return JsonResponse({"error": "Entité inconnue."}, status=404)
     return JsonResponse(result)
@@ -106,6 +112,15 @@ def panel(request, node_id: str):
             Molecule.objects.prefetch_related("occurrences__source", "occurrences__reference", "aromas"), slug=slug
         )
         ctx["obj"] = mol
+        # Tous les vins qui la contiennent, par couleur : la couronne du graphe n'en montre qu'une partie.
+        wines = (ProfileMolecule.objects.filter(molecule=mol).select_related("profile")
+                 .order_by("-strength", "profile__name"))
+        by_color: dict[str, list] = defaultdict(list)
+        for pm in wines:
+            by_color[pm.profile.color].append(pm)
+        plural_color = {"rouge": gettext("Rouges"), "blanc": gettext("Blancs"), "rose": gettext("Rosés")}
+        ctx["wines_by_color"] = [(plural_color[c], by_color[c]) for c in ("rouge", "blanc", "rose") if by_color.get(c)]
+        ctx["n_wines"] = sum(len(v) for v in by_color.values())
         focus = request.GET.get("vin", "")
         if focus:
             link = ProfileMolecule.objects.filter(molecule=mol, profile__slug=focus).select_related("profile").first()

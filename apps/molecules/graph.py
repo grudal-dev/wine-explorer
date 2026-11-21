@@ -169,7 +169,7 @@ def _edge(a: str, b: str, kind: str, strength: int = 1, basis: str = "", tier: s
 
 
 def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
-          imported: bool = True) -> dict | None:
+          imported: bool = True, max_profiles: int = MAX_PROFILES) -> dict | None:
     """Éléments Cytoscape pour l'entité de départ.
 
     ``family`` inclut les liens déduits d'une seule famille d'arômes (affichés en retrait).
@@ -228,8 +228,8 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
         nodes[mid] = _node("molecule", d.molecules[slug], 1, root=True)
         rows = [r for r in d.by_molecule_profiles.get(slug, []) if keep(r)]
         hidden_common = len(d.by_molecule_profiles.get(slug, [])) - len(rows)
-        truncated = max(0, len(rows) - MAX_PROFILES)
-        for pslug, strength, basis, tier in rows[:MAX_PROFILES]:
+        truncated = max(0, len(rows) - max_profiles)
+        for pslug, strength, basis, tier in rows[:max_profiles]:
             pid = f"profile:{pslug}"
             nodes[pid] = _node("profile", d.profiles[pslug], 0)
             edges.append(_edge(pid, mid, "contains", strength, basis, tier))

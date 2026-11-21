@@ -119,6 +119,15 @@
         "control-point-weights": [0.55], "opacity": 0.75, "width": "mapData(strength, 1, 3, 2, 6)" }},
       { selector: "edge.bq[kind='found_in']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
         "opacity": 0.4, "width": 1.2 }},
+      // Couronne d'une molécule : la molécule en grande bulle au centre, les vins en petits verres autour.
+      { selector: "node.bq[type='molecule'][?root]", style: { "width": 132, "height": 132, "font-size": 16,
+        "text-max-width": 116, "border-width": 10, "border-opacity": 0.22, "label": rootLabel }},
+      { selector: "node.bq.ring[type='profile']", style: { "width": 20, "height": 34, "font-family": "Inter, system-ui, sans-serif",
+        "font-size": 12, "font-weight": 500, "color": C.ink, "text-valign": "center", "text-halign": "center",
+        "text-margin-x": "data(lx)", "text-margin-y": "data(ly)", "text-rotation": "data(rot)", "text-wrap": "none",
+        "text-background-opacity": 0 }},
+      { selector: "edge.bq.ring[kind='contains']", style: { "curve-style": "straight", "opacity": 0.45,
+        "width": "mapData(strength, 1, 3, 1.2, 4)" }},
       { selector: "node.bq:selected", style: { "border-color": C.garnet, "border-opacity": 1, "border-width": 4 }},
       { selector: "node.bq.hl[type='molecule']", style: { "border-color": "data(hue)", "border-opacity": 0.35, "border-width": 9 }},
     ],
@@ -143,15 +152,84 @@
     const odor = n.data("odor") || "";
     return odor && odor.toLowerCase() !== name.toLowerCase() ? `${odor}\n${short}` : short;
   }
-  const bouquetMode = () => state.start.startsWith("profile:") && cy.width() >= 640;
-  function layout() { if (bouquetMode()) layoutBouquet(); else layoutColumns(); }
+  function rootLabel(n) {
+    const odor = n.data("odor") || "";
+    const name = n.data("label") || "";
+    return odor && odor.toLowerCase() !== name.toLowerCase() ? `${odor}\n${name}` : name;
+  }
+  const wide = () => cy.width() >= 640;
+  const bouquetMode = () => state.start.startsWith("profile:") && wide();
+  const ringMode = () => state.start.startsWith("molecule:") && wide();
+  function layout() {
+    if (bouquetMode()) layoutBouquet();
+    else if (ringMode()) layoutRing();
+    else layoutColumns();
+  }
+
+  // ── Couronne : une molécule au centre, ses vins en verres tout autour (par couleur), sa nature au-dessus ──
+  const measureCtx = document.createElement("canvas").getContext("2d");
+  function layoutRing() {
+    const canvas = cy.container().parentElement;
+    canvas.classList.add("is-bouquet");
+    const wines = cy.nodes("[type='profile']");
+    // Le cadre se règle sur la largeur : un cercle de rayon R, plus la place des noms et de la nature.
+    const R0 = Math.max(170, Math.min(cy.width() / 2 - 150, 330));
+    // Au-dessus : la nature (0,86 R) ; en dessous : le cercle et les noms qui en partent (≈ 190 px).
+    const want = `${Math.round(1.86 * R0 + 260)}px`;
+    if (canvas.style.minHeight !== want) { canvas.style.minHeight = want; cy.resize(); }
+    cy.elements().addClass("bq ring");
+    cy.nodes().removeClass("compact");
+    const W = cy.width(), H = cy.height();
+    const rad = (d) => (d * Math.PI) / 180;
+    const cx = W / 2;
+    const positions = {};
+
+    // Les vins : rouges, rosés puis blancs, du lien le plus sûr au plus faible, sur l'arc du bas
+    // (de 62° à 298°, le haut est laissé à la nature). Les noms rayonnent vers l'extérieur.
+    const order = { rouge: 0, rose: 1, blanc: 2 };
+    const list = wines.toArray().sort((a, b) => (order[a.data("wine")] ?? 3) - (order[b.data("wine")] ?? 3)
+      || (b.connectedEdges()[0]?.data("strength") || 0) - (a.connectedEdges()[0]?.data("strength") || 0)
+      || (a.data("label") || "").localeCompare(b.data("label") || ""));
+    const R = R0;
+    const cyy = Math.max(0.86 * R + 50, H - R - 200);
+    cy.nodes("[type='molecule']").forEach((m) => { positions[m.id()] = { x: cx, y: cyy }; });
+    const n = list.length;
+    const from = 62, to = 298;
+    measureCtx.font = "500 12px Inter, system-ui, sans-serif";
+    list.forEach((w, k) => {
+      const a = n > 1 ? from + ((to - from) * k) / (n - 1) : 180;
+      const ux = Math.sin(rad(a)), uy = -Math.cos(rad(a));
+      positions[w.id()] = { x: cx + R * ux, y: cyy + R * uy };
+      const half = measureCtx.measureText(w.data("label") || "").width / 2;
+      const off = half + 18;
+      // Lecture de gauche à droite : à gauche du cercle, on retourne le texte.
+      let rot = Math.atan2(uy, ux);
+      if (ux < 0) rot += Math.PI;
+      w.data({ lx: ux * off, ly: uy * off, rot });
+    });
+    // La nature : une couronne d'étiquettes dans l'éventail du haut.
+    const srcs = cy.nodes("[type='source']").toArray();
+    const ns = srcs.length;
+    // Deux rangées en quinconce au-dessus de la bulle, écartées pour que les étiquettes ne se touchent pas.
+    const rows = [[], []];
+    srcs.forEach((s, k) => rows[k % 2].push(s));
+    measureCtx.font = "400 12.5px Inter, system-ui, sans-serif";
+    rows.forEach((row, r) => {
+      const y = cyy - R * (r ? 0.62 : 0.86);
+      const widths = row.map((s) => measureCtx.measureText(s.data("label") || "").width + 30);
+      const total = widths.reduce((a, b) => a + b, 0) + 12 * Math.max(0, row.length - 1);
+      let x = cx - total / 2;
+      row.forEach((s, k) => { positions[s.id()] = { x: x + widths[k] / 2, y }; x += widths[k] + 12; });
+    });
+    run(positions, false);
+  }
 
   // ── Bouquet : le vin en bas, ses molécules en éventail au-dessus, la nature en couronne ──
   function layoutBouquet() {
     const canvas = cy.container().parentElement;
     canvas.classList.add("is-bouquet");
     if (canvas.style.minHeight !== "820px") { canvas.style.minHeight = "820px"; cy.resize(); }
-    cy.elements().addClass("bq");
+    cy.elements().addClass("bq").removeClass("ring");
     cy.nodes().removeClass("compact");
     const W = cy.width(), H = cy.height();
     const rad = (d) => (d * Math.PI) / 180;
@@ -234,7 +312,7 @@
     // au zoom 1. Téléphone : hauteur fixe, comme avant.
     const canvas = cy.container().parentElement;
     canvas.classList.remove("is-bouquet");
-    cy.elements().removeClass("bq");
+    cy.elements().removeClass("bq ring");
     if (W >= 640) {
       const counts = [0, 0, 0];
       cy.nodes().forEach((n) => counts[n.data("layer")]++);
@@ -326,7 +404,8 @@
     stats.textContent = _("Chargement…");
     let data;
     try {
-      data = await Combo.getJSON(`${API}?kind=${kind}&slug=${encodeURIComponent(slug)}${query()}`);
+      const more = kind === "molecule" && wide() ? "&vins=32" : "";
+      data = await Combo.getJSON(`${API}?kind=${kind}&slug=${encodeURIComponent(slug)}${query()}${more}`);
     } catch (err) {
       stats.textContent = _("Impossible de charger ce graphe.");
       return;
@@ -355,7 +434,7 @@
     const parts = [];
     if (kind !== "profile") {
       parts.push(plural(_("%s vin"), _("%s vins"), s.profiles)
-        + (s.truncated ? " " + _("(et %s autres)").replace("%s", s.truncated) : ""));
+        + (s.truncated ? " " + _("(et %s autres, tous listés dans la fiche)").replace("%s", s.truncated) : ""));
     }
     parts.push(plural(_("%s molécule"), _("%s molécules"), s.molecules));
     if (kind !== "source") parts.push(plural(_("%s élément naturel"), _("%s éléments naturels"), s.sources));

@@ -45,6 +45,18 @@
   {% endif %}
   {% endwith %}
 
+  {% if wines_by_color %}
+  <section class="node-links">
+    <h3>{% if n_wines > 1 %}{% blocktranslate trimmed with n=n_wines %}Dans {{ n }} vins{% endblocktranslate %}{% else %}{% translate "Dans un vin" %}{% endif %}</h3>
+    {% for color_label, links in wines_by_color %}
+    <p class="small muted mol-wines__head">{{ color_label }} · {{ links|length }}</p>
+    <div class="tags">
+      {% for pm in links %}<button type="button" class="tag tag--profile" data-start="profile:{{ pm.profile.slug }}" title="{% blocktranslate trimmed with strength=pm.strength %}force {{ strength }} sur 3{% endblocktranslate %}">{{ pm.profile.name|tr }}</button>{% endfor %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
   <div class="node-actions">
     <button type="button" class="btn btn--small" data-start="molecule:{{ obj.slug }}">{% translate "Partir de cette molécule" %}</button>
     <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">{% translate "Fiche complète" %}</a>
