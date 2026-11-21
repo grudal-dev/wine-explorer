@@ -79,6 +79,14 @@
       { selector: "node:selected", style: { "border-color": "#7A1F3D", "text-opacity": 1,
         "text-background-opacity": 0.95, "font-weight": 700, "font-size": pt(13.5), "z-index": 10, "overlay-opacity": 0,
         "width": px(26), "height": px(26), "border-width": px(4) }},
+      // Étiquettes de groupe (téléphone, vue d'ensemble) : une par famille de vins, taille fixe à l'écran.
+      { selector: "node.chip", style: { "shape": "round-rectangle", "width": (n) => n.data("gw") * K, "height": () => 30 * K,
+        "background-color": "#FFFFFF", "border-width": () => 1.5 * K, "border-color": "data(color)",
+        "label": "data(label)", "text-valign": "center", "text-halign": "center", "text-margin-y": 0,
+        "font-size": pt(12), "font-weight": 600, "color": "#23262F", "text-background-opacity": 0, "z-index": 30,
+        "text-opacity": 1 }},
+      // En vue d'ensemble, les points passent derrière les étiquettes de groupe.
+      { selector: "node.under", style: { "opacity": 0.45 }},
       { selector: "edge", style: { "width": (e) => (1.5 + 4.5 * Math.max(0, (e.data("similarity") - 0.5) / 0.5)) * K, "line-color": "#7A1F3D",
         "opacity": 0.55, "curve-style": "straight" }},
     ],
@@ -96,7 +104,8 @@
     const hits = (b) => b[0] < 2 || b[1] < 2 || b[2] > W - 2 || b[3] > H - 2
       || boxes.some((o) => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
     // Quand un vin est choisi, les points estompés ne réservent pas de place pour leur nom.
-    const nodes = cy.nodes().not(".off");
+    const nodes = cy.nodes().not(".off").not(".chip");
+    if (overview) { nodes.addClass("quiet"); return; }
     const named = nodes.not(".dim");
     nodes.difference(named).addClass("quiet");
     named.forEach((n) => {
@@ -138,7 +147,7 @@
 
   // Isolement de chaque point (distance au plus proche voisin) : les plus isolés gardent leur nom d'abord.
   function computeIsolation() {
-    const nodes = cy.nodes().not(".off").toArray();
+    const nodes = cy.nodes().not(".off").not(".chip").toArray();
     nodes.forEach((a) => {
       const pa = a.position();
       let best = Infinity;
@@ -190,15 +199,46 @@
       fitAll();
       if (cy.zoom() > z * 0.97) break;
     }
+    if (SMALL) fillFrame();
     computeIsolation();
     placeLabels();
   }
 
+  // Cadrage sur les points seuls. cy.fit compte aussi les libellés, dont la taille est fixe à
+  // l'écran : à petit zoom ils deviennent immenses dans le modèle, le cadre s'élargit, le zoom baisse
+  // encore… et sur téléphone la carte finissait tassée au zoom minimal, dans un tiers du cadre.
+  function viewFor(eles, pad) {
+    const bb = eles.boundingBox({ includeLabels: false, includeOverlays: false });
+    const w = cy.width(), h = cy.height();
+    const z = Math.max(cy.minZoom(), Math.min(cy.maxZoom(),
+      Math.min((w - 2 * pad) / Math.max(bb.w, 1), (h - 2 * pad) / Math.max(bb.h, 1))));
+    return { zoom: z, pan: { x: w / 2 - z * (bb.x1 + bb.w / 2), y: h / 2 - z * (bb.y1 + bb.h / 2) } };
+  }
+  function fitTo(eles, pad, animate = false, complete = () => {}) {
+    const v = viewFor(eles, pad);
+    if (animate && !reduceMotion) cy.animate(v, { duration: 320, complete });
+    else { cy.viewport(v); complete(); }
+  }
+
+  // Téléphone : la carte prend la forme du cadre. On étire l'axe trop court (au plus ×2,2) : les
+  // écarts ne font que grandir, les voisinages restent les mêmes, et la carte remplit l'écran.
+  function fillFrame() {
+    const nodes = cy.nodes().not(".chip");
+    const bb = nodes.not(".off").boundingBox({ includeLabels: false, includeOverlays: false });
+    if (!bb.w || !bb.h) return;
+    const s = (bb.h / bb.w) / (cy.height() / cy.width());
+    const sx = Math.min(2.2, Math.max(1, s)), sy = Math.min(2.2, Math.max(1, 1 / s));
+    if (sx === 1 && sy === 1) return;
+    const cx = bb.x1 + bb.w / 2, cyy = bb.y1 + bb.h / 2;
+    cy.batch(() => nodes.forEach((n) => { const p = n.position(); n.position({ x: cx + (p.x - cx) * sx, y: cyy + (p.y - cyy) * sy }); }));
+    fitAll();
+  }
+
   function fitAll(animate = false) {
     cy.resize();
-    const eles = cy.nodes().not(".off");
-    if (animate && !reduceMotion) cy.animate({ fit: { eles, padding: 40 } }, { duration: 300, complete: placeLabels });
-    else { cy.fit(eles, 40); K = 1 / cy.zoom(); cy.style().update(); placeLabels(); }
+    const eles = cy.nodes().not(".off").not(".chip");
+    const done = () => { baseZoom = cy.zoom(); K = 1 / cy.zoom(); cy.style().update(); updateOverview(); };
+    fitTo(eles, SMALL ? 24 : 40, animate, done);
   }
 
   function nodeColor(n) {
@@ -253,7 +293,7 @@
     const region = fd.get("region");
     let shown = 0;
     cy.batch(() => {
-      cy.nodes().forEach((n) => {
+      cy.nodes().not(".chip").forEach((n) => {
         const d = n.data();
         let on = types.includes(d.type);
         if (on && d.type === "profile") {
@@ -270,7 +310,7 @@
       : _("Rien à afficher avec ces filtres.");
     drawLegend();
     computeIsolation();
-    scheduleLabels();
+    if (typeof updateOverview === "function" && groupData) updateOverview(); else scheduleLabels();
   }
 
   function clearSelection() {
@@ -314,7 +354,7 @@
     });
     if (center) {
       // On cadre le voisinage ; points et noms gardent leur taille à l'écran, donc zoomer les écarte.
-      cy.fit(group, 90);
+      fitTo(group, SMALL ? 50 : 90);
       if (!reduceMotion) {
         node.animate({ style: { width: 42 * K * SZ, height: 42 * K * SZ } }, { duration: 260 })
           .animate({ style: { width: 26 * K * SZ, height: 26 * K * SZ } }, { duration: 260, complete: () => { node.removeStyle("width height"); placeLabels(); } });
@@ -323,8 +363,8 @@
     placeLabels();
   }
 
-  cy.on("tap", "node", (e) => select(e.target.id()));
-  cy.on("tap", (e) => { if (e.target === cy) { clearSelection(); cy.$(":selected").unselect(); placeLabels(); } });
+  cy.on("tap", "node", (e) => (e.target.hasClass("chip") ? zoomGroup(e.target) : select(e.target.id())));
+  cy.on("tap", (e) => { if (e.target === cy) { clearSelection(); cy.$(":selected").unselect(); updateOverview(); } });
   cy.on("mouseover", "node", (e) => { cy.container().style.cursor = "pointer"; e.target.addClass("hover"); });
   cy.on("mouseout", "node", (e) => { cy.container().style.cursor = ""; e.target.removeClass("hover"); });
 
@@ -394,6 +434,89 @@
     onSelect: (it) => { search.clear(); select(it.id, { center: true }); },
   });
 
+  // ── Téléphone : vue d'ensemble par familles ───────────────────────────
+  // À l'arrivée sur un petit écran, 138 noms ne tiennent pas : on montre une étiquette par groupe de
+  // vins voisins (« Bulles », « Rouges · Bordeaux »…, calculés côté serveur). Toucher une étiquette
+  // zoome sur ses vins, dont les noms apparaissent ; « Recadrer » revient à la vue d'ensemble.
+  const CHIP = { rouge: "#7A1F3D", blanc: "#A07A1E", rose: "#B0574C" };
+  let groupData = [];
+  let overview = false;
+  let baseZoom = 1;
+  function filtersActive() {
+    const fd = new FormData(form);
+    return fd.getAll("colors").length > 0 || !!fd.get("region") || fd.getAll("types").some((t) => t !== "profile");
+  }
+  function addGroups() {
+    cy.nodes(".chip").remove();
+    if (!SMALL || !groupData.length) return;
+    const acc = {};
+    cy.nodes("[type='profile']").forEach((n) => {
+      const g = n.data("group");
+      if (g === null || g === undefined) return;
+      const p = n.position();
+      (acc[g] = acc[g] || []).push(p);
+    });
+    measure.font = "600 12px Inter, system-ui, sans-serif";
+    groupData.forEach((g) => {
+      const idx = +g.id.split(":")[1];
+      const ps = acc[idx];
+      if (!ps) return;
+      const label = `${g.label}  ${g.n}`;
+      cy.add({ group: "nodes", classes: "chip off", selectable: false,
+        data: { id: g.id, type: "group", idx, label, gw: measure.measureText(label).width + 26, color: CHIP[g.color] || "#23262F" },
+        position: { x: ps.reduce((s, p) => s + p.x, 0) / ps.length, y: ps.reduce((s, p) => s + p.y, 0) / ps.length } });
+    });
+  }
+  // Les étiquettes ne doivent ni se chevaucher ni sortir du cadre (coordonnées du modèle, zoom courant).
+  function separateChips() {
+    const chips = cy.nodes(".chip").toArray();
+    if (!chips.length) return;
+    const z = cy.zoom();
+    const ext = cy.extent();
+    const h = 34 / z;
+    const box = chips.map((c) => ({ c, w: (c.data("gw") + 8) / z, ...c.position() }));
+    for (let it = 0; it < 80; it++) {
+      let moved = false;
+      for (let i = 0; i < box.length; i++) {
+        for (let j = i + 1; j < box.length; j++) {
+          const a = box[i], b = box[j];
+          const ox = (a.w + b.w) / 2 - Math.abs(a.x - b.x);
+          const oy = h - Math.abs(a.y - b.y);
+          if (ox <= 0 || oy <= 0) continue;
+          const dir = a.y <= b.y ? -1 : 1;
+          a.y += dir * oy / 2; b.y -= dir * oy / 2;
+          moved = true;
+        }
+      }
+      box.forEach((b) => {
+        b.x = Math.min(Math.max(b.x, ext.x1 + b.w / 2 + 4 / z), ext.x2 - b.w / 2 - 4 / z);
+        b.y = Math.min(Math.max(b.y, ext.y1 + h / 2), ext.y2 - h / 2);
+      });
+      if (!moved) break;
+    }
+    cy.batch(() => box.forEach((b) => b.c.position({ x: b.x, y: b.y })));
+  }
+  function updateOverview() {
+    const want = SMALL && cy.nodes(".chip").nonempty() && !filtersActive() && cy.$(":selected").empty()
+      && cy.zoom() <= baseZoom * 1.15;
+    if (want !== overview && !want) cy.nodes().removeClass("quiet");
+    overview = want;
+    cy.nodes(".chip").toggleClass("off", !overview);
+    cy.nodes("[type='profile']").toggleClass("under", overview);
+    if (overview) separateChips();
+    placeLabels();
+  }
+  function zoomGroup(chip) {
+    const members = cy.nodes("[type='profile']").filter((n) => n.data("group") === chip.data("idx") && !n.hasClass("off"));
+    if (members.empty()) return;
+    overview = false;
+    cy.nodes(".chip").addClass("off");
+    cy.nodes().removeClass("quiet under");
+    fitTo(members, 36, true, placeLabels);
+  }
+  cy.on("zoom", () => { if (SMALL) { clearTimeout(overviewTimer); overviewTimer = setTimeout(updateOverview, 120); } });
+  let overviewTimer = 0;
+
   async function start() {
     let data;
     try {
@@ -417,9 +540,12 @@
     cy.add(data.nodes.map((n) => ({
       group: "nodes", data: { ...n, color: "#23262F" }, position: { x: n.x * S, y: n.y * S },
     })));
+    groupData = data.groups || [];
     applyFilters();
     fitAll();
     settle();
+    addGroups();
+    updateOverview();
     if (root.dataset.focus) select(root.dataset.focus, { center: true });
     // Le cadre peut encore changer de taille (polices, barre de défilement) : on recadre tant que le
     // visiteur n'a pas touché à la carte.
@@ -431,7 +557,7 @@
         clearTimeout(t);
         t = setTimeout(() => {
           if (touched || root.dataset.focus) { cy.resize(); placeLabels(); return; }
-          fitAll(); settle();
+          fitAll(); settle(); addGroups(); updateOverview();
         }, 120);
       }).observe(cy.container());
     }

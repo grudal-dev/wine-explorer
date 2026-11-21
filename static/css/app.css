@@ -1031,7 +1031,7 @@ button.tag { cursor: pointer; font-family: inherit; }
 .map-legend__ramp i { width: .8rem; height: .8rem; margin: 0; border-radius: 50%; border: 1px solid; }
 .map-legend__ends { color: var(--ink-3); }
 .map-legend--foot.is-scales { gap: .3rem 1.4rem; }
-@media (max-width: 720px) { .map-explorer .explorer__stage { height: 74vh; } }
+@media (max-width: 720px) { .map-explorer .explorer__stage { height: 74vh; height: max(600px, calc(100svh - 110px)); } }
 
 /* ── Carte des goûts en plein écran (bouton, touche F) ──
    :fullscreen (API) ou .is-fullscreen (repli Safari iPhone) ; .is-full est posée dans les deux cas. */

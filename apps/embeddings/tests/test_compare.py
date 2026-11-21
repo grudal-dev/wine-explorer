@@ -89,3 +89,22 @@ class CompareTests(TestCase):
         xml = self.client.get("/sitemap.xml").content.decode()
         self.assertIn("/comparer/barolo-rouge/gevrey-chambertin-rouge/", xml)
         self.assertNotIn("/graphe/<", xml)
+
+
+class MapGroupsTests(TestCase):
+    """Carte des goûts : les vins sont rangés en groupes nommés (vue d'ensemble sur téléphone)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        call_command("load_seed", country="all", stdout=StringIO())
+
+    def test_every_wine_has_a_named_group(self):
+        data = self.client.get("/carte/api/carte/").json()
+        groups = {g["id"]: g for g in data["groups"]}
+        self.assertGreaterEqual(len(groups), 6)
+        wines = [n for n in data["nodes"] if n["type"] == "profile"]
+        self.assertTrue(all(f"group:{n['group']}" in groups for n in wines))
+        self.assertEqual(sum(g["n"] for g in groups.values()), len(wines))
+        labels = [g["label"] for g in groups.values()]
+        self.assertIn("Bulles", labels)
+        self.assertTrue(any(lab.startswith("Rouges · ") for lab in labels))
