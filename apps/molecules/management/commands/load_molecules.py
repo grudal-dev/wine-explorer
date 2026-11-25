@@ -38,8 +38,13 @@ WIKIDATA_FILE = DATA_DIR / "wikidata_occurrences.json"
 MOLECULE_KEYS = {
     "name", "name_en", "synonyms", "family", "origin", "smiles", "odor", "threshold", "refs",
     "aromas", "aroma_ref", "aroma_max", "universal", "description", "wine", "nature",
-    "fades", "fault", "aroma_needs_rule",
+    "fades", "fault", "aroma_needs_rule", "age",
 }
+AGES = {"jeunesse", "maturité"}
+# Part d'un cépage dans l'assemblage TYPE du profil : sous ce seuil, le marqueur perd un cran de force.
+# Un profil décrit la bouteille habituelle ; un domaine peut s'en écarter (Châteauneuf-du-Pape en Syrah
+# pure), d'où « part variable » dans la raison affichée.
+MAJOR_SHARE = 50
 CONDITION_KEYS = {"grapes", "styles", "colors", "oxidative", "all"}
 RULE_KEYS = {"grapes", "styles", "colors", "oxidative", "all", "strength", "ref", "min_share"}
 
@@ -116,6 +121,8 @@ class Command(BaseCommand):
                 raise ValueError(f"{name}: famille chimique inconnue {item['family']}")
             if item["origin"] not in Origin.values:
                 raise ValueError(f"{name}: origine inconnue {item['origin']}")
+            if item.get("age", "") not in AGES | {""}:
+                raise ValueError(f"{name}: âge inconnu {item['age']}")
             props = computed.get(slug, {})
             mol, _ = Molecule.objects.update_or_create(
                 slug=slug,
@@ -133,6 +140,7 @@ class Command(BaseCommand):
                     "description": " ".join(item.get("description", "").split()),
                     "universal": bool(item.get("universal", False)),
                     "attack": attack.pop(slug, 2),
+                    "age": item.get("age", ""),
                     "order": order,
                 },
             )
@@ -331,8 +339,17 @@ class Command(BaseCommand):
             return []
         base = {"strength": r["strength"], "ref": r["ref"]}
         if "grapes" in r:
-            return [{**base, "basis": Basis.GRAPE, "label": f"{shares[gid][1]} ({shares[gid][0]} % de l'encépagement)"}
-                    for gid in r["grapes"] if gid in shares and shares[gid][0] >= r["min_share"]]
+            out = []
+            for gid in r["grapes"]:
+                if gid not in shares or shares[gid][0] < r["min_share"]:
+                    continue
+                share, gname = shares[gid]
+                if share >= MAJOR_SHARE:
+                    out.append({**base, "basis": Basis.GRAPE, "label": f"{gname} ({share} % de l'encépagement)"})
+                else:   # cépage minoritaire de l'assemblage type : un cran de moins
+                    out.append({**base, "basis": Basis.GRAPE, "strength": max(1, r["strength"] - 1),
+                                "label": f"{gname} ({share} % de l'assemblage type, part variable)"})
+            return out
         if r.get("oxidative"):
             return [{**base, "basis": Basis.STYLE, "label": gettext_noop("Long élevage oxydatif")}]
         if "styles" in r:

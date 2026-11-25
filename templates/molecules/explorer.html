@@ -73,6 +73,13 @@
         <button type="button" class="btn btn--ghost btn--small" id="mol-png">{% translate "Exporter en PNG" %}</button>
       </div>
     </div>
+    <div class="mol-wine-bar" id="mol-wine-bar" hidden>
+      <p class="mol-headline" id="mol-headline"></p>
+      <div class="mol-age" id="mol-age" role="group" aria-label="{% translate "Âge du vin" %}" hidden>
+        <button type="button" class="mol-age__btn" data-age="jeune" aria-pressed="false">{% translate "Jeune" %}</button>
+        <button type="button" class="mol-age__btn" data-age="mature" aria-pressed="false"><span>{% translate "À maturité" %}</span> <span class="mol-age__years" id="mol-age-years"></span></button>
+      </div>
+    </div>
     <div class="mol-canvas">
       <div class="mol-columns" aria-hidden="true">
         <span data-col="0">{% translate "Le vin" %}</span><span data-col="1">{% translate "Les molécules" %}</span><span data-col="2">{% translate "La nature" %}</span>
@@ -88,9 +95,16 @@
         <li><i class="basis basis--aroma"></i>{% translate "Un descripteur de son nez" %}</li>
         <li><i class="basis basis--universal"></i>{% translate "Socle commun des vins" %}</li>
       </ul>
+      <p class="small muted">{% translate "Vue d'un vin : les bulles montent selon leur origine, le raisin en haut, la fermentation au milieu, l'élevage et l'âge contre le verre. Un cercle ouvert est un marqueur de son cépage ou de son style qu'aucun arôme cité ne trahit." %}</p>
       <p class="small muted">{% translate "L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible." %} {% translate "Entre une molécule et un élément naturel, il suit le niveau de preuve : épais si une publication le source, fin si le lien vient de Wikidata." %} {% translate "Cliquez sur un nœud pour lire sa fiche, double-cliquez pour repartir de lui." %}</p>
     </details>
     <p class="mol-stats small muted" id="mol-stats" aria-live="polite">{% translate "Chargement…" %}</p>
+    <button type="button" class="linkish mol-more" id="mol-more" hidden></button>
+    <section class="mol-rest" id="mol-rest" hidden>
+      <h3 class="mol-rest__title">{% translate "Le reste de son nez" %}</h3>
+      <p class="small muted">{% translate "Ces arômes du vin n'ont pas de molécule dans nos sources. Voici pourquoi." %}</p>
+      <ul class="mol-rest__list" id="mol-rest-list"></ul>
+    </section>
   </section>
 
   <aside class="explorer__panel">

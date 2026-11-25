@@ -15,6 +15,8 @@
 #               chaque règle porte strength (1 plausible, 2 probable, 3 marqueur) et ref.
 #               Les conditions d'une même règle se cumulent (ET) : {grapes: [Pinot Noir],
 #               colors: [rouge]} ne vise que les rouges ; pour un OU, écrire deux règles.
+#   age         « jeunesse » : s'estompe en quelques mois de bouteille (acétates) ; « maturité » : se forme
+#               avec l'âge (bouquet de vieillissement). Sert au curseur jeune / à maturité de la vue d'un vin.
 #   aroma_needs_rule  true pour un marqueur de cépage : un descripteur du vin précise le lien
 #               mais n'en crée pas seul (la « rose » d'un Barolo ne vient pas de l'oxyde de rose)
 #   fault       true pour une molécule de défaut (Brettanomyces…) : décrite, reliée à la nature,
@@ -100,6 +102,7 @@
     buis ; au-delà, elle tourne au « pipi de chat ». Dans les rouges, c'est elle qui porte une
     bonne part de l'arôme de cassis.
   fades: {oxidative: true, ref: bueno2021}
+  aroma_needs_rule: true
   wine:
     - {grapes: [Sauvignon Blanc], strength: 3, ref: darriet1995}
     - {grapes: [Cabernet Sauvignon, Merlot], colors: [rouge], strength: 1, ref: rigou2014}
@@ -145,6 +148,7 @@
   refs: [tominaga1996, bueno2021]
   aromas: [fruit de la passion, buis]
   aroma_max: 1
+  age: jeunesse
   description: >
     Forme acétylée du 3-sulfanylhexanol, fabriquée par la levure. Plus puissante, plus
     « tropicale » et encore plus instable : elle s'hydrolyse en quelques mois de bouteille.
@@ -233,6 +237,7 @@
   threshold: 2 µg/L dans le vin
   refs: [smith2015]
   aromas: [hydrocarbure]
+  age: maturité
   description: >
     La note « pétrolée » des Rieslings mûrs. Quasi absente du raisin, elle se forme en
     bouteille à partir de précurseurs issus des caroténoïdes, d'autant plus que les grappes ont
@@ -308,6 +313,7 @@
   odor: menthe poivrée, fraîcheur
   refs: [picard2016]
   aromas: [menthe]
+  age: maturité
   description: >
     Identifiée en 2016 dans les bordeaux rouges âgés, elle porte la note mentholée du bouquet
     de vieillissement. On la trouve surtout dans les vins de rive gauche dominés par le
@@ -348,6 +354,7 @@
   refs: [escudero2010, delafuente2020, marais1980]
   aromas: [banane]
   universal: true
+  age: jeunesse
   description: >
     L'ester de la banane, produit par la levure. Il domine dans les vins jeunes fermentés à
     basse température et dans les primeurs : la « banane » d'un Beaujolais nouveau, c'est
@@ -619,6 +626,7 @@
   odor: truffe, sous-bois, olive noire
   refs: [picard2015]
   aromas: [truffe, sous-bois]
+  age: maturité
   description: >
     Le parfum de truffe des grands vins âgés. Son précurseur, la S-méthylméthionine du raisin,
     se dégrade lentement en bouteille, à l'abri de l'oxygène. Avec deux thiols, il signe le
@@ -672,7 +680,8 @@
   odor: fruits rouges, fraise, pomme
   threshold: 20 µg/L dans le vin
   refs: [pineau2009, francis2015]
-  aromas: [fraise, framboise, groseille, cerise]
+  # Fruits rouges acidulés (pineau2009) : la cerise, plus large, n'y est pas rattachée.
+  aromas: [fraise, framboise, groseille]
   aroma_max: 1
   universal: true
   description: >
@@ -826,6 +835,7 @@
     Terpène des Muscats et du Gewurztraminer, qui se forme aussi en bouteille à partir du
     linalol et du géraniol : la note florale des vins aromatiques glisse avec l'âge vers le
     lilas et la résine.
+  aroma_needs_rule: true
   wine:
     - {grapes: ["Muscat à petits grains", "Muscat d'Alexandrie", Gewurztraminer], strength: 2, ref: tomasino2022}
   nature:
@@ -883,6 +893,7 @@
   refs: [smith2015, francis2015]
   aromas: [citron vert]
   aroma_max: 1
+  age: maturité
   description: >
     L'une des molécules les plus puissantes du vin : un centième de microgramme par litre suffit.
     Elle donne la note de citron vert et de noix de coco des Rieslings et se renforce avec l'âge.

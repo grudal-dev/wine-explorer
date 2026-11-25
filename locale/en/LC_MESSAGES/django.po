@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-25 22:05+0100\n"
+"POT-Creation-Date: 2026-11-25 22:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -59,6 +59,10 @@ msgstr "%(get_classification_display)s in %(region_name)s"
 #, python-format
 msgid "%(get_family_display)s · %(get_origin_display)s. Odeur : %(odor)s."
 msgstr "%(get_family_display)s · %(get_origin_display)s. Smell: %(odor)s."
+
+#, python-format
+msgid "%(grape)s (%(share)s %% de l'assemblage type, part variable)"
+msgstr "%(grape)s (%(share)s%% of the typical blend, share varies)"
 
 #, python-format
 msgid "%(grape)s (%(share)s %% de l'encépagement)"
@@ -873,6 +877,9 @@ msgstr "Centre here"
 msgid "Cercle"
 msgstr "Circle"
 
+msgid "Ces arômes du vin n'ont pas de molécule dans nos sources. Voici pourquoi."
+msgstr "These aromas of the wine have no molecule in our sources. Here is why."
+
 msgid "Ces molécules relèvent du socle commun : elles ne distinguent aucun vin en particulier."
 msgstr "These molecules belong to the common base: they do not set any particular wine apart."
 
@@ -1189,6 +1196,18 @@ msgstr "DOCG"
 #, python-format
 msgid "Dans %(n)s vins"
 msgstr "In %(n)s wines"
+
+#, python-format
+msgid "Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, fruit du long élevage oxydatif."
+msgstr "In this %(wine)s, the %(aroma)s note comes from %(mol)s, born of long oxidative ageing."
+
+#, python-format
+msgid "Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, marqueur du cépage %(grape)s."
+msgstr "In this %(wine)s, the %(aroma)s note comes from %(mol)s, a marker of the %(grape)s grape."
+
+#, python-format
+msgid "Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s."
+msgstr "In this %(wine)s, the %(aroma)s note comes from %(mol)s."
 
 msgid "Dans la nature"
 msgstr "In nature"
@@ -1821,6 +1840,9 @@ msgstr "I certify that I am 18 or older"
 msgid "Jeu"
 msgstr "Game"
 
+msgid "Jeune"
+msgstr "Young"
+
 msgid "Jeux"
 msgstr "Games"
 
@@ -2364,6 +2386,9 @@ msgid ""
 msgstr ""
 "The main aroma of clove, already present in raw oak and reinforced by air-drying and toasting. It gives "
 "barrel-aged wine its spicy note."
+
+msgid "Le reste de son nez"
+msgstr "The rest of its nose"
 
 msgid ""
 "Le roi des vins italiens, un nebbiolo clair de robe mais puissant en tanins, qui évoque la rose fanée et le"
@@ -4146,6 +4171,14 @@ msgstr "You are subscribed to the newsletter."
 msgid "Vue"
 msgstr "View"
 
+msgid ""
+"Vue d'un vin : les bulles montent selon leur origine, le raisin en haut, la fermentation au milieu, "
+"l'élevage et l'âge contre le verre. Un cercle ouvert est un marqueur de son cépage ou de son style qu'aucun"
+" arôme cité ne trahit."
+msgstr ""
+"In a wine view, bubbles rise by origin: grape at the top, fermentation in the middle, ageing and age next "
+"to the glass. An open circle is a marker of its grape or style that no listed aroma reveals."
+
 msgid "Vue prédéfinie"
 msgstr "Preset view"
 
@@ -5922,6 +5955,12 @@ msgstr "· imported from Wikidata, unverified"
 
 msgid "À jouer"
 msgstr "To play"
+
+msgid "À maturité"
+msgstr "Mature"
+
+msgid "Âge du vin"
+msgstr "Wine age"
 
 msgid "Élevage sous bois"
 msgstr "Oak ageing"

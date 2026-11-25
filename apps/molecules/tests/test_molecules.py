@@ -226,7 +226,8 @@ class GraphAndViewTests(TestCase):
         self.assertEqual(nodes["aroma:poivre-noir"]["layer"], 2)
         self.assertNotIn("molecule:acetate-disoamyle", nodes)  # assez de molécules propres : socle masqué
         self.assertGreater(g["stats"]["hidden_common"], 0)
-        with_common = graph.build("profile", "hermitage-rouge", common=True)
+        # L'acétate d'isoamyle s'estompe avec l'âge : on le cherche dans un Hermitage jeune, toutes bulles.
+        with_common = graph.build("profile", "hermitage-rouge", common=True, age="jeune", everything=True)
         self.assertIn("molecule:acetate-disoamyle", {e["data"]["id"] for e in with_common["elements"]})
 
     def test_graph_lists_its_sources(self):

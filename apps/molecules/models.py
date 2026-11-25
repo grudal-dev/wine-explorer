@@ -100,7 +100,11 @@ class Molecule(SluggedModel):
     attack = models.PositiveSmallIntegerField(
         "attaque", default=2,
         help_text="Quand le nez la reconnaît : 1 d'emblée, 2 nez ouvert, 3 après aération (data/attack.yaml). "
-                  "Sert à la hauteur des bulles du bouquet, jamais affichée.",
+                  "Jugement d'expert non relu ; le bouquet place désormais les bulles par origine.",
+    )
+    age = models.CharField(
+        "âge", max_length=10, blank=True, choices=[("jeunesse", "s'estompe avec l'âge"), ("maturité", "vient avec l'âge")],
+        help_text="Curseur jeune / à maturité de la vue d'un vin (clé « age » de molecules.yaml).",
     )
     order = models.PositiveSmallIntegerField(default=0)
 

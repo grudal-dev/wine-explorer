@@ -58,8 +58,8 @@ class BouquetNotesTests(TestCase):
     def tearDown(self):
         translation.activate("fr")
 
-    def _nodes(self, slug, common=None):
-        data = graph.build("profile", slug, common=common)
+    def _nodes(self, slug, common=None, everything=False):
+        data = graph.build("profile", slug, common=common, everything=everything)
         return {e["data"]["id"]: e["data"] for e in data["elements"] if e["group"] == "nodes"}, data
 
     def test_note_is_the_wine_aroma(self):
@@ -70,7 +70,7 @@ class BouquetNotesTests(TestCase):
         self.assertNotEqual(furaneol["hue"], graph.data().molecules["furaneol"]["hue"])
         # Reliée par un arôme du vin : bulle pleine ; par la seule couleur (diacétyle d'un rouge) : grisée.
         self.assertTrue(furaneol.get("direct"))
-        nodes, _ = self._nodes("porto-tawny-10-ans", common=True)
+        nodes, _ = self._nodes("porto-tawny-10-ans", common=True, everything=True)
         self.assertFalse(nodes["molecule:diacetyle"].get("direct"))
 
     def test_aromas_replace_natural_elements(self):
@@ -159,3 +159,63 @@ class FactTests(TestCase):
         for f in facts._facts():
             text = normalize(f["text"])
             self.assertFalse([n for n in names if f" {n} " in f" {text} "], f["molecule"])
+
+
+class WineViewTruthTests(TestCase):
+    """Propositions du 25/11 : part du cépage, âge, limite, arômes non expliqués, phrase-titre."""
+
+    @classmethod
+    def setUpTestData(cls):
+        call_command("load_seed", country="all", stdout=StringIO())
+
+    def setUp(self):
+        graph.reset()
+
+    def test_minority_grape_loses_one_step(self):
+        # Syrah à 15 % de l'assemblage type d'un Châteauneuf : un cran de moins qu'une Côte-Rôtie à 95 %,
+        # et la raison dit que la part varie (un domaine peut faire du Châteauneuf en Syrah pure).
+        cdp = ProfileMolecule.objects.get(profile__slug="chateauneuf-du-pape-rouge", molecule__slug="rotundone")
+        cr = ProfileMolecule.objects.get(profile__slug="cote-rotie-rouge", molecule__slug="rotundone")
+        self.assertEqual((cdp.strength, cr.strength), (2, 3))
+        self.assertIn("part variable", next(r["label"] for r in cdp.reasons if r["basis"] == "grape"))
+
+    def test_age_toggle(self):
+        young = graph.build("profile", "barolo-rouge", age="jeune")
+        mature = graph.build("profile", "barolo-rouge", age="mature")
+        ids = lambda g: {e["data"]["id"] for e in g["elements"] if e["group"] == "nodes"}  # noqa: E731
+        self.assertNotIn("molecule:sulfure-de-dimethyle", ids(young))
+        self.assertIn("molecule:sulfure-de-dimethyle", ids(mature))
+        truffe = next(u for u in young["unexplained"] if u["slug"] == "truffe")
+        self.assertIn("maturité", truffe["reason"])
+        # Garde longue : on ouvre « à maturité » ; un vin à boire jeune n'a pas de curseur.
+        self.assertEqual(graph.build("profile", "barolo-rouge")["age"]["age"], "mature")
+        self.assertFalse(graph.build("profile", "beaujolais-rouge")["age"]["toggle"])
+
+    def test_bubble_limit_never_hides_an_explained_aroma(self):
+        g = graph.build("profile", "pauillac-rouge")
+        n = g["stats"]["molecules"]
+        self.assertLessEqual(n, max(graph.MAX_BUBBLES, g["stats"]["aromas"] + 4))
+        self.assertGreater(g["stats"]["more"], 0)
+        everything = graph.build("profile", "pauillac-rouge", everything=True)
+        self.assertEqual(everything["stats"]["molecules"], n + g["stats"]["more"])
+        self.assertEqual(everything["stats"]["aromas"], g["stats"]["aromas"])
+
+    def test_unexplained_aromas_have_a_reason(self):
+        g = graph.build("profile", "chablis-blanc")
+        rest = {u["label"]: u["reason"] for u in g["unexplained"]}
+        self.assertIn("craie", rest)
+        self.assertIn("minéralité", rest["craie"])
+        self.assertEqual(len(rest) + g["stats"]["aromas"], g["stats"]["aromas_total"])
+
+    def test_headline(self):
+        self.assertEqual(
+            graph.build("profile", "cote-rotie-rouge")["headline"],
+            "Dans ce Côte-Rôtie rouge, la note de poivre noir vient de la rotundone, marqueur du cépage Syrah.")
+        # Un lien trop faible ne fait pas de phrase.
+        self.assertEqual(graph.build("profile", "champagne-brut")["headline"], "")
+
+    def test_weak_descriptor_links_removed(self):
+        self.assertFalse(ProfileMolecule.objects.filter(profile__slug="cote-rotie-rouge", molecule__slug="4-mmp").exists())
+        self.assertFalse(ProfileMolecule.objects.filter(profile__slug="chablis-blanc", molecule__slug="alpha-terpineol").exists())
+        link = ProfileMolecule.objects.filter(profile__slug="barolo-rouge", molecule__slug="butanoate-dethyle").first()
+        self.assertTrue(link is None or not any("cerise" in r["label"] for r in link.reasons))

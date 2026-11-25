@@ -1144,3 +1144,27 @@ body.map-is-full { overflow: hidden; }
 .fact__title { margin: 0 0 .3rem; font: 600 .78rem/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--verdigris); }
 .fact__text { margin: 0; font: italic 400 var(--step-1)/1.4 var(--serif); color: var(--ink); }
 .fact__meta { margin: .45rem 0 0; color: var(--ink-3); }
+
+/* Molécules, vue d'un vin : phrase-titre, curseur d'âge, « Voir tout », le reste du nez (25/11/2026). */
+.mol-wine-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem;
+  padding: .6rem 1rem; border-bottom: 1px solid var(--rule); background: rgba(248,248,244,.9); }
+.mol-headline { margin: 0; font-family: var(--serif); font-size: var(--step-1); line-height: 1.35; color: var(--ink); max-width: 62ch; }
+.mol-headline:empty { display: none; }
+.mol-age { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; flex: none; }
+.mol-age__btn { border: 0; background: transparent; padding: .35rem .8rem; font: 500 var(--step--1) var(--sans); color: var(--ink-2); cursor: pointer; }
+.mol-age__btn[aria-pressed="true"] { background: var(--garnet); color: #fff; }
+.mol-age__btn:focus-visible { outline: 2px solid var(--garnet); outline-offset: -2px; }
+.mol-age__years { opacity: .8; font-weight: 400; }
+.mol-more { display: block; margin: 0 1rem .5rem; font-size: var(--step--1); }
+.mol-rest { padding: .6rem 1rem .9rem; border-top: 1px solid var(--rule); }
+.mol-rest__title { margin: 0 0 .15rem; font-size: var(--step-0); }
+.mol-rest__list { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .45rem; }
+.mol-rest__list li { display: grid; grid-template-columns: auto 1fr; gap: .1rem .6rem; align-items: baseline; font-size: var(--step--1); color: var(--ink-2); }
+.mol-rest__aroma { display: inline-block; padding: .1rem .55rem; border: 1.5px dashed var(--c, var(--rule)); border-radius: .5rem;
+  color: var(--ink); background: color-mix(in srgb, var(--c, #fff) 16%, #fff); white-space: nowrap; justify-self: start; font-weight: 500; }
+.mol-rest__note { grid-column: 2; color: var(--ink-3); }
+@media (max-width: 640px) {
+  .mol-headline { font-size: var(--step-0); }
+  .mol-rest__list li { grid-template-columns: 1fr; }
+  .mol-rest__note { grid-column: 1; }
+}

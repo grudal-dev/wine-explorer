@@ -31,6 +31,9 @@ KIND_COLORS = {
 }
 MAX_PROFILES = 18
 AUTO_COMMON_BELOW = 6          # socle commun ajouté d'office sous ce nombre de molécules
+MAX_BUBBLES = 8                # vue d'un vin : au-delà, « Voir tout » (jamais une molécule qui explique un arôme)
+MATURE_FROM = 5                # garde minimale (ans) dès laquelle la vue d'un vin s'ouvre « à maturité »
+AGE_TOGGLE_FROM = 6            # garde maximale (ans) sous laquelle le curseur d'âge n'a pas de sens
 
 
 @dataclass
@@ -54,6 +57,7 @@ class Data:
     profile_aromas: dict[str, dict[int, tuple]] = field(default_factory=lambda: defaultdict(dict))
     # Arômes du catalogue qu'une molécule explique (descripteurs de molecules.yaml).
     molecule_aromas: dict[str, set[int]] = field(default_factory=lambda: defaultdict(set))
+    link_reasons: dict[tuple[str, str], list[dict]] = field(default_factory=dict)
     # Arômes reliés à un élément naturel du même nom (poivre noir → poivre noir), pour la fiche.
     aroma_sources: dict[int, list[str]] = field(default_factory=lambda: defaultdict(list))
 
@@ -81,13 +85,14 @@ def data_version() -> tuple:
 @lru_cache(maxsize=2)
 def _data(version: tuple) -> Data:
     profiles = {
-        p.slug: {"slug": p.slug, "label": p.name, "color": p.color, "url": p.get_absolute_url()}
-        for p in WineProfile.objects.only("slug", "name", "color")
+        p.slug: {"slug": p.slug, "label": p.name, "color": p.color, "url": p.get_absolute_url(),
+                 "aging": (p.aging_min, p.aging_max)}
+        for p in WineProfile.objects.only("slug", "name", "color", "aging_min", "aging_max")
     }
     molecules = {
         m.slug: {"slug": m.slug, "label": m.name, "family": m.family, "family_label": ChemicalFamily(m.family).label,
                  "origin": m.origin, "universal": m.universal, "attack": m.attack, "formula": m.formula, "odor": m.odor,
-                 "url": m.get_absolute_url()}
+                 "url": m.get_absolute_url(), "age": m.age}
         for m in Molecule.objects.all()
     }
     sources = {
@@ -119,6 +124,7 @@ def _data(version: tuple) -> Data:
         d.by_profile[pm.profile.slug].append((pm.molecule.slug, pm.strength, pm.basis, tier))
         d.by_molecule_profiles[pm.molecule.slug].append((pm.profile.slug, pm.strength, pm.basis, tier))
         d.link_refs[(pm.profile.slug, pm.molecule.slug)] = {r["ref"] for r in pm.reasons if r.get("ref")}
+        d.link_reasons[(pm.profile.slug, pm.molecule.slug)] = pm.reasons
     # Ordre des éléments naturels d'une molécule : celui qui porte le même nom qu'un de ses
     # descripteurs (poivre noir pour la rotundone), puis ceux qu'une note commente, puis les autres.
     mol_aromas: dict[int, set[int]] = defaultdict(set)
@@ -184,6 +190,7 @@ def _node(kind: str, info: dict, layer: int, **extra) -> dict:
         payload["wine"] = info["color"]
     elif kind == "molecule":
         payload["family"] = info["family"]
+        payload["origin"] = info.get("origin", "")
         payload["universal"] = info["universal"]
         payload["att"] = info.get("attack", 2)
         # Première note de l'odeur : « rotundone » ne dit rien, « poivre noir » si.
@@ -211,12 +218,82 @@ def _edge(a: str, b: str, kind: str, strength: int = 1, basis: str = "", tier: s
     }}
 
 
+@lru_cache(maxsize=1)
+def unexplained_notes() -> dict:
+    """Pourquoi un arôme n'a pas de molécule (data/unexplained.yaml)."""
+    import yaml
+    from pathlib import Path
+
+    with (Path(__file__).resolve().parent / "data" / "unexplained.yaml").open(encoding="utf-8") as fh:
+        data = yaml.safe_load(fh)
+    for key in data["aromas"].values():
+        if key not in data["reasons"]:
+            raise ValueError(f"unexplained.yaml : raison inconnue {key}")
+    return data
+
+
+def _lang(text: dict) -> str:
+    """Texte bilingue de unexplained.yaml dans la langue active."""
+    from django.utils.translation import get_language
+
+    return text.get("en" if (get_language() or "fr").startswith("en") else "fr", text["fr"])
+
+
+def _of(name: str) -> str:
+    """« de la rotundone », « du linalol », « de l'IBMP » : article devant un nom de molécule (français)."""
+    feminine = name.endswith(("one", "ine")) or "lactone" in name or name in {"IBMP", "4-MMP", "MND"}
+    first = name.lstrip("(")[:1].lower()
+    if first in "aeiouyéèêàâîôœhα":
+        return f"de l'{name}"
+    return f"de la {name}" if feminine else f"du {name}"
+
+
+def _headline(d: "Data", slug: str, shown: list[dict]) -> str:
+    """Une phrase pour le vin : « Dans ce Côte-Rôtie, la note de poivre noir vient de la rotundone,
+    marqueur du cépage Syrah. » On prend la molécule qui explique un arôme avec la plus forte raison."""
+    from django.utils.translation import get_language
+
+    best = None
+    for m in shown:
+        if not m.get("direct"):
+            continue
+        reasons = d.link_reasons.get((slug, m["id"].split(":", 1)[1]), [])
+        grape = next((r for r in reasons if r["basis"] == "grape"), None)
+        style = next((r for r in reasons if r["basis"] == "style"), None)
+        rank = (m.get("strength", 1), bool(grape), bool(style))
+        if best is None or rank > best[0]:
+            best = (rank, m, grape, style)
+    # Une phrase n'affirme que ce qui est solide : un marqueur de cépage ou de style, ou un lien fort.
+    if best is None or not (best[2] or best[3] or best[0][0] >= 2):
+        return ""
+    _, m, grape, style = best
+    mslug = m["id"].split(":", 1)[1]
+    note = d.link_note.get((slug, mslug))
+    if not note:
+        return ""
+    fr = (get_language() or "fr").startswith("fr")
+    mol_name = d.molecules[mslug]["label"]
+    aroma = tr(note[0])
+    ctx = {"wine": tr(d.profiles[slug]["label"]), "aroma": aroma, "mol": tr(mol_name),
+           "of_mol": _of(mol_name) if fr else tr(mol_name),
+           "of_aroma": (f"d'{aroma}" if aroma[:1].lower() in "aeiouyéèêàâîôœh" else f"de {aroma}") if fr else aroma}
+    if grape:
+        ctx["grape"] = grape["label"].split(" (", 1)[0]
+        return gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, marqueur du cépage %(grape)s.") % ctx
+    if style and style["label"] == "Long élevage oxydatif":
+        return gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, fruit du long élevage oxydatif.") % ctx
+    return gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s.") % ctx
+
+
 def build(kind: str, slug: str, common: bool | None = None,
-          imported: bool = True, max_profiles: int = MAX_PROFILES) -> dict | None:
+          imported: bool = True, max_profiles: int = MAX_PROFILES,
+          age: str | None = None, everything: bool = False) -> dict | None:
     """Éléments Cytoscape pour l'entité de départ.
 
     ``common`` : True ou False force le socle commun ; None (défaut) l'ajoute d'office quand
     un vin a peu de molécules propres, pour qu'aucun graphe ne soit vide.
+    ``age`` (vue d'un vin) : « jeune » ou « mature » ; None choisit selon la garde du vin.
+    ``everything`` : toutes les bulles, sans la limite de MAX_BUBBLES.
     """
     d = data()
     nodes: dict[str, dict] = {}
@@ -225,10 +302,33 @@ def build(kind: str, slug: str, common: bool | None = None,
     hidden_sources = 0
     truncated = 0
     aromas_total = aromas_explained = 0
+    age_info: dict = {}
+    unexplained: list[dict] = []
+    headline = ""
+    more = 0
 
+    if kind == "profile" and slug in d.profiles:
+        aging_min, aging_max = d.profiles[slug]["aging"]
+        toggle = (aging_max or 0) >= AGE_TOGGLE_FROM
+        if age not in ("jeune", "mature") or not toggle:
+            age = "mature" if toggle and (aging_min or 0) >= MATURE_FROM else "jeune"
+        age_info = {"age": age, "toggle": toggle, "aging": [aging_min, aging_max]}
+    rows_all = d.by_profile.get(slug, []) if kind == "profile" else []
+    by_age: dict[str, list[str]] = {"maturité": [], "jeunesse": []}
+
+    def age_ok(mslug: str) -> bool:
+        """Jeune : sans le bouquet de vieillissement ; à maturité : sans les acétates qui s'estompent."""
+        mage = d.molecules[mslug].get("age", "")
+        if (mage == "maturité" and age == "jeune") or (mage == "jeunesse" and age == "mature"):
+            by_age[mage].append(mslug)
+            return False
+        return True
+
+    if kind == "profile":
+        rows_all = [r for r in rows_all if age_ok(r[0])]
     if common is None:
         if kind == "profile":
-            own = [r for r in d.by_profile.get(slug, []) if r[3] == "specific"]
+            own = [r for r in rows_all if r[3] == "specific"]
             common = len(own) < AUTO_COMMON_BELOW
         else:
             common = False
@@ -246,11 +346,22 @@ def build(kind: str, slug: str, common: bool | None = None,
         pid = f"profile:{slug}"
         nodes[pid] = _node("profile", d.profiles[slug], 0, root=True)
         wine_aromas = d.profile_aromas.get(slug, {})
-        for row in d.by_profile.get(slug, []):
-            mslug, strength, basis, tier = row
-            if not keep(row):
+        kept = []
+        for row in rows_all:
+            if keep(row):
+                kept.append(row)
+            else:
                 hidden_common += 1
-                continue
+        # Ce que le nez dit d'abord (molécules qui expliquent un arôme du vin, jamais coupées), puis les
+        # marqueurs les plus forts ; le reste derrière « Voir tout ».
+        direct = {r[0] for r in kept if (slug, r[0]) in d.link_note}
+        kept.sort(key=lambda r: (r[0] not in direct, r[3] != "specific", -r[1], d.molecules[r[0]]["label"]))
+        if not everything:
+            room = max(MAX_BUBBLES, len(direct))
+            more = max(0, len(kept) - room)
+            kept = kept[:room]
+        for row in kept:
+            mslug, strength, basis, tier = row
             mid = f"molecule:{mslug}"
             extra = {"strength": strength, "tier": tier}
             if note := d.link_note.get((slug, mslug)):
@@ -273,6 +384,22 @@ def build(kind: str, slug: str, common: bool | None = None,
                 edges.append(_edge(mid, aid_node, "evokes", intensity))
         aromas_total = len(wine_aromas)
         aromas_explained = sum(1 for n in nodes.values() if n["data"]["type"] == "aroma")
+        # Le reste du nez : ce que la chimie n'explique pas (encore), ou que l'âge choisi masque.
+        shown = {n["data"]["id"] for n in nodes.values()}
+        aged = {aid: m for m in by_age["maturité"] + by_age["jeunesse"]
+                for aid in d.molecule_aromas.get(m, ()) if aid in wine_aromas}
+        notes = unexplained_notes()
+        for aid, (intensity, aname, ahue, aslug, fname) in sorted(wine_aromas.items(), key=lambda kv: (-kv[1][0], kv[1][1])):
+            if f"aroma:{aslug}" in shown:
+                continue
+            if aid in aged:
+                key, note = ("age" if d.molecules[aged[aid]].get("age") == "maturité" else "young"), ""
+            else:
+                key = notes["aromas"].get(aname, "inconnu")
+                note = _lang(notes["notes"][aname]) if aname in notes.get("notes", {}) else ""
+            unexplained.append({"label": tr(aname), "slug": aslug, "intensity": intensity, "hue": ahue,
+                                "reason": _lang(notes["reasons"][key]), "note": note})
+        headline = _headline(d, slug, [n["data"] for n in nodes.values() if n["data"]["type"] == "molecule"])
 
     elif kind == "molecule":
         if slug not in d.molecules:
@@ -360,10 +487,14 @@ def build(kind: str, slug: str, common: bool | None = None,
     return {
         "elements": ordered + edges,
         "references": references,
+        "age": age_info,
+        "unexplained": unexplained,
+        "headline": headline,
         "stats": {
             "profiles": counts["profile"], "molecules": counts["molecule"], "sources": counts["source"],
             "hidden_common": hidden_common, "truncated": truncated, "hidden_sources": hidden_sources,
-            "aromas": aromas_explained, "aromas_total": aromas_total,
+            "aromas": aromas_explained, "aromas_total": aromas_total, "more": more,
+            "hidden_by_age": len(by_age["maturité"]) + len(by_age["jeunesse"]),
             "common": bool(common),
         },
     }

@@ -1,0 +1,80 @@
+# Arômes qu'aucune molécule de notre base n'explique : pourquoi, en une ligne (français et anglais).
+# Affichés en pâle sous la vue d'un vin, pour montrer ce que la chimie sait et ne sait pas encore.
+# Prudence : on dit seulement ce que la littérature établit (ou n'établit pas). Un arôme absent de
+# cette liste reçoit la raison « inconnu ».
+#
+# reasons : textes communs ; aromas : arôme du catalogue (nom français) → clé de raison, note facultative.
+
+reasons:
+  melange:
+    fr: "Plusieurs molécules ensemble, aucune ne la porte seule."
+    en: "Several molecules together; none carries it alone."
+  inconnu:
+    fr: "Aucune molécule identifiée dans le vin à ce jour."
+    en: "No molecule identified in wine so far."
+  mineral:
+    fr: "Aucune molécule attribuée : la « minéralité » reste débattue."
+    en: "No molecule assigned: “minerality” is still debated."
+  lies:
+    fr: "Née de l'élevage sur lies (autolyse des levures) : de nombreux composés, aucun dominant."
+    en: "Comes from ageing on lees (yeast autolysis): many compounds, none dominant."
+  elevage:
+    fr: "Note d'élevage et de maturité, faite de nombreux composés."
+    en: "A note of ageing and maturity, made of many compounds."
+  cuir:
+    fr: "Souvent due aux Brettanomyces, un défaut ; dans un vin sain, origine mal établie."
+    en: "Often due to Brettanomyces, a fault; in a sound wine, its origin is unclear."
+  age:
+    fr: "Vient avec l'âge : passez « à maturité »."
+    en: "Comes with age: switch to “mature”."
+  young:
+    fr: "Note de jeunesse, partie avec l'âge : passez « jeune »."
+    en: "A youthful note, gone with age: switch to “young”."
+
+notes:
+  réglisse:
+    fr: "L'odeur de la racine tient à des dizaines de composés ; aucun n'est établi dans le vin."
+    en: "The root's smell comes from dozens of compounds; none is established in wine."
+  garrigue:
+    fr: "Le 1,8-cinéole explique l'eucalyptus voisin des vignes ; pour la garrigue, rien n'est établi."
+    en: "1,8-cineole explains eucalyptus near the vines; for garrigue, nothing is established."
+  pêche blanche:
+    fr: "Une reconstitution à partir des molécules suspectes n'a pas su la recréer (Siebert et al., 2018)."
+    en: "A reconstitution from the suspected molecules failed to recreate it (Siebert et al., 2018)."
+
+aromas:
+  réglisse: inconnu
+  citron: melange
+  zeste d'orange: melange
+  cacao: elevage
+  tabac: elevage
+  cèdre: elevage
+  garrigue: inconnu
+  laurier: inconnu
+  fenouil: inconnu
+  pêche blanche: melange
+  poire: melange
+  coing: melange
+  cerise: melange
+  griotte: melange
+  fraise des bois: melange
+  fruits confits: melange
+  mangue: melange
+  litchi: melange
+  olive noire: inconnu
+  cuir: cuir
+  gibier: cuir
+  viande: inconnu
+  pivoine: inconnu
+  acacia: inconnu
+  aubépine: inconnu
+  pierre mouillée: mineral
+  craie: mineral
+  iode: mineral
+  graphite: mineral
+  coquille d'huître: mineral
+  brioche: lies
+  mie de pain: lies
+  cire d'abeille: inconnu
+  safran: inconnu
+  gingembre: inconnu

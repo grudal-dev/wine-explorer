@@ -42,6 +42,8 @@ def tr_list(values) -> list:
 _REASONS = [
     (re.compile(r"^(?P<grape>.+) \((?P<share>\d+) % de l'encépagement\)$"),
      lambda m: gettext("%(grape)s (%(share)s %% de l'encépagement)") % m.groupdict()),
+    (re.compile(r"^(?P<grape>.+) \((?P<share>\d+) % de l'assemblage type, part variable\)$"),
+     lambda m: gettext("%(grape)s (%(share)s %% de l'assemblage type, part variable)") % m.groupdict()),
     (re.compile(r"^Style (?P<style>.+)$"),
      lambda m: gettext("Style %(style)s") % {"style": _style(m["style"])}),
     (re.compile(r"^Vin (?P<color>rouge|blanc|rosé)$"),

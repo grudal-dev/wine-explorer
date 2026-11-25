@@ -35,8 +35,8 @@
 
   const measureCtx = document.createElement("canvas").getContext("2d");
   const LINE = 1.15;   // interligne des bulles, partagé par le style et la mesure
-  const state = { start: "", trail: [], common: false, wikidata: true };
-  const query = () => `${state.common ? "&commun=1" : ""}${state.wikidata ? "" : "&wikidata=0"}`;
+  const state = { start: "", trail: [], common: false, wikidata: true, age: null, everything: false };
+  const query = () => `${state.common ? "&commun=1" : ""}${state.age ? `&age=${state.age}` : ""}${state.everything ? "&tout=1" : ""}${state.wikidata ? "" : "&wikidata=0"}`;
 
   const cy = cytoscape({
     container: document.getElementById("mol-cy"),
@@ -109,11 +109,16 @@
         "text-halign": "center", "text-margin-x": 0, "text-margin-y": 0, "text-wrap": "wrap",
         // Les lignes sont coupées par fitBubble ; la largeur maximale ne doit pas les recouper.
         "text-max-width": (n) => bubble(n) + 40, "text-background-opacity": 0, "line-height": LINE }},
-      { selector: "node.bq.bouquet[type='molecule'][!direct]", style: { "background-color": "#CFCAC0", "background-opacity": 1,
-        "border-color": "#CFCAC0", "border-opacity": 0.35, "color": C.ink2 }},
+      // Marqueur « en réserve » : la molécule du cépage, du style ou de la couleur, qu'aucun arôme cité de ce vin
+      // ne trahit (l'IBMP d'un Pauillac mûr) : cercle ouvert, plus petit, à sa couleur.
+      { selector: "node.bq.bouquet[type='molecule'][tier='specific'][!direct]", style: { "background-color": "data(hue)",
+        "background-opacity": 0.28, "border-width": 2.5, "border-color": "data(hue)", "border-opacity": 1, "color": C.ink }},
+      // Socle commun : sa couleur, adoucie (et non plus du gris).
+      { selector: "node.bq.bouquet[type='molecule'][tier='universal']", style: { "background-color": "data(hue)", "background-opacity": 0.45,
+        "border-color": "data(hue)", "border-opacity": 0.25, "color": C.ink }},
       { selector: "node.bq.bouquet.hl[type='molecule'][!direct]", style: { "background-color": "data(hue)", "color": "#fff" }},
       { selector: "node.bq[type='molecule'][tier='universal'], node.bq[type='molecule'][?universal]", style: {
-        "background-opacity": 0.42, "color": C.ink, "border-opacity": 0.1 }},
+        "background-opacity": 0.45, "color": C.ink, "border-opacity": 0.2 }},
       { selector: "node.bq[type='source'], node.bq[type='aroma']", style: { "shape": "round-rectangle", "width": "label", "height": 26,
         "padding": "9px", "background-color": "#FFFFFF", "border-width": 1.3, "border-color": "data(hue)",
         "label": "data(label)", "font-size": 12.5, "color": C.ink2, "text-valign": "center", "text-halign": "center",
@@ -122,6 +127,8 @@
       // (la fraise du furanéol dans un tawny) restent plus haut, pâles, et s'éclairent avec leur molécule.
       { selector: "node.bq.bouquet[type='source'][?near], node.bq.bouquet[type='aroma']", style: { "border-width": 2,
         "color": C.ink, "font-weight": 500 }},
+      // Arôme du vin : pastille teintée de la couleur de sa famille, pas une étiquette blanche.
+      { selector: "node.bq.bouquet[type='aroma']", style: { "background-color": "data(hue)", "background-opacity": 0.2 }},
       // Arôme dominant du vin : étiquette un peu plus affirmée.
       { selector: "node.bq.bouquet[type='aroma'][intensity = 3]", style: { "font-weight": 600, "border-width": 2.6 }},
       { selector: "node.bq.bouquet[type='source'][!near]", style: { "opacity": 0.5, "font-size": 11.5 }},
@@ -273,7 +280,9 @@
     // d'un rouge, esters de fermentation…) sont plus petites encore, et grisées.
     const base = 46 + 12 * (n.data("strength") || 1);
     const indirect = n.hasClass("bouquet") && !n.data("direct");
-    const d = (indirect ? base * 0.84 : base) * SC;
+    // Marqueur en réserve : un tiers plus petit, quelle que soit sa force ; socle commun : un peu moins.
+    const shrink = !indirect ? 1 : n.data("tier") === "specific" ? 0.7 : 0.84;
+    const d = base * shrink * SC;
     // Un nom long (« pyrroleméthanethiol ») agrandit un peu sa bulle plutôt que d'être abrégé.
     for (const grow of [1, 1.12, 1.25, 1.38, 1.52]) {
       if (fitAt(n, d * grow, false)) return d * grow;
@@ -483,21 +492,42 @@
     const ox = W / 2, oy = H - (compact ? 190 : 230);
     cy.nodes("[type='profile']").forEach((n) => { positions[n.id()] = { x: ox, y: H - (compact ? 110 : 150) }; });
     // Molécules : les plus sûres au centre, en quinconce sur deux ou trois anneaux.
-    const mols = cy.nodes("[type='molecule']").sort((a, b) => (b.data("strength") || 0) - (a.data("strength") || 0)
-      || (a.data("universal") ? 1 : 0) - (b.data("universal") ? 1 : 0));
-    const n = mols.length;
-    const slots = [...Array(n).keys()].sort((a, b) => Math.abs(a - (n - 1) / 2) - Math.abs(b - (n - 1) / 2));
-    // Hauteur : ce que le nez reconnaît d'emblée (poivre, cassis, buis…) monte le plus haut, ce qui se
-    // révèle après aération reste près du verre. L'ordre vient de la donnée « attaque », jamais affichée.
-    const ringOf = { 1: 1, 2: n > 9 ? 0.78 : 0.7, 3: n > 9 ? 0.56 : 0.5 };
+    // Les bulles qui expliquent le même arôme du vin (vanilline et whisky-lactone → vanille) sont voisines :
+    // leur étiquette commune tombe entre elles, sans trait en travers du bouquet. Les groupes les plus forts
+    // au centre, puis en alternance à droite et à gauche.
+    const sorted = cy.nodes("[type='molecule']").sort((a, b) => (b.data("strength") || 0) - (a.data("strength") || 0)
+      || (a.data("universal") ? 1 : 0) - (b.data("universal") ? 1 : 0)).toArray();
+    const groupOf = (m) => {
+      const labels = m.outgoers("node[type='aroma']").map((x) => x.id()).sort();
+      return labels.length ? labels[0] : m.id();
+    };
+    const groups = [];
+    const index = new Map();
+    sorted.forEach((m) => {
+      // Une molécule rejoint le groupe d'un de ses arômes déjà ouvert, sinon en ouvre un.
+      const keys = m.outgoers("node[type='aroma']").map((x) => x.id());
+      const hit = keys.find((k) => index.has(k));
+      const g = hit !== undefined ? index.get(hit) : (groups.push([]), groups[groups.length - 1]);
+      g.push(m);
+      [groupOf(m), ...keys].forEach((k) => { if (!index.has(k)) index.set(k, g); });
+    });
+    const row = [];
+    groups.forEach((g, i) => { if (i % 2) row.unshift(...g); else row.push(...g); });
+    const mols = cy.collection(row);
+    const n = row.length;
+    const slots = [...Array(n).keys()];
+    // Hauteur : d'où vient la molécule, du plus loin au plus près du verre. Le raisin (et la vigne) en haut,
+    // la fermentation au milieu, l'élevage et l'âge contre le verre.
+    const ringOf = { 1: 1, 2: n > 9 ? 0.78 : 0.72, 3: n > 9 ? 0.56 : 0.5 };
+    const band = { raisin: 1, precurseur: 1, environnement: 1, fermentation: 2, malolactique: 2, micro: 2, bois: 3, vieillissement: 3 };
     const rx = compact ? W * 0.34 : Math.min(W * 0.4, 360);
     // Le haut du cadre garde la place des étiquettes d'arômes posées au-dessus des bulles.
     const ry = compact ? Math.max(120, (oy - topLimit) * 0.86) : Math.min((oy - topLimit) * 0.84, 430);
     const spanM = Math.min(140, 40 + n * 14);
-    mols.forEach((m, k) => {
+    row.forEach((m, k) => {
       const slot = slots[k];
       const a = n > 1 ? -spanM / 2 + (spanM * slot) / (n - 1) : 0;
-      const ring = ringOf[m.data("att")] || ringOf[2];
+      const ring = ringOf[band[m.data("origin")] || 2];
       positions[m.id()] = { x: ox + rx * ring * Math.sin(rad(a)), y: oy - ry * ring * Math.cos(rad(a)) };
     });
     // Les bulles ne se touchent pas : on les écarte deux à deux (au-dessus du verre, dans le cadre).
@@ -701,6 +731,8 @@
   let seq = 0;
   async function load(id, { push = true } = {}) {
     const [kind, slug] = id.split(":");
+    // Nouveau vin : l'âge et « Voir tout » repartent de zéro (l'âge par défaut suit la garde du vin).
+    if (id !== state.start) { state.age = null; state.everything = false; }
     const mine = ++seq;
     stats.textContent = _("Chargement…");
     let data;
@@ -726,6 +758,7 @@
     const label = rootNode.nonempty() ? rootNode.data("label") : slug;
     if (push) pushTrail(id, label, kind);
     renderStats(data.stats, kind);
+    renderWine(data, kind);
     renderSources(data.references || []);
     history.replaceState(null, "", `${location.pathname}?depart=${encodeURIComponent(id)}${query()}`);
     openPanel(id);
@@ -750,6 +783,56 @@
     if (s.hidden_sources) text += " " + plural(_("%s élément naturel de plus dans les fiches."), _("%s éléments naturels de plus dans les fiches."), s.hidden_sources);
     stats.textContent = text;
   }
+
+  // ── Vue d'un vin : phrase-titre, âge, « Voir tout », le reste du nez ─────
+  const wineBar = document.getElementById("mol-wine-bar");
+  const headlineEl = document.getElementById("mol-headline");
+  const ageBox = document.getElementById("mol-age");
+  const ageYears = document.getElementById("mol-age-years");
+  const moreBtn = document.getElementById("mol-more");
+  const restBox = document.getElementById("mol-rest");
+  const restList = document.getElementById("mol-rest-list");
+  function renderWine(data, kind) {
+    const isWine = kind === "profile";
+    const age = data.age || {};
+    headlineEl.textContent = isWine ? data.headline || "" : "";
+    ageBox.hidden = !(isWine && age.toggle);
+    wineBar.hidden = !(isWine && (data.headline || age.toggle));
+    if (isWine && age.age) state.age = age.age;
+    ageBox.querySelectorAll("[data-age]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.age === age.age)));
+    const [lo, hi] = age.aging || [];
+    ageYears.textContent = lo != null && hi ? _("(%a à %b ans)").replace("%a", lo).replace("%b", hi) : "";
+    const s = data.stats || {};
+    moreBtn.hidden = !isWine || !(s.more || state.everything);
+    moreBtn.textContent = state.everything ? _("Moins de molécules")
+      : plural(_("Voir %s molécule de plus"), _("Voir %s molécules de plus"), s.more || 0);
+    restList.innerHTML = "";
+    (isWine ? data.unexplained || [] : []).forEach((u) => {
+      const li = document.createElement("li");
+      const tag = document.createElement("span");
+      tag.className = "mol-rest__aroma";
+      tag.style.setProperty("--c", u.hue || "");
+      tag.textContent = u.label;
+      const why = document.createElement("span");
+      why.textContent = u.reason;
+      li.append(tag, why);
+      if (u.note) {
+        const note = document.createElement("span");
+        note.className = "mol-rest__note";
+        note.textContent = u.note;
+        li.appendChild(note);
+      }
+      restList.appendChild(li);
+    });
+    restBox.hidden = !restList.children.length;
+  }
+  ageBox.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-age]");
+    if (!b || b.dataset.age === state.age) return;
+    state.age = b.dataset.age;
+    load(state.start, { push: false });
+  });
+  moreBtn.addEventListener("click", () => { state.everything = !state.everything; load(state.start, { push: false }); });
 
   // ── Sources du graphe affiché ──────────────────────────────────────────
   const sourcesEl = document.getElementById("mol-sources");
@@ -911,6 +994,9 @@
   state.wikidata = params.get("wikidata") !== "0";
   if (wikiBox) wikiBox.checked = state.wikidata;
   const first = params.get("depart") || root.dataset.start;
-  if (first) load(first);
+  // L'âge et « Voir tout » de l'adresse valent pour ce premier vin (load ne les remet à zéro qu'au changement).
+  state.age = ["jeune", "mature"].includes(params.get("age")) ? params.get("age") : null;
+  state.everything = params.get("tout") === "1";
+  if (first) { state.start = first; load(first); }
   else stats.textContent = _("Choisissez un point de départ.");
 })();

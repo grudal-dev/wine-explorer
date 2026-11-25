@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-25 22:05+0100\n"
+"POT-Creation-Date: 2026-11-25 22:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -74,6 +74,9 @@ msgstr "%s natural sources"
 msgid "%s éléments naturels de plus dans les fiches."
 msgstr "%s more natural sources on the detail pages."
 
+msgid "(%a à %b ans)"
+msgstr "(%a to %b years)"
+
 #, python-format
 msgid "(et %s autres, tous listés dans la fiche)"
 msgstr "(and %s more, all listed in the panel)"
@@ -108,6 +111,9 @@ msgstr "Unable to load the map."
 msgid "Impossible de charger le graphe. Vérifiez la connexion puis réessayez."
 msgstr "Unable to load the graph. Check your connection and try again."
 
+msgid "Moins de molécules"
+msgstr "Fewer molecules"
+
 msgid "Revenir à ce vin"
 msgstr "Back to this wine"
 
@@ -128,6 +134,14 @@ msgstr "Reds"
 
 msgid "Socle commun ajouté : ce vin a peu de molécules propres."
 msgstr "Common base added: this wine has few molecules of its own."
+
+#, python-format
+msgid "Voir %s molécule de plus"
+msgstr "Show %s more molecule"
+
+#, python-format
+msgid "Voir %s molécules de plus"
+msgstr "Show %s more molecules"
 
 msgid "appellations"
 msgstr "appellations"

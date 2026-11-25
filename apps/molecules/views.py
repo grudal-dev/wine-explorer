@@ -86,7 +86,10 @@ def api_graph(request):
         max_profiles = max(1, min(int(request.GET.get("vins", graph.MAX_PROFILES)), 60))
     except ValueError:
         max_profiles = graph.MAX_PROFILES
-    result = graph.build(kind, slug, common=common, imported=imported, max_profiles=max_profiles)
+    age = request.GET.get("age") or None
+    everything = request.GET.get("tout", "0") in {"1", "true", "on"}
+    result = graph.build(kind, slug, common=common, imported=imported, max_profiles=max_profiles,
+                         age=age, everything=everything)
     if result is None:
         return JsonResponse({"error": "Entité inconnue."}, status=404)
     return JsonResponse(result)
