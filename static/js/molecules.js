@@ -144,7 +144,8 @@
         "source-arrow-color": (e) => e.target().data("hue"), "target-arrow-color": (e) => e.target().data("hue") }},
       { selector: "edge.bq.bouquet[kind='found_in'][?near]", style: { "opacity": 0.7 }},
       // Molécule → arôme du vin qu'elle explique : même dessin, couleur de la famille de l'arôme.
-      { selector: "edge.bq[kind='evokes']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
+      { selector: "edge.bq[kind='evokes']", style: { "curve-style": "straight",
+        "target-endpoint": (e) => e.data("tep") || "outside-to-node", "line-color": (e) => e.target().data("hue"),
         "opacity": 0.7, "width": "mapData(strength, 1, 3, 1.2, 2.8)",
         "source-arrow-shape": "circle", "target-arrow-shape": "circle", "arrow-scale": 1.5,
         "source-arrow-color": (e) => e.target().data("hue"), "target-arrow-color": (e) => e.target().data("hue") }},
@@ -483,7 +484,9 @@
   // du vin qu'elle explique (une étiquette partagée se pose entre ses bulles) ──
   function layoutBouquet(compact = false) {
     const positions = {};
-    prepare(compact ? 760 : 820, "bouquet");
+    // Téléphone : le cadre grandit avec le nombre de bulles (la page défile), sinon tout se tasse.
+    const n = cy.nodes("[type='molecule']").length;
+    prepare(compact ? 760 + 52 * Math.max(0, n - 5) : 820, "bouquet");
     placeBubbles(positions, compact ? 96 : 110, compact);
   }
   function placeBubbles(positions, topLimit, compact) {
@@ -520,14 +523,21 @@
     // la fermentation au milieu, l'élevage et l'âge contre le verre.
     const ringOf = { 1: 1, 2: n > 9 ? 0.78 : 0.72, 3: n > 9 ? 0.56 : 0.5 };
     const band = { raisin: 1, precurseur: 1, environnement: 1, fermentation: 2, malolactique: 2, micro: 2, bois: 3, vieillissement: 3 };
-    const rx = compact ? W * 0.34 : Math.min(W * 0.4, 360);
+    const rx = compact ? W * 0.4 : Math.min(W * 0.4, 360);
     // Le haut du cadre garde la place des étiquettes d'arômes posées au-dessus des bulles.
     const ry = compact ? Math.max(120, (oy - topLimit) * 0.86) : Math.min((oy - topLimit) * 0.84, 430);
     const spanM = Math.min(140, 40 + n * 14);
+    // Un anneau chargé (cinq molécules du raisin dans un Gewurztraminer) s'étage en quinconce.
+    const perBand = {};
+    row.forEach((m) => { const b = band[m.data("origin")] || 2; perBand[b] = (perBand[b] || 0) + 1; });
+    const seen = {};
     row.forEach((m, k) => {
       const slot = slots[k];
       const a = n > 1 ? -spanM / 2 + (spanM * slot) / (n - 1) : 0;
-      const ring = ringOf[band[m.data("origin")] || 2];
+      const b = band[m.data("origin")] || 2;
+      seen[b] = (seen[b] || 0) + 1;
+      const stagger = perBand[b] > 3 && seen[b] % 2 === 0 ? (compact ? 0.14 : 0.1) : 0;
+      const ring = ringOf[b] - stagger;
       positions[m.id()] = { x: ox + rx * ring * Math.sin(rad(a)), y: oy - ry * ring * Math.cos(rad(a)) };
     });
     // Les bulles ne se touchent pas : on les écarte deux à deux (au-dessus du verre, dans le cadre).
@@ -553,13 +563,13 @@
       });
       if (!moved) break;
     }
-    placeLabels(positions, cy.nodes("[type='aroma'], [type='source']").toArray(), ox, oy, compact ? 22 : 26);
+    placeLabels(positions, cy.nodes("[type='aroma'], [type='source']").toArray(), ox, oy, compact ? 22 : 26, compact ? 36 : 22);
     run(positions, false);
   }
   // Étiquettes d'arômes : chacune dans l'axe de ses bulles vu du verre (angle moyen), posée juste au-delà
   // du bord du bouquet dans cette direction ; puis on les écarte des bulles et entre elles. Les traits
   // partent vers l'extérieur et ne traversent pas le dessin.
-  function placeLabels(positions, labels, ox, oy, topMin) {
+  function placeLabels(positions, labels, ox, oy, topMin, gap = 22) {
     const W = cy.width();
     measureCtx.font = "500 12.5px Inter, system-ui, sans-serif";
     const bubbles = cy.nodes("[type='molecule']").map((m) => ({ ...positions[m.id()], r: bubble(m) / 2 + 9 }));
@@ -581,7 +591,7 @@
         const off = Math.abs(Math.sin(pb.a - a)) * pb.d;
         if (off < b.r + hw * 0.6 && Math.cos(pb.a - a) > 0) edge = Math.max(edge, pb.d * Math.cos(pb.a - a) + b.r);
       });
-      const dist = edge + hh + 22;
+      const dist = edge + hh + gap;
       return { s, x: ox + dist * Math.sin(a), y: oy - dist * Math.cos(a), hw, hh };
     });
     for (let it = 0; it < 120; it++) {
@@ -630,6 +640,21 @@
       if (!moved) break;
     }
     items.forEach((a) => { positions[a.s.id()] = { x: a.x, y: a.y }; });
+    // Traits qui arrivent sur une même étiquette (« rose » de quatre molécules) : chacun son point
+    // d'arrivée, répartis le long du bord, dans l'ordre de leurs bulles, au lieu de s'empiler.
+    items.forEach((a) => {
+      const es = a.s.connectedEdges("[kind='evokes'], [kind='found_in']").toArray()
+        .filter((e) => positions[e.source().id()])
+        .sort((e1, e2) => positions[e1.source().id()].x - positions[e2.source().id()].x);
+      const k = es.length;
+      const spread = Math.min(a.hw * 1.3, 18 * (k - 1));
+      es.forEach((e, i) => {
+        const src = positions[e.source().id()];
+        const dx = k > 1 ? -spread / 2 + (spread * i) / (k - 1) : 0;
+        const dy = src.y > a.y ? a.hh - 2 : -(a.hh - 2);
+        e.data("tep", `${dx.toFixed(1)}px ${dy.toFixed(1)}px`);
+      });
+    });
   }
 
 
