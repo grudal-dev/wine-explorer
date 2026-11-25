@@ -137,18 +137,17 @@
         "control-point-distances": (e) => [-(e.target().position("x") - e.source().position("x")) * 0.32],
         "control-point-weights": [0.55], "opacity": 0.75, "width": "mapData(strength, 1, 3, 2, 6)" }},
       { selector: "edge.bq.bouquet[kind='contains']", style: { "opacity": (e) => (e.target().data("direct") ? 0.75 : 0.3) }},
-      // Une pastille à chaque bout du trait : on voit à quelle bulle et à quel élément naturel il s'accroche.
-      { selector: "edge.bq[kind='found_in']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
-        "opacity": 0.42, "width": "mapData(strength, 1, 3, 1, 2.8)",
-        "source-arrow-shape": "circle", "target-arrow-shape": "circle", "arrow-scale": 1.5,
-        "source-arrow-color": (e) => e.target().data("hue"), "target-arrow-color": (e) => e.target().data("hue") }},
-      { selector: "edge.bq.bouquet[kind='found_in'][?near]", style: { "opacity": 0.7 }},
-      // Molécule → arôme du vin qu'elle explique : même dessin, couleur de la famille de l'arôme.
-      { selector: "edge.bq[kind='evokes']", style: { "curve-style": "straight",
-        "target-endpoint": (e) => e.data("tep") || "outside-to-node", "line-color": (e) => e.target().data("hue"),
-        "opacity": 0.7, "width": "mapData(strength, 1, 3, 1.2, 2.8)",
-        "source-arrow-shape": "circle", "target-arrow-shape": "circle", "arrow-scale": 1.5,
-        "source-arrow-color": (e) => e.target().data("hue"), "target-arrow-color": (e) => e.target().data("hue") }},
+      // Molécule → élément naturel ou arôme du vin : le trait part du bord de la bulle et s'arrête net sur
+      // le bord de l'étiquette (point d'arrivée calculé par placeLabels), sans pastille qui déborde ; sa
+      // couleur passe de celle de la molécule à celle de l'arôme, il se fond dans l'une et dans l'autre.
+      { selector: "edge.bq[kind='found_in'], edge.bq[kind='evokes']", style: { "curve-style": "straight",
+        "source-endpoint": "outside-to-node", "target-endpoint": (e) => e.data("tep") || "outside-to-node",
+        "line-cap": "round", "line-fill": "linear-gradient",
+        "line-gradient-stop-colors": (e) => `${e.source().data("hue")} ${e.target().data("hue")}`,
+        "line-gradient-stop-positions": "15% 85%", "source-arrow-shape": "none", "target-arrow-shape": "none" }},
+      { selector: "edge.bq[kind='found_in']", style: { "opacity": 0.42, "width": "mapData(strength, 1, 3, 1.2, 3)" }},
+      { selector: "edge.bq.bouquet[kind='found_in'][?near]", style: { "opacity": 0.75 }},
+      { selector: "edge.bq[kind='evokes']", style: { "opacity": 0.8, "width": "mapData(strength, 1, 3, 1.4, 3.2)" }},
       // Couronne d'une molécule : la molécule en grande bulle au centre, les vins en petits verres autour.
       { selector: "node.bq[type='molecule'][?root]", style: { "width": () => 132 * SC, "height": () => 132 * SC,
         "font-size": () => 16 * SC, "text-max-width": () => 116 * SC, "border-width": 10, "border-opacity": 0.22, "label": rootLabel }},
@@ -578,7 +577,8 @@
       const ms = s.incomers("node[type='molecule']").toArray().filter((m) => positions[m.id()]);
       const angles = ms.map((m) => polar(positions[m.id()]).a);
       const a = angles.length ? angles.reduce((t, v) => t + v, 0) / angles.length : 0;
-      const hw = measureCtx.measureText(s.data("label") || "").width / 2 + 16, hh = 15;
+      // Demi-taille réelle de l'étiquette : texte + marge intérieure de 9 px + bordure (hauteur 26 + 2 × 9).
+      const hw = measureCtx.measureText(s.data("label") || "").width / 2 + 11, hh = 23;
       // Bord du bouquet dans cette direction : la bulle la plus lointaine que le rayon frôle.
       // Ses propres bulles comptent toujours : une étiquette partagée par deux bulles écartées (le buis
       // de la 4-MMP et de l'acétate) tombait sinon entre elles, au pied du verre.
@@ -639,21 +639,81 @@
       }));
       if (!moved) break;
     }
+    // Un trait ne passe pas sous une autre étiquette (le cassis de la leucate barrant la mûre) : celle
+    // qu'il traverse s'écarte sur le côté, du côté où elle se trouve déjà. Puis on revérifie les chevauchements.
+    const links = items.flatMap((a) => a.s.incomers("node[type='molecule']").toArray()
+      .filter((m) => positions[m.id()]).map((m) => ({ m: positions[m.id()], a })));
+    // Distance d'un point au segment p → q.
+    const segDist = (p, q, b) => {
+      const dx = q.x - p.x, dy = q.y - p.y, l2 = dx * dx + dy * dy || 1;
+      const t = Math.max(0, Math.min(1, ((b.x - p.x) * dx + (b.y - p.y) * dy) / l2));
+      return Math.hypot(p.x + t * dx - b.x, p.y + t * dy - b.y);
+    };
+    const crosses = (p, q, c, pad) => {
+      // Liang-Barsky : le segment p → q coupe-t-il le rectangle de c (élargi de pad) ?
+      const dx = q.x - p.x, dy = q.y - p.y;
+      let t0 = 0, t1 = 1;
+      const edges = [[-dx, p.x - (c.x - c.hw - pad)], [dx, c.x + c.hw + pad - p.x],
+        [-dy, p.y - (c.y - c.hh - pad)], [dy, c.y + c.hh + pad - p.y]];
+      for (const [pp, qq] of edges) {
+        if (pp === 0) { if (qq < 0) return false; continue; }
+        const r = qq / pp;
+        if (pp < 0) { if (r > t1) return false; if (r > t0) t0 = r; }
+        else { if (r < t0) return false; if (r < t1) t1 = r; }
+      }
+      return t0 < t1;
+    };
+    // Chaque étiquette essaie de petits pas à gauche ou à droite (jusqu'à 72 px) et garde la place où ses
+    // traits et ceux des autres coupent le moins d'étiquettes et de bulles, sans en chevaucher aucune.
+    const overlaps = (c) => bubbles.some((b) => {
+      const qx = Math.max(c.x - c.hw, Math.min(b.x, c.x + c.hw)), qy = Math.max(c.y - c.hh, Math.min(b.y, c.y + c.hh));
+      return Math.hypot(qx - b.x, qy - b.y) < b.r - 2;
+    }) || items.some((d) => d !== c && Math.abs(d.x - c.x) < d.hw + c.hw + 4 && Math.abs(d.y - c.y) < d.hh + c.hh + 2);
+    const cost = () => {
+      let k = 0;
+      links.forEach(({ m, a }) => {
+        items.forEach((c) => { if (c !== a && crosses(m, a, c, 6)) k += 3; });
+        bubbles.forEach((b) => { if (Math.hypot(b.x - m.x, b.y - m.y) > 1 && segDist(m, a, b) < b.r - 6) k += 1; });
+      });
+      return k;
+    };
+    for (let pass = 0; pass < 2; pass++) {
+      items.forEach((c) => {
+        const x0 = c.x;
+        let best = x0, bestCost = cost();
+        if (!bestCost) return;
+        for (let s = 6; s <= 72; s += 6) {
+          for (const sgn of [-1, 1]) {
+            c.x = x0 + sgn * s;
+            if (c.x < c.hw + 6 || c.x > W - c.hw - 6 || overlaps(c)) continue;
+            const k = cost();
+            if (k < bestCost) { bestCost = k; best = c.x; }
+          }
+        }
+        c.x = best;
+      });
+    }
     items.forEach((a) => { positions[a.s.id()] = { x: a.x, y: a.y }; });
-    // Traits qui arrivent sur une même étiquette (« rose » de quatre molécules) : chacun son point
-    // d'arrivée, répartis le long du bord, dans l'ordre de leurs bulles, au lieu de s'empiler.
+    // Point d'arrivée sur le bord de l'étiquette : en bas (ou en haut) si les bulles sont sous (ou sur)
+    // l'étiquette, sur le côté si elles sont à sa hauteur. Plusieurs traits vers une même étiquette
+    // (« rose » de quatre molécules) se rejoignent en un seul point : un faisceau qui se fond dans l'arôme.
     items.forEach((a) => {
       const es = a.s.connectedEdges("[kind='evokes'], [kind='found_in']").toArray()
-        .filter((e) => positions[e.source().id()])
-        .sort((e1, e2) => positions[e1.source().id()].x - positions[e2.source().id()].x);
-      const k = es.length;
-      const spread = Math.min(a.hw * 1.3, 18 * (k - 1));
-      es.forEach((e, i) => {
-        const src = positions[e.source().id()];
-        const dx = k > 1 ? -spread / 2 + (spread * i) / (k - 1) : 0;
-        const dy = src.y > a.y ? a.hh - 2 : -(a.hh - 2);
-        e.data("tep", `${dx.toFixed(1)}px ${dy.toFixed(1)}px`);
-      });
+        .filter((e) => positions[e.source().id()]);
+      if (!es.length) return;
+      const vx = es.reduce((t, e) => t + positions[e.source().id()].x - a.x, 0) / es.length;
+      const vy = es.reduce((t, e) => t + positions[e.source().id()].y - a.y, 0) / es.length;
+      let dx, dy;
+      if (Math.abs(vy) * a.hw >= Math.abs(vx) * a.hh) {
+        dx = Math.max(-a.hw + 14, Math.min(a.hw - 14, (vx * a.hh) / Math.abs(vy)));
+        dy = Math.sign(vy) * a.hh;
+      } else {
+        dx = Math.sign(vx) * a.hw;
+        dy = Math.max(-a.hh + 10, Math.min(a.hh - 10, (vy * a.hw) / Math.abs(vx)));
+      }
+      // Un demi-pixel à l'intérieur : le trait touche la bordure, sans jour ni débord.
+      dx -= Math.sign(dx) * 0.5; dy -= Math.sign(dy) * 0.5;
+      es.forEach((e) => e.data("tep", `${dx.toFixed(1)}px ${dy.toFixed(1)}px`));
     });
   }
 
