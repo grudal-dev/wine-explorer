@@ -80,14 +80,13 @@ def api_graph(request):
     slug = request.GET.get("slug", "")
     raw = request.GET.get("commun", "auto")
     common = None if raw == "auto" else raw in {"1", "true", "on"}
-    family = request.GET.get("famille", "1") not in {"0", "false", "off"}
     imported = request.GET.get("wikidata", "1") not in {"0", "false", "off"}
     # Vue « bouquet » d'une molécule (ordinateur) : jusqu'à 32 vins en couronne au lieu de 18 en colonne.
     try:
         max_profiles = max(1, min(int(request.GET.get("vins", graph.MAX_PROFILES)), 60))
     except ValueError:
         max_profiles = graph.MAX_PROFILES
-    result = graph.build(kind, slug, common=common, family=family, imported=imported, max_profiles=max_profiles)
+    result = graph.build(kind, slug, common=common, imported=imported, max_profiles=max_profiles)
     if result is None:
         return JsonResponse({"error": "Entité inconnue."}, status=404)
     return JsonResponse(result)
@@ -191,10 +190,11 @@ def source_detail(request, slug):
         slug=slug,
     )
     mol_ids = [o.molecule_id for o in src.occurrences.all()]
-    # Vins reliés par au moins une molécule spécifique (le socle commun ne dit rien d'un vin).
+    # Vins reliés par au moins une molécule spécifique (le socle commun, de tous les vins ou de toute
+    # une couleur, ne dit rien d'un vin : le beurre ne doit pas lister les 84 rouges).
     per_wine: dict[WineProfile, dict] = {}
     for pm in ProfileMolecule.objects.filter(molecule_id__in=mol_ids).select_related("profile", "molecule"):
-        if all(r["basis"] == Basis.UNIVERSAL for r in pm.reasons):
+        if graph.link_tier(pm.reasons) == "universal":
             continue
         w = per_wine.setdefault(pm.profile, {"profile": pm.profile, "strength": 0, "molecules": []})
         w["strength"] = max(w["strength"], pm.strength)

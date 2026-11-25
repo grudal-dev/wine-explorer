@@ -106,9 +106,14 @@ class CoverageTests(TestCase):
         graph.reset()
 
     def test_every_wine_has_a_full_graph(self):
+        # Aucun graphe vide : au moins une molécule propre, et le socle commun quand il y en a peu.
         for p in WineProfile.objects.all():
             with self.subTest(wine=p.slug):
-                self.assertGreaterEqual(graph.build("profile", p.slug)["stats"]["molecules"], graph.AUTO_COMMON_BELOW)
+                stats = graph.build("profile", p.slug)["stats"]
+                own = graph.build("profile", p.slug, common=False)["stats"]["molecules"]
+                self.assertGreaterEqual(own, 1)
+                self.assertGreaterEqual(stats["molecules"], 5)
+                self.assertEqual(stats["common"], own < graph.AUTO_COMMON_BELOW)
 
     def test_new_markers(self):
         def strength(p, m):
@@ -118,21 +123,41 @@ class CoverageTests(TestCase):
         self.assertEqual(strength("chateau-chalon-blanc", "ethanal"), 3)
         self.assertGreaterEqual(strength("pauillac-rouge", "4-mmp"), 1)
 
-    def test_family_fallback(self):
-        link = ProfileMolecule.objects.get(profile__slug="bandol-rouge", molecule__slug="4-ethylphenol")
-        self.assertEqual(link.basis, Basis.AROMA)  # « cuir » est cité : pas de repli par famille
-        fam = ProfileMolecule.objects.filter(basis=Basis.FAMILY)
-        self.assertTrue(fam.exists())
-        for pm in fam:
-            self.assertEqual(pm.strength, 1)
-            self.assertFalse(any(r["basis"] == Basis.AROMA for r in pm.reasons))
-        with_fam = graph.build("profile", "cahors-rouge")["stats"]["molecules"]
-        without = graph.build("profile", "cahors-rouge", family=False, common=False)["stats"]["molecules"]
-        self.assertGreater(with_fam, without)
+    def test_no_family_fallback(self):
+        # Le repli par famille d'arômes est supprimé (audit du 25/11) : il reliait l'eugénol à la
+        # « réglisse », le 3-sulfanylhexanol au « citron » d'un Chablis, le diacétyle à la « brioche ».
+        self.assertFalse(ProfileMolecule.objects.filter(reasons__icontains='"family"').exists())
+        for wine, mol in [("barolo-rouge", "eugenol"), ("chablis-blanc", "3-sulfanylhexanol"),
+                          ("champagne-brut", "diacetyle"), ("fleurie-rouge", "linalol")]:
+            with self.subTest(wine=wine, molecule=mol):
+                self.assertFalse(ProfileMolecule.objects.filter(profile__slug=wine, molecule__slug=mol).exists())
+
+    def test_rule_conditions_combine(self):
+        # Cépage ET couleur / style : plus de bouquet de vieux bordeaux rouge dans un rosé moelleux,
+        # plus de cinnamate de Pinot noir rouge dans un Champagne.
+        def has(wine, mol):
+            return ProfileMolecule.objects.filter(profile__slug=wine, molecule__slug=mol).exists()
+        for mol in ("sulfure-de-dimethyle", "piperitone", "lactone-massoia"):
+            self.assertFalse(has("cabernet-danjou-rose", mol), mol)
+            self.assertTrue(has("pauillac-rouge", mol), mol)
+        self.assertFalse(has("champagne-brut", "cinnamate-dethyle"))
+        self.assertTrue(has("volnay-rouge", "cinnamate-dethyle"))
+        banyuls = ProfileMolecule.objects.filter(profile__slug="banyuls-rouge", molecule__slug="3-sulfanylhexanol")
+        self.assertFalse(banyuls.exists())
+
+    def test_fault_molecules_are_not_linked(self):
+        # Brettanomyces : un « cuir » au nez d'un Barolo n'en fait pas un vin défectueux.
+        for mol in ("4-ethylphenol", "4-ethylgaiacol"):
+            self.assertTrue(Molecule.objects.filter(slug=mol).exists())
+            self.assertFalse(ProfileMolecule.objects.filter(molecule__slug=mol).exists())
+
+    def test_colour_only_links_are_common(self):
+        link = ProfileMolecule.objects.get(profile__slug="cahors-rouge", molecule__slug="diacetyle")
+        self.assertEqual(graph.link_tier(link.reasons), "universal")
 
     def test_auto_common(self):
-        g = graph.build("profile", "cote-rotie-rouge", family=False)
-        sparse = graph.build("profile", "cote-rotie-rouge", family=False, common=False)["stats"]["molecules"]
+        g = graph.build("profile", "cote-rotie-rouge")
+        sparse = graph.build("profile", "cote-rotie-rouge", common=False)["stats"]["molecules"]
         self.assertEqual(g["stats"]["common"], sparse < graph.AUTO_COMMON_BELOW)
 
     def test_wikidata_import_roundtrip(self):
@@ -194,14 +219,14 @@ class GraphAndViewTests(TestCase):
         graph.reset()
 
     def test_profile_graph_layers(self):
-        g = graph.build("profile", "cote-rotie-rouge")
+        g = graph.build("profile", "hermitage-rouge")
         nodes = {e["data"]["id"]: e["data"] for e in g["elements"] if e["group"] == "nodes"}
-        self.assertEqual(nodes["profile:cote-rotie-rouge"]["layer"], 0)
+        self.assertEqual(nodes["profile:hermitage-rouge"]["layer"], 0)
         self.assertEqual(nodes["molecule:rotundone"]["layer"], 1)
         self.assertEqual(nodes["source:poivre-noir"]["layer"], 2)
         self.assertNotIn("molecule:acetate-disoamyle", nodes)  # assez de molécules propres : socle masqué
         self.assertGreater(g["stats"]["hidden_common"], 0)
-        with_common = graph.build("profile", "cote-rotie-rouge", common=True)
+        with_common = graph.build("profile", "hermitage-rouge", common=True)
         self.assertIn("molecule:acetate-disoamyle", {e["data"]["id"] for e in with_common["elements"]})
 
     def test_graph_lists_its_sources(self):

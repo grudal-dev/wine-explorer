@@ -16,7 +16,7 @@ from django.db import transaction
 from django.utils.text import slugify
 from django.utils.translation import gettext_noop
 
-from apps.catalog.models import Aroma, AromaFamily, Color, Grape, Style, WineProfile
+from apps.catalog.models import Aroma, Color, Grape, Style, WineProfile
 from apps.catalog.text import normalize
 from apps.molecules.models import (
     BASIS_ORDER,
@@ -38,8 +38,9 @@ WIKIDATA_FILE = DATA_DIR / "wikidata_occurrences.json"
 MOLECULE_KEYS = {
     "name", "name_en", "synonyms", "family", "origin", "smiles", "odor", "threshold", "refs",
     "aromas", "aroma_ref", "aroma_max", "universal", "description", "wine", "nature",
-    "families", "family_ref", "fades",
+    "fades", "fault",
 }
+CONDITION_KEYS = {"grapes", "styles", "colors", "oxidative", "all"}
 RULE_KEYS = {"grapes", "styles", "colors", "oxidative", "all", "strength", "ref", "min_share"}
 
 
@@ -87,7 +88,6 @@ class Command(BaseCommand):
         computed_path = DATA_DIR / "computed.json"
         computed = json.loads(computed_path.read_text(encoding="utf-8")) if computed_path.exists() else {}
 
-        families = {normalize(f.name): f for f in AromaFamily.objects.all()}
         grapes = {}
         for g in Grape.objects.all():
             for label in [g.name, *g.synonyms]:
@@ -166,6 +166,10 @@ class Command(BaseCommand):
                 strength = rule.get("strength", 1)
                 if strength not in (1, 2, 3):
                     raise ValueError(f"{name}: force invalide {strength}")
+                if not set(rule) & CONDITION_KEYS:
+                    raise ValueError(f"{name}: règle sans condition {rule}")
+                if rule.get("all") and len(set(rule) & CONDITION_KEYS) > 1:
+                    raise ValueError(f"{name}: « all » ne se combine avec aucune autre condition")
                 self._ref(refs, rule["ref"], name)
                 r = {"strength": strength, "ref": rule["ref"], "min_share": rule.get("min_share", MIN_SHARE)}
                 if rule.get("all"):
@@ -190,25 +194,20 @@ class Command(BaseCommand):
                         raise ValueError(f"{name}: couleurs inconnues {bad}")
                     r["colors"] = rule["colors"]
                 parsed.append(r)
-            fam_ids = set()
-            for label in item.get("families", []):
-                fam = families.get(normalize(label))
-                if fam is None:
-                    raise KeyError(f"famille aromatique inconnue « {label} » ({name})")
-                fam_ids.add(fam.pk)
-            family_ref = item.get("family_ref") or aroma_ref
-            if fam_ids:
-                self._ref(refs, family_ref, name)
             fades = item.get("fades") or {}
             if set(fades) - {"oxidative", "ref"} or (fades and not fades.get("ref")):
                 raise ValueError(f"{name}: règle « fades » invalide {fades}")
             if fades:
                 self._ref(refs, fades["ref"], name)
             molecules.append(mol)
+            if item.get("fault"):
+                if parsed:
+                    raise ValueError(f"{name}: une molécule de défaut ne porte pas de règle « wine »")
+                continue   # décrite et reliée à la nature, jamais à un profil type
             rules.append({
                 "fades_oxidative": bool(fades.get("oxidative")),
                 "mol": mol, "parsed": parsed, "aromas": {a.pk for a in mol_aromas}, "aroma_ref": aroma_ref,
-                "aroma_max": item.get("aroma_max", 2), "families": fam_ids, "family_ref": family_ref,
+                "aroma_max": item.get("aroma_max", 2),
             })
 
         if attack:
@@ -312,69 +311,61 @@ class Command(BaseCommand):
         NaturalSource.objects.filter(imported=True).exclude(pk__in=kept_sources).delete()
         return n
 
+    @staticmethod
+    def _rule_reasons(r: dict, p, shares: dict) -> list[dict]:
+        """Raisons qu'une règle donne à un profil : vide si l'une de ses conditions échoue (ET).
+
+        La raison affichée est la plus précise : le cépage, sinon l'élevage ou le style, sinon la couleur.
+        """
+        if r.get("all"):
+            return [{"basis": Basis.UNIVERSAL, "strength": r["strength"],
+                     "label": gettext_noop("Formée pendant la fermentation de tous les vins"), "ref": r["ref"]}]
+        if "colors" in r and p.color not in r["colors"]:
+            return []
+        if "styles" in r and p.style not in r["styles"]:
+            return []
+        if r.get("oxidative") and not p.oxidative:
+            return []
+        base = {"strength": r["strength"], "ref": r["ref"]}
+        if "grapes" in r:
+            return [{**base, "basis": Basis.GRAPE, "label": f"{shares[gid][1]} ({shares[gid][0]} % de l'encépagement)"}
+                    for gid in r["grapes"] if gid in shares and shares[gid][0] >= r["min_share"]]
+        if r.get("oxidative"):
+            return [{**base, "basis": Basis.STYLE, "label": gettext_noop("Long élevage oxydatif")}]
+        if "styles" in r:
+            return [{**base, "basis": Basis.STYLE, "label": f"Style {p.get_style_display().lower()}"}]
+        return [{**base, "basis": Basis.COLOR, "label": f"Vin {p.get_color_display().lower()}"}]
+
     def _link_profiles(self, rules) -> int:
-        """Applique les règles à chaque profil et enregistre les liens justifiés."""
+        """Applique les règles à chaque profil et enregistre les liens justifiés.
+
+        Deux sources seulement : les règles sourcées (cépage, style, couleur, socle commun) et les
+        descripteurs du profil que la molécule explique. Plus de repli par famille d'arômes : il
+        reliait l'eugénol à la « réglisse » ou le 3-sulfanylhexanol au « citron » d'un Chablis.
+        """
         ProfileMolecule.objects.all().delete()
-        # Descripteurs « expliqués » par au moins une molécule : le repli par famille ne sert qu'aux autres.
-        explained = set().union(*(r["aromas"] for r in rules)) if rules else set()
-        profiles = WineProfile.objects.prefetch_related("profile_grapes__grape", "profile_aromas__aroma__family")
+        profiles = WineProfile.objects.prefetch_related("profile_grapes__grape", "profile_aromas__aroma")
         links = []
         for p in profiles:
             shares = {pg.grape_id: (pg.share, pg.grape.name) for pg in p.profile_grapes.all()}
             p_aromas = {pa.aroma_id: (pa.intensity, pa.aroma.name) for pa in p.profile_aromas.all()}
-            p_families: dict[int, list[str]] = {}
-            fam_names = {}
-            for pa in p.profile_aromas.all():
-                if pa.aroma_id in explained:
-                    continue
-                p_families.setdefault(pa.aroma.family_id, []).append(pa.aroma.name)
-                fam_names[pa.aroma.family_id] = pa.aroma.family.name
             for rule in rules:
                 # Molécule fragile disparue pendant un long élevage oxydatif (thiols, acétates) :
                 # aucun lien, quelles que soient les autres raisons.
                 if rule["fades_oxidative"] and p.oxidative:
                     continue
-                mol, parsed, mol_aromas = rule["mol"], rule["parsed"], rule["aromas"]
-                aroma_ref, aroma_max = rule["aroma_ref"], rule["aroma_max"]
-                reasons = []
-                for r in parsed:
-                    if r.get("all"):
-                        reasons.append({"basis": Basis.UNIVERSAL, "strength": r["strength"],
-                                        "label": gettext_noop("Formée pendant la fermentation de tous les vins"),
-                                        "ref": r["ref"]})
-                    for gid in r.get("grapes", []):
-                        if gid in shares and shares[gid][0] >= r["min_share"]:
-                            share, gname = shares[gid]
-                            reasons.append({"basis": Basis.GRAPE, "strength": r["strength"],
-                                            "label": f"{gname} ({share} % de l'encépagement)", "ref": r["ref"]})
-                    if r.get("oxidative") and p.oxidative:
-                        reasons.append({"basis": Basis.STYLE, "strength": r["strength"],
-                                        "label": gettext_noop("Long élevage oxydatif"), "ref": r["ref"]})
-                    if p.style in r.get("styles", []):
-                        reasons.append({"basis": Basis.STYLE, "strength": r["strength"],
-                                        "label": f"Style {p.get_style_display().lower()}", "ref": r["ref"]})
-                    if p.color in r.get("colors", []):
-                        reasons.append({"basis": Basis.COLOR, "strength": r["strength"],
-                                        "label": f"Vin {p.get_color_display().lower()}", "ref": r["ref"]})
-                for aid in mol_aromas & p_aromas.keys():
+                reasons = [x for r in rule["parsed"] for x in self._rule_reasons(r, p, shares)]
+                for aid in rule["aromas"] & p_aromas.keys():
                     intensity, aname = p_aromas[aid]
-                    strength = min(aroma_max, 2 if intensity == 3 else 1)
+                    strength = min(rule["aroma_max"], 2 if intensity == 3 else 1)
                     reasons.append({"basis": Basis.AROMA, "strength": strength,
                                     "label": f"Au nez : {aname} ({('discret', 'présent', 'dominant')[intensity - 1]})",
-                                    "ref": aroma_ref})
-                # Repli par famille : pour les descripteurs qu'aucune molécule n'explique (réglisse,
-                # citron…), et seulement si aucun descripteur précis ne relie déjà la molécule.
-                if not any(r["basis"] == Basis.AROMA for r in reasons):
-                    for fid in sorted(rule["families"] & p_families.keys()):
-                        cited = ", ".join(p_families[fid][:3])
-                        reasons.append({"basis": Basis.FAMILY, "strength": 1,
-                                        "label": f"Famille {fam_names[fid].lower()} au nez ({cited})",
-                                        "ref": rule["family_ref"]})
+                                    "ref": rule["aroma_ref"]})
                 if not reasons:
                     continue
                 reasons.sort(key=lambda x: (-x["strength"], BASIS_ORDER.index(x["basis"])))
                 links.append(ProfileMolecule(
-                    profile=p, molecule=mol, strength=reasons[0]["strength"],
+                    profile=p, molecule=rule["mol"], strength=reasons[0]["strength"],
                     basis=reasons[0]["basis"], reasons=[{**x, "basis": str(x["basis"])} for x in reasons],
                 ))
         ProfileMolecule.objects.bulk_create(links)

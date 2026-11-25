@@ -13,9 +13,10 @@
 #                 colors: [..]   couleur du profil
 #                 all: true      tous les profils (socle commun de fermentation)
 #               chaque règle porte strength (1 plausible, 2 probable, 3 marqueur) et ref.
-#   families    familles aromatiques du catalogue (repli) : un profil qui cite un arôme de
-#               la famille reçoit la molécule avec la force 1, base « famille »
-#   family_ref  référence du repli par famille (défaut : aroma_ref)
+#               Les conditions d'une même règle se cumulent (ET) : {grapes: [Pinot Noir],
+#               colors: [rouge]} ne vise que les rouges ; pour un OU, écrire deux règles.
+#   fault       true pour une molécule de défaut (Brettanomyces…) : décrite, reliée à la nature,
+#               jamais rattachée à un profil type (un « cuir » au nez n'en est pas la preuve)
 #   nature      occurrences dans des éléments naturels : {source, ref, note}
 #
 # Un profil reçoit la molécule si au moins une règle s'applique ; la force retenue est
@@ -38,13 +39,15 @@
     préfère les millésimes frais. Environ un dégustateur sur cinq ne la perçoit pas du tout,
     même à forte dose : deux personnes devant la même Syrah ne sentent pas le même vin.
   wine:
-    - {grapes: [Syrah], strength: 3, ref: wood2008}
-    - {grapes: [Duras], strength: 3, ref: geffroy2014}
+    # Extraite de la peau pendant la macération : les règles de cépage visent les rouges ; un rosé
+    # noté « poivre » la garde par son descripteur.
+    - {grapes: [Syrah], colors: [rouge], strength: 3, ref: wood2008}
+    - {grapes: [Duras], colors: [rouge], strength: 3, ref: geffroy2014}
     # Plus de 100 ng/L mesurés dans des vins de Gamay (Geffroy et al. 2016, cité par geffroy2019).
-    - {grapes: [Gamay], strength: 2, ref: geffroy2019}
+    - {grapes: [Gamay], colors: [rouge], strength: 2, ref: geffroy2019}
     # Détectée aussi dans la Mondeuse et le Mourvèdre (revue de 2020), à des teneurs moindres ou peu documentées.
-    - {grapes: [Mondeuse], strength: 2, ref: geffroy2020}
-    - {grapes: [Mourvèdre], strength: 1, ref: geffroy2020}
+    - {grapes: [Mondeuse], colors: [rouge], strength: 2, ref: geffroy2020}
+    - {grapes: [Mourvèdre], colors: [rouge], strength: 1, ref: geffroy2020}
   nature:
     - {source: poivre noir, ref: wood2008, note: "Jusqu'à 10 000 fois la teneur d'un vin très poivré."}
     - {source: marjolaine, ref: wood2008}
@@ -97,7 +100,7 @@
   fades: {oxidative: true, ref: bueno2021}
   wine:
     - {grapes: [Sauvignon Blanc], strength: 3, ref: darriet1995}
-    - {grapes: [Cabernet Sauvignon, Merlot], strength: 1, ref: rigou2014}
+    - {grapes: [Cabernet Sauvignon, Merlot], colors: [rouge], strength: 1, ref: rigou2014}
   nature:
     - {source: buis, ref: tominaga1997}
     - {source: genêt à balais, ref: tominaga1997}
@@ -113,7 +116,6 @@
   threshold: 60 ng/L en solution modèle
   refs: [tominaga1998, tominaga2000b, bouchilloux1998, bueno2021]
   aromas: [pamplemousse, fruit de la passion]
-  families: [Agrumes, Fruits exotiques]
   description: >
     Le thiol le plus répandu : présent dans le Sauvignon, les Manseng, le Colombard, le
     Sémillon, mais aussi dans les rouges bordelais et les rosés, où il porte une partie du
@@ -123,8 +125,9 @@
   wine:
     - {grapes: [Sauvignon Blanc], strength: 3, ref: tominaga1998}
     - {grapes: [Petit Manseng, Gros Manseng, Colombard, Sémillon], strength: 2, ref: tominaga2000b}
-    - {grapes: [Merlot, Cabernet Sauvignon], strength: 1, ref: bouchilloux1998}
-    - {grapes: [Grenache], strength: 1, ref: roland2011}
+    - {grapes: [Merlot, Cabernet Sauvignon], colors: [rouge], strength: 1, ref: bouchilloux1998}
+    # Rosés de Grenache (roland2011) ; pas un Banyuls rouge muté.
+    - {grapes: [Grenache], colors: [rose], strength: 1, ref: roland2011}
     - {colors: [rose], strength: 1, ref: murat2003}
   nature:
     - {source: fruit de la passion, ref: engel1991}
@@ -160,7 +163,6 @@
   threshold: 25 µg/L environ dans le vin
   refs: [marais1983]
   aromas: [fleur d'oranger, bergamote]
-  families: [Floral]
   description: >
     Le terpène dominant des Muscats, qui donne leur goût de raisin frais. Il est présent dans
     la peau, en grande partie lié à des sucres, et se libère pendant la fermentation et
@@ -245,7 +247,6 @@
   refs: [smith2015, escudero2010, pineau2007]
   aromas: [pomme mûre, miel]
   aroma_max: 1
-  families: [Fruits secs et confits]
   universal: true
   description: >
     Issue de la dégradation des caroténoïdes du raisin, elle se trouve dans presque tous les
@@ -287,8 +288,6 @@
   threshold: 1,1 µg/L dans un Merlot
   refs: [capone2011, capone2012]
   aromas: [eucalyptus, menthe]
-  families: [Garrigue et herbes]
-  family_ref: capone2012
   description: >
     Une molécule venue d'à côté de la vigne : les eucalyptus. Elle passe dans les raisins par
     l'air et surtout par les feuilles tombées dans la vendange, puis s'extrait pendant la
@@ -310,7 +309,7 @@
     de vieillissement. On la trouve surtout dans les vins de rive gauche dominés par le
     Cabernet-Sauvignon.
   wine:
-    - {grapes: [Cabernet Sauvignon], strength: 1, ref: picard2016}
+    - {grapes: [Cabernet Sauvignon], colors: [rouge], styles: [tranquille], strength: 1, ref: picard2016}
   nature:
     - {source: menthe, ref: ravid1994}
     - {source: eucalyptus, ref: csiro2019, note: "Jusqu'à la moitié de l'huile d'Eucalyptus dives."}
@@ -326,7 +325,6 @@
   refs: [lloyd2015]
   aromas: [herbe coupée]
   aroma_max: 1
-  families: [Végétal]
   description: >
     Les composés en C6 naissent dès que la baie est écrasée, par oxydation enzymatique des
     acides gras. Rarement au-dessus de leur seuil dans le vin, ils accompagnent les notes
@@ -368,8 +366,6 @@
   refs: [escudero2010, delafuente2020]
   aromas: [pomme verte, ananas]
   aroma_max: 1
-  families: [Fruits blancs et jaunes]
-  family_ref: pineau2009
   universal: true
   description: >
     Un des esters éthyliques qui composent le fond fruité commun à tous les vins. Seul, il
@@ -411,8 +407,6 @@
   threshold: 0,2 à 2,8 mg/L selon le vin
   refs: [nielsen1999, bartowsky2004]
   aromas: [beurre, crème]
-  families: [Pâtisserie et lactique]
-  family_ref: bartowsky2004
   description: >
     Produit par les bactéries lactiques à partir de l'acide citrique pendant la fermentation
     malolactique. Presque tous les rouges la font ; parmi les blancs, ce sont surtout les
@@ -434,7 +428,6 @@
   threshold: 320 µg/L dans le vin rouge
   refs: [ortega2007, ets_oak]
   aromas: [vanille]
-  families: [Boisé et torréfié]
   description: >
     Libérée par la dégradation de la lignine quand la douelle est chauffée. Les fûts neufs et
     le chêne américain en donnent le plus ; l'extraction ralentit nettement après un an de
@@ -471,7 +464,6 @@
   refs: [ets_oak]
   aromas: [clou de girofle, cannelle]
   aroma_max: 1
-  families: [Épices, Boisé et torréfié]
   description: >
     Le principal arôme du clou de girofle, déjà présent dans le chêne brut et renforcé par le
     séchage à l'air et la chauffe. Il apporte au vin élevé en barrique sa note épicée.
@@ -528,7 +520,6 @@
   threshold: 0,3 ng/L en solution hydroalcoolique
   refs: [tominaga2003]
   aromas: [silex, fumé]
-  families: [Minéral]
   description: >
     Le thiol du « silex » : produit par la levure, il donne aux chardonnays et aux sauvignons
     leurs notes de pierre à fusil, présentes à des teneurs des dizaines de fois supérieures à
@@ -624,13 +615,12 @@
   odor: truffe, sous-bois, olive noire
   refs: [picard2015]
   aromas: [truffe, sous-bois]
-  families: [Sous-bois et animal]
   description: >
     Le parfum de truffe des grands vins âgés. Son précurseur, la S-méthylméthionine du raisin,
     se dégrade lentement en bouteille, à l'abri de l'oxygène. Avec deux thiols, il signe le
     bouquet de vieillissement des bordeaux rouges.
   wine:
-    - {grapes: [Merlot, Cabernet Sauvignon], strength: 1, ref: picard2015}
+    - {grapes: [Merlot, Cabernet Sauvignon], colors: [rouge], styles: [tranquille], strength: 1, ref: picard2015}
   nature:
     - {source: truffe noire, ref: campo2017, note: "Composé clé de l'arôme de la truffe fraîche."}
 
@@ -658,7 +648,8 @@
   smiles: O=Cc1ccccc1
   odor: amande amère, noyau de cerise, massepain
   refs: [delafuente2020]
-  aromas: [amande, cerise, griotte]
+  # Odeur de noyau et d'amande amère, pas de cerise fraîche : « cerise » et « griotte » ne la désignent pas.
+  aromas: [amande]
   aroma_max: 1
   description: >
     L'odeur du noyau et de l'amande amère. Rarement au-dessus de son seuil dans le vin, elle
@@ -679,7 +670,6 @@
   refs: [pineau2009, francis2015]
   aromas: [fraise, framboise, groseille, cerise]
   aroma_max: 1
-  families: [Fruits rouges]
   universal: true
   description: >
     Ester de fermentation présent dans tous les vins. Dans les rouges, des teneurs supérieures
@@ -700,7 +690,6 @@
   refs: [pineau2009, francis2015, lytra2017]
   aromas: [mûre, cerise noire, prune]
   aroma_max: 1
-  families: [Fruits noirs]
   description: >
     Un des esters ramifiés qui, avec le propanoate et le 2-méthylpropanoate d'éthyle, orientent
     le fruit des vins rouges vers les baies noires. Sa teneur augmente lentement pendant les
@@ -721,7 +710,6 @@
   refs: [falcao2012]
   aromas: [mûre, cassis]
   aroma_max: 1
-  families: [Fruits noirs]
   description: >
     Identifié en 2012 dans les bordeaux rouges : présent vers 400 µg/L, sous son seuil, il agit
     comme exhausteur naturel des notes de mûre fraîche, en interaction avec le butanoate
@@ -743,7 +731,8 @@
     note de cannelle peut apparaître dans un pinot qui n'a jamais vu le bois : l'épice vient
     alors du raisin et de la fermentation, pas du fût.
   wine:
-    - {grapes: [Pinot Noir], strength: 2, ref: moio1995}
+    # Étudié sur des Pinot noir rouges de Bourgogne : pas les Champagne ni les Crémant.
+    - {grapes: [Pinot Noir], colors: [rouge], styles: [tranquille], strength: 2, ref: moio1995}
   nature:
     - {source: cannelle, ref: chemicalbook_ec}
     - {source: fraise, ref: chemicalbook_ec}
@@ -758,7 +747,7 @@
   refs: [chatonnet1992]
   aromas: [cuir, gibier]
   aroma_max: 1
-  families: [Sous-bois et animal]
+  fault: true
   description: >
     La signature des levures Brettanomyces, qui transforment l'acide p-coumarique du raisin.
     À faible dose, elle se fond dans les notes de cuir des vieux rouges ; au-delà, c'est un
@@ -774,6 +763,7 @@
   refs: [chatonnet1992]
   aromas: [viande, fumé]
   aroma_max: 1
+  fault: true
   description: >
     Le compagnon du 4-éthylphénol, issu de l'acide férulique : plus épicé et fumé, il évoque le
     lard grillé. On le trouve aussi en petite quantité dans le bois de chêne chauffé.
@@ -788,7 +778,6 @@
   threshold: 62 ng/L dans le vin rouge
   refs: [pons2013, allamy2023]
   aromas: [pruneau, figue sèche, raisin sec]
-  families: [Fruits secs et confits]
   description: >
     Marqueur du vieillissement prématuré des rouges : elle remplace le fruit frais par le
     pruneau. Elle dépasse toujours son seuil dans les vins oxydés et se forme davantage avec des
@@ -814,7 +803,7 @@
     secs : on la trouve surtout dans les raisins surmûris, d'où un lien direct avec les
     vendanges tardives et le réchauffement.
   wine:
-    - {grapes: [Merlot, Cabernet Sauvignon], strength: 1, ref: pons2017}
+    - {grapes: [Merlot, Cabernet Sauvignon], colors: [rouge], styles: [tranquille], strength: 1, ref: pons2017}
   nature:
     - {source: massoia, ref: wikipedia_massoia}
 
@@ -829,7 +818,6 @@
   refs: [marais1983, francis2015, tomasino2022]
   aromas: [fleurs blanches, tilleul]
   aroma_max: 1
-  families: [Floral]
   description: >
     Terpène des Muscats et du Gewurztraminer, qui se forme aussi en bouteille à partir du
     linalol et du géraniol : la note florale des vins aromatiques glisse avec l'âge vers le

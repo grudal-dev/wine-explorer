@@ -12,7 +12,6 @@
   const stats = document.getElementById("mol-stats");
   const trailEl = document.getElementById("mol-trail");
   const commonBox = document.getElementById("mol-common");
-  const familyBox = document.getElementById("mol-family");
   const wikiBox = document.getElementById("mol-wikidata");
   const columns = root.querySelectorAll(".mol-columns [data-col]");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -36,8 +35,8 @@
 
   const measureCtx = document.createElement("canvas").getContext("2d");
   const LINE = 1.15;   // interligne des bulles, partagé par le style et la mesure
-  const state = { start: "", trail: [], common: false, family: true, wikidata: true };
-  const query = () => `${state.common ? "&commun=1" : ""}${state.family ? "" : "&famille=0"}${state.wikidata ? "" : "&wikidata=0"}`;
+  const state = { start: "", trail: [], common: false, wikidata: true };
+  const query = () => `${state.common ? "&commun=1" : ""}${state.wikidata ? "" : "&wikidata=0"}`;
 
   const cy = cytoscape({
     container: document.getElementById("mol-cy"),
@@ -62,7 +61,6 @@
         "width": "label", "height": "label", "padding": "9px", "background-color": C.molecule,
         "color": "#fff", "font-weight": 500, "font-size": 13, "text-background-opacity": 0,
         "text-halign": "center", "text-margin-x": 0, "text-max-width": 190 }},
-      { selector: "node[type='molecule'][tier='family']", style: { "background-color": "#5B8A86" }},
       { selector: "node[type='molecule'][tier='universal'], node[type='molecule'][?universal]", style: {
         "background-color": "#D3E2E0", "color": "#27514E", "font-weight": 400 }},
       { selector: "node[type='source']", style: { "shape": "ellipse", "width": 14, "height": 14,
@@ -88,7 +86,6 @@
       { selector: "edge[basis='color']", style: { "line-color": C.color }},
       { selector: "edge[basis='aroma']", style: { "line-color": C.aroma }},
       { selector: "edge[basis='universal']", style: { "line-color": C.universal, "line-style": "dashed" }},
-      { selector: "edge[basis='family']", style: { "line-color": "#D9C08E", "line-style": "dotted", "width": 1.8 }},
       { selector: "edge[kind='found_in']", style: { "line-color": "#B9CCCA", "width": "mapData(strength, 1, 3, 1.2, 3.6)" }},
       { selector: "edge[kind='found_in'][tier='imported']", style: { "line-style": "dashed", "opacity": 0.6 }},
       { selector: ".faded", style: { "opacity": 0.12, "text-opacity": 0.25 }},
@@ -110,7 +107,6 @@
         "text-halign": "center", "text-margin-x": 0, "text-margin-y": 0, "text-wrap": "wrap",
         // Les lignes sont coupées par fitBubble ; la largeur maximale ne doit pas les recouper.
         "text-max-width": (n) => bubble(n) + 40, "text-background-opacity": 0, "line-height": LINE }},
-      { selector: "node.bq[type='molecule'][tier='family']", style: { "background-opacity": 0.75 }},
       { selector: "node.bq.bouquet[type='molecule'][!direct]", style: { "background-color": "#CFCAC0", "background-opacity": 1,
         "border-color": "#CFCAC0", "border-opacity": 0.35, "color": C.ink2 }},
       { selector: "node.bq.bouquet.hl[type='molecule'][!direct]", style: { "background-color": "data(hue)", "color": "#fff" }},
@@ -713,7 +709,7 @@
     if (kind !== "source") parts.push(plural(_("%s élément naturel"), _("%s éléments naturels"), s.sources));
     let text = parts.join(", ") + ".";
     if (!s.molecules && kind === "profile") text = _("Aucune molécule spécifique pour ce vin dans nos sources.");
-    if (s.hidden_common) text += " " + plural(_("%s lien masqué (socle commun ou familles)."), _("%s liens masqués (socle commun ou familles)."), s.hidden_common);
+    if (s.hidden_common) text += " " + plural(_("%s lien masqué (socle commun)."), _("%s liens masqués (socle commun)."), s.hidden_common);
     else if (s.common && !state.common && kind === "profile") text += " " + _("Socle commun ajouté : ce vin a peu de molécules propres.");
     if (s.hidden_sources) text += " " + plural(_("%s élément naturel de plus dans les fiches."), _("%s éléments naturels de plus dans les fiches."), s.hidden_sources);
     stats.textContent = text;
@@ -829,7 +825,6 @@
     load(pick);
   });
   commonBox.addEventListener("change", () => { state.common = commonBox.checked; if (state.start) load(state.start, { push: false }); });
-  familyBox.addEventListener("change", () => { state.family = familyBox.checked; if (state.start) load(state.start, { push: false }); });
   if (wikiBox) wikiBox.addEventListener("change", () => { state.wikidata = wikiBox.checked; if (state.start) load(state.start, { push: false }); });
 
   document.getElementById("mol-fit").addEventListener("click", () => layout());
@@ -875,9 +870,7 @@
   // ── Démarrage ──────────────────────────────────────────────────────────
   const params = new URLSearchParams(location.search);
   state.common = params.get("commun") === "1";
-  state.family = params.get("famille") !== "0";
   commonBox.checked = state.common;
-  familyBox.checked = state.family;
   state.wikidata = params.get("wikidata") !== "0";
   if (wikiBox) wikiBox.checked = state.wikidata;
   const first = params.get("depart") || root.dataset.start;

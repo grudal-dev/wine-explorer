@@ -44,8 +44,6 @@
 
     <details class="rail-group rail-options">
       <summary>{% translate "Options d'affichage" %}</summary>
-      <label class="check"><input type="checkbox" id="mol-family" checked> {% translate "Liens par famille d'arômes" %}</label>
-      <p class="small muted">{% translate "Quand aucun cépage ni descripteur précis ne la désigne, une molécule peut être reliée par la famille d'arômes du vin (fruits noirs, boisé…). Lien le plus faible, en pointillé." %}</p>
       {% if counts.imported %}
       <label class="check"><input type="checkbox" id="mol-wikidata" checked> {% translate "Espèces importées de Wikidata" %}</label>
       <p class="small muted">{% blocktranslate trimmed with imported=counts.imported %}{{ imported }} occurrences issues de Wikidata (P703, initiative LOTUS), non vérifiées une à une. Encadrées en pointillé.{% endblocktranslate %}</p>
@@ -88,7 +86,6 @@
         <li><i class="basis basis--style"></i>{% translate "Son style de vinification" %}</li>
         <li><i class="basis basis--color"></i>{% translate "Sa couleur (fermentation malolactique…)" %}</li>
         <li><i class="basis basis--aroma"></i>{% translate "Un descripteur de son nez" %}</li>
-        <li><i class="basis basis--family"></i>{% translate "Une famille d'arômes de son nez" %}</li>
         <li><i class="basis basis--universal"></i>{% translate "Socle commun des vins" %}</li>
       </ul>
       <p class="small muted">{% translate "L'épaisseur du trait suit la force du lien : marqueur établi, probable ou plausible." %} {% translate "Entre une molécule et un élément naturel, il suit le niveau de preuve : épais si une publication le source, fin si le lien vient de Wikidata." %} {% translate "Cliquez sur un nœud pour lire sa fiche, double-cliquez pour repartir de lui." %}</p>

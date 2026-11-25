@@ -84,7 +84,7 @@ def edge_weight(edge) -> float:
     if edge.kind == "aroma":
         return edge.weight / 3                       # intensité 1 à 3
     if edge.kind == "molecule":
-        return (edge.weight / 3) * (0.5 if edge.tier == "family" else 1.0)
+        return edge.weight / 3
     return 1.0
 
 

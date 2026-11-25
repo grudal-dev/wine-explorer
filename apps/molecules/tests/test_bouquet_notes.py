@@ -58,8 +58,8 @@ class BouquetNotesTests(TestCase):
     def tearDown(self):
         translation.activate("fr")
 
-    def _nodes(self, slug):
-        data = graph.build("profile", slug)
+    def _nodes(self, slug, common=None):
+        data = graph.build("profile", slug, common=common)
         return {e["data"]["id"]: e["data"] for e in data["elements"] if e["group"] == "nodes"}, data
 
     def test_note_is_the_wine_aroma(self):
@@ -70,6 +70,7 @@ class BouquetNotesTests(TestCase):
         self.assertNotEqual(furaneol["hue"], graph.data().molecules["furaneol"]["hue"])
         # Reliée par un arôme du vin : bulle pleine ; par la seule couleur (diacétyle d'un rouge) : grisée.
         self.assertTrue(furaneol.get("direct"))
+        nodes, _ = self._nodes("porto-tawny-10-ans", common=True)
         self.assertFalse(nodes["molecule:diacetyle"].get("direct"))
 
     def test_near_and_far_sources(self):

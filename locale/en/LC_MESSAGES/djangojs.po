@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-21 16:53+0100\n"
+"POT-Creation-Date: 2026-11-25 21:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -27,16 +27,16 @@ msgid "%s lien"
 msgstr "%s link"
 
 #, python-format
-msgid "%s lien masqué (socle commun ou familles)."
-msgstr "%s hidden link (common base or families)."
+msgid "%s lien masqué (socle commun)."
+msgstr "%s hidden link (common base)."
 
 #, python-format
 msgid "%s liens"
 msgstr "%s links"
 
 #, python-format
-msgid "%s liens masqués (socle commun ou familles)."
-msgstr "%s hidden links (common base or families)."
+msgid "%s liens masqués (socle commun)."
+msgstr "%s hidden links (common base)."
 
 #, python-format
 msgid "%s molécule"

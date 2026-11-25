@@ -53,13 +53,14 @@ class Data:
     profile_aromas: dict[str, set[int]] = field(default_factory=lambda: defaultdict(set))
 
 
+COMMON_BASES = {Basis.UNIVERSAL, Basis.COLOR}
+
+
 def link_tier(reasons: list[dict]) -> str:
-    """« universal » : socle commun seul ; « family » : repli par famille ; sinon « specific »."""
-    bases = {r["basis"] for r in reasons}
-    if bases <= {Basis.UNIVERSAL}:
+    """« universal » : socle commun seul, celui de tous les vins ou de toute une couleur (le diacétyle
+    des 84 rouges ne dit rien d'un rouge en particulier) ; sinon « specific »."""
+    if {r["basis"] for r in reasons} <= COMMON_BASES:
         return "universal"
-    if bases <= {Basis.UNIVERSAL, Basis.FAMILY}:
-        return "family"
     return "specific"
 
 
@@ -150,7 +151,7 @@ def _data(version: tuple) -> Data:
     for r in Reference.objects.all():
         d.refs[r.key] = {"key": r.key, "short": r.short, "authors": r.authors, "year": r.year,
                          "title": r.title, "container": r.container, "link": r.link}
-    tier_rank = {"specific": 0, "family": 1, "universal": 2}
+    tier_rank = {"specific": 0, "universal": 1}
     for rows in d.by_profile.values():
         rows.sort(key=lambda r: (tier_rank[r[3]], -r[1], molecules[r[0]]["label"]))
     for rows in d.by_molecule_profiles.values():
@@ -200,11 +201,10 @@ def _edge(a: str, b: str, kind: str, strength: int = 1, basis: str = "", tier: s
     }}
 
 
-def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
+def build(kind: str, slug: str, common: bool | None = None,
           imported: bool = True, max_profiles: int = MAX_PROFILES) -> dict | None:
     """Éléments Cytoscape pour l'entité de départ.
 
-    ``family`` inclut les liens déduits d'une seule famille d'arômes (affichés en retrait).
     ``common`` : True ou False force le socle commun ; None (défaut) l'ajoute d'office quand
     un vin a peu de molécules propres, pour qu'aucun graphe ne soit vide.
     """
@@ -217,7 +217,7 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
 
     if common is None:
         if kind == "profile":
-            own = [r for r in d.by_profile.get(slug, []) if r[3] == "specific" or (r[3] == "family" and family)]
+            own = [r for r in d.by_profile.get(slug, []) if r[3] == "specific"]
             common = len(own) < AUTO_COMMON_BELOW
         else:
             common = False
@@ -227,8 +227,7 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
                 if imported or (mslug, x) not in d.occ_imported]
 
     def keep(row) -> bool:
-        tier = row[3]
-        return (tier == "specific") or (tier == "family" and family) or (tier == "universal" and common)
+        return row[3] == "specific" or common
 
     if kind == "profile":
         if slug not in d.profiles:
@@ -330,7 +329,7 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
         degree[e["data"]["target"]] += 1
     for nid, n in nodes.items():
         n["data"]["degree"] = degree[nid]
-    tier_rank = {"specific": 0, "family": 1, "universal": 2}
+    tier_rank = {"specific": 0, "universal": 1}
     ordered = sorted(nodes.values(), key=lambda n: (
         n["data"]["layer"], tier_rank.get(n["data"].get("tier", "specific"), 0), -n["data"].get("strength", 0),
         -n["data"]["degree"], n["data"]["label"]))
@@ -357,7 +356,7 @@ def build(kind: str, slug: str, common: bool | None = None, family: bool = True,
         "stats": {
             "profiles": counts["profile"], "molecules": counts["molecule"], "sources": counts["source"],
             "hidden_common": hidden_common, "truncated": truncated, "hidden_sources": hidden_sources,
-            "common": bool(common), "family": family,
+            "common": bool(common),
         },
     }
 

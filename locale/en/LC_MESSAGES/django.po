@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-21 16:53+0100\n"
+"POT-Creation-Date: 2026-11-25 21:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -2593,9 +2593,6 @@ msgstr ""
 "Released by the breakdown of lignin when the stave is toasted. New barrels and American oak give the most; "
 "extraction slows markedly after a year of use."
 
-msgid "Liens par famille d'arômes"
-msgstr "Links by aroma family"
-
 msgid "Ligurie / Sardaigne / Provence"
 msgstr "Liguria / Sardinia / Provence"
 
@@ -3157,13 +3154,6 @@ msgstr ""
 
 msgid "Pâtisserie et lactique"
 msgstr "Pastry and dairy"
-
-msgid ""
-"Quand aucun cépage ni descripteur précis ne la désigne, une molécule peut être reliée par la famille "
-"d'arômes du vin (fruits noirs, boisé…). Lien le plus faible, en pointillé."
-msgstr ""
-"When no grape or precise descriptor points to it, a molecule can be linked through the wine's aroma family "
-"(black fruit, oak…). The weakest link, shown dashed."
 
 msgid "Quels cépages pour quelles appellations."
 msgstr "Which grapes for which appellations."
@@ -3935,9 +3925,6 @@ msgstr "A wine drawn at random, as many times as you like. For practice."
 
 msgid "Un vin, une appellation, un cépage…"
 msgstr "A wine, an appellation, a grape…"
-
-msgid "Une famille d'arômes de son nez"
-msgstr "An aroma family from its nose"
 
 msgid ""
 "Une molécule n'est reliée à une plante, un fruit, une épice ou un aliment que si une étude l'y a "
