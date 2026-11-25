@@ -38,7 +38,7 @@ WIKIDATA_FILE = DATA_DIR / "wikidata_occurrences.json"
 MOLECULE_KEYS = {
     "name", "name_en", "synonyms", "family", "origin", "smiles", "odor", "threshold", "refs",
     "aromas", "aroma_ref", "aroma_max", "universal", "description", "wine", "nature",
-    "fades", "fault",
+    "fades", "fault", "aroma_needs_rule",
 }
 CONDITION_KEYS = {"grapes", "styles", "colors", "oxidative", "all"}
 RULE_KEYS = {"grapes", "styles", "colors", "oxidative", "all", "strength", "ref", "min_share"}
@@ -208,7 +208,10 @@ class Command(BaseCommand):
                 "fades_oxidative": bool(fades.get("oxidative")),
                 "mol": mol, "parsed": parsed, "aromas": {a.pk for a in mol_aromas}, "aroma_ref": aroma_ref,
                 "aroma_max": item.get("aroma_max", 2),
+                "aroma_needs_rule": bool(item.get("aroma_needs_rule")),
             })
+            if item.get("aroma_needs_rule") and not parsed:
+                raise ValueError(f"{name}: « aroma_needs_rule » demande au moins une règle « wine »")
 
         if attack:
             raise ValueError(f"attack.yaml : molécules inconnues {sorted(attack)}")
@@ -355,6 +358,10 @@ class Command(BaseCommand):
                 if rule["fades_oxidative"] and p.oxidative:
                     continue
                 reasons = [x for r in rule["parsed"] for x in self._rule_reasons(r, p, shares)]
+                # Marqueur de cépage : le descripteur précise le lien (« rose » d'un Gewurztraminer) mais
+                # n'en crée pas (la « rose » d'un Barolo ne vient pas de l'oxyde de rose).
+                if rule["aroma_needs_rule"] and not reasons:
+                    continue
                 for aid in rule["aromas"] & p_aromas.keys():
                     intensity, aname = p_aromas[aid]
                     strength = min(rule["aroma_max"], 2 if intensity == 3 else 1)

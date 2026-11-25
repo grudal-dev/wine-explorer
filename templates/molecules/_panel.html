@@ -83,6 +83,30 @@
     <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">{% translate "Fiche" %}</a>
   </div>
 
+{% elif kind == "aroma" %}
+  <p class="small muted">{% blocktranslate trimmed with family=obj.family.name|tr %}Arôme · {{ family }}{% endblocktranslate %}</p>
+  <h2>{{ obj.name|tr|capfirst }}</h2>
+  {% if profile %}
+  <p>{% blocktranslate trimmed with profile_name=profile.name|tr %}Au nez de {{ profile_name }} :{% endblocktranslate %} {{ intensity }}.</p>
+  <section class="node-links">
+    <h3>{% if molecules|length > 1 %}{% translate "Les molécules qui l'expliquent" %}{% else %}{% translate "La molécule qui l'explique" %}{% endif %}</h3>
+    <div class="tags">
+      {% for m in molecules %}<button type="button" class="tag tag--molecule" data-start="molecule:{{ m.slug }}">{{ m.name|tr }}</button>{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  {% if sources %}
+  <section class="node-links">
+    <h3>{% translate "Dans la nature" %}</h3>
+    <div class="tags">
+      {% for s in sources %}<button type="button" class="tag tag--source" data-start="source:{{ s.slug }}"><i class="tag__dot"></i>{{ s.name|tr }}</button>{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  <div class="node-actions">
+    <a class="btn btn--ghost btn--small" href="{{ obj.get_absolute_url }}">{% translate "Tous les vins à cet arôme" %}</a>
+  </div>
+
 {% elif kind == "profile" %}
   <p class="small muted">{% translate "Profil type" %}</p>
   <h2><span class="robe robe--{{ obj.color }}"></span> {{ obj.name|tr }}</h2>

@@ -9,7 +9,7 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
 
 from apps.catalog.i18n import tr_reason
-from apps.catalog.models import WineProfile
+from apps.catalog.models import Aroma, ProfileAroma, WineProfile
 
 from . import facts, graph
 from .models import (
@@ -130,6 +130,20 @@ def panel(request, node_id: str):
         ctx["obj"] = get_object_or_404(
             NaturalSource.objects.prefetch_related("occurrences__molecule", "occurrences__reference"), slug=slug
         )
+    elif kind == "aroma":
+        # Un arôme du vin, au bout des traits de la vue d'un vin : quelles molécules l'expliquent ici,
+        # et l'élément naturel qui porte la même odeur (poivre noir), pour continuer la promenade.
+        aroma = get_object_or_404(Aroma.objects.select_related("family"), slug=slug)
+        ctx["obj"] = aroma
+        ctx["sources"] = list(NaturalSource.objects.filter(aroma=aroma))
+        focus = request.GET.get("vin", "")
+        if focus:
+            pa = ProfileAroma.objects.filter(profile__slug=focus, aroma=aroma).select_related("profile").first()
+            if pa:
+                ctx["profile"] = pa.profile
+                ctx["intensity"] = (gettext("discret"), gettext("présent"), gettext("dominant"))[pa.intensity - 1]
+                ctx["molecules"] = [pm.molecule for pm in ProfileMolecule.objects.filter(
+                    profile=pa.profile, molecule__aromas=aroma).select_related("molecule").order_by("-strength")]
     elif kind == "profile":
         profile = get_object_or_404(WineProfile.objects.select_related("appellation"), slug=slug)
         ctx["obj"] = profile

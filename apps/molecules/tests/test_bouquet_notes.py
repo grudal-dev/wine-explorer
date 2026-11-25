@@ -45,8 +45,8 @@ class OxidativeAgeingTests(TestCase):
 
 
 class BouquetNotesTests(TestCase):
-    """Vue d'un vin : la bulle porte l'arôme du vin qui justifie le lien ; les éléments naturels
-    sans arôme commun avec le vin sont marqués « lointains » et limités."""
+    """Vue d'un vin : la bulle porte le nom de la molécule, prend la couleur de l'arôme du vin qu'elle
+    explique, et ce même arôme est au bout de son trait."""
 
     @classmethod
     def setUpTestData(cls):
@@ -73,17 +73,45 @@ class BouquetNotesTests(TestCase):
         nodes, _ = self._nodes("porto-tawny-10-ans", common=True)
         self.assertFalse(nodes["molecule:diacetyle"].get("direct"))
 
-    def test_near_and_far_sources(self):
-        nodes, data = self._nodes("porto-tawny-10-ans")
-        self.assertTrue(nodes["source:cannelle"].get("near"))
-        self.assertFalse(nodes["source:fraise"].get("near"))
-        far_per_molecule = {}
+    def test_aromas_replace_natural_elements(self):
+        # Vue d'un vin : au bout des traits, les arômes du vin que chaque molécule explique ; plus
+        # d'éléments naturels (souchet rond, jacquier, truffe noire…), qui renvoyaient loin du vin.
+        nodes, data = self._nodes("porto-tawny-10-ans", common=True)
+        self.assertFalse([n for n in nodes.values() if n["type"] == "source"])
+        self.assertEqual(nodes["aroma:caramel"]["layer"], 2)
+        wine_aromas = set(WineProfile.objects.get(slug="porto-tawny-10-ans").aromas.values_list("slug", flat=True))
         for e in data["elements"]:
             d = e["data"]
-            if e["group"] == "edges" and d["kind"] == "found_in" and not d.get("near"):
-                far_per_molecule[d["source"]] = far_per_molecule.get(d["source"], 0) + 1
-        self.assertTrue(far_per_molecule)
-        self.assertLessEqual(max(far_per_molecule.values()), graph.MAX_FAR_PER_MOLECULE)
+            if e["group"] == "edges" and d["kind"] == "evokes":
+                self.assertIn(d["target"].split(":", 1)[1], wine_aromas)
+        self.assertIn({"source": "molecule:furaneol", "target": "aroma:caramel"},
+                      [{"source": e["data"]["source"], "target": e["data"]["target"]} for e in data["elements"]
+                       if e["group"] == "edges" and e["data"]["kind"] == "evokes"])
+        stats = data["stats"]
+        self.assertGreater(stats["aromas"], 0)
+        self.assertLessEqual(stats["aromas"], stats["aromas_total"])
+
+    def test_one_label_per_aroma(self):
+        # Deux molécules qui donnent « rose » pointent vers la même étiquette.
+        nodes, data = self._nodes("alsace-gewurztraminer")
+        rose = [e for e in data["elements"] if e["group"] == "edges" and e["data"]["target"] == "aroma:rose"]
+        self.assertGreaterEqual(len(rose), 2)
+
+    def test_grape_markers_need_their_grape(self):
+        # La « rose » d'un Barolo ne vient ni de l'oxyde de rose ni du géraniol (marqueurs du Gewurztraminer
+        # et des Muscats) ; dans le Gewurztraminer, le descripteur s'ajoute au cépage.
+        for mol in ("oxyde-de-rose-cis", "geraniol", "citronellol", "nerol"):
+            self.assertFalse(ProfileMolecule.objects.filter(profile__slug="barolo-rouge", molecule__slug=mol).exists())
+        gw = ProfileMolecule.objects.get(profile__slug="alsace-gewurztraminer", molecule__slug="oxyde-de-rose-cis")
+        self.assertEqual({r["basis"] for r in gw.reasons} >= {"grape", "aroma"}, True)
+
+    def test_aroma_panel(self):
+        from django.urls import reverse
+
+        url = reverse("molecules:panel", args=["aroma:poivre-noir"]) + "?vin=cote-rotie-rouge"
+        r = self.client.get(url)
+        self.assertContains(r, "rotundone")
+        self.assertContains(r, 'data-start="source:poivre-noir"')
 
     def test_note_translated(self):
         translation.activate("en")

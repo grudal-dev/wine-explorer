@@ -223,7 +223,7 @@ class GraphAndViewTests(TestCase):
         nodes = {e["data"]["id"]: e["data"] for e in g["elements"] if e["group"] == "nodes"}
         self.assertEqual(nodes["profile:hermitage-rouge"]["layer"], 0)
         self.assertEqual(nodes["molecule:rotundone"]["layer"], 1)
-        self.assertEqual(nodes["source:poivre-noir"]["layer"], 2)
+        self.assertEqual(nodes["aroma:poivre-noir"]["layer"], 2)
         self.assertNotIn("molecule:acetate-disoamyle", nodes)  # assez de molécules propres : socle masqué
         self.assertGreater(g["stats"]["hidden_common"], 0)
         with_common = graph.build("profile", "hermitage-rouge", common=True)
@@ -231,8 +231,9 @@ class GraphAndViewTests(TestCase):
 
     def test_graph_lists_its_sources(self):
         refs = {r["key"]: r for r in graph.build("profile", "cote-rotie-rouge")["references"]}
-        self.assertIn("wood2008", refs)  # Syrah → rotundone, et rotundone → poivre noir
-        self.assertGreaterEqual(refs["wood2008"]["links"], 2)
+        self.assertIn("wood2008", refs)  # Syrah → rotundone
+        refs = {r["key"]: r for r in graph.build("molecule", "rotundone")["references"]}
+        self.assertGreaterEqual(refs["wood2008"]["links"], 2)  # vins de Syrah, et rotundone → poivre noir
         self.assertTrue(refs["wood2008"]["link"].startswith("https://doi.org/"))
 
     def test_source_graph_is_capped(self):

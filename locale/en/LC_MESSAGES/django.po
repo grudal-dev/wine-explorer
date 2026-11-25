@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-25 21:32+0100\n"
+"POT-Creation-Date: 2026-11-25 22:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -500,6 +500,10 @@ msgstr "End:"
 msgid "Arôme"
 msgstr "Aroma"
 
+#, python-format
+msgid "Arôme · %(family)s"
+msgstr "Aroma · %(family)s"
+
 msgid "Arômes"
 msgstr "Aromas"
 
@@ -525,6 +529,10 @@ msgstr "On the nose"
 #, python-format
 msgid "Au nez : %(aroma)s (%(level)s)"
 msgstr "On the nose: %(aroma)s (%(level)s)"
+
+#, python-format
+msgid "Au nez de %(profile_name)s :"
+msgstr "On the nose of %(profile_name)s:"
 
 msgid "Au nez, il rappelle"
 msgstr "On the nose, it recalls"
@@ -1181,6 +1189,9 @@ msgstr "DOCG"
 #, python-format
 msgid "Dans %(n)s vins"
 msgstr "In %(n)s wines"
+
+msgid "Dans la nature"
+msgstr "In nature"
 
 msgid "Dans quels vins"
 msgstr "In which wines"
@@ -1986,6 +1997,9 @@ msgstr ""
 msgid "La molécule qui distingue chaque vin"
 msgstr "The molecule that sets each wine apart"
 
+msgid "La molécule qui l'explique"
+msgstr "The molecule behind it"
+
 msgid "La nature"
 msgstr "Nature"
 
@@ -2542,6 +2556,9 @@ msgstr "Wine molecules, grouped by when they form, with their smell, formula and
 #, python-format
 msgid "Les molécules que %(source_name)s partage avec le vin, et les vins qui en contiennent."
 msgstr "The molecules that %(source_name)s shares with wine, and the wines that contain them."
+
+msgid "Les molécules qui l'expliquent"
+msgstr "The molecules behind it"
 
 msgid "Les parties jouées sans compte sur cet appareil vous seront rattachées."
 msgstr "Games played without an account on this device will be attached to your account."
@@ -3736,6 +3753,9 @@ msgid ""
 "bouche."
 msgstr "Every wine on one map: two neighbouring wines are alike in aromas, grapes and palate."
 
+msgid "Tous les vins à cet arôme"
+msgstr "All wines with this aroma"
+
 msgid "Tout"
 msgstr "All"
 
@@ -4686,6 +4706,12 @@ msgstr "diacetyl"
 
 msgid "diots"
 msgstr "diots (Savoie sausages)"
+
+msgid "discret"
+msgstr "faint"
+
+msgid "dominant"
+msgstr "dominant"
 
 msgid "doux"
 msgstr "sweet"

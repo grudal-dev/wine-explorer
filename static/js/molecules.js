@@ -1,4 +1,4 @@
-/* Graphe moléculaire : vin → molécules → éléments naturels, en trois colonnes. */
+/* Graphe moléculaire : vin → molécules → arômes du vin ; molécule ou élément naturel → leurs liens. */
 (function () {
   "use strict";
 
@@ -65,6 +65,8 @@
         "background-color": "#D3E2E0", "color": "#27514E", "font-weight": 400 }},
       { selector: "node[type='source']", style: { "shape": "ellipse", "width": 14, "height": 14,
         "background-color": "data(hue)" }},
+      { selector: "node[type='aroma']", style: { "shape": "ellipse", "width": 14, "height": 14,
+        "background-color": "data(hue)" }},
       { selector: "node[type='source'][?imported]", style: { "background-opacity": 0.35, "border-width": 1.5,
         "border-style": "dashed", "border-color": "#56662D" }},
       { selector: "node[?root]", style: { "font-size": 16, "font-weight": 600, "border-width": 3, "border-color": C.garnet, "z-index": 5 }},
@@ -112,13 +114,16 @@
       { selector: "node.bq.bouquet.hl[type='molecule'][!direct]", style: { "background-color": "data(hue)", "color": "#fff" }},
       { selector: "node.bq[type='molecule'][tier='universal'], node.bq[type='molecule'][?universal]", style: {
         "background-opacity": 0.42, "color": C.ink, "border-opacity": 0.1 }},
-      { selector: "node.bq[type='source']", style: { "shape": "round-rectangle", "width": "label", "height": 26,
+      { selector: "node.bq[type='source'], node.bq[type='aroma']", style: { "shape": "round-rectangle", "width": "label", "height": 26,
         "padding": "9px", "background-color": "#FFFFFF", "border-width": 1.3, "border-color": "data(hue)",
         "label": "data(label)", "font-size": 12.5, "color": C.ink2, "text-valign": "center", "text-halign": "center",
         "text-margin-x": 0, "text-background-opacity": 0 }},
       // Vue d'un vin : les éléments naturels qui portent un arôme du vin sont proches et nets ; les autres
       // (la fraise du furanéol dans un tawny) restent plus haut, pâles, et s'éclairent avec leur molécule.
-      { selector: "node.bq.bouquet[type='source'][?near]", style: { "border-width": 2, "color": C.ink, "font-weight": 500 }},
+      { selector: "node.bq.bouquet[type='source'][?near], node.bq.bouquet[type='aroma']", style: { "border-width": 2,
+        "color": C.ink, "font-weight": 500 }},
+      // Arôme dominant du vin : étiquette un peu plus affirmée.
+      { selector: "node.bq.bouquet[type='aroma'][intensity = 3]", style: { "font-weight": 600, "border-width": 2.6 }},
       { selector: "node.bq.bouquet[type='source'][!near]", style: { "opacity": 0.5, "font-size": 11.5 }},
       { selector: "node.bq.bouquet.hl[type='source']", style: { "opacity": 1 }},
       { selector: "edge.bq[kind='contains']", style: { "curve-style": "unbundled-bezier",
@@ -131,6 +136,11 @@
         "source-arrow-shape": "circle", "target-arrow-shape": "circle", "arrow-scale": 1.5,
         "source-arrow-color": (e) => e.target().data("hue"), "target-arrow-color": (e) => e.target().data("hue") }},
       { selector: "edge.bq.bouquet[kind='found_in'][?near]", style: { "opacity": 0.7 }},
+      // Molécule → arôme du vin qu'elle explique : même dessin, couleur de la famille de l'arôme.
+      { selector: "edge.bq[kind='evokes']", style: { "curve-style": "straight", "line-color": (e) => e.target().data("hue"),
+        "opacity": 0.7, "width": "mapData(strength, 1, 3, 1.2, 2.8)",
+        "source-arrow-shape": "circle", "target-arrow-shape": "circle", "arrow-scale": 1.5,
+        "source-arrow-color": (e) => e.target().data("hue"), "target-arrow-color": (e) => e.target().data("hue") }},
       // Couronne d'une molécule : la molécule en grande bulle au centre, les vins en petits verres autour.
       { selector: "node.bq[type='molecule'][?root]", style: { "width": () => 132 * SC, "height": () => 132 * SC,
         "font-size": () => 16 * SC, "text-max-width": () => 116 * SC, "border-width": 10, "border-opacity": 0.22, "label": rootLabel }},
@@ -175,8 +185,9 @@
   }
   // Échelle des bulles : 1 sur ordinateur, un peu moins sur téléphone.
   let SC = 1;
-  // Dans une bulle : d'abord l'arôme qui relie la molécule à ce vin (« caramel » pour le furanéol d'un
-  // tawny ; à défaut sa première odeur), puis le nom de la molécule en entier. Le nom se coupe aux espaces,
+  // Dans une bulle : le nom de la molécule en entier. Dans la vue d'un vin, l'odeur n'y figure plus :
+  // elle est au bout du trait, c'est l'arôme du vin que la molécule explique. Ailleurs (soleil), la
+  // première odeur précède le nom. Le nom se coupe aux espaces,
   // après un trait d'union ou après un préfixe chimique (« 2-méthyl-|butanoate »), et la taille du texte
   // baisse jusqu'à ce que chaque ligne tienne dans le cercle. Les points de suspension ne servent
   // qu'en dernier recours, sous 8,5 px.
@@ -212,7 +223,7 @@
   // Ajuste le texte à une bulle de diamètre d ; sans « last », renvoie null quand rien ne tient à 8,5 px.
   function fitAt(n, d, last) {
     const name = n.data("label") || "";
-    const note = n.data("note") || n.data("odor") || "";
+    const note = n.hasClass("bouquet") ? "" : (n.data("note") || n.data("odor") || "");
     const key = `${d}|${note}|${name}|${last ? 1 : 0}`;
     if (fitCache.has(key)) return fitCache.get(key);
     const head = note && note.toLowerCase() !== name.toLowerCase() ? [note] : [];
@@ -459,41 +470,14 @@
     run(positions, false);
   }
 
-  // ── Bouquet : le vin en bas, ses molécules en éventail au-dessus, la nature en couronne ──
+  // ── Bouquet : le vin en bas, ses molécules en éventail au-dessus, et contre chaque bulle l'arôme
+  // du vin qu'elle explique (une étiquette partagée se pose entre ses bulles) ──
   function layoutBouquet(compact = false) {
-    const allSrc = cy.nodes("[type='source']").toArray();
-    const nearSrc = allSrc.filter((s) => s.data("near")), farSrc = allSrc.filter((s) => !s.data("near"));
     const positions = {};
-    if (!compact) {
-      // Ordinateur : les proches en couronne au-dessus des bulles, comme avant ; les lointains dans une
-      // bande tout en haut, qui agrandit le cadre d'autant (sans eux, la couronne les accueille tous).
-      prepare(820, "bouquet");
-      let band = 0;
-      if (farSrc.length && nearSrc.length) {
-        const rows = rowsOf(farSrc, 30, cy.width(), 44);
-        band = rows.bottom + 26;
-        prepare(820 + band, "bouquet");
-        Object.assign(positions, rows.positions);
-      }
-      placeBubbles(positions, 70 + band, false, band ? nearSrc : allSrc, band);
-      return;
-    }
-    // Téléphone : la nature en rangées en haut, les lointains tout en haut, les proches juste au-dessus
-    // des bulles ; le cadre grandit d'autant que les rangées descendent.
-    prepare(760, "bouquet");
-    const W = cy.width();
-    let y = 30;
-    [farSrc, nearSrc].forEach((group) => {
-      if (!group.length) return;
-      const rows = rowsOf(group, y, W, 46);
-      Object.assign(positions, rows.positions);
-      y = rows.bottom + 54;
-    });
-    const topLimit = Math.max(70, y - 14);
-    if (topLimit > 150) prepare(760 + topLimit - 150, "bouquet");
-    placeBubbles(positions, topLimit, true);
+    prepare(compact ? 760 : 820, "bouquet");
+    placeBubbles(positions, compact ? 96 : 110, compact);
   }
-  function placeBubbles(positions, topLimit, compact, crown = [], band = 0) {
+  function placeBubbles(positions, topLimit, compact) {
     const W = cy.width(), H = cy.height();
     const rad = (d) => (d * Math.PI) / 180;
     const ox = W / 2, oy = H - (compact ? 190 : 230);
@@ -507,14 +491,13 @@
     // révèle après aération reste près du verre. L'ordre vient de la donnée « attaque », jamais affichée.
     const ringOf = { 1: 1, 2: n > 9 ? 0.78 : 0.7, 3: n > 9 ? 0.56 : 0.5 };
     const rx = compact ? W * 0.34 : Math.min(W * 0.4, 360);
-    const ry = compact ? Math.max(120, (oy - topLimit) * 0.8) : Math.min((oy - 60 - band) * 0.68, 390);
+    // Le haut du cadre garde la place des étiquettes d'arômes posées au-dessus des bulles.
+    const ry = compact ? Math.max(120, (oy - topLimit) * 0.86) : Math.min((oy - topLimit) * 0.84, 430);
     const spanM = Math.min(140, 40 + n * 14);
-    const angle = {};
     mols.forEach((m, k) => {
       const slot = slots[k];
       const a = n > 1 ? -spanM / 2 + (spanM * slot) / (n - 1) : 0;
       const ring = ringOf[m.data("att")] || ringOf[2];
-      angle[m.id()] = a;
       positions[m.id()] = { x: ox + rx * ring * Math.sin(rad(a)), y: oy - ry * ring * Math.cos(rad(a)) };
     });
     // Les bulles ne se touchent pas : on les écarte deux à deux (au-dessus du verre, dans le cadre).
@@ -540,34 +523,83 @@
       });
       if (!moved) break;
     }
-    if (compact) { run(positions, false); return; }
-    // Éléments naturels : une couronne au-dessus, dans l'ordre des molécules qu'ils prolongent.
-    const sx = Math.min(W / 2 - 70, rx * 1.5), sy = oy - 34 - band;
-    const bubbles = mols.map((m) => ({ ...positions[m.id()], r: bubble(m) / 2 + 8 }));
-    // Les étiquettes de la bande du haut comptent comme obstacles.
-    const placed = Object.entries(positions).filter(([id]) => cy.getElementById(id).data("type") === "source")
-      .map(([id, q]) => ({ ...q, half: ((cy.getElementById(id).data("label") || "").length * 7 + 22) / 2 }));
-    const srcs = crown.map((s) => {
-      const as = s.incomers("node").map((m) => angle[m.id()]).filter((v) => v !== undefined);
-      return { s, a: as.length ? as.reduce((x, y) => x + y, 0) / as.length : 0 };
-    }).sort((p, q) => p.a - q.a);
-    const ns = srcs.length;
-    const spanS = Math.min(170, 60 + ns * 9);
-    srcs.forEach(({ s }, k) => {
-      const a = ns > 1 ? -spanS / 2 + (spanS * k) / (ns - 1) : 0;
-      let r = k % 2 ? 0.88 : 1;
-      const half = ((s.data("label") || "").length * 7 + 22) / 2;
-      const at = () => ({ x: Math.min(W - half - 8, Math.max(half + 8, ox + sx * r * Math.sin(rad(a)))),
-        y: Math.max(26 + band, oy - sy * r * Math.cos(rad(a))) });
-      // Une étiquette ne doit couvrir ni une bulle ni une autre étiquette : on la pousse vers l'extérieur.
-      const hits = (p) => bubbles.some((b) => Math.abs(p.x - b.x) < half + b.r && Math.abs(p.y - b.y) < 14 + b.r)
-        || placed.some((q) => Math.abs(p.x - q.x) < half + q.half + 6 && Math.abs(p.y - q.y) < 32);
-      let p = at();
-      for (let i = 0; i < 24 && hits(p); i++) { r += 0.04; p = at(); }
-      placed.push({ ...p, half });
-      positions[s.id()] = p;
-    });
+    placeLabels(positions, cy.nodes("[type='aroma'], [type='source']").toArray(), ox, oy, compact ? 22 : 26);
     run(positions, false);
+  }
+  // Étiquettes d'arômes : chacune dans l'axe de ses bulles vu du verre (angle moyen), posée juste au-delà
+  // du bord du bouquet dans cette direction ; puis on les écarte des bulles et entre elles. Les traits
+  // partent vers l'extérieur et ne traversent pas le dessin.
+  function placeLabels(positions, labels, ox, oy, topMin) {
+    const W = cy.width();
+    measureCtx.font = "500 12.5px Inter, system-ui, sans-serif";
+    const bubbles = cy.nodes("[type='molecule']").map((m) => ({ ...positions[m.id()], r: bubble(m) / 2 + 9 }));
+    const polar = (p) => ({ a: Math.atan2(p.x - ox, oy - p.y), d: Math.hypot(p.x - ox, oy - p.y) });
+    const items = labels.map((s) => {
+      const ms = s.incomers("node[type='molecule']").toArray().filter((m) => positions[m.id()]);
+      const angles = ms.map((m) => polar(positions[m.id()]).a);
+      const a = angles.length ? angles.reduce((t, v) => t + v, 0) / angles.length : 0;
+      const hw = measureCtx.measureText(s.data("label") || "").width / 2 + 16, hh = 15;
+      // Bord du bouquet dans cette direction : la bulle la plus lointaine que le rayon frôle.
+      // Ses propres bulles comptent toujours : une étiquette partagée par deux bulles écartées (le buis
+      // de la 4-MMP et de l'acétate) tombait sinon entre elles, au pied du verre.
+      let edge = Math.max(0, ...ms.map((m) => {
+        const pb = polar(positions[m.id()]);
+        return pb.d * Math.cos(pb.a - a) + bubble(m) / 2 + 9;
+      }));
+      bubbles.forEach((b) => {
+        const pb = polar(b);
+        const off = Math.abs(Math.sin(pb.a - a)) * pb.d;
+        if (off < b.r + hw * 0.6 && Math.cos(pb.a - a) > 0) edge = Math.max(edge, pb.d * Math.cos(pb.a - a) + b.r);
+      });
+      const dist = edge + hh + 22;
+      return { s, x: ox + dist * Math.sin(a), y: oy - dist * Math.cos(a), hw, hh };
+    });
+    for (let it = 0; it < 120; it++) {
+      let moved = false;
+      items.forEach((a) => {
+        bubbles.forEach((b) => {
+          const qx = Math.max(a.x - a.hw, Math.min(b.x, a.x + a.hw)), qy = Math.max(a.y - a.hh, Math.min(b.y, a.y + a.hh));
+          let dx = qx - b.x, dy = qy - b.y;
+          let d = Math.hypot(dx, dy);
+          if (d >= b.r) return;
+          if (d < 0.5) { dx = a.x - b.x; dy = a.y - b.y - 1; d = Math.hypot(dx, dy) || 1; }
+          const k = (b.r - Math.hypot(qx - b.x, qy - b.y) + 1) / d;
+          a.x += dx * k; a.y += dy * k; moved = true;
+        });
+        items.forEach((c) => {
+          if (c === a) return;
+          const ox2 = a.hw + c.hw + 6 - Math.abs(a.x - c.x), oy2 = a.hh + c.hh + 4 - Math.abs(a.y - c.y);
+          if (ox2 <= 0 || oy2 <= 0) return;
+          // Entre étiquettes, on s'écarte le long de la couronne (à l'horizontale) ; ce qui se touche
+          // encore monte au dernier passage. Un écart vertical ici les faisait plonger dans le bouquet.
+          const sgn = a.x < c.x || (a.x === c.x && a.y < c.y) ? -1 : 1;
+          a.x += sgn * Math.min(ox2, 40) / 2; c.x -= sgn * Math.min(ox2, 40) / 2;
+          moved = true;
+        });
+        a.x = Math.min(W - a.hw - 6, Math.max(a.hw + 6, a.x));
+        a.y = Math.min(oy - 60, Math.max(topMin + a.hh, a.y));
+      });
+      if (!moved) break;
+    }
+    // Dernier passage : deux étiquettes qui se touchent encore, la plus haute monte (il y a de la place
+    // au-dessus du bouquet) ; on ne repousse plus rien sur les côtés, où le cadre est étroit.
+    for (let it = 0; it < 40; it++) {
+      let moved = false;
+      items.forEach((a) => items.forEach((c) => {
+        if (c === a || a.y > c.y || (a.y === c.y && a.x > c.x)) return;
+        const ovx = a.hw + c.hw + 6 - Math.abs(a.x - c.x), ovy = a.hh + c.hh + 4 - Math.abs(a.y - c.y);
+        if (ovx <= 0 || ovy <= 0) return;
+        if (a.y - ovy >= topMin + a.hh) a.y -= ovy;
+        else {   // collée au bord du haut : on l'écarte sur le côté, dans le cadre
+          const sgn = a.x <= c.x ? -1 : 1;
+          a.x = Math.min(W - a.hw - 6, Math.max(a.hw + 6, a.x + sgn * ovx));
+          if (Math.abs(a.x - c.x) < a.hw + c.hw + 6) c.x = Math.min(W - c.hw - 6, Math.max(c.hw + 6, c.x - sgn * ovx));
+        }
+        moved = true;
+      }));
+      if (!moved) break;
+    }
+    items.forEach((a) => { positions[a.s.id()] = { x: a.x, y: a.y }; });
   }
 
 
@@ -706,8 +738,12 @@
         + (s.truncated ? " " + _("(et %s autres, tous listés dans la fiche)").replace("%s", s.truncated) : ""));
     }
     parts.push(plural(_("%s molécule"), _("%s molécules"), s.molecules));
-    if (kind !== "source") parts.push(plural(_("%s élément naturel"), _("%s éléments naturels"), s.sources));
+    if (kind === "molecule") parts.push(plural(_("%s élément naturel"), _("%s éléments naturels"), s.sources));
     let text = parts.join(", ") + ".";
+    // Ce que la chimie explique, et ce qu'elle n'explique pas encore : « 4 arômes sur 9 ».
+    if (kind === "profile" && s.aromas_total) {
+      text += " " + _("Arômes du vin expliqués : %a sur %t.").replace("%a", s.aromas).replace("%t", s.aromas_total);
+    }
     if (!s.molecules && kind === "profile") text = _("Aucune molécule spécifique pour ce vin dans nos sources.");
     if (s.hidden_common) text += " " + plural(_("%s lien masqué (socle commun)."), _("%s liens masqués (socle commun)."), s.hidden_common);
     else if (s.common && !state.common && kind === "profile") text += " " + _("Socle commun ajouté : ce vin a peu de molécules propres.");
@@ -773,7 +809,7 @@
     const type = node.data("type");
     let chain = node.closedNeighborhood();
     if (type === "profile") chain = node.union(node.successors());
-    else if (type === "source") chain = node.union(node.predecessors());
+    else if (type === "source" || type === "aroma") chain = node.union(node.predecessors());
     cy.elements().addClass("faded").removeClass("hl");
     chain.removeClass("faded").addClass("hl");
   }
@@ -782,12 +818,13 @@
   function openPanel(id) {
     const rootProfile = state.start.startsWith("profile:") ? state.start.split(":")[1] : "";
     let url = PANEL.replace("X", encodeURIComponent(id));
-    if (id.startsWith("molecule:") && rootProfile) url += `?vin=${encodeURIComponent(rootProfile)}`;
+    if ((id.startsWith("molecule:") || id.startsWith("aroma:")) && rootProfile) url += `?vin=${encodeURIComponent(rootProfile)}`;
     if (window.htmx) htmx.ajax("GET", url, { target: "#mol-panel", swap: "innerHTML" });
   }
 
   cy.on("tap", "node", (e) => { highlight(e.target); openPanel(e.target.id()); });
-  cy.on("dbltap", "node", (e) => load(e.target.id()));
+  // Un arôme n'est pas un point de départ : sa fiche, dans le panneau, mène à l'élément naturel.
+  cy.on("dbltap", "node", (e) => { if (e.target.data("type") !== "aroma") load(e.target.id()); });
   cy.on("tap", (e) => { if (e.target === cy) clearHighlight(); });
   cy.on("mouseover", "node", (e) => { cy.container().style.cursor = "pointer"; if (!cy.$(":selected").length) highlight(e.target); });
   cy.on("mouseout", "node", () => { cy.container().style.cursor = ""; if (!cy.$(":selected").length) clearHighlight(); });

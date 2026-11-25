@@ -1,7 +1,10 @@
-"""Graphe en trois colonnes : vin → molécules → éléments naturels.
+"""Graphe en trois couches : vin → molécules → arômes du vin (vue d'un vin) ou éléments naturels.
 
 On part d'une entité (un profil, une molécule ou un élément naturel) et l'on
-déroule la chaîne dans les deux sens. Les nœuds portent une « couche »
+déroule la chaîne dans les deux sens. Depuis un vin, la troisième couche est faite des arômes
+de ce vin que chaque molécule explique (rotundone → poivre noir) : les éléments naturels, qui
+renvoyaient souvent loin du vin (souchet rond, jacquier, truffe noire), restent dans les vues
+d'une molécule ou d'un élément naturel. Les nœuds portent une « couche »
 (0, 1, 2) que le client place en colonnes. Les données sont lues une fois par
 version et gardées en mémoire, comme le graphe principal.
 """
@@ -27,8 +30,6 @@ KIND_COLORS = {
     "aliment": "#C8A27A", "espece": "#8FA58A",
 }
 MAX_PROFILES = 18
-MAX_SOURCES_PER_MOLECULE = 4   # en partant d'un vin ; la fiche de la molécule les liste toutes
-MAX_FAR_PER_MOLECULE = 2       # éléments naturels sans arôme commun avec le vin, par molécule
 AUTO_COMMON_BELOW = 6          # socle commun ajouté d'office sous ce nombre de molécules
 
 
@@ -49,8 +50,12 @@ class Data:
     refs: dict[str, dict] = field(default_factory=dict)
     # Arôme du vin qui justifie le lien (« caramel » pour le furanéol du tawny), sinon absent.
     link_note: dict[tuple[str, str], tuple[str, str]] = field(default_factory=dict)   # (arôme, couleur)
-    # Arômes de chaque vin (identifiants) : un élément naturel qui en porte un est « pertinent ».
-    profile_aromas: dict[str, set[int]] = field(default_factory=lambda: defaultdict(set))
+    # Arômes de chaque vin : identifiant → (intensité, nom, couleur de famille, slug, nom de famille).
+    profile_aromas: dict[str, dict[int, tuple]] = field(default_factory=lambda: defaultdict(dict))
+    # Arômes du catalogue qu'une molécule explique (descripteurs de molecules.yaml).
+    molecule_aromas: dict[str, set[int]] = field(default_factory=lambda: defaultdict(set))
+    # Arômes reliés à un élément naturel du même nom (poivre noir → poivre noir), pour la fiche.
+    aroma_sources: dict[int, list[str]] = field(default_factory=lambda: defaultdict(list))
 
 
 COMMON_BASES = {Basis.UNIVERSAL, Basis.COLOR}
@@ -126,11 +131,16 @@ def _data(version: tuple) -> Data:
     from apps.catalog.models import ProfileAroma
 
     p_int: dict[str, dict[int, tuple[int, str, str]]] = defaultdict(dict)
-    for pslug, aid, intensity, aname, ahue in ProfileAroma.objects.values_list(
-        "profile__slug", "aroma_id", "intensity", "aroma__name", "aroma__family__color"
+    for pslug, aid, intensity, aname, ahue, aslug, fname in ProfileAroma.objects.values_list(
+        "profile__slug", "aroma_id", "intensity", "aroma__name", "aroma__family__color", "aroma__slug",
+        "aroma__family__name",
     ):
         p_int[pslug][aid] = (intensity, aname, ahue)
-        d.profile_aromas[pslug].add(aid)
+        d.profile_aromas[pslug][aid] = (intensity, aname, ahue, aslug, fname)
+    d.molecule_aromas.update(mol_aromas_by_slug)
+    for s in sources.values():
+        if s["aroma"]:
+            d.aroma_sources[s["aroma"]].append(s["slug"])
     for (pslug, mslug) in d.link_refs:
         common = [p_int[pslug][a] for a in mol_aromas_by_slug[mslug] if a in p_int[pslug]]
         if common:
@@ -214,6 +224,7 @@ def build(kind: str, slug: str, common: bool | None = None,
     hidden_common = 0
     hidden_sources = 0
     truncated = 0
+    aromas_total = aromas_explained = 0
 
     if common is None:
         if kind == "profile":
@@ -234,6 +245,7 @@ def build(kind: str, slug: str, common: bool | None = None,
             return None
         pid = f"profile:{slug}"
         nodes[pid] = _node("profile", d.profiles[slug], 0, root=True)
+        wine_aromas = d.profile_aromas.get(slug, {})
         for row in d.by_profile.get(slug, []):
             mslug, strength, basis, tier = row
             if not keep(row):
@@ -242,32 +254,25 @@ def build(kind: str, slug: str, common: bool | None = None,
             mid = f"molecule:{mslug}"
             extra = {"strength": strength, "tier": tier}
             if note := d.link_note.get((slug, mslug)):
-                # La bulle prend la couleur de cet arôme : le furanéol d'un tawny est caramel, pas fraise.
+                # La bulle prend la couleur de l'arôme qu'elle explique : le furanéol d'un tawny est caramel.
                 extra["note"], extra["hue"] = tr(note[0]), note[1]
                 extra["direct"] = True   # reliée par un arôme du vin, pas seulement par cépage, style ou couleur
             nodes[mid] = _node("molecule", d.molecules[mslug], 1, **extra)
             edges.append(_edge(pid, mid, "contains", strength, basis, tier))
-            # Éléments naturels : ceux qui portent un arôme de ce vin (« cannelle » pour l'eugénol
-            # d'un vin noté cannelle) sont « proches » ; les autres (la fraise du furanéol dans un
-            # tawny) restent visibles mais en retrait, au plus MAX_FAR_PER_MOLECULE par molécule.
-            srcs = sources_of(mslug)
-            near = [x for x in srcs if d.sources[x]["aroma"] in d.profile_aromas[slug]]
-            far = [x for x in srcs if x not in near]
-            # Parmi les autres, ceux déjà présents (partagés par plusieurs molécules) passent en premier.
-            far = sorted(far, key=lambda x: (f"source:{x}" not in nodes, srcs.index(x)))
-            shown = near[:MAX_SOURCES_PER_MOLECULE]
-            shown += far[:max(0, min(MAX_FAR_PER_MOLECULE, MAX_SOURCES_PER_MOLECULE - len(shown)))]
-            hidden_sources += len(srcs) - len(shown)
-            for sslug in shown:
-                sid = f"source:{sslug}"
-                is_near = sslug in near
-                if sid not in nodes:
-                    nodes[sid] = _node("source", d.sources[sslug], 2, near=is_near)
-                elif is_near:
-                    nodes[sid]["data"]["near"] = True
-                edges.append(_edge(mid, sid, "found_in", _occ_strength(d, mslug, sslug),
-                                   tier="imported" if (mslug, sslug) in d.occ_imported else "specific"))
-                edges[-1]["data"]["near"] = is_near
+            # Troisième couche : les arômes de CE vin que la molécule explique. Deux molécules qui donnent
+            # « rose » pointent vers la même étiquette au lieu de répéter le mot dans leurs bulles.
+            explained = sorted((aid for aid in d.molecule_aromas.get(mslug, ()) if aid in wine_aromas),
+                               key=lambda a: (-wine_aromas[a][0], wine_aromas[a][1]))
+            for aid in explained:
+                intensity, aname, ahue, aslug, fname = wine_aromas[aid]
+                aid_node = f"aroma:{aslug}"
+                if aid_node not in nodes:
+                    nodes[aid_node] = {"group": "nodes", "data": {
+                        "id": aid_node, "label": tr(aname), "type": "aroma", "layer": 2, "hue": ahue,
+                        "intensity": intensity, "family": tr(fname), "near": True}}
+                edges.append(_edge(mid, aid_node, "evokes", intensity))
+        aromas_total = len(wine_aromas)
+        aromas_explained = sum(1 for n in nodes.values() if n["data"]["type"] == "aroma")
 
     elif kind == "molecule":
         if slug not in d.molecules:
@@ -339,6 +344,8 @@ def build(kind: str, slug: str, common: bool | None = None,
         a, b = e["data"]["source"].split(":", 1)[1], e["data"]["target"].split(":", 1)[1]
         if e["data"]["kind"] == "contains":
             keys = d.link_refs.get((a, b), set())
+        elif e["data"]["kind"] == "evokes":
+            continue   # la référence du descripteur est déjà comptée sur le lien vin → molécule
         else:
             keys = {d.occ_refs[(a, b)]} if (a, b) in d.occ_refs else set()
         for k in keys:
@@ -356,6 +363,7 @@ def build(kind: str, slug: str, common: bool | None = None,
         "stats": {
             "profiles": counts["profile"], "molecules": counts["molecule"], "sources": counts["source"],
             "hidden_common": hidden_common, "truncated": truncated, "hidden_sources": hidden_sources,
+            "aromas": aromas_explained, "aromas_total": aromas_total,
             "common": bool(common),
         },
     }
