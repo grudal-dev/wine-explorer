@@ -142,7 +142,25 @@ def grape_detail(request, slug):
         Aroma.objects.filter(profile_links__profile__profile_grapes__grape=grape)
         .annotate(n=Count("profile_links")).select_related("family").order_by("-n", "name")[:12]
     )
-    return render(request, "catalog/grape.html", {"grape": grape, "links": links, "aromas": aromas})
+    return render(request, "catalog/grape.html", {"grape": grape, "links": links, "aromas": aromas,
+                                                  "markers": _grape_markers(grape)})
+
+
+def _grape_markers(grape) -> list[dict]:
+    """Molécules dont ce cépage est un marqueur sourcé (le linalol du Muscat à petits grains), lues dans
+    les raisons des liens vin → molécule : la plus forte d'abord."""
+    from apps.molecules.models import ProfileMolecule
+
+    best: dict[str, dict] = {}
+    names = {grape.name.lower(), *(s.lower() for s in grape.synonyms or [])}
+    for pm in ProfileMolecule.objects.filter(profile__profile_grapes__grape=grape).select_related("molecule"):
+        for r in pm.reasons:
+            if r.get("basis") != "grape" or r["label"].split(" (", 1)[0].lower() not in names:
+                continue
+            cur = best.get(pm.molecule.slug)
+            if cur is None or r["strength"] > cur["strength"]:
+                best[pm.molecule.slug] = {"molecule": pm.molecule, "strength": r["strength"]}
+    return sorted(best.values(), key=lambda x: (-x["strength"], x["molecule"].name))
 
 
 def aroma_list(request):

@@ -1168,3 +1168,75 @@ body.map-is-full { overflow: hidden; }
   .mol-rest__list li { grid-template-columns: 1fr; }
   .mol-rest__note { grid-column: 1; }
 }
+
+/* ── Fiche aromatique imprimable (Molécules, vue d'un vin) ───────────────────────────────────────
+   Le bouquet est redessiné hors écran dans un cadre d'ordinateur, puis la fiche (#mol-print-sheet)
+   remplace la page à l'impression. A4 portrait, marges de 12 mm, couleurs conservées. */
+.mol-canvas.is-printing { position: fixed !important; left: -12000px; top: 0; width: 960px !important;
+  height: 1000px !important; flex: none; }
+#mol-print-sheet { display: none; }
+@media print {
+  @page { size: A4 portrait; margin: 12mm 12mm 14mm; }
+  body.has-print-sheet > *:not(#mol-print-sheet) { display: none !important; }
+  body.has-print-sheet #mol-print-sheet { display: block; }
+  html:has(body.has-print-sheet), body.has-print-sheet { background: #fff !important; }
+  body.has-print-sheet { display: block; min-height: 0; }
+  body.has-print-sheet::before, body.has-print-sheet::after { display: none !important; }
+}
+.psheet { color: var(--ink); font: 400 9.5pt/1.42 var(--sans); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.psheet h2 { font: 600 11pt/1.2 var(--serif); margin: 0 0 2.2mm; color: var(--garnet); letter-spacing: .01em; }
+.psheet__head { border-bottom: 1.4pt solid var(--garnet); padding-bottom: 3mm; margin-bottom: 3.5mm; position: relative; }
+.psheet--blanc .psheet__head { border-color: #B89A2E; }
+.psheet--rose .psheet__head { border-color: #D97C6C; }
+.psheet__brand { margin: 0; font: 500 7.5pt/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+.psheet__brand span { color: var(--garnet); }
+.psheet__title { font: 600 24pt/1.05 var(--serif); margin: 1.6mm 0 1.2mm; }
+.psheet__meta { margin: 0; color: var(--ink-2); font-size: 10pt; }
+.psheet__grapes { margin: 1.6mm 0 0; display: flex; flex-wrap: wrap; gap: 1mm 4mm; font-size: 9.5pt; }
+.psheet__aging { color: var(--ink-2); margin-left: auto; }
+.psheet__headline { font: italic 400 12.5pt/1.35 var(--serif); margin: 0 0 3mm; padding-left: 3mm;
+  border-left: 2.4pt solid var(--garnet-wash); }
+.psheet__body { display: grid; grid-template-columns: 1fr 52mm; gap: 5mm; align-items: start; break-inside: avoid; }
+.psheet__bouquet { margin: 0; }
+.psheet__bouquet img { display: block; width: 100%; max-height: 132mm; object-fit: contain; }
+.psheet__bouquet figcaption { display: flex; flex-wrap: wrap; gap: .8mm 4mm; margin-top: 1.5mm; font-size: 7.5pt; color: var(--ink-2); }
+.psheet__key { display: inline-block; vertical-align: -1px; margin-right: 1.2mm; border-radius: 50%; }
+.psheet__key--big { width: 8pt; height: 8pt; background: #B57BB0; }
+.psheet__key--rise { width: 2pt; height: 9pt; border-radius: 1pt; background: linear-gradient(#7F9248, #C99A3D, #9A6B3C); }
+.psheet__key--open { width: 7pt; height: 7pt; border: 1.2pt solid #7F9248; background: rgba(127,146,72,.25); }
+.psheet__key--hue { width: 14pt; height: 6pt; border-radius: 3pt; background: linear-gradient(90deg, #C9B25A, #B57BB0, #6B1730); }
+.psheet__stems i { display: inline-block; width: 9pt; height: 2.4pt; border-radius: 1pt; margin: 0 .8mm 0 1.6mm; vertical-align: 1.5pt; }
+.psheet__nose { border-left: .6pt solid var(--rule); padding-left: 4mm; }
+.psheet__aromas { list-style: none; margin: 0 0 3mm; padding: 0; }
+.psheet__aromas li { display: flex; align-items: center; gap: 1.6mm; padding: .7mm 0; border-bottom: .4pt dotted var(--rule); }
+.psheet__aromas li.is-3 { font-weight: 600; }
+.psheet__aromas li > i, .psheet__mol > i { width: 7pt; height: 7pt; border-radius: 50%; flex: none; display: inline-block; }
+.psheet__dots { margin-left: auto; display: inline-flex; gap: .7mm; }
+.psheet__dots b { width: 4pt; height: 4pt; border-radius: 50%; background: var(--rule); display: inline-block; }
+.psheet__dots b.on { background: var(--garnet); }
+.psheet__desc { font-size: 8.5pt; color: var(--ink-2); margin: 0; }
+.psheet__section { margin-top: 4.5mm; }
+.psheet__table { width: 100%; border-collapse: collapse; font-size: 8.3pt; }
+.psheet__table th { text-align: left; font: 600 7pt/1.2 var(--sans); text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-2); border-bottom: .8pt solid var(--ink); padding: 0 2mm 1.2mm 0; }
+.psheet__table td { vertical-align: top; padding: 1.4mm 2mm 1.4mm 0; border-bottom: .4pt solid var(--rule); }
+.psheet__table tr { break-inside: avoid; }
+.psheet__table tr.is-quiet td { color: var(--ink-2); }
+.psheet__table small { display: block; color: var(--ink-3); font-size: 7pt; margin-top: .4mm; }
+.psheet__table sup { color: var(--garnet); font-size: 6pt; margin-left: .3mm; }
+.psheet__mol { white-space: nowrap; }
+.psheet__mol strong { font: italic 600 9.5pt/1.2 var(--serif); margin-left: 1mm; }
+.psheet__mol .psheet__dots { margin-left: 1.5mm; }
+.psheet__aroma.is-strong { font-weight: 600; }
+.psheet__rest ul { margin: 0; padding-left: 4mm; font-size: 8.3pt; columns: 2; column-gap: 6mm; }
+.psheet__rest li { break-inside: avoid; margin-bottom: .8mm; }
+.psheet__refs ol { margin: 0; padding-left: 5mm; font-size: 7.2pt; color: var(--ink-2); columns: 2; column-gap: 6mm; }
+.psheet__refs li { break-inside: avoid; margin-bottom: .6mm; }
+.psheet__foot { margin-top: 5mm; padding-top: 2mm; border-top: .6pt solid var(--rule); display: flex; justify-content: space-between;
+  gap: 6mm; font-size: 7pt; color: var(--ink-3); }
+
+/* Fiche cépage : description et molécules marqueurs. */
+.grape-desc { max-width: 68ch; font-size: var(--step-1, 1.1rem); line-height: 1.6; margin: .5rem 0 1.5rem; }
+.markers { list-style: none; margin: 0; padding: 0; }
+.markers li { display: grid; grid-template-columns: 1fr auto; gap: 0 .6rem; padding: .35rem 0; border-bottom: 1px dotted var(--rule); }
+.markers li .small { grid-column: 1 / -1; }

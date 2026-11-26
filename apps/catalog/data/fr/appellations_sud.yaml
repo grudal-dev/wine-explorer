@@ -184,7 +184,7 @@
     - color: blanc
       style: mute
       grapes: {Muscat à petits grains: 100}
-      aromas: {raisin sec: 1, fleur d'oranger: 3, abricot: 2, mangue: 1, miel: 2, rose: 1, litchi: 1}
+      aromas: {raisin frais: 3, fleur d'oranger: 3, abricot: 2, mangue: 1, miel: 2, rose: 1, litchi: 1}
       structure: [4, 3, 0, 5]
       price: [12, 30]
       aging: [1, 5]
@@ -409,7 +409,7 @@
     - color: blanc
       style: mute
       grapes: {Muscat d'Alexandrie: 60, Muscat à petits grains: 40}
-      aromas: {fleur d'oranger: 2, mangue: 2, abricot: 2, citron: 1, menthe: 1, rose: 1}
+      aromas: {raisin frais: 2, fleur d'oranger: 2, mangue: 2, abricot: 2, citron: 1, menthe: 1, rose: 1}
       structure: [4, 2, 0, 5]
       price: [10, 20]
       aging: [1, 4]

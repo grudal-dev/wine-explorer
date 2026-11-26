@@ -53,7 +53,8 @@
         </li>
         {% endfor %}
       </ul>
-      <p style="margin-top:1rem"><a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}?depart=profile:{{ profile.slug }}">{% translate "Du verre à la nature" %}{% if molecules_total > molecules|length %} {% blocktranslate trimmed with molecules_total=molecules_total %}({{ molecules_total }} molécules){% endblocktranslate %}{% endif %}</a></p>
+      <p style="margin-top:1rem"><a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}?depart=profile:{{ profile.slug }}">{% translate "Du verre à la nature" %}{% if molecules_total > molecules|length %} {% blocktranslate trimmed with molecules_total=molecules_total %}({{ molecules_total }} molécules){% endblocktranslate %}{% endif %}</a>
+        <a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}?depart=profile:{{ profile.slug }}&amp;imprimer=1" rel="nofollow">{% translate "Fiche aromatique à imprimer" %}</a></p>
     </section>
     {% endif %}
   </div>

@@ -7,6 +7,7 @@
 <h1>{{ grape.name|tr }}</h1>
 <p class="lede">{% blocktranslate trimmed with get_skin_display=grape.get_skin_display|lower %}Raisin {{ get_skin_display }}{% endblocktranslate %}{% if grape.origin %}{% blocktranslate trimmed with origin=grape.origin|tr %}, berceau : {{ origin }}{% endblocktranslate %}{% endif %}.
   {% if grape.synonyms %}{% blocktranslate trimmed with synonyms=grape.synonyms|join:", " %}Aussi appelé {{ synonyms }}.{% endblocktranslate %}{% endif %}</p>
+{% if grape.description %}<p class="grape-desc">{{ grape.description|tr }}</p>{% endif %}
 <div class="split section">
   <div>
     <h2>{% translate "Où le trouver" %}</h2>
@@ -19,6 +20,10 @@
     </ul>
   </div>
   <aside class="stack">
+    {% if markers and 'molecules' in sections %}<div class="panel"><h3>{% translate "Ses molécules marqueurs" %}</h3>
+      <ul class="markers">{% for m in markers %}<li><a href="{{ m.molecule.get_absolute_url }}">{{ m.molecule.name|tr }}</a>
+        <span class="reason__dots" aria-label="{% blocktranslate trimmed with strength=m.strength %}force {{ strength }} sur 3{% endblocktranslate %}">{% for i in "123" %}<i class="{% if forloop.counter <= m.strength %}is-on{% endif %}"></i>{% endfor %}</span>
+        <span class="small muted">{{ m.molecule.odor|tr }}</span></li>{% endfor %}</ul></div>{% endif %}
     {% if aromas %}<div class="panel"><h3>{% translate "Arômes associés" %}</h3>
       <div class="tags">{% for a in aromas %}<a class="tag tag--aroma" href="{{ a.get_absolute_url }}">{{ a.name|tr }}</a>{% endfor %}</div></div>{% endif %}
     {% if 'graphe' in sections %}<a class="btn btn--ghost" href="{% url 'explorer:explorer' %}?focus=grape:{{ grape.slug }}">{% translate "Voir dans le graphe" %}</a>{% endif %}

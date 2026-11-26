@@ -499,13 +499,17 @@
     - name: Alsace muscat
       color: blanc
       grapes: {Muscat à petits grains: 50, Muscat Ottonel: 50}
-      aromas: {fleur d'oranger: 2, rose: 1, citron: 1, menthe: 1, pêche blanche: 1}
+      aromas: {raisin frais: 3, fleur d'oranger: 2, rose: 1, citron: 1, menthe: 1, pêche blanche: 1}
       structure: [2, 3, 0, 1]
       price: [10, 25]
       aging: [1, 5]
       temp: 8-9 °C
       pairings: [asperges, apéritif]
-      description: Muscat vinifié sec, qui sent le raisin frais croqué, léger et floral ; rare et singulier.
+      description: >-
+        Muscat vinifié sec, rare et singulier : il sent le raisin frais croqué, comme le grain
+        mûr sur la souche. Ce nez vient des terpènes de la pellicule, le linalol en tête, puis
+        le géraniol et le nérol qui ajoutent la fleur d'oranger et une touche de rose. Léger,
+        sec et vif, il se boit jeune, quand ces arômes sont à leur sommet.
     - name: Alsace pinot noir
       color: rouge
       grapes: {Pinot Noir: 100}

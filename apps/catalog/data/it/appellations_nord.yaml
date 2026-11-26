@@ -110,7 +110,7 @@
       color: blanc
       style: effervescent
       grapes: {Moscato Bianco: 100}
-      aromas: {pêche blanche: 3, fleur d'oranger: 2, abricot: 1, litchi: 1, raisin sec: 1}
+      aromas: {raisin frais: 3, pêche blanche: 2, fleur d'oranger: 2, abricot: 1, litchi: 1}
       structure: [1, 3, 0, 4]
       price: [6, 15]
       aging: [0, 2]

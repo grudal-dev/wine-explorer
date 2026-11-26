@@ -19,6 +19,7 @@ families:
       - {name: poire}
       - {name: coing}
       - {name: pêche blanche, synonyms: [pêche]}
+      - {name: raisin frais, synonyms: [muscaté, raisin muscat, grain de raisin]}
       - {name: pêche jaune}
       - {name: abricot}
   - name: Fruits exotiques

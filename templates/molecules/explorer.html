@@ -11,6 +11,7 @@
      data-api="{% url 'molecules:api_graph' %}"
      data-search="{% url 'molecules:api_search' %}"
      data-panel="{% url 'molecules:panel' 'X' %}"
+     data-print="{% url 'molecules:print_sheet' 'X' %}"
      data-start="{{ start }}"
      data-random="{{ random_ids|join:',' }}">
 
@@ -71,6 +72,7 @@
         <a class="btn btn--ghost btn--small" href="#graph-sources-title" id="mol-goto-sources">{% translate "Sources" %}</a>
         <button type="button" class="btn btn--ghost btn--small" id="mol-fit">{% translate "Recadrer" %}</button>
         <button type="button" class="btn btn--ghost btn--small" id="mol-png">{% translate "Exporter en PNG" %}</button>
+        <button type="button" class="btn btn--small" id="mol-print-btn" hidden>{% translate "Imprimer la fiche" %}</button>
       </div>
     </div>
     <div class="mol-wine-bar" id="mol-wine-bar" hidden>

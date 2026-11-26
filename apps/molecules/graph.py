@@ -279,10 +279,17 @@ def _headline(d: "Data", slug: str, shown: list[dict]) -> str:
            "of_aroma": (f"d'{aroma}" if aroma[:1].lower() in "aeiouyéèêàâîôœh" else f"de {aroma}") if fr else aroma}
     if grape:
         ctx["grape"] = grape["label"].split(" (", 1)[0]
-        return gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, marqueur du cépage %(grape)s.") % ctx
-    if style and style["label"] == "Long élevage oxydatif":
-        return gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, fruit du long élevage oxydatif.") % ctx
-    return gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s.") % ctx
+        text = gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, marqueur du cépage %(grape)s.") % ctx
+    elif style and style["label"] == "Long élevage oxydatif":
+        text = gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, fruit du long élevage oxydatif.") % ctx
+    else:
+        text = gettext("Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s.") % ctx
+    # « Dans cet Alsace muscat », « dans cet Hermitage » : devant une voyelle ou un h muet (mais « ce
+    # Haut-Médoc », h aspiré).
+    w = ctx["wine"].lower()
+    if fr and (w[:1] in "aeiouyéèêàâîôœ" or (w[:1] == "h" and not w.startswith("haut"))):
+        text = text.replace("Dans ce ", "Dans cet ", 1)
+    return text
 
 
 def build(kind: str, slug: str, common: bool | None = None,

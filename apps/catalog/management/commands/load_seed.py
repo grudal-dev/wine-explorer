@@ -200,6 +200,7 @@ class Command(BaseCommand):
                     "skin": item["skin"],
                     "origin": item.get("origin", ""),
                     "synonyms": item.get("synonyms", []),
+                    "description": " ".join(item.get("description", "").split()),
                 },
             )
             for label in [item["name"], *item.get("synonyms", [])]:

@@ -5,6 +5,7 @@ from django.db.models import Count, Prefetch
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
 
@@ -225,3 +226,79 @@ def bibliography(request):
         n_mol=Count("molecules", distinct=True), n_occ=Count("occurrences", distinct=True)
     )
     return render(request, "molecules/bibliography.html", {"references": refs})
+
+
+# Étape de la vie du vin où naît la molécule, pour la colonne « Origine » de la fiche imprimable.
+ORIGIN_STAGE = {
+    "raisin": gettext_lazy("Raisin"), "precurseur": gettext_lazy("Raisin"), "environnement": gettext_lazy("Vigne"),
+    "fermentation": gettext_lazy("Fermentation"), "malolactique": gettext_lazy("Fermentation"), "micro": gettext_lazy("Fermentation"),
+    "bois": gettext_lazy("Élevage"), "vieillissement": gettext_lazy("Élevage"),
+}
+
+
+@require_GET
+def print_sheet(request, slug: str):
+    """Fragment HTML : la fiche imprimable d'un vin (A4). Le dessin du bouquet est fait par le
+    navigateur (Cytoscape) et posé dans <img data-bouquet> ; le reste vient d'ici, avec les mêmes
+    réglages que le graphe affiché (âge, socle commun, Wikidata, tout)."""
+    profile = get_object_or_404(
+        WineProfile.objects.select_related("appellation__region__parent", "appellation__country")
+        .prefetch_related("profile_grapes__grape"),
+        slug=slug,
+    )
+    raw = request.GET.get("commun", "auto")
+    common = None if raw == "auto" else raw in {"1", "true", "on"}
+    result = graph.build(
+        "profile", slug, common=common,
+        imported=request.GET.get("wikidata", "1") not in {"0", "false", "off"},
+        age=request.GET.get("age") or None,
+        everything=request.GET.get("tout", "0") in {"1", "true", "on"},
+    )
+    if result is None:
+        raise Http404
+    d = graph.data()
+    nodes = {e["data"]["id"]: e["data"] for e in result["elements"] if e.get("group") == "nodes"}
+    explains: dict[str, list[dict]] = defaultdict(list)
+    for e in result["elements"]:
+        if e.get("group") == "edges" and e["data"]["kind"] == "evokes":
+            a = nodes[e["data"]["target"]]
+            explains[e["data"]["source"]].append({"label": a["label"], "intensity": a.get("intensity", 1)})
+    refs = _refs_by_key()
+    numbers = {r["key"]: i for i, r in enumerate(result["references"], start=1)}
+    mols = {m.slug: m for m in Molecule.objects.filter(
+        slug__in=[n.split(":", 1)[1] for n, x in nodes.items() if x["type"] == "molecule"])}
+    rows = []
+    for nid, n in nodes.items():
+        if n["type"] != "molecule":
+            continue
+        mslug = nid.split(":", 1)[1]
+        m = mols.get(mslug)
+        if m is None:
+            continue
+        reasons = _with_refs(d.link_reasons.get((slug, mslug), []), refs)
+        rows.append({
+            "name": n["label"], "hue": n.get("hue", "#2E6E6A"), "formula": m.formula_html,
+            "stage": ORIGIN_STAGE.get(m.origin, ""),
+            "odor": m.odor, "threshold": m.threshold, "origin": m.get_origin_display(),
+            "strength": n.get("strength", 1), "direct": bool(n.get("direct")),
+            "universal": n.get("tier") == "universal",
+            "explains": sorted(explains.get(nid, []), key=lambda a: -a["intensity"]),
+            # Le cépage, le style, la couleur d'abord ; à défaut, l'arôme cité qui l'a fait venir.
+            "reasons": [{**r, "n": numbers.get(r.get("ref"))}
+                        for r in ([x for x in reasons if x["basis"] != "aroma"] or reasons)],
+        })
+    rows.sort(key=lambda r: (not r["direct"], r["universal"], -r["strength"],
+                             -max([a["intensity"] for a in r["explains"]] or [0]), r["name"]))
+    aromas = (ProfileAroma.objects.filter(profile=profile).select_related("aroma__family")
+              .order_by("-intensity", "aroma__name"))
+    return render(request, "molecules/_print_sheet.html", {
+        "profile": profile,
+        "grapes": profile.profile_grapes.all().order_by("-share"),
+        "aromas": aromas,
+        "headline": result["headline"],
+        "rows": rows,
+        "unexplained": result["unexplained"],
+        "references": result["references"],
+        "age": result["age"],
+        "url": request.build_absolute_uri(f"{profile.get_absolute_url()}"),
+    })

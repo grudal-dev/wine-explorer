@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-25 22:25+0100\n"
+"POT-Creation-Date: 2026-11-25 23:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -799,6 +799,10 @@ msgstr "Bordeaux / Loire"
 msgid "Bouche"
 msgstr "Palate"
 
+#, python-format
+msgid "Bouquet moléculaire de %(name)s"
+msgstr "Molecular bouquet of %(name)s"
+
 msgid "Bourgogne"
 msgstr "Burgundy"
 
@@ -876,6 +880,9 @@ msgstr "Centre here"
 
 msgid "Cercle"
 msgstr "Circle"
+
+msgid "Cercle ouvert : marqueur présent mais non cité au nez"
+msgstr "Open circle: marker present but not named in the nose"
 
 msgid "Ces arômes du vin n'ont pas de molécule dans nos sources. Voici pourquoi."
 msgstr "These aromas of the wine have no molecule in our sources. Here is why."
@@ -1121,6 +1128,9 @@ msgstr "Corsica"
 msgid "Couleur"
 msgstr "Colour"
 
+msgid "Couleur : famille de l'arôme expliqué"
+msgstr "Colour: family of the aroma it explains"
+
 msgid "Couleur du vin"
 msgstr "Wine colour"
 
@@ -1208,6 +1218,9 @@ msgstr "In this %(wine)s, the %(aroma)s note comes from %(mol)s, a marker of the
 #, python-format
 msgid "Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s."
 msgstr "In this %(wine)s, the %(aroma)s note comes from %(mol)s."
+
+msgid "Dans ce vin"
+msgstr "In this wine"
 
 msgid "Dans la nature"
 msgstr "In nature"
@@ -1393,6 +1406,9 @@ msgstr "Rosé sparkling wine most often made by blending in red wine, moreish wi
 msgid "Elle fait aussi partie du socle commun de fermentation de %(common_count)s autre%(s)s profil%(s)s."
 msgstr "It is also part of the common fermentation base of %(common_count)s other profile%(s)s."
 
+msgid "Elle sent"
+msgstr "Smells of"
+
 msgid ""
 "En 1933, des habitants et des artistes du quartier obtiennent de la Ville de Paris que le dernier terrain "
 "libre, au coin de la rue des Saules et de la rue Saint-Vincent, près du Lapin Agile, soit replanté en vigne"
@@ -1559,6 +1575,9 @@ msgstr "Aroma family"
 msgid "Familles d'arômes"
 msgstr "Aroma families"
 
+msgid "Fermentation"
+msgstr "Fermentation"
+
 msgid "Fermentation alcoolique"
 msgstr "Alcoholic fermentation"
 
@@ -1567,6 +1586,12 @@ msgstr "Malolactic fermentation"
 
 msgid "Fiche"
 msgstr "Details"
+
+msgid "Fiche aromatique"
+msgstr "Aroma sheet"
+
+msgid "Fiche aromatique à imprimer"
+msgstr "Printable aroma sheet"
 
 msgid "Fiche complète"
 msgstr "Full details"
@@ -1666,6 +1691,10 @@ msgstr "Gallura"
 msgid "Garde"
 msgstr "Ageing"
 
+#, python-format
+msgid "Garde : %(a)s à %(b)s ans"
+msgstr "Ageing: %(a)s to %(b)s years"
+
 msgid "Garrigue et herbes"
 msgstr "Garrigue and herbs"
 
@@ -1695,6 +1724,9 @@ msgstr "South Tyrol (Alto Adige)"
 
 msgid "Haut-Piémont"
 msgstr "Upper Piedmont"
+
+msgid "Hauteur : raisin en haut, fermentation, élevage près du verre"
+msgstr "Height: grape at the top, fermentation, ageing near the glass"
 
 msgid "Herbe aromatique"
 msgstr "Aromatic herb"
@@ -1799,6 +1831,9 @@ msgstr "Imported from Wikidata, unverified."
 #, python-format
 msgid "Impossible de lancer une partie : %(reason)s"
 msgstr "Unable to start a game: %(reason)s"
+
+msgid "Imprimer la fiche"
+msgstr "Print the sheet"
 
 msgid "Indices"
 msgstr "Clues"
@@ -2562,6 +2597,9 @@ msgstr "The links between wines, grapes, aromas and regions."
 msgid "Les molécules"
 msgstr "The molecules"
 
+msgid "Les molécules de ce nez"
+msgstr "The molecules behind this nose"
+
 msgid ""
 "Les molécules de chaque appellation, les arômes qu'elles évoquent et les éléments naturels qui les "
 "partagent."
@@ -2634,6 +2672,9 @@ msgid ""
 msgstr ""
 "Released by the breakdown of lignin when the stave is toasted. New barrels and American oak give the most; "
 "extraction slows markedly after a year of use."
+
+msgid "Liens vin → molécule déduits de règles sourcées : cépage, style, couleur, arômes cités."
+msgstr "Wine → molecule links inferred from sourced rules: grape, style, colour, named aromas."
 
 msgid "Ligurie / Sardaigne / Provence"
 msgstr "Liguria / Sardinia / Provence"
@@ -2792,8 +2833,15 @@ msgstr "Incorrect password."
 msgid "Muscat doux à peine pétillant, très faible en alcool, parfumé comme du raisin frais."
 msgstr "A sweet, barely sparkling muscat, very low in alcohol, as fragrant as fresh grapes."
 
-msgid "Muscat vinifié sec, qui sent le raisin frais croqué, léger et floral ; rare et singulier."
-msgstr "Muscat made dry, smelling of freshly bitten grapes, light and floral; rare and singular."
+msgid ""
+"Muscat vinifié sec, rare et singulier : il sent le raisin frais croqué, comme le grain mûr sur la souche. "
+"Ce nez vient des terpènes de la pellicule, le linalol en tête, puis le géraniol et le nérol qui ajoutent la"
+" fleur d'oranger et une touche de rose. Léger, sec et vif, il se boit jeune, quand ces arômes sont à leur "
+"sommet."
+msgstr ""
+"A dry Muscat, rare and singular: it smells of freshly bitten grapes, like a ripe berry on the vine. This "
+"nose comes from terpenes in the skin, linalool first, then geraniol and nerol, which add orange blossom and"
+" a touch of rose. Light, dry and lively, it is best drunk young, when these aromas are at their peak."
 
 msgid "Mâconnais"
 msgstr "Mâconnais"
@@ -2837,6 +2885,9 @@ msgid ""
 "Naviguez de la région à l'appellation, du cépage à l'arôme. Cherchez le chemin qui relie le chablis au "
 "litchi."
 msgstr "Travel from region to appellation, from grape to aroma. Look for the path that links Chablis to lychee."
+
+msgid "Naît pendant"
+msgstr "Formed during"
 
 msgid "Nebbiolo des sols volcaniques du nord du Piémont, plus fin et plus minéral que celui des Langhe."
 msgstr "Nebbiolo from the volcanic soils of northern Piedmont, finer and more mineral than that of the Langhe."
@@ -3085,6 +3136,9 @@ msgstr "To confirm, also look for:"
 msgid "Pourquoi dans %(profile_name)s"
 msgstr "Why in %(profile_name)s"
 
+msgid "Pourquoi elle est là"
+msgstr "Why it is there"
+
 msgid "Pourquoi un vin contient une molécule"
 msgstr "Why a wine contains a molecule"
 
@@ -3205,6 +3259,9 @@ msgstr "Which wines recall it?"
 
 msgid "Quitter le plein écran"
 msgstr "Exit full screen"
+
+msgid "Raisin"
+msgstr "Grape"
 
 #, python-format
 msgid "Raisin %(get_skin_display)s"
@@ -3525,6 +3582,19 @@ msgstr ""
 msgid "Sangiovese en pureté de la colline de Montalcino, long élevage obligatoire et grand potentiel de garde."
 msgstr "Pure sangiovese from the hill of Montalcino, with compulsory long ageing and great potential to keep."
 
+msgid ""
+"Sans doute le plus ancien et le plus fin des muscats : petites baies serrées, peau épaisse, et le goût de "
+"raisin frais qui a donné son nom à toute la famille. Ce goût vient des terpènes de la pellicule, linalol, "
+"géraniol et nérol, bien plus abondants que dans les autres cépages. On le vinifie sec (Alsace), doux et à "
+"peine pétillant (Moscato d'Asti) ou muté à l'alcool (Beaumes-de-Venise, Frontignan, Rivesaltes). Un cépage "
+"qui se boit jeune : ses terpènes s'estompent avec les années."
+msgstr ""
+"Probably the oldest and finest of the muscats: small, tight berries, thick skins, and the fresh-grape taste"
+" that gave the whole family its name. That taste comes from terpenes in the skin, linalool, geraniol and "
+"nerol, far more abundant than in other varieties. It is made dry (Alsace), sweet and barely sparkling "
+"(Moscato d'Asti) or fortified (Beaumes-de-Venise, Frontignan, Rivesaltes). A grape to drink young: its "
+"terpenes fade over the years."
+
 msgid "Sardaigne"
 msgstr "Sardinia"
 
@@ -3582,6 +3652,9 @@ msgstr "Its seeds owe their scent to linalool, so much so that the molecule was 
 
 msgid "Ses molécules"
 msgstr "Its molecules"
+
+msgid "Ses molécules marqueurs"
+msgstr "Its marker molecules"
 
 msgid "Ses molécules, de la plus sûre à la plus hypothétique"
 msgstr "Its molecules, from the most certain to the most speculative"
@@ -3645,6 +3718,9 @@ msgid ""
 msgstr ""
 "Its oil (Bulgarian rose) brings together several wine molecules: β-damascenone, β-ionone, rose oxide, "
 "geraniol and 2-phenylethanol. The rarest are the most odorous."
+
+msgid "Son nez"
+msgstr "Its nose"
 
 msgid ""
 "Son odeur caractéristique tient presque entièrement à une seule molécule, l'IBMP, logée dans la chair du "
@@ -3720,6 +3796,9 @@ msgstr "Wild, dark Syrah from sun-scorched soils, closed in its youth."
 msgid "TDN"
 msgstr "1,1,6-trimethyl-1,2-dihydronaphthalene"
 
+msgid "Taille : poids dans le nez"
+msgstr "Size: weight in the nose"
+
 msgid "Tanins"
 msgstr "Tannins"
 
@@ -3745,6 +3824,9 @@ msgstr "Thiol"
 
 msgid "Thiols variétaux recensés dans le Grenache, le Merlot, le Cabernet-Sauvignon et les rosés de Provence."
 msgstr "Varietal thiols recorded in Grenache, Merlot, Cabernet Sauvignon and Provence rosés."
+
+msgid "Tige, selon la raison :"
+msgstr "Stem, by reason:"
 
 msgid "Tokaj"
 msgstr "Tokaj"
@@ -3906,11 +3988,30 @@ msgstr ""
 "One of the ethyl esters that make up the fruity background common to all wines. Alone, it smells of apple "
 "skin and pineapple; in a mixture, it is part of the aromatic \"buffer\" that gives wine its smell of wine."
 
+msgid ""
+"Un descendant du Muscat à petits grains, aux grosses baies charnues, qui aime la chaleur : raisin de table,"
+" raisin sec et raisin de cuve à la fois. Moins fin que son parent, plus exubérant, il donne des vins doux "
+"aux notes de fleur d'oranger et de fruits exotiques (muscats du Roussillon, Zibibbo de Pantelleria)."
+msgstr ""
+"A descendant of Muscat à petits grains, with large fleshy berries, that loves heat: table grape, raisin and"
+" wine grape all at once. Less fine than its parent and more exuberant, it gives sweet wines with notes of "
+"orange blossom and tropical fruit (Roussillon muscats, Zibibbo from Pantelleria)."
+
 msgid "Un descripteur de son nez"
 msgstr "A descriptor from its nose"
 
 msgid "Un graphe des appellations, des cépages et des arômes du vin, à parcourir et à filtrer."
 msgstr "A graph of wine appellations, grapes and aromas to browse and filter."
+
+msgid ""
+"Un muscat obtenu en Anjou au XIXᵉ siècle, plus précoce que le Muscat à petits grains, ce qui lui permet de "
+"mûrir sous les climats frais : l'Alsace, l'Autriche, l'Europe centrale. Plus délicat et moins acide, il "
+"apporte surtout du linalol et du géraniol, et la note florale qui adoucit l'assemblage avec le Muscat à "
+"petits grains."
+msgstr ""
+"A muscat bred in Anjou in the 19th century, earlier ripening than Muscat à petits grains, which lets it "
+"ripen in cool climates: Alsace, Austria, Central Europe. More delicate and less acidic, it brings mostly "
+"linalool and geraniol, and the floral note that softens the blend with Muscat à petits grains."
 
 msgid "Un peu d'histoire"
 msgstr "A little history"
@@ -4032,6 +4133,9 @@ msgstr ""
 
 msgid "Vieillissement et oxydation"
 msgstr "Ageing and oxidation"
+
+msgid "Vigne"
+msgstr "Vineyard"
 
 msgid "Vignoble confidentiel, berceau du vin jaune et des vins sous voile."
 msgstr "A tiny vineyard, the cradle of vin jaune and wines aged under flor."
@@ -4295,6 +4399,9 @@ msgstr "aperitif lengthened with tonic"
 
 msgid "arrosticini"
 msgstr "arrosticini"
+
+msgid "arôme cité"
+msgstr "named aroma"
 
 msgid "arômes voisins"
 msgstr "neighbouring aromas"
@@ -4629,6 +4736,9 @@ msgstr "medium body"
 msgid "corsé"
 msgstr "full-bodied"
 
+msgid "couleur"
+msgstr "colour"
+
 msgid "couscous"
 msgstr "couscous"
 
@@ -4688,6 +4798,9 @@ msgstr "cedar"
 
 msgid "cèpes"
 msgstr "porcini mushrooms"
+
+msgid "cépage"
+msgstr "grape"
 
 msgid "cépages"
 msgstr "grape varieties"
@@ -4855,6 +4968,10 @@ msgstr "resolved"
 
 msgid "fondue"
 msgstr "fondue"
+
+#, python-format
+msgid "force %(n)s sur 3"
+msgstr "strength %(n)s out of 3"
 
 #, python-format
 msgid "force %(strength)s sur 3"
@@ -5050,6 +5167,10 @@ msgstr "petrol, kerosene, hydrocarbon"
 msgid "intensité %(intensity)s sur 3"
 msgstr "intensity %(intensity)s out of 3"
 
+#, python-format
+msgid "intensité %(n)s sur 3"
+msgstr "intensity %(n)s out of 3"
+
 msgid "iode"
 msgstr "iodine"
 
@@ -5235,6 +5356,9 @@ msgstr "coconut, peach, apricot"
 
 msgid "noix, curry, fenugrec, sirop d'érable"
 msgstr "walnut, curry, fenugreek, maple syrup"
+
+msgid "non cité au nez"
+msgstr "not named in the nose"
 
 msgid "nérol"
 msgstr "nerol"
@@ -5528,6 +5652,9 @@ msgstr "raclette"
 msgid "ragoût"
 msgstr "stew"
 
+msgid "raisin frais"
+msgstr "fresh grape"
+
 msgid "raisin sec"
 msgstr "raisin"
 
@@ -5677,6 +5804,9 @@ msgstr "dry"
 msgid "semaine %(n)s, jusqu'au %(until)s"
 msgstr "week %(n)s, until %(until)s"
 
+msgid "seuil"
+msgstr "threshold"
+
 msgid "seul"
 msgstr "on its own"
 
@@ -5727,6 +5857,9 @@ msgstr "structured"
 
 msgid "strudel aux abricots"
 msgstr "apricot strudel"
+
+msgid "style"
+msgstr "style"
 
 msgid "sucré"
 msgstr "sugary"
@@ -5961,6 +6094,9 @@ msgstr "Mature"
 
 msgid "Âge du vin"
 msgstr "Wine age"
+
+msgid "Élevage"
+msgstr "Ageing"
 
 msgid "Élevage sous bois"
 msgstr "Oak ageing"

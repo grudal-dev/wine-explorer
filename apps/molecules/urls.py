@@ -11,5 +11,6 @@ urlpatterns = [
     path("api/graphe/", views.api_graph, name="api_graph"),
     path("api/recherche/", views.api_search, name="api_search"),
     path("fiche/<str:node_id>/", views.panel, name="panel"),
+    path("imprimer/<slug:slug>/", views.print_sheet, name="print_sheet"),
     path("<slug:slug>/", views.molecule_detail, name="molecule"),
 ]

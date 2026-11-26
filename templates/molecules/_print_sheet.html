@@ -1,0 +1,89 @@
+{% load i18n terroirs_i18n %}
+{# Fiche imprimable d'un vin (A4 portrait) : posée dans <div id="mol-print"> par molecules.js, qui y met le dessin du bouquet. #}
+<article class="psheet psheet--{{ profile.color }}">
+  <header class="psheet__head">
+    <p class="psheet__brand">Terroirs <span>·</span> {% translate "Fiche aromatique" %}</p>
+    <h1 class="psheet__title">{{ profile.name|tr }}</h1>
+    <p class="psheet__meta">
+      {{ profile.appellation.name }}{% if profile.region.name != profile.appellation.name %} · {{ profile.region.name|tr }}{% endif %}{% if profile.appellation.country %} · {{ profile.appellation.country.name|tr }}{% endif %}
+      · {{ profile.get_color_display|lower }}{% if profile.style != "tranquille" %}, {{ profile.get_style_display|lower }}{% endif %}
+    </p>
+    <p class="psheet__grapes">
+      {% for g in grapes %}<span><strong>{{ g.grape.name|tr }}</strong> {{ g.share }} %</span>{% endfor %}
+      {% if profile.aging_max %}<span class="psheet__aging">{% blocktranslate trimmed with a=profile.aging_min|default:0 b=profile.aging_max %}Garde : {{ a }} à {{ b }} ans{% endblocktranslate %}</span>{% endif %}
+    </p>
+  </header>
+
+  {% if headline %}<p class="psheet__headline">{{ headline }}</p>{% endif %}
+
+  <div class="psheet__body">
+    <figure class="psheet__bouquet">
+      <img data-bouquet alt="{% blocktranslate trimmed with name=profile.name|tr %}Bouquet moléculaire de {{ name }}{% endblocktranslate %}">
+      <figcaption>
+        <span><i class="psheet__key psheet__key--big"></i>{% translate "Taille : poids dans le nez" %}</span>
+        <span><i class="psheet__key psheet__key--rise"></i>{% translate "Hauteur : raisin en haut, fermentation, élevage près du verre" %}</span>
+        <span><i class="psheet__key psheet__key--open"></i>{% translate "Cercle ouvert : marqueur présent mais non cité au nez" %}</span>
+        <span><i class="psheet__key psheet__key--hue"></i>{% translate "Couleur : famille de l'arôme expliqué" %}</span>
+        <span class="psheet__stems">{% translate "Tige, selon la raison :" %}
+          <i style="background:#7F9248"></i>{% translate "cépage" %}
+          <i style="background:#3B5878"></i>{% translate "style" %}
+          <i style="background:#8DA2BA"></i>{% translate "couleur" %}
+          <i style="background:#C99A3D"></i>{% translate "arôme cité" %}
+          <i style="background:#B9B9AF"></i>{% translate "socle commun" %}</span>
+      </figcaption>
+    </figure>
+
+    <aside class="psheet__nose">
+      <h2>{% translate "Son nez" %}</h2>
+      <ul class="psheet__aromas">
+        {% for a in aromas %}
+        <li class="is-{{ a.intensity }}"><i style="background:{{ a.aroma.family.color }}"></i>{{ a.aroma.name|tr }}
+          <span class="psheet__dots" aria-label="{% blocktranslate trimmed with n=a.intensity %}intensité {{ n }} sur 3{% endblocktranslate %}">{% for i in "123" %}<b class="{% if forloop.counter <= a.intensity %}on{% endif %}"></b>{% endfor %}</span></li>
+        {% endfor %}
+      </ul>
+      {% if profile.description %}<p class="psheet__desc">{{ profile.description|tr }}</p>{% endif %}
+    </aside>
+  </div>
+
+  <section class="psheet__section">
+    <h2>{% translate "Les molécules de ce nez" %}</h2>
+    <table class="psheet__table">
+      <thead><tr>
+        <th>{% translate "Molécule" %}</th><th>{% translate "Elle sent" %}</th><th>{% translate "Dans ce vin" %}</th>
+        <th>{% translate "Pourquoi elle est là" %}</th><th>{% translate "Naît pendant" %}</th>
+      </tr></thead>
+      <tbody>
+        {% for r in rows %}
+        <tr class="{% if not r.direct %}is-quiet{% endif %}">
+          <td class="psheet__mol"><i style="background:{{ r.hue }}"></i><strong>{{ r.name }}</strong>
+            <span class="psheet__dots" aria-label="{% blocktranslate trimmed with n=r.strength %}force {{ n }} sur 3{% endblocktranslate %}">{% for i in "123" %}<b class="{% if forloop.counter <= r.strength %}on{% endif %}"></b>{% endfor %}</span>
+            <small>{{ r.formula|safe }}</small></td>
+          <td>{{ r.odor|tr }}{% if r.threshold %}<small>{% translate "seuil" %} {{ r.threshold|tr }}</small>{% endif %}</td>
+          <td>{% for a in r.explains %}<span class="psheet__aroma{% if a.intensity == 3 %} is-strong{% endif %}">{{ a.label }}</span>{% if not forloop.last %}, {% endif %}{% empty %}<span class="muted">{% translate "non cité au nez" %}</span>{% endfor %}</td>
+          <td>{% for x in r.reasons %}{{ x.label|tr }}{% if x.n %}<sup>{{ x.n }}</sup>{% endif %}{% if not forloop.last %} ; {% endif %}{% empty %}{% if r.universal %}{% translate "Socle commun des vins" %}{% endif %}{% endfor %}</td>
+          <td>{{ r.stage }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  {% if unexplained %}
+  <section class="psheet__section psheet__rest">
+    <h2>{% translate "Le reste de son nez" %}</h2>
+    <ul>{% for u in unexplained %}<li><strong>{{ u.label }}</strong> : {{ u.reason }}{% if u.note %} {{ u.note }}{% endif %}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  {% if references %}
+  <section class="psheet__section psheet__refs">
+    <h2>{% translate "Sources" %}</h2>
+    <ol>{% for r in references %}<li>{{ r.authors }}{% if r.year %} ({{ r.year }}){% endif %}. {{ r.title }}{% if r.container %}. <em>{{ r.container }}</em>{% endif %}.</li>{% endfor %}</ol>
+  </section>
+  {% endif %}
+
+  <footer class="psheet__foot">
+    <span>{{ url }}</span>
+    <span>{% translate "Liens vin → molécule déduits de règles sourcées : cépage, style, couleur, arômes cités." %}</span>
+  </footer>
+</article>

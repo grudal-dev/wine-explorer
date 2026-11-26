@@ -30,6 +30,7 @@ DISALLOWED = (
     "/graphe/noeud/",
     "/molecules/api/",
     "/molecules/fiche/",
+    "/molecules/imprimer/",
     "/carte/api/",
     "/comparer/api/",
     "/carte/fiche/",

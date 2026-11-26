@@ -34,9 +34,35 @@
 - {name: Pinot Gris, skin: gris, origin: Bourgogne / Alsace, synonyms: [Pinot Grigio]}
 - {name: Pinot Blanc, skin: blanc, origin: Bourgogne / Alsace}
 - {name: Sylvaner, skin: blanc, origin: Europe centrale}
-- {name: Muscat à petits grains, skin: blanc, origin: Méditerranée, synonyms: [Muscat blanc, Muscat de Frontignan, Moscato, Moscato Bianco, Sárgamuskotály, Muscat Lunel]}
-- {name: Muscat d'Alexandrie, skin: blanc, origin: Méditerranée, synonyms: [Zibibbo]}
-- {name: Muscat Ottonel, skin: blanc, origin: Anjou, synonyms: [Ottonel, Muskat Ottonel]}
+- name: Muscat à petits grains
+  skin: blanc
+  origin: Méditerranée
+  synonyms: [Muscat blanc, Muscat de Frontignan, Moscato, Moscato Bianco, Sárgamuskotály, Muscat Lunel]
+  description: >-
+    Sans doute le plus ancien et le plus fin des muscats : petites baies serrées, peau épaisse,
+    et le goût de raisin frais qui a donné son nom à toute la famille. Ce goût vient des terpènes
+    de la pellicule, linalol, géraniol et nérol, bien plus abondants que dans les autres cépages.
+    On le vinifie sec (Alsace), doux et à peine pétillant (Moscato d'Asti) ou muté à l'alcool
+    (Beaumes-de-Venise, Frontignan, Rivesaltes). Un cépage qui se boit jeune : ses terpènes
+    s'estompent avec les années.
+- name: Muscat d'Alexandrie
+  skin: blanc
+  origin: Méditerranée
+  synonyms: [Zibibbo]
+  description: >-
+    Un descendant du Muscat à petits grains, aux grosses baies charnues, qui aime la chaleur :
+    raisin de table, raisin sec et raisin de cuve à la fois. Moins fin que son parent, plus
+    exubérant, il donne des vins doux aux notes de fleur d'oranger et de fruits exotiques
+    (muscats du Roussillon, Zibibbo de Pantelleria).
+- name: Muscat Ottonel
+  skin: blanc
+  origin: Anjou
+  synonyms: [Ottonel, Muskat Ottonel]
+  description: >-
+    Un muscat obtenu en Anjou au XIXᵉ siècle, plus précoce que le Muscat à petits grains, ce qui
+    lui permet de mûrir sous les climats frais : l'Alsace, l'Autriche, l'Europe centrale. Plus
+    délicat et moins acide, il apporte surtout du linalol et du géraniol, et la note florale
+    qui adoucit l'assemblage avec le Muscat à petits grains.
 - {name: Viognier, skin: blanc, origin: Rhône septentrional}
 - {name: Marsanne, skin: blanc, origin: Rhône septentrional}
 - {name: Roussanne, skin: blanc, origin: Rhône septentrional}

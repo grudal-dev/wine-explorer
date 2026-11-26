@@ -8,6 +8,7 @@
   const API = root.dataset.api;
   const SEARCH = root.dataset.search;
   const PANEL = root.dataset.panel; // .../fiche/X/
+  const PRINT = root.dataset.print; // .../imprimer/X/
   const RANDOM = (root.dataset.random || "").split(",").filter(Boolean);
   const stats = document.getElementById("mol-stats");
   const trailEl = document.getElementById("mol-trail");
@@ -130,17 +131,21 @@
       // Arôme du vin : pastille teintée de la couleur de sa famille, pas une étiquette blanche.
       { selector: "node.bq.bouquet[type='aroma']", style: { "background-color": "data(hue)", "background-opacity": 0.2 }},
       // Arôme dominant du vin : étiquette un peu plus affirmée.
-      { selector: "node.bq.bouquet[type='aroma'][intensity = 3]", style: { "font-weight": 600, "border-width": 2.6 }},
+      { selector: "node.bq.bouquet[type='aroma'][intensity = 3]", style: { "font-weight": 600, "font-size": 14.5,
+        "border-width": 2.8, "background-opacity": 0.32, "height": 30, "padding": "10px" }},
+      { selector: "node.bq.bouquet[type='aroma'][intensity = 1]", style: { "font-size": 12, "border-width": 1.5 }},
       { selector: "node.bq.bouquet[type='source'][!near]", style: { "opacity": 0.5, "font-size": 11.5 }},
       { selector: "node.bq.bouquet.hl[type='source']", style: { "opacity": 1 }},
       { selector: "edge.bq[kind='contains']", style: { "curve-style": "unbundled-bezier",
-        "control-point-distances": (e) => [-(e.target().position("x") - e.source().position("x")) * 0.32],
+        "source-endpoint": (e) => e.data("sep") || "outside-to-node",
+        "control-point-distances": (e) => [e.data("cpd") ?? -(e.target().position("x") - e.source().position("x")) * 0.32],
         "control-point-weights": [0.55], "opacity": 0.75, "width": "mapData(strength, 1, 3, 2, 6)" }},
       { selector: "edge.bq.bouquet[kind='contains']", style: { "opacity": (e) => (e.target().data("direct") ? 0.75 : 0.3) }},
       // Molécule → élément naturel ou arôme du vin : le trait part du bord de la bulle et s'arrête net sur
       // le bord de l'étiquette (point d'arrivée calculé par placeLabels), sans pastille qui déborde ; sa
       // couleur passe de celle de la molécule à celle de l'arôme, il se fond dans l'une et dans l'autre.
-      { selector: "edge.bq[kind='found_in'], edge.bq[kind='evokes']", style: { "curve-style": "straight",
+      { selector: "edge.bq[kind='found_in'], edge.bq[kind='evokes']", style: { "curve-style": "unbundled-bezier",
+        "control-point-distances": (e) => [e.data("cpd") || 0], "control-point-weights": [0.5],
         "source-endpoint": "outside-to-node", "target-endpoint": (e) => e.data("tep") || "outside-to-node",
         "line-cap": "round", "line-fill": "linear-gradient",
         "line-gradient-stop-colors": (e) => `${e.source().data("hue")} ${e.target().data("hue")}`,
@@ -282,7 +287,14 @@
     const indirect = n.hasClass("bouquet") && !n.data("direct");
     // Marqueur en réserve : un tiers plus petit, quelle que soit sa force ; socle commun : un peu moins.
     const shrink = !indirect ? 1 : n.data("tier") === "specific" ? 0.7 : 0.84;
-    const d = base * shrink * SC;
+    // Le poids de la molécule dans le nez : une bulle qui explique l'arôme dominant du vin (le raisin
+    // frais du linalol dans un muscat) grossit ; celle d'un arôme discret (une touche de rose) rapetisse.
+    let weight = 1;
+    if (n.hasClass("bouquet") && !indirect) {
+      const inten = Math.max(0, ...n.outgoers("node[type='aroma']").map((a) => a.data("intensity") || 1));
+      weight = { 3: 1.24, 2: 1.04, 1: 0.9 }[inten] || 1;
+    }
+    const d = base * shrink * weight * SC;
     // Un nom long (« pyrroleméthanethiol ») agrandit un peu sa bulle plutôt que d'être abrégé.
     for (const grow of [1, 1.12, 1.25, 1.38, 1.52]) {
       if (fitAt(n, d * grow, false)) return d * grow;
@@ -311,8 +323,10 @@
     stillView = still;
     cy.style().update();
   }
+  let ownResize = 0;
   function prepare(height, classes) {
     const canvas = cy.container().parentElement;
+    ownResize = Date.now();
     canvas.classList.add("is-bouquet");
     const want = `${Math.round(height)}px`;
     if (canvas.style.minHeight !== want) { canvas.style.minHeight = want; cy.resize(); }
@@ -488,7 +502,20 @@
     prepare(compact ? 760 + 52 * Math.max(0, n - 5) : 820, "bouquet");
     placeBubbles(positions, compact ? 96 : 110, compact);
   }
+  // Les copies d'étiquettes d'une mise en page précédente rejoignent leur original.
+  function unsplitLabels() {
+    cy.nodes("[of]").forEach((twin) => {
+      twin.incomers("edge").forEach((e) => {
+        const d = { ...e.data(), id: e.id().replace(/~\d+$/, ""), target: twin.data("of") };
+        const cls = e.classes();
+        cy.remove(e);
+        cy.add({ group: "edges", data: d, classes: cls });
+      });
+      cy.remove(twin);
+    });
+  }
   function placeBubbles(positions, topLimit, compact) {
+    unsplitLabels();
     const W = cy.width(), H = cy.height();
     const rad = (d) => (d * Math.PI) / 180;
     const ox = W / 2, oy = H - (compact ? 190 : 230);
@@ -529,6 +556,11 @@
     // Un anneau chargé (cinq molécules du raisin dans un Gewurztraminer) s'étage en quinconce.
     const perBand = {};
     row.forEach((m) => { const b = band[m.data("origin")] || 2; perBand[b] = (perBand[b] || 0) + 1; });
+    // Les anneaux occupent toute la hauteur : un vin sans molécule du raisin (Pouilly-Fuissé, porto) ne
+    // laisse pas le haut du cadre vide ; l'ordre raisin, fermentation, élevage est gardé.
+    const used = Object.keys(perBand).map(Number).sort();
+    const spread = used.length === 1 ? [0.86] : used.length === 2 ? [1, n > 9 ? 0.66 : 0.6] : [1, ringOf[2], ringOf[3]];
+    used.forEach((b, i) => { ringOf[b] = spread[i]; });
     const seen = {};
     row.forEach((m, k) => {
       const slot = slots[k];
@@ -542,7 +574,7 @@
     // Les bulles ne se touchent pas : on les écarte deux à deux (au-dessus du verre, dans le cadre).
     const size = (m) => bubble(m) / 2;
     const ms = mols.toArray();
-    for (let it = 0; it < 60; it++) {
+    for (let it = 0; it < 90; it++) {
       let moved = false;
       for (let i = 0; i < ms.length; i++) {
         for (let j = i + 1; j < ms.length; j++) {
@@ -555,6 +587,26 @@
           moved = true;
         }
       }
+      // Une bulle ne cache pas la tige d'une bulle plus haute : on l'écarte de côté (le bouquet s'ouvre).
+      if (it < 45) {
+        for (let i = 0; i < ms.length; i++) {
+          for (let j = 0; j < ms.length; j++) {
+            if (i === j) continue;
+            const hi = positions[ms[i].id()], lo = positions[ms[j].id()];
+            if (lo.y <= hi.y) continue;
+            const gx = ox, gy = oy + 40;   // pied des tiges, au bord du verre
+            const dx = hi.x - gx, dy = hi.y - gy, L2 = dx * dx + dy * dy || 1;
+            const t = ((lo.x - gx) * dx + (lo.y - gy) * dy) / L2;
+            if (t <= 0.05 || t >= 1) continue;
+            const px = gx + t * dx, py = gy + t * dy, d = Math.hypot(lo.x - px, lo.y - py) || 0.01;
+            const need = size(ms[j]) + 10;
+            if (d >= need) continue;
+            const ux = (lo.x - px) / d || (lo.x >= ox ? 1 : -1), push = Math.min(need - d, 12);
+            lo.x += ux * push * 0.7; hi.x -= ux * push * 0.3;
+            moved = true;
+          }
+        }
+      }
       ms.forEach((m) => {
         const p = positions[m.id()], r = size(m);
         p.x = Math.min(W - r - 10, Math.max(r + 10, p.x));
@@ -562,137 +614,248 @@
       });
       if (!moved) break;
     }
-    placeLabels(positions, cy.nodes("[type='aroma'], [type='source']").toArray(), ox, oy, compact ? 22 : 26, compact ? 36 : 22);
+    splitFarLabels(positions, compact ? W * 0.42 : 250);
+    const stems = routeStems(positions);
+    const labels = () => cy.nodes("[type='aroma'], [type='source']").toArray();
+    placeLabels(positions, labels(), ox, oy, compact ? 22 : 26, compact ? 36 : 22, stems);
+    // Deux copies d'une même étiquette posées côte à côte redeviennent une seule (en faisceau).
+    if (mergeNearTwins(positions)) placeLabels(positions, labels(), ox, oy, compact ? 22 : 26, compact ? 36 : 22, stems);
+    routeEdges(positions);
+    trimTop(positions);
     run(positions, false);
   }
   // Étiquettes d'arômes : chacune dans l'axe de ses bulles vu du verre (angle moyen), posée juste au-delà
   // du bord du bouquet dans cette direction ; puis on les écarte des bulles et entre elles. Les traits
   // partent vers l'extérieur et ne traversent pas le dessin.
-  function placeLabels(positions, labels, ox, oy, topMin, gap = 22) {
-    const W = cy.width();
-    measureCtx.font = "500 12.5px Inter, system-ui, sans-serif";
-    const bubbles = cy.nodes("[type='molecule']").map((m) => ({ ...positions[m.id()], r: bubble(m) / 2 + 9 }));
-    const polar = (p) => ({ a: Math.atan2(p.x - ox, oy - p.y), d: Math.hypot(p.x - ox, oy - p.y) });
-    const items = labels.map((s) => {
-      const ms = s.incomers("node[type='molecule']").toArray().filter((m) => positions[m.id()]);
-      const angles = ms.map((m) => polar(positions[m.id()]).a);
-      const a = angles.length ? angles.reduce((t, v) => t + v, 0) / angles.length : 0;
-      // Demi-taille réelle de l'étiquette : texte + marge intérieure de 9 px + bordure (hauteur 26 + 2 × 9).
-      const hw = measureCtx.measureText(s.data("label") || "").width / 2 + 11, hh = 23;
-      // Bord du bouquet dans cette direction : la bulle la plus lointaine que le rayon frôle.
-      // Ses propres bulles comptent toujours : une étiquette partagée par deux bulles écartées (le buis
-      // de la 4-MMP et de l'acétate) tombait sinon entre elles, au pied du verre.
-      let edge = Math.max(0, ...ms.map((m) => {
-        const pb = polar(positions[m.id()]);
-        return pb.d * Math.cos(pb.a - a) + bubble(m) / 2 + 9;
-      }));
-      bubbles.forEach((b) => {
-        const pb = polar(b);
-        const off = Math.abs(Math.sin(pb.a - a)) * pb.d;
-        if (off < b.r + hw * 0.6 && Math.cos(pb.a - a) > 0) edge = Math.max(edge, pb.d * Math.cos(pb.a - a) + b.r);
+  // Une étiquette partagée par des bulles éloignées (la rose du nérol, en haut à gauche, et du
+  // 2-phényléthanol, en bas à droite) tirait des traits à travers tout le bouquet : on la répète, une
+  // par groupe de bulles voisines. Les bulles proches gardent une étiquette commune, en faisceau.
+  // La copie porte l'identifiant de l'original dans « of » (fiche, surbrillance).
+  function splitFarLabels(positions, reach) {
+    cy.nodes("[type='aroma'], [type='source']").forEach((lab) => {
+      const ms = lab.incomers("node[type='molecule']").filter((m) => positions[m.id()]).toArray();
+      if (ms.length < 2) return;
+      // Groupes par lien complet : toutes les bulles d'un groupe sont à moins de « reach » les unes des autres.
+      const groups = [];
+      ms.sort((a, b) => positions[a.id()].x - positions[b.id()].x).forEach((m) => {
+        const p = positions[m.id()];
+        const g = groups.find((gr) => gr.every((o) => Math.hypot(positions[o.id()].x - p.x, positions[o.id()].y - p.y) <= reach));
+        if (g) g.push(m); else groups.push([m]);
       });
-      const dist = edge + hh + gap;
-      return { s, x: ox + dist * Math.sin(a), y: oy - dist * Math.cos(a), hw, hh };
+      groups.slice(1).forEach((g, i) => {
+        const id = `${lab.id()}~${i + 1}`;
+        cy.add({ group: "nodes", data: { ...lab.data(), id, of: lab.id() }, classes: lab.classes() });
+        g.forEach((m) => m.edgesTo(lab).forEach((e) => {
+          const d = { ...e.data(), id: `${e.id()}~${i + 1}`, target: id };
+          const cls = e.classes();
+          cy.remove(e);
+          cy.add({ group: "edges", data: d, classes: cls });
+        }));
+      });
     });
-    for (let it = 0; it < 120; it++) {
-      let moved = false;
-      items.forEach((a) => {
-        bubbles.forEach((b) => {
-          const qx = Math.max(a.x - a.hw, Math.min(b.x, a.x + a.hw)), qy = Math.max(a.y - a.hh, Math.min(b.y, a.y + a.hh));
-          let dx = qx - b.x, dy = qy - b.y;
-          let d = Math.hypot(dx, dy);
-          if (d >= b.r) return;
-          if (d < 0.5) { dx = a.x - b.x; dy = a.y - b.y - 1; d = Math.hypot(dx, dy) || 1; }
-          const k = (b.r - Math.hypot(qx - b.x, qy - b.y) + 1) / d;
-          a.x += dx * k; a.y += dy * k; moved = true;
-        });
-        items.forEach((c) => {
-          if (c === a) return;
-          const ox2 = a.hw + c.hw + 6 - Math.abs(a.x - c.x), oy2 = a.hh + c.hh + 4 - Math.abs(a.y - c.y);
-          if (ox2 <= 0 || oy2 <= 0) return;
-          // Entre étiquettes, on s'écarte le long de la couronne (à l'horizontale) ; ce qui se touche
-          // encore monte au dernier passage. Un écart vertical ici les faisait plonger dans le bouquet.
-          const sgn = a.x < c.x || (a.x === c.x && a.y < c.y) ? -1 : 1;
-          a.x += sgn * Math.min(ox2, 40) / 2; c.x -= sgn * Math.min(ox2, 40) / 2;
-          moved = true;
-        });
-        a.x = Math.min(W - a.hw - 6, Math.max(a.hw + 6, a.x));
-        a.y = Math.min(oy - 60, Math.max(topMin + a.hh, a.y));
+  }
+  function mergeNearTwins(positions) {
+    let merged = false;
+    cy.nodes("[of]").forEach((twin) => {
+      const orig = cy.getElementById(twin.data("of"));
+      const a = positions[twin.id()], b = positions[orig.id()];
+      if (!a || !b || Math.hypot(a.x - b.x, a.y - b.y) > labelBox(orig).hw * 2 + 70) return;
+      twin.incomers("edge").forEach((e) => {
+        const d = { ...e.data(), id: e.id().replace(/~\d+$/, ""), target: orig.id() };
+        const cls = e.classes();
+        cy.remove(e);
+        cy.add({ group: "edges", data: d, classes: cls });
       });
-      if (!moved) break;
+      cy.remove(twin);
+      delete positions[twin.id()];
+      merged = true;
+    });
+    return merged;
+  }
+  // Pas de grand vide en haut du cadre : tout remonte et le cadre raccourcit d'autant.
+  function trimTop(positions) {
+    let top = Infinity;
+    cy.nodes().forEach((n) => {
+      const p = positions[n.id()];
+      if (!p) return;
+      const half = n.data("type") === "molecule" ? bubble(n) / 2 + 7
+        : n.data("type") === "profile" ? 62 * SC : labelBox(n).hh;
+      top = Math.min(top, p.y - half);
+    });
+    const cut = Math.max(0, Math.floor(top - 28));
+    Object.values(positions).forEach((p) => { p.y -= cut; });
+    // En bas : le nom du vin sous le verre, sur deux ou trois lignes s'il est long.
+    let bottom = 0;
+    cy.nodes("[type='profile']").forEach((g) => {
+      const p = positions[g.id()];
+      if (!p) return;
+      measureCtx.font = `600 ${21 * SC}px Fraunces, Georgia, serif`;
+      const lines = wrap(tokens(g.data("label") || ""), 260 * SC, (t) => measureCtx.measureText(t).width).length;
+      bottom = Math.max(bottom, p.y + 62 * SC + 10 * SC + lines * 21 * SC * 1.3);
+    });
+    const height = Math.round(Math.max(bottom + 26, 420));
+    const canvas = cy.container().parentElement;
+    if (Math.abs(height - cy.height()) < 2) return;
+    ownResize = Date.now();
+    canvas.style.minHeight = `${height}px`;
+    cy.resize();
+  }
+  // Demi-taille réelle d'une étiquette (texte, marge intérieure, bordure), selon son poids dans le nez.
+  function labelBox(s) {
+    const strong = s.data("type") === "aroma" && s.data("intensity") === 3;
+    const weak = s.data("type") === "aroma" && s.data("intensity") === 1;
+    measureCtx.font = strong ? "600 14.5px Inter, system-ui, sans-serif" : `500 ${weak ? 12 : 12.5}px Inter, system-ui, sans-serif`;
+    const pad = strong ? 10 : 9, h = strong ? 30 : 26, border = strong ? 2.8 : 2;
+    return { hw: measureCtx.measureText(s.data("label") || "").width / 2 + pad + border, hh: h / 2 + pad + border / 2 };
+  }
+  // ── Géométrie partagée par le placement des étiquettes et le tracé des traits ──
+  // Courbe de Bézier quadratique comme Cytoscape la trace (point de contrôle à « w » du trait, décalé de
+  // « d » sur la normale), échantillonnée.
+  function curve(s, t, d, w, k = 24) {
+    const L = Math.hypot(t.x - s.x, t.y - s.y) || 1, nx = -(t.y - s.y) / L, ny = (t.x - s.x) / L;
+    const c = { x: s.x + (t.x - s.x) * w + nx * d, y: s.y + (t.y - s.y) * w + ny * d };
+    const pts = [];
+    for (let i = 0; i <= k; i++) {
+      const u = i / k, v = 1 - u;
+      pts.push({ x: v * v * s.x + 2 * v * u * c.x + u * u * t.x, y: v * v * s.y + 2 * v * u * c.y + u * u * t.y });
     }
-    // Dernier passage : deux étiquettes qui se touchent encore, la plus haute monte (il y a de la place
-    // au-dessus du bouquet) ; on ne repousse plus rien sur les côtés, où le cadre est étroit.
-    for (let it = 0; it < 40; it++) {
-      let moved = false;
-      items.forEach((a) => items.forEach((c) => {
-        if (c === a || a.y > c.y || (a.y === c.y && a.x > c.x)) return;
-        const ovx = a.hw + c.hw + 6 - Math.abs(a.x - c.x), ovy = a.hh + c.hh + 4 - Math.abs(a.y - c.y);
-        if (ovx <= 0 || ovy <= 0) return;
-        if (a.y - ovy >= topMin + a.hh) a.y -= ovy;
-        else {   // collée au bord du haut : on l'écarte sur le côté, dans le cadre
-          const sgn = a.x <= c.x ? -1 : 1;
-          a.x = Math.min(W - a.hw - 6, Math.max(a.hw + 6, a.x + sgn * ovx));
-          if (Math.abs(a.x - c.x) < a.hw + c.hw + 6) c.x = Math.min(W - c.hw - 6, Math.max(c.hw + 6, c.x - sgn * ovx));
-        }
-        moved = true;
-      }));
-      if (!moved) break;
+    return pts;
+  }
+  // Le segment a → b coupe-t-il la ligne brisée pts ?
+  function crossesPath(a, b, pts) {
+    const cr = (p, q, r) => (q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x);
+    for (let i = 0; i < pts.length - 1; i++) {
+      const c = pts[i], d = pts[i + 1];
+      if (cr(a, b, c) * cr(a, b, d) < 0 && cr(c, d, a) * cr(c, d, b) < 0) return true;
     }
-    // Un trait ne passe pas sous une autre étiquette (le cassis de la leucate barrant la mûre) : celle
-    // qu'il traverse s'écarte sur le côté, du côté où elle se trouve déjà. Puis on revérifie les chevauchements.
-    const links = items.flatMap((a) => a.s.incomers("node[type='molecule']").toArray()
-      .filter((m) => positions[m.id()]).map((m) => ({ m: positions[m.id()], a })));
-    // Distance d'un point au segment p → q.
-    const segDist = (p, q, b) => {
-      const dx = q.x - p.x, dy = q.y - p.y, l2 = dx * dx + dy * dy || 1;
-      const t = Math.max(0, Math.min(1, ((b.x - p.x) * dx + (b.y - p.y) * dy) / l2));
-      return Math.hypot(p.x + t * dx - b.x, p.y + t * dy - b.y);
-    };
-    const crosses = (p, q, c, pad) => {
-      // Liang-Barsky : le segment p → q coupe-t-il le rectangle de c (élargi de pad) ?
-      const dx = q.x - p.x, dy = q.y - p.y;
-      let t0 = 0, t1 = 1;
-      const edges = [[-dx, p.x - (c.x - c.hw - pad)], [dx, c.x + c.hw + pad - p.x],
-        [-dy, p.y - (c.y - c.hh - pad)], [dy, c.y + c.hh + pad - p.y]];
-      for (const [pp, qq] of edges) {
-        if (pp === 0) { if (qq < 0) return false; continue; }
-        const r = qq / pp;
-        if (pp < 0) { if (r > t1) return false; if (r > t0) t0 = r; }
-        else { if (r < t0) return false; if (r < t1) t1 = r; }
-      }
-      return t0 < t1;
-    };
-    // Chaque étiquette essaie de petits pas à gauche ou à droite (jusqu'à 72 px) et garde la place où ses
-    // traits et ceux des autres coupent le moins d'étiquettes et de bulles, sans en chevaucher aucune.
-    const overlaps = (c) => bubbles.some((b) => {
-      const qx = Math.max(c.x - c.hw, Math.min(b.x, c.x + c.hw)), qy = Math.max(c.y - c.hh, Math.min(b.y, c.y + c.hh));
-      return Math.hypot(qx - b.x, qy - b.y) < b.r - 2;
-    }) || items.some((d) => d !== c && Math.abs(d.x - c.x) < d.hw + c.hw + 4 && Math.abs(d.y - c.y) < d.hh + c.hh + 2);
-    const cost = () => {
-      let k = 0;
-      links.forEach(({ m, a }) => {
-        items.forEach((c) => { if (c !== a && crosses(m, a, c, 6)) k += 3; });
-        bubbles.forEach((b) => { if (Math.hypot(b.x - m.x, b.y - m.y) > 1 && segDist(m, a, b) < b.r - 6) k += 1; });
-      });
-      return k;
-    };
-    for (let pass = 0; pass < 2; pass++) {
-      items.forEach((c) => {
-        const x0 = c.x;
-        let best = x0, bestCost = cost();
-        if (!bestCost) return;
-        for (let s = 6; s <= 72; s += 6) {
-          for (const sgn of [-1, 1]) {
-            c.x = x0 + sgn * s;
-            if (c.x < c.hw + 6 || c.x > W - c.hw - 6 || overlaps(c)) continue;
-            const k = cost();
-            if (k < bestCost) { bestCost = k; best = c.x; }
+    return false;
+  }
+  const inBox = (p, b, pad) => Math.abs(p.x - b.x) < b.hw + pad && Math.abs(p.y - b.y) < b.hh + pad;
+  const boxHitsCircle = (b, c, pad) => {
+    const qx = Math.max(b.x - b.hw, Math.min(c.x, b.x + b.hw)), qy = Math.max(b.y - b.hh, Math.min(c.y, b.y + b.hh));
+    return Math.hypot(qx - c.x, qy - c.y) < c.r + pad;
+  };
+  // Les tiges sortent de la surface du vin, réparties sur la largeur du verre dans l'ordre de leurs
+  // bulles (de gauche à droite) : un bouquet qui s'ouvre, et non un faisceau qui part d'un point.
+  // Chaque tige garde sa courbe naturelle tant qu'elle ne passe derrière aucune bulle ; sinon elle se
+  // courbe juste assez pour la contourner.
+  function routeStems(positions) {
+    const stems = [];
+    const mols = cy.nodes("[type='molecule']").map((m) => ({ id: m.id(), ...positions[m.id()], r: bubble(m) / 2 + 5 }));
+    cy.nodes("[type='profile']").forEach((g) => {
+      const gp = positions[g.id()];
+      if (!gp) return;
+      const es = g.connectedEdges("[kind='contains']").filter((e) => positions[e.target().id()]).toArray()
+        .sort((e1, e2) => Math.atan2(positions[e1.target().id()].x - gp.x, gp.y - positions[e1.target().id()].y)
+          - Math.atan2(positions[e2.target().id()].x - gp.x, gp.y - positions[e2.target().id()].y));
+      const k = es.length, half = 30 * SC, depth = -44 * SC;
+      es.forEach((e, i) => {
+        const dx = k > 1 ? -half + (2 * half * i) / (k - 1) : 0;
+        e.data("sep", `${dx.toFixed(1)}px ${depth.toFixed(1)}px`);
+        const s = { x: gp.x + dx, y: gp.y - 62 * SC };
+        const m = positions[e.target().id()];
+        const natural = -(m.x - s.x) * 0.3;
+        const cost = (d) => {
+          const pts = curve(s, m, d, 0.55);
+          let n = 0;
+          mols.forEach((b) => { if (b.id !== e.target().id() && pts.some((p) => Math.hypot(p.x - b.x, p.y - b.y) < b.r)) n += 1; });
+          if (pts.some((p) => p.x < 6 || p.x > cy.width() - 6)) n += 2;
+          return n;
+        };
+        let pick = natural, score = cost(natural) * 1000;
+        for (let step = 5; score && step <= 160; step += 5) {
+          for (const sg of [-1, 1]) {
+            const sc = cost(natural + sg * step) * 1000 + step;
+            if (sc < score) { score = sc; pick = natural + sg * step; }
           }
         }
-        c.x = best;
+        e.data("cpd", pick);
+        stems.push({ id: e.target().id(), pts: curve(s, m, pick, 0.55, 16) });
       });
-    }
+    });
+    return stems;
+  }
+  // Traits molécule → étiquette : droits si rien ne les gêne, sinon courbés juste assez.
+  function routeEdges(positions) {
+    const mols = cy.nodes("[type='molecule']").map((m) => ({ id: m.id(), ...positions[m.id()], r: bubble(m) / 2 + 4 }));
+    const boxes = cy.nodes("[type='aroma'], [type='source']").filter((n) => positions[n.id()])
+      .map((n) => ({ id: n.id(), ...positions[n.id()], ...labelBox(n) }));
+    cy.edges("[kind='evokes'], [kind='found_in']").forEach((e) => {
+      const m = positions[e.source().id()], a = positions[e.target().id()];
+      if (!m || !a) return;
+      const skip = new Set([e.source().id(), e.target().id()]);
+      const cost = (d) => {
+        const pts = curve(m, a, d, 0.5);
+        let n = 0;
+        mols.forEach((b) => { if (!skip.has(b.id) && pts.some((p) => Math.hypot(p.x - b.x, p.y - b.y) < b.r)) n += 1; });
+        boxes.forEach((b) => { if (!skip.has(b.id) && pts.some((p) => inBox(p, b, 3))) n += 2; });
+        if (pts.some((p) => p.x < 4 || p.x > cy.width() - 4 || p.y < 4)) n += 3;
+        return n;
+      };
+      let pick = 0, score = cost(0) * 1000;
+      for (let step = 6; score && step <= 120; step += 6) {
+        for (const sg of [-1, 1]) {
+          const sc = cost(sg * step) * 1000 + step;
+          if (sc < score) { score = sc; pick = sg * step; }
+        }
+      }
+      e.data("cpd", pick);
+    });
+  }
+  // Étiquettes d'arômes : chacune cherche, autour de ses bulles, la place libre la plus proche (vers
+  // l'extérieur du bouquet de préférence) : sans chevaucher bulle, étiquette ni tige, et sans que ses
+  // traits ou ceux des autres passent sous une étiquette ou derrière une bulle. Les arômes dominants,
+  // puis les étiquettes reliées à plusieurs bulles, choisissent d'abord.
+  function placeLabels(positions, labels, ox, oy, topMin, gap = 22, stems = []) {
+    const W = cy.width();
+    const bubbles = cy.nodes("[type='molecule']").map((m) => ({ id: m.id(), ...positions[m.id()], r: bubble(m) / 2 + 7 }));
+    const items = labels.map((s) => {
+      const ms = s.incomers("node[type='molecule']").toArray().filter((m) => positions[m.id()]);
+      return { s, ms: ms.map((m) => ({ id: m.id(), ...positions[m.id()], r: bubble(m) / 2 + 7 })), ...labelBox(s) };
+    }).sort((a, b) => (b.s.data("intensity") || 0) - (a.s.data("intensity") || 0) || b.ms.length - a.ms.length);
+    const placed = [];
+    const seg = (p, q, k = 14) => [...Array(k + 1).keys()].map((i) => ({ x: p.x + ((q.x - p.x) * i) / k, y: p.y + ((q.y - p.y) * i) / k }));
+    items.forEach((it) => {
+      const c = it.ms.length
+        ? { x: it.ms.reduce((t, m) => t + m.x, 0) / it.ms.length, y: it.ms.reduce((t, m) => t + m.y, 0) / it.ms.length }
+        : { x: ox, y: topMin + 60 };
+      const out = Math.atan2(c.x - ox, oy - c.y);
+      const reach = Math.max(...it.ms.map((m) => Math.hypot(m.x - c.x, m.y - c.y) + m.r), 30);
+      let best = null;
+      for (let dt = 0; dt <= 180; dt += 12) {
+        for (const sg of dt ? [-1, 1] : [1]) {
+          const a = out + (sg * dt * Math.PI) / 180;
+          for (const extra of [10, 26, 48, 76, 110, 150, 200]) {
+            const dist = reach + extra + it.hh * Math.abs(Math.cos(a)) + it.hw * Math.abs(Math.sin(a)) * 0.9;
+            const cand = { x: c.x + dist * Math.sin(a), y: c.y - dist * Math.cos(a), hw: it.hw, hh: it.hh };
+            if (cand.x - cand.hw < 6 || cand.x + cand.hw > W - 6 || cand.y - cand.hh < topMin || cand.y + cand.hh > oy - 50) continue;
+            let k = 0;
+            if (bubbles.some((b) => boxHitsCircle(cand, b, 4))) continue;
+            if (placed.some((o) => Math.abs(o.x - cand.x) < o.hw + cand.hw + 8 && Math.abs(o.y - cand.y) < o.hh + cand.hh + 6)) continue;
+            // Ses traits : derrière une autre bulle, sous une étiquette déjà posée.
+            it.ms.forEach((m) => {
+              const line = seg(m, cand);
+              bubbles.forEach((b) => { if (b.id !== m.id && line.some((p) => Math.hypot(p.x - b.x, p.y - b.y) < b.r - 3)) k += 300; });
+              placed.forEach((o) => { if (line.some((p) => inBox(p, o, 4))) k += 400; });
+              // Un trait qui barre les tiges des autres bulles brouille le bouquet.
+              stems.forEach((st) => { if (st.id !== m.id && crossesPath(m, cand, st.pts)) k += 220; });
+              // Ni les traits des autres étiquettes.
+              placed.forEach((o) => o.ms.forEach((m2) => { if (m2.id !== m.id && crossesPath(m, cand, [m2, o])) k += 220; }));
+              k += Math.hypot(cand.x - m.x, cand.y - m.y) * 0.6;
+            });
+            // Les traits des étiquettes déjà posées ne passent pas sous celle-ci.
+            placed.forEach((o) => o.ms.forEach((m) => { if (seg(m, o).some((p) => inBox(p, cand, 4))) k += 400; }));
+            // Pas sur une tige.
+            stems.forEach((st) => { if (st.pts.some((p) => inBox(p, cand, 3))) k += 400; });
+            k += dt * 0.8 + (cand.y > c.y ? 120 : 0);
+            if (!best || k < best.k) best = { ...cand, k };
+          }
+        }
+      }
+      if (!best) best = { x: Math.min(W - it.hw - 6, Math.max(it.hw + 6, c.x)), y: topMin + it.hh, k: 0 };
+      it.x = best.x; it.y = best.y;
+      placed.push(it);
+    });
     items.forEach((a) => { positions[a.s.id()] = { x: a.x, y: a.y }; });
     // Point d'arrivée sur le bord de l'étiquette : en bas (ou en haut) si les bulles sont sous (ou sur)
     // l'étiquette, sur le côté si elles sont à sa hauteur. Plusieurs traits vers une même étiquette
@@ -771,13 +934,23 @@
     run(positions, overflow);
   }
 
+  let lastLayout = null;
+  let printing = false;
   function run(positions, fit) {
     cy.zoom(1);
     cy.pan({ x: 0, y: 0 });
-    cy.layout({
+    // Une mise en page encore en cours (cadre redimensionné) s'arrête ; un nœud tout juste ajouté
+    // (étiquette répétée) se pose d'emblée à sa place au lieu de partir du coin du cadre.
+    if (lastLayout) lastLayout.stop();
+    cy.nodes().forEach((n) => {
+      const p = positions[n.id()];
+      if (p && n.position("x") === 0 && n.position("y") === 0) n.position(p);
+    });
+    lastLayout = cy.layout({
       name: "preset", positions: (n) => positions[n.id()], fit, padding: 50,
-      animate: !reduceMotion, animationDuration: 380,
-    }).run();
+      animate: !reduceMotion && !printing, animationDuration: 380,
+    });
+    lastLayout.run();
     placeColumnLabels();
   }
   function meanRank(n, rank) {
@@ -883,6 +1056,7 @@
     headlineEl.textContent = isWine ? data.headline || "" : "";
     ageBox.hidden = !(isWine && age.toggle);
     wineBar.hidden = !(isWine && (data.headline || age.toggle));
+    printBtn.hidden = !isWine;
     if (isWine && age.age) state.age = age.age;
     ageBox.querySelectorAll("[data-age]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.age === age.age)));
     const [lo, hi] = age.aging || [];
@@ -977,7 +1151,10 @@
     const type = node.data("type");
     let chain = node.closedNeighborhood();
     if (type === "profile") chain = node.union(node.successors());
-    else if (type === "source" || type === "aroma") chain = node.union(node.predecessors());
+    else if (type === "source" || type === "aroma") {
+      const twins = cy.nodes().filter((n) => (n.data("of") || n.id()) === (node.data("of") || node.id()));
+      chain = twins.union(twins.predecessors());
+    }
     cy.elements().addClass("faded").removeClass("hl");
     chain.removeClass("faded").addClass("hl");
   }
@@ -990,9 +1167,11 @@
     if (window.htmx) htmx.ajax("GET", url, { target: "#mol-panel", swap: "innerHTML" });
   }
 
-  cy.on("tap", "node", (e) => { highlight(e.target); openPanel(e.target.id()); });
+  // Une étiquette répétée (splitFarLabels) s'éclaire avec ses copies et ouvre la fiche de l'original.
+  const realId = (n) => n.data("of") || n.id();
+  cy.on("tap", "node", (e) => { highlight(e.target); openPanel(realId(e.target)); });
   // Un arôme n'est pas un point de départ : sa fiche, dans le panneau, mène à l'élément naturel.
-  cy.on("dbltap", "node", (e) => { if (e.target.data("type") !== "aroma") load(e.target.id()); });
+  cy.on("dbltap", "node", (e) => { if (e.target.data("type") !== "aroma") load(realId(e.target)); });
   cy.on("tap", (e) => { if (e.target === cy) clearHighlight(); });
   cy.on("mouseover", "node", (e) => { cy.container().style.cursor = "pointer"; if (!cy.$(":selected").length) highlight(e.target); });
   cy.on("mouseout", "node", () => { cy.container().style.cursor = ""; if (!cy.$(":selected").length) clearHighlight(); });
@@ -1034,6 +1213,58 @@
 
   document.getElementById("mol-fit").addEventListener("click", () => layout());
   window.addEventListener("resize", () => { clearTimeout(window.__molResize); window.__molResize = setTimeout(layout, 200); });
+  // ── Fiche imprimable (vue d'un vin) ──────────────────────────────────────
+  // Le bouquet est redessiné hors écran dans un cadre d'ordinateur (960 px), même depuis un téléphone,
+  // puis exporté en image nette (×3) ; le texte de la fiche (molécules, raisons, sources) vient du
+  // serveur. La fiche remplace la page à l'impression (feuille de style « print »).
+  const printBtn = document.getElementById("mol-print-btn");
+  async function bouquetImage() {
+    const canvas = cy.container().parentElement;
+    clearHighlight();
+    cy.$(":selected").unselect();
+    cy.nodes().stop(true, true).removeStyle("opacity");
+    printing = true;
+    ownResize = Date.now();
+    canvas.classList.add("is-printing");
+    cy.resize();
+    layout();
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const png = cy.png({ full: true, scale: 3, bg: "#FFFFFF", maxWidth: 3200 });
+    ownResize = Date.now();
+    canvas.classList.remove("is-printing");
+    printing = false;
+    cy.resize();
+    layout();
+    return png;
+  }
+  async function printSheet() {
+    if (!state.start.startsWith("profile:") || !PRINT) return;
+    printBtn.disabled = true;
+    try {
+      const slug = state.start.split(":")[1];
+      const url = `${PRINT.replace("X", encodeURIComponent(slug))}?${query().slice(1)}`;
+      const [html, png] = await Promise.all([fetch(url).then((r) => { if (!r.ok) throw r; return r.text(); }), bouquetImage()]);
+      let sheet = document.getElementById("mol-print-sheet");
+      if (!sheet) {
+        sheet = document.createElement("div");
+        sheet.id = "mol-print-sheet";
+        document.body.appendChild(sheet);
+      }
+      sheet.innerHTML = html;
+      const img = sheet.querySelector("img[data-bouquet]");
+      await new Promise((resolve) => { img.onload = resolve; img.onerror = resolve; img.src = png; });
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      document.body.classList.add("has-print-sheet");
+      window.print();
+    } catch (err) {
+      stats.textContent = _("Impossible de préparer la fiche à imprimer.");
+    } finally {
+      printBtn.disabled = false;
+    }
+  }
+  window.addEventListener("afterprint", () => document.body.classList.remove("has-print-sheet"));
+  printBtn.addEventListener("click", printSheet);
+
   document.getElementById("mol-png").addEventListener("click", () => {
     const a = document.createElement("a");
     a.href = cy.png({ full: true, scale: 2, bg: "#F8F8F4" });
@@ -1067,6 +1298,8 @@
       const h = cy.container().clientHeight;
       if (Math.abs(h - lastH) < 2) return;
       lastH = h;
+      // Le bouquet règle lui-même la hauteur de son cadre : pas de nouvelle mise en page pour ça.
+      if (Date.now() - ownResize < 600) return;
       clearTimeout(window.__molResize);
       window.__molResize = setTimeout(() => { cy.resize(); if (state.start) layout(); }, 120);
     }).observe(cy.container());
@@ -1082,6 +1315,13 @@
   // L'âge et « Voir tout » de l'adresse valent pour ce premier vin (load ne les remet à zéro qu'au changement).
   state.age = ["jeune", "mature"].includes(params.get("age")) ? params.get("age") : null;
   state.everything = params.get("tout") === "1";
-  if (first) { state.start = first; load(first); }
+  // « ?imprimer=1 » (lien « Fiche à imprimer » d'une fiche vin) : la fiche s'ouvre dès que le bouquet est prêt.
+  if (first) {
+    state.start = first;
+    const ready = load(first);
+    if (params.get("imprimer") === "1") {
+      ready.then(() => (document.fonts && document.fonts.ready) || null).then(() => setTimeout(printSheet, 500));
+    }
+  }
   else stats.textContent = _("Choisissez un point de départ.");
 })();
