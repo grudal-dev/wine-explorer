@@ -78,6 +78,14 @@
     <button class="linkish small" type="submit">{% translate "Rejouer le défi du jour" %}</button>
   </form>
   {% else %}
+  {% if board.stuck and 'molecules' in sections %}
+  <aside class="stuck" aria-labelledby="stuck-title">
+    <p><strong id="stuck-title">{% translate "Bloqué ?" %}</strong>
+      {% if board.stuck_start %}{% blocktranslate trimmed with label=board.stuck_label %}Ouvrez les molécules de « {{ label }} », votre proposition la plus chaude : ses molécules et leurs arômes sont autant de pistes à proposer.{% endblocktranslate %}
+      {% else %}{% translate "Les molécules relient les arômes aux vins : une molécule ou un arôme bien choisi réchauffe vite la partie." %}{% endif %}</p>
+    <a class="btn btn--ghost btn--small" href="{% url 'molecules:explorer' %}{% if board.stuck_start %}?depart={{ board.stuck_start|urlencode }}{% endif %}" target="_blank" rel="noopener">{% translate "Voir les molécules" %}</a>
+  </aside>
+  {% endif %}
   <div class="hotcold__foot">
     {% if board.count %}
     <form method="post" action="{% url 'hotcold:give_up' %}">{% csrf_token %}

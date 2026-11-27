@@ -140,6 +140,15 @@
     </ol>
     {% endif %}
 
+    {% if stuck and game.is_owner and 'carte' in sections %}
+    <aside class="stuck" aria-labelledby="stuck-title">
+      <p><strong id="stuck-title">{% translate "Bloqué ?" %}</strong>
+        {% if stuck_focus %}{% translate "Sur la carte des goûts, les vins qui se ressemblent sont voisins. Partez de votre dernière appellation et regardez autour." %}
+        {% else %}{% translate "Sur la carte des goûts, les vins qui se ressemblent sont voisins : cherchez ceux qui ont ce nez." %}{% endif %}</p>
+      <a class="btn btn--ghost btn--small" href="{% url 'embeddings:map' %}{% if stuck_focus %}?focus=profile:{{ stuck_focus }}{% endif %}" target="_blank" rel="noopener">{% translate "Ouvrir la carte" %}</a>
+    </aside>
+    {% endif %}
+
     {% if game.is_owner and not game.is_over %}
     <form method="post" action="{% url 'blindtest:give_up' game.public_id %}" class="give-up">{% csrf_token %}
       <button class="linkish small" type="submit">{% translate "Abandonner et voir la réponse" %}</button>

@@ -231,3 +231,35 @@ class LearnedFallbackTests(TestCase):
         if unused is None:
             self.skipTest("tous les arômes sont utilisés")
         self.assertTrue(predictor.predict([unused.id])["results"])
+
+
+class HotColdStuckTests(TestCase):
+    """« Bloqué ? » : les molécules de la proposition la plus chaude, après quelques essais."""
+
+    @classmethod
+    def setUpTestData(cls):
+        call_command("load_seed", stdout=StringIO())
+
+    def setUp(self):
+        self.sp = space()
+        self.state = {"mode": "free", "day": "2026-11-11", "secret": "cote-rotie-rouge", "guesses": [], "over": ""}
+
+    def test_hottest_wine_or_molecule_opens_the_molecules(self):
+        guesses = ["chardonnay", "riesling", "Bourgogne", "cassis", "Hermitage rouge"]
+        for q in guesses[:-1]:
+            hotcold.play(self.state, q, "", self.sp)
+        self.assertNotIn("stuck", hotcold.board(self.state, self.sp))
+        hotcold.play(self.state, guesses[-1], "", self.sp)
+        board = hotcold.board(self.state, self.sp)
+        self.assertTrue(board["stuck"])
+        self.assertEqual(board["stuck_start"], "profile:hermitage-rouge")  # le plus chaud, jamais la réponse
+
+    def test_page_links_to_molecules(self):
+        self.client.get(reverse("hotcold:game"))
+        for q in ["chardonnay", "riesling", "Bourgogne", "cassis", "Hermitage rouge", "poivre noir"]:
+            self.client.post(reverse("hotcold:guess"), {"q": q})
+        page = self.client.get(reverse("hotcold:game"))
+        if self.client.session[hotcold.SESSION_KEY]["over"]:
+            self.skipTest("vin trouvé par hasard")
+        self.assertContains(page, "Bloqué ?")
+        self.assertContains(page, reverse("molecules:explorer"))

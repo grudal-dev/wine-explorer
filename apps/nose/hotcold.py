@@ -25,6 +25,7 @@ from apps.embeddings.space import Space
 from apps.explorer.graph import search_nodes
 
 SESSION_KEY = "hotcold"
+STUCK_AFTER = 5  # propositions après lesquelles la partie propose les molécules
 TOP = 100  # les 100 entités les plus proches du vin ont droit à une jauge de rang
 WARM_SHARE = 0.4  # « tiède » : dans les 40 % d'entités les plus proches
 
@@ -212,6 +213,12 @@ def board(state: dict, sp: Space) -> dict:
     ranked = sorted(rows, key=lambda r: (-r["temperature"], r["n"]))
     out = {"rows": ranked, "last": last, "count": len(rows), "over": state["over"], "mode": state["mode"],
            "best": ranked[0] if ranked else None, "top": TOP, "total": len(sp.ids) - 1}
+    # Bloqué : la proposition la plus chaude que la page des molécules sait ouvrir (vin ou molécule).
+    if not state["over"] and len(rows) >= STUCK_AFTER:
+        out["stuck"] = True
+        out["stuck_start"] = next((r["id"] for r in ranked
+                                   if not r["found"] and r["id"].split(":", 1)[0] in {"profile", "molecule"}), "")
+        out["stuck_label"] = next((r["label"] for r in ranked if r["id"] == out["stuck_start"]), "")
     if state["over"]:
         out["answer"] = describe(secret_id)
         guessed = set(state["guesses"])

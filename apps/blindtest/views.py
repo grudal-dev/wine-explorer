@@ -122,8 +122,15 @@ def _last_miss(game: Game) -> str:
     return p.slug if p else ""
 
 
+STUCK_AFTER = 2  # essais manqués après lesquels la partie propose la carte des goûts
+
+
 def _game_context(game: Game, error: str = "", request=None) -> dict:
     extra = {}
+    if not game.is_over and game.attempts_used >= STUCK_AFTER:
+        # Bloqué : la carte, centrée sur un vin de la dernière appellation proposée (jamais sur la réponse).
+        extra["stuck_focus"] = _last_miss(game)
+        extra["stuck"] = True
     if game.is_over and request is not None:
         url = request.build_absolute_uri(reverse("blindtest:home"))
         extra = {

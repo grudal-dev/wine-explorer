@@ -6396,3 +6396,27 @@ msgstr "beta-ionone"
 msgid "γ-nonalactone"
 msgstr "gamma-nonalactone"
 
+
+# « Bloqué ? » en cours de partie (27/11/2026)
+
+msgid "Bloqué ?"
+msgstr "Stuck?"
+
+msgid "Sur la carte des goûts, les vins qui se ressemblent sont voisins. Partez de votre dernière appellation et regardez autour."
+msgstr "On the taste map, wines that resemble each other sit side by side. Start from your last appellation and look around."
+
+msgid "Sur la carte des goûts, les vins qui se ressemblent sont voisins : cherchez ceux qui ont ce nez."
+msgstr "On the taste map, wines that resemble each other sit side by side: look for the ones with this nose."
+
+msgid "Ouvrir la carte"
+msgstr "Open the map"
+
+#, python-format
+msgid "Ouvrez les molécules de « %(label)s », votre proposition la plus chaude : ses molécules et leurs arômes sont autant de pistes à proposer."
+msgstr "Open the molecules of “%(label)s”, your hottest guess: its molecules and their aromas are all leads to try."
+
+msgid "Les molécules relient les arômes aux vins : une molécule ou un arôme bien choisi réchauffe vite la partie."
+msgstr "Molecules link aromas to wines: a well-chosen molecule or aroma warms the game up fast."
+
+msgid "Voir les molécules"
+msgstr "See the molecules"
