@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "À propos" %}{% endblock %}
+{% block description %}{% translate "Qui fait le site, d'où viennent les fiches et comment elles sont relues." %}{% endblock %}
+{% block content %}
+<div class="prose">
+<h1>{% translate "À propos" %}</h1>
+{% if LANGUAGE_CODE == "en" %}
+<p class="lede">{{ site_name }} trains your nose: a mystery wine every day, a tool to name what you smell, and the molecules that explain why a Côte-Rôtie smells of pepper.</p>
+<h2>Who makes it</h2>
+<p>{% if publisher %}{{ publisher }} designs and writes the site{% else %}The site is designed and written by one independent wine lover{% endif %}, with no advertiser and no brand behind it. It is free, and the daily game will remain free.</p>
+<h2>Where the wine profiles come from</h2>
+<p>The {{ profiles }} profiles across {{ appellations }} appellations are written by hand: grape varieties and their shares from the appellation specifications, aromas from tasting literature, prices and ageing as ranges. Each profile describes what an appellation usually gives, not a particular bottle.</p>
+<p>The molecules section links a wine to a molecule only through a written rule (grape marker, winemaking style, aroma descriptor), and a molecule to a plant, fruit or spice only when a publication shows it. <a href="{% url 'molecules:bibliography' %}">Method and bibliography</a>.</p>
+<h2>How profiles are checked</h2>
+{% if reviewer %}<p>Profiles are reviewed by {{ reviewer }}, starting with the most played.</p>
+{% else %}<p>Every profile is checked automatically when loaded (known grapes, aromas and regions; grape shares adding up to 100%). A review by a professional oenologist is under way, starting with the 30 most played profiles.</p>{% endif %}
+<p>Found a mistake? <a href="{% url 'contact' %}?objet=error">Report it</a>; corrections are credited.</p>
+<h2>Schools, clubs, wine shops</h2>
+<p>Revision mode for exams, tasting evenings, printable sheets: <a href="{% url 'contact' %}?objet=partner">let's talk</a>.</p>
+{% else %}
+<p class="lede">{{ site_name }} entraîne le nez : un vin mystère chaque jour, un outil pour nommer ce qu'on sent, et les molécules qui expliquent pourquoi un Côte-Rôtie sent le poivre.</p>
+<h2>Qui fait le site</h2>
+<p>{% if publisher %}{{ publisher }} conçoit et rédige le site{% else %}Le site est conçu et rédigé par un amateur indépendant{% endif %}, sans annonceur ni marque derrière. Il est gratuit, et le jeu du jour le restera.</p>
+<h2>D'où viennent les fiches</h2>
+<p>Les {{ profiles }} profils, répartis sur {{ appellations }} appellations, sont rédigés à la main : cépages et proportions d'après les cahiers des charges, arômes d'après la littérature de dégustation, prix et gardes en fourchettes. Chaque profil décrit ce que donne habituellement une appellation, pas une bouteille précise.</p>
+<p>La partie Molécules ne relie un vin à une molécule que par une règle écrite (marqueur du cépage, style de vinification, descripteur du nez), et une molécule à une plante, un fruit ou une épice que si une publication le montre. <a href="{% url 'molecules:bibliography' %}">Méthode et bibliographie</a>.</p>
+<h2>Comment les fiches sont relues</h2>
+{% if reviewer %}<p>Les profils sont relus par {{ reviewer }}, en commençant par les plus joués.</p>
+{% else %}<p>Chaque profil est vérifié automatiquement au chargement (cépages, arômes et régions connus ; encépagement qui totalise 100 %). Une relecture par un œnologue professionnel est en cours, en commençant par les 30 profils les plus joués.</p>{% endif %}
+<p>Une erreur ? <a href="{% url 'contact' %}?objet=error">Signalez-la</a> ; les corrections sont créditées.</p>
+<h2>Écoles, clubs, cavistes</h2>
+<p>Mode révision pour les examens, soirées de dégustation, fiches à imprimer : <a href="{% url 'contact' %}?objet=partner">parlons-en</a>.</p>
+{% endif %}
+<p class="small muted"><a href="{% url 'legal' %}">{% translate "Mentions légales" %}</a> · <a href="{% url 'privacy' %}">{% translate "Confidentialité" %}</a></p>
+</div>
+{% endblock %}

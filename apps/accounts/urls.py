@@ -9,6 +9,7 @@ urlpatterns = [
     path("connexion/", auth_views.LoginView.as_view(), name="login"),
     path("deconnexion/", auth_views.LogoutView.as_view(), name="logout"),
     path("profil/", views.profile, name="profile"),
+    path("supprimer/", views.delete_account, name="delete"),
     path("joueur/<str:username>/", views.player, name="player"),
     path("newsletter/", views.newsletter_toggle, name="newsletter"),
     path("newsletter/desinscription/<str:token>/", views.newsletter_unsubscribe, name="newsletter_unsubscribe"),

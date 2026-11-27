@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-25 23:44+0100\n"
+"POT-Creation-Date: 2026-11-27 00:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -81,6 +81,9 @@ msgstr "(%a to %b years)"
 msgid "(et %s autres, tous listés dans la fiche)"
 msgstr "(and %s more, all listed in the panel)"
 
+msgid "Afficher"
+msgstr "Show"
+
 msgid "Arômes du vin expliqués : %a sur %t."
 msgstr "Wine aromas explained: %a of %t."
 
@@ -92,6 +95,9 @@ msgstr "No specific molecule for this wine in our sources."
 
 msgid "Blancs"
 msgstr "Whites"
+
+msgid "Blind test"
+msgstr "Blind tasting"
 
 msgid "Chargement…"
 msgstr "Loading…"
@@ -113,6 +119,9 @@ msgstr "Unable to load the graph. Check your connection and try again."
 
 msgid "Impossible de préparer la fiche à imprimer."
 msgstr "Could not prepare the printable sheet."
+
+msgid "Masquer"
+msgstr "Hide"
 
 msgid "Moins de molécules"
 msgstr "Fewer molecules"
@@ -137,6 +146,10 @@ msgstr "Reds"
 
 msgid "Socle commun ajouté : ce vin a peu de molécules propres."
 msgstr "Common base added: this wine has few molecules of its own."
+
+#, python-format
+msgid "Vin du jour n° %s"
+msgstr "Wine of the day #%s"
 
 #, python-format
 msgid "Voir %s molécule de plus"

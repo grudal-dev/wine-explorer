@@ -68,7 +68,30 @@
         {% else %}
           <h2>{% translate "Partie abandonnée." %}</h2>
         {% endif %}
-        <p class="outcome__score"><strong>{{ game.score }}</strong> {% translate "points" %}</p>
+        <p class="outcome__score"><strong>{{ game.score }}</strong> {% translate "points" %}{% if streak > 1 %} · <span class="streak">{% blocktranslate trimmed count days=streak %}{{ days }} jour d'affilée{% plural %}{{ days }} jours d'affilée{% endblocktranslate %}</span>{% endif %}</p>
+        {% if keep_points %}
+        <div class="keep" role="note">
+          <p><strong>{% blocktranslate trimmed with points=game.score %}Gardez vos {{ points }} points{% endblocktranslate %}</strong>
+            {% translate "Créez un compte en vingt secondes : cette partie entre au classement du jour et votre série commence." %}</p>
+          <a class="btn" href="{% url 'accounts:signup' %}?next={{ game.get_absolute_url|urlencode }}&amp;points={{ game.score }}">{% translate "Garder mes points" %}</a>
+          <a class="small" href="{% url 'accounts:login' %}?next={{ game.get_absolute_url|urlencode }}">{% translate "J'ai déjà un compte" %}</a>
+        </div>
+        {% endif %}
+        {% if share_text %}
+        <div class="share" data-share data-name="{{ site_name }}" data-number="{{ share_number|default:'' }}"
+             data-score="{% if game.status == 'won' %}{{ game.attempts_used }}{% else %}X{% endif %}/{{ game.max_attempts }}" data-grid="{{ share_grid }}"
+             data-url="{{ challenge_url }}">
+          <p class="share__grid" aria-label="{% translate "Votre grille" %}">{{ share_grid }}</p>
+          <textarea class="visually-hidden" readonly data-share-text aria-label="{% translate "Texte à partager" %}">{{ share_text }}</textarea>
+          <div class="share__actions">
+            <button type="button" class="btn" data-share-button>{% translate "Partager mon résultat" %}</button>
+            <button type="button" class="btn btn--ghost" data-share-image>{% translate "Image du score" %}</button>
+            {% if share_number %}<button type="button" class="btn btn--ghost" data-share-challenge
+                data-text="{% blocktranslate trimmed with name=site_name number=share_number %}Je viens de jouer le vin du jour n° {{ number }} sur {{ name }}. À toi de le deviner au nez :{% endblocktranslate %}">{% translate "Défier un ami" %}</button>{% endif %}
+          </div>
+          <p class="share__done small muted" data-share-done hidden>{% translate "Copié : il n'y a plus qu'à coller." %}</p>
+        </div>
+        {% endif %}
         <div class="hero__actions">
           <a class="btn" href="{{ game.profile.get_absolute_url }}">{% translate "Lire la fiche du vin" %}</a>
           {% if game.is_owner %}
@@ -77,6 +100,11 @@
           {% endif %}
         </div>
         {% include "molecules/_fact.html" %}
+        <p class="outcome__next small">
+          {% if 'molecules' in sections %}<a href="{% url 'molecules:explorer' %}?depart=profile:{{ game.profile.slug }}">{% translate "Ses molécules" %}</a>{% endif %}
+          {% if 'carte' in sections %}<a href="{% url 'embeddings:map' %}?focus=profile:{{ game.profile.slug }}">{% translate "Ses voisins sur la carte des goûts" %}</a>{% endif %}
+          {% if 'comparer' in sections and last_miss %}<a href="{% url 'compare:duel' game.profile.slug last_miss %}">{% translate "Comparer avec votre dernière proposition" %}</a>{% endif %}
+        </p>
       </div>
     {% elif game.is_owner %}
       <form class="guess-form" method="post" action="{% url 'blindtest:guess' game.public_id %}"

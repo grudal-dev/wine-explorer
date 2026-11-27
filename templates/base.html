@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Wine Explorer{% endblock %} {% translate "· Wine Explorer" %}</title>
-  <meta name="description" content="{% block description %}{% translate "Explorer le vin : appellations, cépages, arômes, molécules et blind test." %}{% endblock %}">
+  <title>{% block title %}{{ site_name }}{% endblock %} · {{ site_name }}</title>
+  <meta name="description" content="{% block description %}{% translate "Apprendre à reconnaître un vin par le nez : blind test du jour, arômes, molécules et fiches sourcées." %}{% endblock %}">
   {% block robots %}{% endblock %}
   <link rel="canonical" href="{{ canonical_url }}">
   {% for code, url in hreflang_links %}<link rel="alternate" hreflang="{{ code }}" href="{{ url }}">
   {% endfor %}{% if hreflang_default %}<link rel="alternate" hreflang="x-default" href="{{ hreflang_default }}">
-  {% endif %}<meta property="og:site_name" content="Wine Explorer">
+  {% endif %}<meta property="og:site_name" content="{{ site_name }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ canonical_url }}">
   <meta property="og:locale" content="{% if LANGUAGE_CODE == 'en' %}en_GB{% else %}fr_FR{% endif %}">
@@ -17,42 +17,55 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%237A1F3D'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  {% if google_site_verification %}<meta name="google-site-verification" content="{{ google_site_verification }}">
+  {% endif %}{% if bing_site_verification %}<meta name="msvalidate.01" content="{{ bing_site_verification }}">
+  {% endif %}  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%237A1F3D'/%3E%3C/svg%3E">
+  {% if jsonld %}<script type="application/ld+json">{{ jsonld|safe }}</script>
+  {% endif %}<link rel="stylesheet" href="{% static 'css/app.css' %}">
   {% block head %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}{% if seasonal_decor %} decor-{{ seasonal_decor }}{% endif %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body class="{% block body_class %}{% endblock %}{% if seasonal_decor and path_no_lang == "/" %} decor-{{ seasonal_decor }}{% endif %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <a class="skip" href="#main">{% translate "Aller au contenu" %}</a>
   <header class="topbar">
-    <a class="wordmark" href="{% url 'home' %}" aria-label="{% translate "Wine Explorer, accueil" %}">
-      <span class="wordmark__disc" aria-hidden="true"></span>Wine Explorer
+    <a class="wordmark" href="{% url 'home' %}" aria-label="{% blocktranslate trimmed %}{{ site_name }}, accueil{% endblocktranslate %}">
+      <span class="wordmark__disc" aria-hidden="true"></span>{{ site_name }}
     </a>
+    {# Trois portes : jouer, sentir, apprendre. Comparer et la carte s'ouvrent depuis les fiches et la fin de partie. #}
     <nav class="nav" aria-label="{% translate "Navigation principale" %}">
       {% with p=path_no_lang %}
       {% if 'blindtest' in sections or 'chaudfroid' in sections %}
       <div class="nav-group nav-group--games" data-nav-group>
-        <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-games"
-                {% if p|slice:":11" == "/blind-test" or p|slice:":12" == "/chaud-froid" %}aria-current="page"{% endif %}>{% translate "Jeux" %}</button>
-        <div class="nav-group__menu" id="nav-games">
-          {% if 'blindtest' in sections %}<a href="{% url 'blindtest:home' %}" {% if p|slice:":11" == "/blind-test" %}aria-current="page"{% endif %}><strong>{% translate "Blind test" %}</strong><span>{% translate "Reconstituez l'étiquette d'un vin mystère." %}</span></a>{% endif %}
-          {% if 'chaudfroid' in sections %}<a href="{% url 'hotcold:game' %}" {% if p|slice:":12" == "/chaud-froid" %}aria-current="page"{% endif %}><strong>{% translate "Chaud-froid" %}</strong><span>{% translate "Trouvez le vin mystère à sa température." %}</span></a>{% endif %}
+        <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-play"
+                {% if p|slice:":11" == "/blind-test" or p|slice:":12" == "/chaud-froid" or p|slice:":19" == "/compte/classement" %}aria-current="page"{% endif %}>{% translate "Jouer" %}</button>
+        <div class="nav-group__menu" id="nav-play">
+          {% if 'blindtest' in sections %}<a href="{% url 'blindtest:home' %}" {% if p|slice:":11" == "/blind-test" %}aria-current="page"{% endif %}><strong>{% translate "Le blind test du jour" %}</strong><span>{% translate "Reconstituez l'étiquette d'un vin mystère." %}</span></a>{% endif %}
+          {% if 'compte' in sections %}<a href="{% url 'accounts:ranking' %}" {% if p|slice:":19" == "/compte/classement" %}aria-current="page"{% endif %}><strong>{% translate "Classement" %}</strong><span>{% translate "Les meilleurs nez du jour et de toujours." %}</span></a>{% endif %}
+          {% if 'chaudfroid' in sections %}<a href="{% url 'hotcold:game' %}" {% if p|slice:":12" == "/chaud-froid" %}aria-current="page"{% endif %}><strong>{% translate "Chaud-froid" %} <em class="nav-tag">{% translate "bonus" %}</em></strong><span>{% translate "Trouvez le vin mystère à sa température." %}</span></a>{% endif %}
         </div>
       </div>
       {% endif %}
-      {% if 'comparer' in sections or 'carte' in sections or 'molecules' in sections or 'graphe' in sections %}
+      {% if 'nose' in sections or 'molecules' in sections %}
       <div class="nav-group" data-nav-group>
-        <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-explore"
-                {% if p|slice:":9" == "/comparer" or p|slice:":6" == "/carte" or p|slice:":10" == "/molecules" or p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}>{% translate "Explorer" %}</button>
-        <div class="nav-group__menu" id="nav-explore">
-          {% if 'comparer' in sections %}<a href="{% url 'compare:start' %}" {% if p|slice:":9" == "/comparer" %}aria-current="page"{% endif %}><strong>{% translate "Comparer" %}</strong><span>{% translate "Deux vins face à face : bouche, arômes, molécules." %}</span></a>{% endif %}
-          {% if 'carte' in sections %}<a href="{% url 'embeddings:map' %}" {% if p|slice:":6" == "/carte" %}aria-current="page"{% endif %}><strong>{% translate "Carte des goûts" %}</strong><span>{% translate "Les vins rapprochés par ressemblance." %}</span></a>{% endif %}
+        <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-smell"
+                {% if p|slice:":7" == "/le-nez" or p|slice:":10" == "/molecules" %}aria-current="page"{% endif %}>{% translate "Sentir" %}</button>
+        <div class="nav-group__menu" id="nav-smell">
+          {% if 'nose' in sections %}<a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}><strong>{% translate "Trouve mon vin" %}</strong><span>{% translate "Décrivez ce que vous sentez, nous proposons les vins." %}</span></a>{% endif %}
           {% if 'molecules' in sections %}<a href="{% url 'molecules:explorer' %}" {% if p|slice:":10" == "/molecules" %}aria-current="page"{% endif %}><strong>{% translate "Molécules" %}</strong><span>{% translate "Du verre à la nature : les molécules odorantes." %}</span></a>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% if 'catalogue' in sections %}
+      <div class="nav-group" data-nav-group>
+        <button type="button" class="nav-group__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-learn"
+                {% if p|slice:":10" == "/catalogue" or p|slice:":9" == "/comparer" or p|slice:":6" == "/carte" or p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}>{% translate "Apprendre" %}</button>
+        <div class="nav-group__menu" id="nav-learn">
+          <a href="{% url 'catalog:index' %}" {% if p == "/catalogue/" %}aria-current="page"{% endif %}><strong>{% translate "Régions et appellations" %}</strong><span>{% translate "Les fiches des vins, de la Bourgogne au Piémont." %}</span></a>
+          <a href="{% url 'catalog:grapes' %}" {% if p|slice:":18" == "/catalogue/cepages" %}aria-current="page"{% endif %}><strong>{% translate "Cépages" %}</strong><span>{% translate "Leurs arômes et les vins qu'ils donnent." %}</span></a>
+          <a href="{% url 'catalog:aromas' %}" {% if p|slice:":17" == "/catalogue/aromes" %}aria-current="page"{% endif %}><strong>{% translate "Arômes" %}</strong><span>{% translate "Les descripteurs du nez, famille par famille." %}</span></a>
           {% if 'graphe' in sections %}<a href="{% url 'explorer:explorer' %}" {% if p|slice:":7" == "/graphe" %}aria-current="page"{% endif %}><strong>{% translate "Graphe" %}</strong><span>{% translate "Les liens entre vins, cépages, arômes et régions." %}</span></a>{% endif %}
         </div>
       </div>
       {% endif %}
-      {% if 'nose' in sections %}<a href="{% url 'nose:nose' %}" {% if p|slice:":7" == "/le-nez" %}aria-current="page"{% endif %}>{% translate "Trouve mon vin" %}</a>{% endif %}
-      {% if 'catalogue' in sections %}<a href="{% url 'catalog:index' %}" {% if p|slice:":10" == "/catalogue" %}aria-current="page"{% endif %}>{% translate "Catalogue" %}</a>{% endif %}
       {% endwith %}
     </nav>
     <form class="lang" method="post" action="{% url 'set_language' %}" aria-label="{% translate "Langue" %}">{% csrf_token %}
@@ -76,7 +89,6 @@
     </div>{% endif %}
   </header>
 
-  {% if seasonal_decor %}{% with "partials/_"|add:seasonal_decor|add:".html" as decor_template %}{% include decor_template %}{% endwith %}{% elif weekly %}{% include "partials/_weekly.html" %}{% endif %}
 
   {% if messages %}
   <div class="flash" role="status">
@@ -90,8 +102,14 @@
 
   {% block footer %}
   <footer class="footer">
-    <p>{% translate "Wine Explorer. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs." %}
-      {% if 'catalogue' in sections %}<a href="{% url 'catalog:sources' %}">{% translate "Sources et méthode" %}</a>{% endif %}</p>
+    <p>{% blocktranslate trimmed %}{{ site_name }}. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs.{% endblocktranslate %}</p>
+    <nav class="footer__links" aria-label="{% translate "Informations" %}">
+      <a href="{% url 'about' %}">{% translate "À propos" %}</a>
+      {% if 'catalogue' in sections %}<a href="{% url 'catalog:sources' %}">{% translate "Sources et méthode" %}</a>{% endif %}
+      <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
+      <a href="{% url 'legal' %}">{% translate "Mentions légales" %}</a>
+      <a href="{% url 'privacy' %}">{% translate "Confidentialité" %}</a>
+    </nav>
     <p>{% translate "L'abus d'alcool est dangereux pour la santé, à consommer avec modération." %}</p>
   </footer>
   {% endblock %}

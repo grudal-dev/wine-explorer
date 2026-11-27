@@ -31,8 +31,7 @@ class TwinTests(TestCase):
         self.assertIn("Chiroubles", guess.feedback)
         game.refresh_from_db()
         self.assertTrue(game.found["appellation"])
-        engine.play(game, "Gamay")
-        game.refresh_from_db()
+        # Chiroubles : 100 % gamay, le cépage vient avec l'appellation.
         self.assertEqual(game.status, Game.Status.WON)
 
     def test_other_family_is_only_close(self):

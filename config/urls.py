@@ -1,13 +1,14 @@
-from django.contrib import admin
+from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
-from django.urls import include, path
+from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path
 from django.views.i18n import JavaScriptCatalog
 
 from apps.analytics import views as analytics_views
+from apps.catalog import seo
+from apps.catalog import views as catalog_views
 from apps.catalog.i18n import set_language
-
-from apps.catalog import seo, views as catalog_views
 
 # Hors préfixe de langue : fichiers pour les robots, bascule de langue, API mobile (langue par Accept-Language)
 # et administration.
@@ -36,10 +37,11 @@ urlpatterns += i18n_patterns(
     path("carte/", include("apps.embeddings.urls")),
     path("comparer/", include("apps.embeddings.urls_compare")),
     path("compte/", include("apps.accounts.urls")),
+    path("", include("apps.pages.urls")),
     path("jsi18n/", JavaScriptCatalog.as_view(packages=["apps.catalog"]), name="javascript-catalog"),
     prefix_default_language=False,
 )
 
-admin.site.site_header = "Wine Explorer · administration"
-admin.site.site_title = "Wine Explorer"
+admin.site.site_header = f"{settings.SITE_NAME} · administration"
+admin.site.site_title = settings.SITE_NAME
 admin.site.index_template = "admin/analytics/index.html"  # lien vers les statistiques

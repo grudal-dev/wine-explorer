@@ -135,6 +135,14 @@ def signature(wine: WineProfile, other: WineProfile) -> dict | None:
     return {"name": tr(m.name), "odor": odor, "url": m.get_absolute_url()}
 
 
+def short_name(wine: WineProfile) -> str:
+    """« Barolo » plutôt que « Barolo rouge » quand l'appellation n'a qu'un profil : la couleur ne
+    distingue rien, elle alourdit le titre."""
+    if WineProfile.objects.filter(appellation_id=wine.appellation_id).count() == 1:
+        return tr(wine.appellation.name)
+    return tr(wine.name)
+
+
 def subtitle(wine: WineProfile) -> str:
     grapes = [tr(g.name) for g in wine.main_grapes()][:2]
     root = wine.appellation.region.root

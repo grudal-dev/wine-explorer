@@ -3,6 +3,7 @@ from io import StringIO
 
 from django.contrib.auth.models import User
 from django.core.management import call_command
+from django.db.models import Count
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils.html import escape
@@ -28,12 +29,19 @@ class EngineTests(TestCase):
         self.assertEqual(engine.play(g, "Bourgogne").verdict, "hit")
         self.assertEqual(engine.play(g, "chablis").verdict, "hit")
         g.refresh_from_db()
-        self.assertEqual(g.status, Game.Status.PLAYING)  # reste le cépage
-        engine.play(g, "chardonnay")
-        g.refresh_from_db()
+        # Chablis : 100 % chardonnay. L'appellation donne le cépage, la partie est gagnée.
         self.assertEqual(g.status, Game.Status.WON)
-        self.assertEqual(g.score, 1000 - 90 * 2)
+        self.assertEqual(g.score, 1000 - 90)
         self.assertEqual(g.clues_revealed, 0)
+
+    def test_blend_still_asks_for_the_grape(self):
+        blend = (WineProfile.objects.annotate(n=Count("profile_grapes")).filter(n__gte=2)
+                 .select_related("appellation").first())
+        g = self.game(blend)
+        engine.play(g, blend.appellation.name)
+        g.refresh_from_db()
+        self.assertTrue(g.found.get("appellation"))
+        self.assertEqual(g.status, Game.Status.PLAYING)  # reste le cépage principal
 
     def test_misses_reveal_clues_and_lose(self):
         g = self.game(self.chablis)

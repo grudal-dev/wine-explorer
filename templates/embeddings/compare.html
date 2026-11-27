@@ -8,7 +8,7 @@
     <div class="duel-pick__field duel-pick__field--a combo">
       <label class="visually-hidden" for="duel-a">{% translate "Premier vin" %}</label>
       <span class="duel-pick__mark" aria-hidden="true"></span>
-      <input id="duel-a" class="duel-pick__input" type="search" value="{{ name_a }}" autocomplete="off" spellcheck="false"
+      <input id="duel-a" class="duel-pick__input" type="search" value="{{ full_a }}" autocomplete="off" spellcheck="false"
              placeholder="{% translate "Un vin, une appellation, un cépage…" %}" role="combobox" aria-expanded="false" aria-controls="duel-list-a" data-slot="a">
       <ul class="combo__list" id="duel-list-a" role="listbox" hidden></ul>
       <input type="hidden" name="a" value="{{ a.slug }}">
@@ -19,7 +19,7 @@
     <div class="duel-pick__field duel-pick__field--b combo">
       <label class="visually-hidden" for="duel-b">{% translate "Second vin" %}</label>
       <span class="duel-pick__mark" aria-hidden="true"></span>
-      <input id="duel-b" class="duel-pick__input" type="search" value="{{ name_b }}" autocomplete="off" spellcheck="false"
+      <input id="duel-b" class="duel-pick__input" type="search" value="{{ full_b }}" autocomplete="off" spellcheck="false"
              placeholder="{% translate "Un vin, une appellation, un cépage…" %}" role="combobox" aria-expanded="false" aria-controls="duel-list-b" data-slot="b">
       <ul class="combo__list" id="duel-list-b" role="listbox" hidden></ul>
       <input type="hidden" name="b" value="{{ b.slug }}">
@@ -64,9 +64,9 @@
 
   {% if sig_a or sig_b %}
   <section class="duel-sig" aria-labelledby="duel-sig">
-    <h2 id="duel-sig" class="visually-hidden">{% translate "La molécule qui distingue chaque vin" %}</h2>
-    <p class="duel-sig__item duel-sig__item--a">{% if sig_a %}<span class="duel-sig__dot" aria-hidden="true"></span><a href="{{ sig_a.url }}">{{ sig_a.name }}</a><em>{{ sig_a.odor }}</em>{% endif %}</p>
-    <p class="duel-sig__item duel-sig__item--b">{% if sig_b %}<em>{{ sig_b.odor }}</em><a href="{{ sig_b.url }}">{{ sig_b.name }}</a><span class="duel-sig__dot" aria-hidden="true"></span>{% endif %}</p>
+    <h2 id="duel-sig" class="duel-sig__title">{% translate "La molécule qui distingue chaque vin" %}</h2>
+    <p class="duel-sig__item duel-sig__item--a">{% if sig_a %}<span class="duel-sig__dot" aria-hidden="true"></span><a href="{{ sig_a.url }}">{{ sig_a.name }}</a><em>{{ sig_a.odor }}</em>{% else %}<span class="duel-sig__none">{% blocktranslate trimmed with other=name_b %}Aucune molécule propre face au {{ other }} : ses marqueurs se retrouvent dans les deux.{% endblocktranslate %}</span>{% endif %}</p>
+    <p class="duel-sig__item duel-sig__item--b">{% if sig_b %}<em>{{ sig_b.odor }}</em><a href="{{ sig_b.url }}">{{ sig_b.name }}</a><span class="duel-sig__dot" aria-hidden="true"></span>{% else %}<span class="duel-sig__none">{% blocktranslate trimmed with other=name_a %}Aucune molécule propre face au {{ other }} : ses marqueurs se retrouvent dans les deux.{% endblocktranslate %}</span>{% endif %}</p>
   </section>
   {% endif %}
   {% endif %}

@@ -49,6 +49,7 @@ def _context(request) -> dict:
     selected_fam = list(AromaFamily.objects.filter(id__in=family_ids))
     chosen_senses = sensory.clean(sense_keys)
     result = predict(aroma_ids, family_ids, colors=colors or None, senses=[t.key for t in chosen_senses], top=5)
+    label_likelihood(result.get("results") or [])
     return {
         "selected": selected,
         "selected_families": selected_fam,
@@ -60,6 +61,28 @@ def _context(request) -> dict:
         "selected_senses": chosen_senses,
         "sense_groups": sensory.grouped(),
     }
+
+
+def label_likelihood(results: list[dict]) -> None:
+    """Des mots plutôt que des pourcentages : sur 150 profils, « 8 % » est honnête mais décourage alors
+    que c'est souvent la bonne réponse. Le pourcentage reste lisible au survol ; la barre se mesure au
+    premier vin."""
+    if not results:
+        return
+    best = max(r["probability"] for r in results) or 1
+    for i, r in enumerate(results):
+        p, rel = r["probability"], r["probability"] / best
+        if p >= 0.5:
+            r["likelihood"] = gettext("Très probable")
+        elif i == 0:
+            r["likelihood"] = gettext("Meilleure piste")
+        elif rel >= 0.6:
+            r["likelihood"] = gettext("Presque autant")
+        elif rel >= 0.3:
+            r["likelihood"] = gettext("Possible")
+        else:
+            r["likelihood"] = gettext("Moins probable")
+        r["relative"] = round(100 * rel)
 
 
 def nose(request):

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Confidentialité" %}{% endblock %}
+{% block description %}{% translate "Quelles données le site collecte, pourquoi, combien de temps, et vos droits." %}{% endblock %}
+{% block content %}
+<div class="prose">
+<h1>{% translate "Confidentialité" %}</h1>
+{% if LANGUAGE_CODE == "en" %}
+<p class="lede">In short: no advertising, no tracking cookie, nothing sold. You can play without an account; an account only keeps your games and puts you on the leaderboard.</p>
+<h2>Who is responsible</h2>
+<p>{% if publisher %}{{ publisher }}{% else %}The publisher of {{ site_name }}{% endif %}, reachable {% if contact_email %}at <a href="mailto:{{ contact_email }}">{{ contact_email }}</a> or {% endif %}through <a href="{% url 'contact' %}?objet=data">the contact form</a>.</p>
+<h2>What is collected, and why</h2>
+<table>
+<thead><tr><th>Data</th><th>Why</th><th>Legal basis</th><th>Kept</th></tr></thead>
+<tbody>
+<tr><td>Account: username, e-mail address, password (stored hashed, never readable)</td><td>Keep your games, put you on the leaderboard</td><td>Providing the service you asked for</td><td>Until you delete your account</td></tr>
+<tr><td>Games: guesses, scores, dates</td><td>History, leaderboard, daily streak</td><td>Providing the service</td><td>Until you delete your account; games played without an account are linked to your browser session only</td></tr>
+<tr><td>Newsletter subscription</td><td>Send the newsletter (about once a month)</td><td>Your consent, unticked by default, withdrawn in one click</td><td>Until you unsubscribe</td></tr>
+<tr><td>Contact messages</td><td>Answer you</td><td>Our legitimate interest in answering</td><td>{{ contact_days }} days</td></tr>
+<tr><td>Audience measurement: page viewed, referring site, campaign tags, device type, browser, time on page, scroll depth</td><td>Know which pages are useful</td><td>Our legitimate interest; exempt from consent (CNIL guidelines)</td><td>{{ analytics_days }} days</td></tr>
+</tbody></table>
+<p>Your username and scores are public on the leaderboard and on your player page. Your e-mail address is never shown.</p>
+<h2>Audience measurement without cookies</h2>
+<p>No cookie is used to measure the audience. A visitor is counted with an identifier computed for the day from a hash of the IP address, the browser signature and the date; it changes every day and the IP address is not stored. Data is used only for statistics on this site and is shared with no one.</p>
+<h2>Cookies</h2>
+<p>Only cookies needed for the site to work are set, so no consent banner is required: the session (games in progress, being signed in), protection of forms against forgery (CSRF), and the chosen language.</p>
+<h2>Where the data lives</h2>
+<p>The site is hosted by {{ host }}. Railway may process data outside the European Union; such transfers are covered by the European Commission's standard contractual clauses or the EU-US Data Privacy Framework, under Railway's data processing agreement.</p>
+<h2>Your rights</h2>
+<p>You can access, correct, export or delete your data, object to its processing or withdraw consent at any time. You can delete your account yourself from your profile page; for anything else, <a href="{% url 'contact' %}?objet=data">write to us</a>. If you think your rights are not respected, you can complain to the CNIL (cnil.fr).</p>
+{% else %}
+<p class="lede">En bref : pas de publicité, pas de cookie de suivi, rien de vendu. On joue sans compte ; un compte sert seulement à garder ses parties et à figurer au classement.</p>
+<h2>Responsable du traitement</h2>
+<p>{% if publisher %}{{ publisher }}{% else %}L'éditeur de {{ site_name }}{% endif %}, joignable {% if contact_email %}à <a href="mailto:{{ contact_email }}">{{ contact_email }}</a> ou {% endif %}par <a href="{% url 'contact' %}?objet=data">le formulaire de contact</a>.</p>
+<h2>Ce qui est collecté, et pourquoi</h2>
+<table>
+<thead><tr><th>Données</th><th>Pourquoi</th><th>Base légale</th><th>Durée</th></tr></thead>
+<tbody>
+<tr><td>Compte : nom d'utilisateur, adresse e-mail, mot de passe (enregistré haché, jamais lisible)</td><td>Garder vos parties, vous placer au classement</td><td>Exécution du service demandé</td><td>Jusqu'à la suppression du compte</td></tr>
+<tr><td>Parties : propositions, scores, dates</td><td>Historique, classement, série de jours</td><td>Exécution du service</td><td>Jusqu'à la suppression du compte ; sans compte, les parties ne sont liées qu'à la session du navigateur</td></tr>
+<tr><td>Inscription à la newsletter</td><td>Envoyer la newsletter (environ une fois par mois)</td><td>Votre consentement, case non cochée par défaut, retiré d'un clic</td><td>Jusqu'à la désinscription</td></tr>
+<tr><td>Messages de contact</td><td>Vous répondre</td><td>Intérêt légitime à répondre</td><td>{{ contact_days }} jours</td></tr>
+<tr><td>Mesure d'audience : page vue, site d'origine, balises de campagne, type d'appareil, navigateur, temps passé, défilement</td><td>Savoir quelles pages servent</td><td>Intérêt légitime ; exemptée de consentement (lignes directrices de la CNIL)</td><td>{{ analytics_days }} jours</td></tr>
+</tbody></table>
+<p>Votre nom d'utilisateur et vos scores sont publics au classement et sur votre page de joueur. Votre adresse e-mail n'est jamais affichée.</p>
+<h2>Une mesure d'audience sans cookie</h2>
+<p>Aucun cookie ne sert à mesurer l'audience. Un visiteur est compté grâce à un identifiant calculé pour la journée à partir d'une empreinte de l'adresse IP, de la signature du navigateur et de la date : il change chaque jour et l'adresse IP n'est pas enregistrée. Les données ne servent qu'aux statistiques de ce site et ne sont transmises à personne.</p>
+<h2>Cookies</h2>
+<p>Seuls des cookies nécessaires au fonctionnement du site sont déposés, ce qui dispense de bandeau de consentement : la session (parties en cours, connexion), la protection des formulaires contre la falsification (CSRF) et la langue choisie.</p>
+<h2>Où sont les données</h2>
+<p>Le site est hébergé par {{ host }}. Railway peut traiter des données hors de l'Union européenne ; ces transferts sont encadrés par les clauses contractuelles types de la Commission européenne ou par le Data Privacy Framework, selon l'accord de traitement des données de Railway.</p>
+<h2>Vos droits</h2>
+<p>Vous pouvez accéder à vos données, les rectifier, les exporter ou les effacer, vous opposer à leur traitement et retirer votre consentement à tout moment. Vous pouvez supprimer votre compte vous-même depuis votre profil ; pour le reste, <a href="{% url 'contact' %}?objet=data">écrivez-nous</a>. Si vous estimez vos droits non respectés, vous pouvez saisir la CNIL (cnil.fr).</p>
+{% endif %}
+<p class="small muted"><a href="{% url 'legal' %}">{% translate "Mentions légales" %}</a> · <a href="{% url 'about' %}">{% translate "À propos" %}</a></p>
+</div>
+{% endblock %}

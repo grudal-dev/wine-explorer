@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Mentions légales" %}{% endblock %}
+{% block description %}{% translate "Éditeur, hébergeur et conditions d'utilisation du site." %}{% endblock %}
+{% block content %}
+<div class="prose">
+<h1>{% translate "Mentions légales" %}</h1>
+{% if LANGUAGE_CODE == "en" %}
+<h2>Publisher</h2>
+{% if publisher %}<p>{{ site_name }} ({{ site_url }}) is published by <strong>{{ publisher }}</strong>{% if address %}, {{ address }}{% endif %}{% if publisher_id %}, {{ publisher_id }}{% endif %}.</p>
+<p>Director of publication: {{ director }}.</p>
+{% else %}<p>{{ site_name }} ({{ site_url }}) is a non-commercial project published by a private individual who, as French law allows (LCEN, article 6-III-2), has given their identity to the host.</p>{% endif %}
+<p>Contact: {% if contact_email %}<a href="mailto:{{ contact_email }}">{{ contact_email }}</a> or {% endif %}<a href="{% url 'contact' %}">the contact form</a>.</p>
+<h2>Host</h2>
+<p>{{ host }}.</p>
+<h2>Content</h2>
+<p>Wine profiles are reference profiles written for learning: they describe what an appellation usually gives, not a particular bottle. Prices and ageing are indicative ranges. Molecules and their natural sources are linked only when a publication supports the link; each source is cited.</p>
+<p>Spotted a mistake? <a href="{% url 'contact' %}?objet=error">Tell us</a>: corrections are welcome and credited.</p>
+<h2>Alcohol</h2>
+<p>This site informs about wine; it does not sell alcohol and promotes no brand. It is intended for adults. Excessive drinking is dangerous for your health; drink in moderation.</p>
+<h2>Intellectual property</h2>
+<p>Texts, profiles and drawings on this site are protected. Short quotations with a link back are welcome. Cited publications remain the property of their authors and publishers.</p>
+{% else %}
+<h2>Éditeur</h2>
+{% if publisher %}<p>{{ site_name }} ({{ site_url }}) est édité par <strong>{{ publisher }}</strong>{% if address %}, {{ address }}{% endif %}{% if publisher_id %}, {{ publisher_id }}{% endif %}.</p>
+<p>Directeur de la publication : {{ director }}.</p>
+{% else %}<p>{{ site_name }} ({{ site_url }}) est un projet non commercial édité par un particulier qui, comme le permet la loi (LCEN, article 6-III-2), a communiqué son identité à l'hébergeur.</p>{% endif %}
+<p>Contact : {% if contact_email %}<a href="mailto:{{ contact_email }}">{{ contact_email }}</a> ou {% endif %}<a href="{% url 'contact' %}">le formulaire de contact</a>.</p>
+<h2>Hébergeur</h2>
+<p>{{ host }}.</p>
+<h2>Contenus</h2>
+<p>Les profils de vins sont des profils types rédigés pour l'apprentissage : ils décrivent ce que donne habituellement une appellation, pas une bouteille précise. Prix et gardes sont des fourchettes indicatives. Une molécule n'est reliée à un vin ou à un élément naturel que si une publication l'établit ; chaque source est citée.</p>
+<p>Une erreur ? <a href="{% url 'contact' %}?objet=error">Signalez-la</a> : les corrections sont bienvenues et créditées.</p>
+<h2>Alcool</h2>
+<p>Ce site informe sur le vin ; il ne vend pas d'alcool et ne fait la promotion d'aucune marque. Il s'adresse aux adultes. L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+<h2>Propriété intellectuelle</h2>
+<p>Les textes, profils et dessins du site sont protégés. Les courtes citations avec un lien vers la page sont bienvenues. Les publications citées restent la propriété de leurs auteurs et éditeurs.</p>
+{% endif %}
+<p class="small muted"><a href="{% url 'privacy' %}">{% translate "Confidentialité" %}</a> · <a href="{% url 'about' %}">{% translate "À propos" %}</a></p>
+</div>
+{% endblock %}

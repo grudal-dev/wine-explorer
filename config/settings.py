@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.api",
     "apps.analytics",
+    "apps.pages",
     "rest_framework",
     "rest_framework.authtoken",
 ]
@@ -136,9 +137,32 @@ EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "25"))
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", False)
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Wine Explorer <newsletter@localhost>")
+DEFAULT_FROM_EMAIL = os.environ.get(
+    "DEFAULT_FROM_EMAIL", f"{os.environ.get('SITE_NAME', 'Wine Explorer')} <newsletter@localhost>")
 # Adresse publique du site, pour les liens des e-mails.
 SITE_URL = os.environ.get("SITE_URL", "http://localhost:8000").rstrip("/")
+# Nom affiché partout (en-tête, titres, partage, e-mails) : un seul réglage pour changer de nom.
+SITE_NAME = os.environ.get("SITE_NAME", "Wine Explorer").strip() or "Wine Explorer"
+# Vérification de propriété pour la Search Console de Google et Bing Webmaster Tools (contenu de la balise meta).
+GOOGLE_SITE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "").strip()
+BING_SITE_VERIFICATION = os.environ.get("BING_SITE_VERIFICATION", "").strip()
+# Mentions légales (LCEN, art. 6). Un particulier non professionnel peut ne publier que l'hébergeur, à
+# condition d'avoir donné son identité à celui-ci ; une société publie raison sociale, siège et SIREN.
+LEGAL_PUBLISHER = os.environ.get("LEGAL_PUBLISHER", "").strip()          # nom ou raison sociale
+LEGAL_PUBLISHER_ADDRESS = os.environ.get("LEGAL_PUBLISHER_ADDRESS", "").strip()
+LEGAL_PUBLISHER_ID = os.environ.get("LEGAL_PUBLISHER_ID", "").strip()    # SIREN, RCS…
+LEGAL_DIRECTOR = os.environ.get("LEGAL_DIRECTOR", "").strip()            # directeur de la publication
+CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "").strip()
+LEGAL_HOST = os.environ.get(
+    "LEGAL_HOST",
+    "Railway Corporation, 548 Market St Suite 68956, San Francisco, California 94104, États-Unis ; "
+    "team@railway.com ; +1 415 707 7675").strip()
+# Destinataires des messages du formulaire de contact (en plus de l'administration) : « Nom <a@b.fr>, … ».
+ADMINS = [tuple(a.strip().rstrip(">").split(" <")) if "<" in a else ("", a.strip())
+          for a in os.environ.get("DJANGO_ADMINS", CONTACT_EMAIL).split(",") if a.strip()]
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+# Relecture des profils : nom de l'œnologue ou du sommelier relecteur, affiché sur « À propos » une fois choisi.
+DATA_REVIEWER = os.environ.get("DATA_REVIEWER", "").strip()
 
 # Internationalisation : français d'abord, anglais prêt à traduire.
 LANGUAGE_CODE = "fr"

@@ -1,15 +1,18 @@
 {% extends "base.html" %}
-{% load i18n terroirs_i18n %}
+{% load i18n terroirs_i18n static %}
 {% block title %}{% translate "Créer un compte" %}{% endblock %}
 {% block robots %}<meta name="robots" content="noindex">{% endblock %}
 {% block content %}
 <div class="auth">
-  <h1>{% translate "Créer un compte" %}</h1>
-  <p class="muted">{% translate "Un compte garde votre historique de blind test et vous place au classement du défi du jour." %}</p>
+  <h1>{% if points %}{% blocktranslate trimmed %}Gardez vos {{ points }} points{% endblocktranslate %}{% else %}{% translate "Créer un compte" %}{% endif %}</h1>
+  <p class="muted">{% translate "Un compte garde vos parties, votre série de jours et vous place au classement. Les parties jouées sur cet appareil y sont rattachées." %}</p>
   <form method="post">{% csrf_token %}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
     {% include "partials/form_fields.html" %}
     <button class="btn" type="submit">{% translate "Créer mon compte" %}</button>
   </form>
-  <p class="small" style="margin-top:1.5rem">{% translate "Déjà inscrit ?" %} <a href="{% url 'accounts:login' %}">{% translate "Se connecter" %}</a></p>
+  <p class="small muted" style="margin-top:1rem">{% url 'privacy' as privacy_url %}{% blocktranslate trimmed with url=privacy_url %}Ni publicité ni revente : <a href="{{ url }}">ce que nous faisons de vos données</a>.{% endblocktranslate %}</p>
+  <p class="small" style="margin-top:1rem">{% translate "Déjà inscrit ?" %} <a href="{% url 'accounts:login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">{% translate "Se connecter" %}</a></p>
 </div>
 {% endblock %}
+{% block scripts %}<script src="{% static 'js/reveal.js' %}" defer></script>{% endblock %}

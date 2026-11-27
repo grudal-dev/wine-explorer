@@ -20,7 +20,7 @@ class WineOfTheWeekTests(TestCase):
     def setUp(self):
         cache.clear()
 
-    def _get(self, day, path="/catalogue/"):
+    def _get(self, day, path="/"):
         with mock.patch("apps.catalog.seasons.timezone.localdate", return_value=day):
             return self.client.get(path).content.decode()
 
@@ -61,4 +61,8 @@ class WineOfTheWeekTests(TestCase):
         self.assertNotIn('class="weekly"', self._get(QUIET))
 
     def test_english(self):
-        self.assertIn("Wine of the week", self._get(QUIET, "/en/catalogue/"))
+        self.assertIn("Wine of the week", self._get(QUIET, "/en/"))
+
+    def test_only_on_home(self):
+        # Un seul encart éditorial, sur l'accueil : il ne retarde pas les autres pages.
+        self.assertNotIn('class="weekly"', self._get(QUIET, "/catalogue/"))

@@ -72,6 +72,15 @@
       <button class="btn" type="submit">{% translate "M'inscrire" %}</button>
       {% endif %}
     </form>
+    <details class="danger-zone">
+      <summary>{% translate "Supprimer mon compte" %}</summary>
+      <p class="small muted">{% translate "Votre compte, vos parties et votre inscription à la newsletter sont effacés aussitôt et définitivement. Vos scores quittent le classement." %}</p>
+      <form method="post" action="{% url 'accounts:delete' %}">{% csrf_token %}
+        <div class="field"><label for="del-pw">{% translate "Mot de passe, pour confirmer" %}</label>
+          <input id="del-pw" class="input" type="password" name="password" autocomplete="current-password" required></div>
+        <button class="btn btn--danger" type="submit">{% translate "Supprimer définitivement" %}</button>
+      </form>
+    </details>
     {% endif %}
   </aside>
 </div>

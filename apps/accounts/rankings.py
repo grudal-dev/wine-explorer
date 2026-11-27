@@ -14,6 +14,9 @@ from apps.blindtest.models import Game
 from apps.nose.models import HotColdResult
 
 GAMES = ("total", "blindtest", "hotcold")
+# Sur le site : le blind test fait le classement ; le chaud-froid, jeu bonus, a son propre tableau (le
+# « total » reste servi à l'application mobile).
+PUBLIC_GAMES = ("blindtest", "hotcold")
 LIMIT = 20
 
 

@@ -40,11 +40,11 @@ class EnglishTests(TestCase):
     def test_french_is_the_default(self):
         page = self.client.get(reverse("home"))
         self.assertContains(page, '<html lang="fr">')
-        self.assertContains(page, "Les défis du jour")
+        self.assertContains(page, "Le vin du jour")
 
     def test_pages_in_english(self):
         self.assertContains(self.get(reverse("home")), '<html lang="en">')
-        self.assertContains(self.get(reverse("home")), "Today's challenges")
+        self.assertContains(self.get(reverse("home")), "Today's wine")
         page = self.get(reverse("catalog:profile", args=["chablis-blanc"]))
         self.assertContains(page, "On the nose")
         self.assertContains(page, "Oyster shell")          # arôme traduit

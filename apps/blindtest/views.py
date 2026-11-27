@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.db.models import Avg, Count, Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext
 from django.views.decorators.http import require_GET, require_POST
@@ -11,7 +12,7 @@ from apps.analytics.tracking import track
 from apps.catalog.models import Color, WineProfile
 from apps.molecules import facts as molecule_facts
 
-from . import engine
+from . import engine, share
 from .models import Game
 
 SESSION_GAMES = "blindtest_games"
@@ -108,11 +109,37 @@ def start(request):
 
 def game_view(request, public_id):
     game = _get_game(request, public_id)
-    return render(request, "blindtest/game.html", _game_context(game))
+    return render(request, "blindtest/game.html", _game_context(game, request=request))
 
 
-def _game_context(game: Game, error: str = "") -> dict:
+def _last_miss(game: Game) -> str:
+    """Le vin de la dernière appellation proposée à tort, même couleur si possible : de quoi comparer."""
+    g = (game.guesses.filter(kind="appellation").exclude(verdict="hit").order_by("-created_at").first())
+    if not g:
+        return ""
+    qs = WineProfile.objects.filter(appellation_id=g.value).exclude(pk=game.profile_id)
+    p = qs.filter(color=game.profile.color).first() or qs.first()
+    return p.slug if p else ""
+
+
+def _game_context(game: Game, error: str = "", request=None) -> dict:
+    extra = {}
+    if game.is_over and request is not None:
+        url = request.build_absolute_uri(reverse("blindtest:home"))
+        extra = {
+            "share_text": share.text(game, url),
+            "share_grid": share.grid(game),
+            "share_number": share.number(game.day) if game.mode == Game.Mode.DAILY and game.day else None,
+            "streak": (share.streak_for(owned_games(request), timezone.localdate())
+                       if game.mode == Game.Mode.DAILY else 0),
+            # Joueur sans compte : sa partie n'est pas classée tant qu'il n'en crée pas un.
+            "keep_points": (game.is_owner and not request.user.is_authenticated
+                            and game.mode == Game.Mode.DAILY and game.score > 0),
+            "challenge_url": request.build_absolute_uri(reverse("blindtest:home")),
+            "last_miss": _last_miss(game),
+        }
     return {
+        **extra,
         "game": game,
         "sheet": engine.tasting_sheet(game),
         "guesses": game.guesses.all(),
@@ -140,7 +167,7 @@ def guess(request, public_id):
         if was_playing and game.status != Game.Status.PLAYING:
             _track_end(request, game)
     if request.htmx:
-        return render(request, "blindtest/_board.html", _game_context(game, error))
+        return render(request, "blindtest/_board.html", _game_context(game, error, request=request))
     if error:
         messages.warning(request, error)
     return redirect(game)

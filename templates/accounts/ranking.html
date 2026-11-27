@@ -5,11 +5,10 @@
 {% block content %}
 <h1>{% translate "Classement" %}</h1>
 <nav class="tabs" aria-label="{% translate "Jeux" %}">
-  <a href="{% url 'accounts:ranking' %}" {% if game == "total" %}aria-current="page"{% endif %}>{% translate "Total des jeux" %}</a>
-  <a href="{% url 'accounts:ranking' %}?jeu=blindtest" {% if game == "blindtest" %}aria-current="page"{% endif %}>{% translate "Blind test" %}</a>
-  <a href="{% url 'accounts:ranking' %}?jeu=hotcold" {% if game == "hotcold" %}aria-current="page"{% endif %}>{% translate "Chaud-froid" %}</a>
+  <a href="{% url 'accounts:ranking' %}" {% if game == "blindtest" %}aria-current="page"{% endif %}>{% translate "Blind test" %}</a>
+  <a href="{% url 'accounts:ranking' %}?jeu=hotcold" {% if game == "hotcold" %}aria-current="page"{% endif %}>{% translate "Chaud-froid" %} <em class="nav-tag">{% translate "bonus" %}</em></a>
 </nav>
-<p class="small muted">{% translate "Seuls les défis du jour comptent, une fois par jour et par jeu. Les parties libres ne sont pas classées." %}</p>
+<p class="small muted">{% if game == "hotcold" %}{% translate "Le chaud-froid est un jeu bonus : son tableau est séparé du classement du blind test." %}{% else %}{% translate "Seul le blind test du jour compte, une fois par jour. Les parties libres ne sont pas classées." %}{% endif %}</p>
 <div class="grid grid--2 section">
   <section class="panel">
     <h2>{% blocktranslate trimmed with day=day|date:"j F" %}Défi du {{ day }}{% endblocktranslate %}</h2>

@@ -2,14 +2,21 @@
 {% load i18n terroirs_i18n static %}
 {% block title %}{% translate "Explorer le vin" %}{% endblock %}
 {% block content %}
+{% with c=daily.blindtest %}
 <section class="hero hero--games">
   <div>
+    <h1 class="hero__title">{% translate "Le vin du jour" %}</h1>
     {% if teaser %}
-    <p class="hero__kicker">{% blocktranslate trimmed with color=teaser.color|lower aromas=teaser.aromas|join:", " %}Le vin du jour est un {{ color }}. Au nez : {{ aromas }}…{% endblocktranslate %}</p>
+    <p class="hero__kicker">{% blocktranslate trimmed with color=teaser.color|lower aromas=teaser.aromas|join:", " %}Un {{ color }}. Au nez : {{ aromas }}…{% endblocktranslate %}</p>
     {% endif %}
-    <h1 class="hero__title">{% translate "Les défis du jour" %}</h1>
-    <p class="lede">{% translate "Deux vins mystère, les mêmes pour tout le monde, renouvelés chaque jour. Un résultat par jour et par jeu, un classement pour les départager." %}</p>
-    <p class="hero__reset">{% translate "Prochain défi dans" %} <time class="daily__clock" datetime="{{ daily.reset_at|date:'c' }}" data-deadline="{{ daily.reset_at|date:'c' }}">{{ daily.reset_at|timeuntil }}</time></p>
+    <p class="lede">{% translate "Un vin mystère, le même pour tout le monde. Retrouvez son appellation au nez, en huit essais au plus." %}</p>
+    <div class="hero__play">
+      {% if c.url %}<a class="btn btn--big{% if c.state == 'done' %} btn--ghost{% endif %}" href="{{ c.url }}">{% if c.state == "done" %}{% blocktranslate trimmed with points=c.points %}Terminé : {{ points }} points. Revoir{% endblocktranslate %}{% else %}{% translate "Reprendre ma partie" %}{% endif %}</a>
+      {% else %}<form method="post" action="{% url 'blindtest:start' %}">{% csrf_token %}<input type="hidden" name="mode" value="daily"><button class="btn btn--big" type="submit">{% translate "Jouer le vin du jour" %}</button></form>{% endif %}
+      {% if daily.streak > 1 %}<p class="streak small">{% blocktranslate trimmed count days=daily.streak %}Série : {{ days }} jour d'affilée{% plural %}Série : {{ days }} jours d'affilée{% endblocktranslate %}</p>{% endif %}
+    </div>
+    <p class="hero__reset small muted">{% translate "Prochain vin dans" %} <time class="daily__clock" datetime="{{ daily.reset_at|date:'c' }}" data-deadline="{{ daily.reset_at|date:'c' }}">{{ daily.reset_at|timeuntil }}</time>
+      {% if c.best %}· {% blocktranslate trimmed with points=c.best.points user=c.best.username %}Meilleur score du jour : {{ points }} points ({{ user }}){% endblocktranslate %}{% endif %}</p>
   </div>
   {% if teaser %}
   <div class="glass glass--{{ teaser.color_key }}" aria-hidden="true">
@@ -17,32 +24,12 @@
   </div>
   {% endif %}
 </section>
+{% endwith %}
 
-<section class="section daily" aria-label="{% translate "Les défis du jour" %}">
-  <div class="daily__cards">
-    {% for c in daily.cards %}
-    <article class="daily__card daily__card--{{ c.key }} is-{{ c.state }}">
-      <p class="daily__kicker">{% translate "Jeu" %}</p>
-      <h3>{% if c.key == "blindtest" %}{% translate "Blind test" %}{% else %}{% translate "Chaud-froid" %}{% endif %}</h3>
-      <p class="daily__blurb">{% if c.key == "blindtest" %}{% translate "Reconstituez l'étiquette d'un vin mystère." %}{% else %}{% translate "Trouvez le vin mystère à sa température." %}{% endif %}</p>
-      <p class="daily__status">
-        {% if c.state == "done" %}<span class="daily__badge daily__badge--done">{% blocktranslate trimmed with points=c.points %}Terminé : {{ points }} points{% endblocktranslate %}</span>
-        {% elif c.state == "playing" %}<span class="daily__badge daily__badge--playing">{% translate "En cours" %}</span>
-        {% else %}<span class="daily__badge">{% translate "À jouer" %}</span>{% endif %}
-      </p>
-      <p class="daily__best small muted">
-        {% if c.best %}{% blocktranslate trimmed with points=c.best.points user=c.best.username %}Meilleur score du jour : {{ points }} points ({{ user }}){% endblocktranslate %}
-        {% else %}{% translate "Personne n'a encore terminé le défi du jour." %}{% endif %}
-      </p>
-      {% if c.key == "blindtest" %}
-        {% if c.url %}<a class="btn{% if c.state == 'done' %} btn--ghost{% endif %}" href="{{ c.url }}">{% if c.state == "done" %}{% translate "Revoir la partie" %}{% else %}{% translate "Reprendre" %}{% endif %}</a>
-        {% else %}<form method="post" action="{% url 'blindtest:start' %}">{% csrf_token %}<input type="hidden" name="mode" value="daily"><button class="btn" type="submit">{% translate "Jouer" %}</button></form>{% endif %}
-      {% else %}
-        <a class="btn{% if c.state == 'done' %} btn--ghost{% endif %}" href="{% url 'hotcold:game' %}">{% if c.state == "done" %}{% translate "Revoir la partie" %}{% elif c.state == "playing" %}{% translate "Reprendre" %}{% else %}{% translate "Jouer" %}{% endif %}</a>
-      {% endif %}
-    </article>
-    {% endfor %}
-  </div>
+{# Un seul encart éditorial, sur l'accueil seulement, et sous le jeu : il ne doit pas retarder la partie. #}
+<div class="home-editorial">{% if seasonal_decor %}{% with "partials/_"|add:seasonal_decor|add:".html" as decor_template %}{% include decor_template %}{% endwith %}{% elif weekly %}{% include "partials/_weekly.html" %}{% endif %}</div>
+
+<section class="section daily" aria-label="{% translate "Classement et jeu bonus" %}">
   <div class="podium">
     <h2>{% translate "Le classement du jour" %}</h2>
     {% if podium %}
@@ -52,8 +39,16 @@
         <span class="podium__pts">{% blocktranslate trimmed with points=r.points %}{{ points }} points{% endblocktranslate %}</span></li>{% endfor %}
     </ol>
     {% else %}<p class="muted">{% translate "Personne n'a encore terminé le défi du jour." %} {% translate "Soyez le premier." %}</p>{% endif %}
-    <p class="daily__foot small"><a href="{% url 'accounts:ranking' %}">{% translate "Voir le classement des jeux" %}</a></p>
+    <p class="daily__foot small"><a href="{% url 'accounts:ranking' %}">{% translate "Voir le classement" %}</a></p>
   </div>
+  {% if 'chaudfroid' in sections %}{% with h=daily.hotcold %}
+  <article class="daily__card daily__card--hotcold is-{{ h.state }}">
+    <p class="daily__kicker">{% translate "Jeu bonus" %}</p>
+    <h3>{% translate "Chaud-froid" %}</h3>
+    <p class="daily__blurb">{% translate "Trouvez le vin mystère à sa température." %}</p>
+    <a class="btn btn--ghost" href="{% url 'hotcold:game' %}">{% if h.state == "done" %}{% translate "Revoir la partie" %}{% elif h.state == "playing" %}{% translate "Reprendre" %}{% else %}{% translate "Jouer" %}{% endif %}</a>
+  </article>
+  {% endwith %}{% endif %}
 </section>
 
 <section class="section">

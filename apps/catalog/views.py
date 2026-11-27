@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
+from . import seo
 from .grapes import MERGED
 from .i18n import tr
 from .models import Appellation, Aroma, AromaFamily, Grape, ProfileAroma, Region, WineProfile
@@ -41,7 +42,8 @@ def home(request):
     today = timezone.localdate()
     return render(request, "home.html", {
         "teaser": teaser, "stats": stats, "daily": overview(request, today),
-        "podium": standings("total", today)["today"][:3],
+        "podium": standings("blindtest", today)["today"][:3],
+        "jsonld": seo.website(request),
     })
 
 
@@ -83,9 +85,12 @@ def profile_detail(request, slug):
         pm for pm in profile.profile_molecules.select_related("molecule")
         if any(r["basis"] != "universal" for r in pm.reasons)
     ]
+    app = profile.appellation
+    crumbs = [(tr(r.name), r.get_absolute_url()) for r in app.region.lineage()]
+    crumbs += [(tr(app.name), app.get_absolute_url()), (tr(profile.name), profile.get_absolute_url())]
     return render(request, "catalog/profile.html", {
         "profile": profile, "siblings": siblings, "neighbours": neighbours, "molecules": molecules[:8],
-        "molecules_total": len(molecules),
+        "molecules_total": len(molecules), "jsonld": seo.breadcrumbs(request, crumbs),
     })
 
 
@@ -95,8 +100,10 @@ def appellation_detail(request, slug):
     nearby = (
         Appellation.objects.filter(region=app.region).exclude(pk=app.pk).order_by("name")
     )
+    crumbs = [(tr(r.name), r.get_absolute_url()) for r in app.region.lineage()]
+    crumbs.append((tr(app.name), app.get_absolute_url()))
     return render(request, "catalog/appellation.html", {
-        "appellation": app, "profiles": profiles, "nearby": nearby,
+        "appellation": app, "profiles": profiles, "nearby": nearby, "jsonld": seo.breadcrumbs(request, crumbs),
     })
 
 
@@ -114,6 +121,7 @@ def region_detail(request, slug):
     return render(request, "catalog/region.html", {
         "region": region, "appellations": appellations, "grapes": grapes,
         "children": region.children.all(),
+        "jsonld": seo.breadcrumbs(request, [(tr(r.name), r.get_absolute_url()) for r in region.lineage()]),
     })
 
 

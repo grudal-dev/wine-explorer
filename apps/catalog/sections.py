@@ -79,4 +79,9 @@ class SectionGateMiddleware:
 
 
 def context(request):
-    return {"sections": visible(), "path_no_lang": strip_language(request.path)}
+    return {
+        "sections": visible(), "path_no_lang": strip_language(request.path),
+        "site_name": settings.SITE_NAME,
+        "google_site_verification": settings.GOOGLE_SITE_VERIFICATION,
+        "bing_site_verification": settings.BING_SITE_VERIFICATION,
+    }

@@ -89,6 +89,15 @@ utilisées » sur le fichier réel. Les deux imports n'ont pas encore été test
 Pour ajouter une appellation, complétez un fichier `apps/catalog/data/fr/appellations_*.yaml` puis
 relancez `python manage.py load_seed --check` et `load_seed`.
 
+## Nom, pages légales, référencement
+
+Le nom affiché vient de `SITE_NAME` (en-tête, titres, partage, e-mails, administration). Les pages
+« À propos », « Contact », « Mentions légales » et « Confidentialité » (`apps/pages/`) lisent l'éditeur,
+l'hébergeur et l'adresse de contact dans les variables `LEGAL_*` et `CONTACT_EMAIL` (voir `.env.example`).
+Les messages du formulaire de contact arrivent dans l'administration (et par e-mail si `DJANGO_ADMINS` ou
+`CONTACT_EMAIL` est renseigné), et sont effacés au bout d'un an. `GOOGLE_SITE_VERIFICATION` et
+`BING_SITE_VERIFICATION` posent les balises de vérification de la Search Console et de Bing.
+
 ## Qualité
 
 ```bash

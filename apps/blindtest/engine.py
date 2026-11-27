@@ -146,6 +146,15 @@ class Target:
             subregion=reg if reg.parent_id else None, main_grapes=main, minor_grapes=minor,
         )
 
+    @property
+    def single_grape(self) -> Grape | None:
+        """Le cépage unique d'un vin mono-cépage (Barolo, Sancerre, Pouilly-Fuissé) : trouver
+        l'appellation le donne d'office, le faire deviner en plus serait une formalité."""
+        links = list(self.profile.profile_grapes.all())
+        if len(links) == 1 and links[0].share >= 100 and len(self.main_grapes) == 1:
+            return self.main_grapes[0]
+        return None
+
     def slots(self) -> list[dict]:
         out = [
             {"key": "region", "label": gettext("Région"), "answer": tr(self.region.name)},
@@ -393,12 +402,16 @@ def _evaluate(match, t: Target, found: dict) -> tuple[str, str, bool]:
         if match.pk == t.appellation.id:
             found["appellation"] = True
             found["region"] = True
+            if t.single_grape:
+                found[f"grape:{t.single_grape.id}"] = True
             return V.HIT, gettext("C'est bien un %(appellation)s !") % {"appellation": t.appellation.name}, True
         guessed = Appellation.objects.select_related("region", "region__parent").get(pk=match.pk)
         # Jumelles au verre (Fleurie / Chiroubles…) : accepté, à condition qu'elle fasse cette couleur.
         if are_twins(t.appellation.slug, guessed.slug) and t.profile.color in (guessed.colors or []):
             found["appellation"] = True
             found["region"] = True
+            if t.single_grape:
+                found[f"grape:{t.single_grape.id}"] = True
             return V.HIT, gettext(
                 "Accepté : c'était un %(appellation)s, presque impossible à distinguer d'un %(guess)s au verre."
             ) % {"appellation": t.appellation.name, "guess": guessed.name}, True

@@ -22,7 +22,8 @@ class SectionGateTests(TestCase):
         self.assertNotIn('href="/blind-test/"', html)
         self.assertNotIn('href="/chaud-froid/"', html)
         self.assertNotIn('href="/compte/', html)
-        self.assertIn('href="/carte/"', html)
+        self.assertIn('href="/molecules/"', html)
+        self.assertIn('href="/catalogue/"', html)
 
     @override_settings(PUBLIC_SECTIONS=["molecules", "typo"])
     def test_unknown_section_is_an_error(self):

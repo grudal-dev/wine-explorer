@@ -118,7 +118,7 @@ def signup(request):
     data = request.data
     form = SignupForm({
         "username": data.get("username", ""), "email": data.get("email", ""),
-        "password1": data.get("password", ""), "password2": data.get("password", ""),
+        "password": data.get("password", ""),
         "adult": bool(data.get("adult")), "newsletter": bool(data.get("newsletter")),
     })
     if not form.is_valid():

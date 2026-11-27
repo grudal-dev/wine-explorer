@@ -75,8 +75,12 @@ class CompareTests(TestCase):
 
     def test_menu(self):
         html = self.client.get("/catalogue/").content.decode()
-        self.assertIn('href="/comparer/"', html)
+        # Comparer n'est plus une porte du menu : on y arrive depuis les fiches et la fin de partie.
+        self.assertNotIn('href="/comparer/"', html)
         self.assertIn("Trouve mon vin", html)
+        from apps.catalog.models import WineProfile
+        wine = WineProfile.objects.filter(profile_aromas__isnull=False).first()
+        self.assertIn(f'href="/comparer/{wine.slug}/', self.client.get(wine.get_absolute_url()).content.decode())
         self.assertIn("nav-group--games", html)
         self.assertNotIn('href="/graphe/"', html)  # graphe caché par défaut
         self.assertEqual(self.client.get("/graphe/").status_code, 200)  # mais toujours servi

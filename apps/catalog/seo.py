@@ -11,7 +11,7 @@ from django.conf import settings
 from django.contrib.sitemaps import Sitemap
 from django.http import HttpResponse
 from django.templatetags.static import static
-from django.urls import translate_url, reverse
+from django.urls import reverse, translate_url
 
 from . import sections
 from .models import Appellation, Aroma, Grape, Region, WineProfile
@@ -212,3 +212,26 @@ SITEMAPS = {
     "nature": NaturalSources,
     "duels": Duels,
 }
+
+
+def jsonld(data: dict | list) -> str:
+    """Données structurées schema.org, prêtes à poser dans <script type="application/ld+json">."""
+    import json
+
+    return json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+
+def breadcrumbs(request, items: list[tuple[str, str]]) -> str:
+    """Fil d'Ariane (nom, chemin) en BreadcrumbList : Google l'affiche à la place de l'adresse."""
+    base = site_base(request)
+    return jsonld({
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [{"@type": "ListItem", "position": i, "name": str(name), "item": base + path}
+                            for i, (name, path) in enumerate(items, start=1)],
+    })
+
+
+def website(request) -> str:
+    base = site_base(request)
+    return jsonld({"@context": "https://schema.org", "@type": "WebSite", "name": settings.SITE_NAME,
+                   "url": base + "/", "inLanguage": getattr(request, "LANGUAGE_CODE", settings.LANGUAGE_CODE)})

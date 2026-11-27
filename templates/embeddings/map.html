@@ -15,7 +15,7 @@
   <aside class="explorer__rail" aria-label="{% translate "Réglages de la carte" %}">
     <div class="rail-group">
       <h1 class="mol-title">{% translate "Carte des goûts" %}</h1>
-      <p class="small muted">{% translate "Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, même coin de vignoble. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à la main." %}</p>
+      <p class="small muted">{% translate "Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, même coin de vignoble." %}</p>
     </div>
 
     <form id="map-form" class="rail-group" autocomplete="off">
@@ -53,10 +53,14 @@
     <div class="rail-group">
       <p class="small muted">{% translate "Cliquez sur un point : ses plus proches voisins se relient à lui. Les axes n'ont pas de signification, seules les distances comptent." %}</p>
       {% if meta.trained %}
-      <p class="small muted">{% blocktranslate trimmed with nodes=meta.nodes dim=meta.dim auc=meta.auc_held_out trained=meta.trained %}
+      <details class="small muted method-note">
+        <summary>{% translate "Comment la carte est construite" %}</summary>
+        <p>{% translate "Les positions ne sont pas dessinées à la main : elles sont apprises à partir des liens entre vins, cépages, arômes, molécules et régions." %}
+        {% blocktranslate trimmed with nodes=meta.nodes dim=meta.dim auc=meta.auc_held_out trained=meta.trained %}
         Modèle entraîné le {{ trained }} sur {{ nodes }} entités ({{ dim }} dimensions). Sur des liens masqués
         pendant l'entraînement, il distingue un vrai lien d'un lien au hasard dans {{ auc }} des cas (AUC).
         {% endblocktranslate %}</p>
+      </details>
       {% endif %}
     </div>
   </aside>

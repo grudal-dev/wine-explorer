@@ -29,7 +29,7 @@ class BeaujolaisDayTests(TestCase):
 
 
 class BeaujolaisDecorViewTests(TestCase):
-    def _get(self, day, path="/catalogue/"):
+    def _get(self, day, path="/"):
         with mock.patch("apps.catalog.seasons.timezone.localdate", return_value=day):
             return self.client.get(path).content.decode()
 
@@ -47,12 +47,12 @@ class BeaujolaisDecorViewTests(TestCase):
         self.assertNotIn('id="primeur"', html)
 
     def test_english(self):
-        html = self._get(date(2026, 11, 20), "/en/catalogue/")
+        html = self._get(date(2026, 11, 20), "/en/")
         self.assertIn("Beaujolais Nouveau", html)
 
 
 class PerceeTests(TestCase):
-    def _get(self, day, path="/catalogue/"):
+    def _get(self, day, path="/"):
         with mock.patch("apps.catalog.seasons.timezone.localdate", return_value=day):
             return self.client.get(path).content.decode()
 
@@ -82,7 +82,7 @@ class PerceeTests(TestCase):
         self.assertIn("Ce week-end · Arlay", self._get(date(2027, 2, 6)))
 
     def test_english(self):
-        html = self._get(date(2027, 2, 1), "/en/catalogue/")
+        html = self._get(date(2027, 2, 1), "/en/")
         self.assertIn("Percée du Vin Jaune", html)
         self.assertIn("6 and 7 February 2027 · Arlay", html)
 
@@ -96,7 +96,7 @@ class PerceeTests(TestCase):
 
 
 class AutumnDecorTests(TestCase):
-    def _get(self, day, path="/catalogue/"):
+    def _get(self, day, path="/"):
         with mock.patch("apps.catalog.seasons.timezone.localdate", return_value=day):
             return self.client.get(path).content.decode()
 
@@ -160,6 +160,6 @@ class AutumnDecorTests(TestCase):
             self.assertEqual(len(seen), len(set(seen)), (year, seen))  # chaque décor d'un seul tenant
 
     def test_english(self):
-        self.assertIn("Montmartre Grape Harvest Festival", self._get(date(2026, 10, 1), "/en/catalogue/"))
-        self.assertIn("Médoc Marathon", self._get(date(2027, 9, 1), "/en/catalogue/"))
-        self.assertIn("Vino novello is here", self._get(date(2026, 10, 31), "/en/catalogue/"))
+        self.assertIn("Montmartre Grape Harvest Festival", self._get(date(2026, 10, 1), "/en/"))
+        self.assertIn("Médoc Marathon", self._get(date(2027, 9, 1), "/en/"))
+        self.assertIn("Vino novello is here", self._get(date(2026, 10, 31), "/en/"))

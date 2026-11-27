@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wine Explorer VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-25 23:44+0100\n"
+"POT-Creation-Date: 2026-11-27 00:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -139,6 +139,14 @@ msgstr "%(s_name)s, in nature"
 #, python-format
 msgid "%(shared)s arôme%(s)s en commun"
 msgstr "%(shared)s shared aroma%(s)s"
+
+#, python-format
+msgid "%(site_name)s, accueil"
+msgstr "%(site_name)s, home"
+
+#, python-format
+msgid "%(site_name)s. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs."
+msgstr "%(site_name)s. Reference data selected for learning; prices and ageing are indicative."
 
 #, python-format
 msgid "%(start)s et %(end)s · %(place)s"
@@ -339,6 +347,9 @@ msgstr "67 µg/L (cis isomer) in red wine"
 msgid "7 µg/L environ"
 msgstr "about 7 µg/L"
 
+msgid "8 caractères au moins, pas trop courant."
+msgstr "At least 8 characters, not too common."
+
 msgid "900 µg/L dans un vin rouge désaromatisé"
 msgstr "900 µg/L in a dearomatised red wine"
 
@@ -482,6 +493,12 @@ msgstr "Appellation to find"
 msgid "Appellations"
 msgstr "Appellations"
 
+msgid "Apprendre"
+msgstr "Learn"
+
+msgid "Apprendre à reconnaître un vin par le nez : blind test du jour, arômes, molécules et fiches sourcées."
+msgstr "Learn to recognise a wine by its nose: daily blind tasting, aromas, molecules and sourced wine sheets."
+
 msgid "Arborescente"
 msgstr "Tree"
 
@@ -594,6 +611,10 @@ msgstr "No natural source documented in our references: this molecule mostly ari
 msgid "Aucune appellation pour l'instant."
 msgstr "No appellation yet."
 
+#, python-format
+msgid "Aucune molécule propre face au %(other)s : ses marqueurs se retrouvent dans les deux."
+msgstr "No molecule of its own against %(other)s: its markers are found in both."
+
 msgid "Aucune molécule spécifique documentée."
 msgstr "No specific molecule documented."
 
@@ -633,6 +654,9 @@ msgstr "Also described as %(synonyms)s."
 
 msgid "Autre"
 msgstr "Other"
+
+msgid "Autre chose"
+msgstr "Something else"
 
 msgid ""
 "Baie séchée du poivrier. Le poivre noir et le blanc renferment de la rotundone à des teneurs environ 10 000"
@@ -852,6 +876,9 @@ msgstr "Not this appellation."
 msgid "Ce n'est pas votre partie."
 msgstr "This is not your game."
 
+msgid "Ce nom est déjà pris."
+msgstr "This name is already taken."
+
 msgid "Ce que contient la base"
 msgstr "What the database contains"
 
@@ -915,11 +942,10 @@ msgstr ""
 
 msgid ""
 "Chaque point est un vin. Deux points voisins se ressemblent : mêmes arômes, mêmes cépages, même bouche, "
-"même coin de vignoble. Les positions sont apprises par un réseau de neurones sur le graphe, pas dessinées à"
-" la main."
+"même coin de vignoble."
 msgstr ""
 "Each dot is a wine. Two neighbouring dots are alike: same aromas, same grapes, same palate, same corner of "
-"the vineyard. The positions are learned by a neural network on the graph, not drawn by hand."
+"the vineyard."
 
 msgid ""
 "Chardonnay ample et beurré, aux arômes de noisette grillée, élevé sous bois avec une générosité qui "
@@ -1010,6 +1036,9 @@ msgstr "Leaderboard for %(day)s"
 msgid "Classement du jour"
 msgstr "Today's leaderboard"
 
+msgid "Classement et jeu bonus"
+msgstr "Leaderboard and bonus game"
+
 #, python-format
 msgid "Classé au défi du jour : %(score)s points."
 msgstr "Ranked in today's challenge: %(score)s points."
@@ -1068,6 +1097,9 @@ msgstr ""
 "Start with the clearest aroma, then add the palate: a crisp, light wine or a powerful, tannic one quickly "
 "narrows things down. Two or three descriptors are often enough to recognise an appellation."
 
+msgid "Comment la carte est construite"
+msgstr "How the map is built"
+
 msgid "Comment le site relie un vin à ses molécules, et les publications qui appuient chaque lien."
 msgstr "How the site links a wine to its molecules, and the publications behind each link."
 
@@ -1082,6 +1114,13 @@ msgstr "Communes"
 
 msgid "Comparer"
 msgstr "Compare"
+
+#, python-format
+msgid "Comparer avec %(other)s"
+msgstr "Compare with %(other)s"
+
+msgid "Comparer avec votre dernière proposition"
+msgstr "Compare with your last guess"
 
 msgid "Comparer deux vins"
 msgstr "Compare two wines"
@@ -1107,6 +1146,9 @@ msgstr "Concentric"
 msgid "Conegliano-Valdobbiadene"
 msgstr "Conegliano-Valdobbiadene"
 
+msgid "Confidentialité"
+msgstr "Privacy"
+
 msgid "Connectez-vous"
 msgstr "Log in"
 
@@ -1116,8 +1158,14 @@ msgstr "Log in"
 msgid "Conseil"
 msgstr "Tip"
 
+msgid "Contact"
+msgstr "Contact"
+
 msgid "Contenu de la base"
 msgstr "Database contents"
+
+msgid "Copié : il n'y a plus qu'à coller."
+msgstr "Copied: just paste it."
 
 msgid "Corps"
 msgstr "Body"
@@ -1148,6 +1196,9 @@ msgstr "Create an account"
 
 msgid "Créez un compte"
 msgstr "Create an account"
+
+msgid "Créez un compte en vingt secondes : cette partie entre au classement du jour et votre série commence."
+msgstr "Create an account in twenty seconds: this game joins today's leaderboard and your streak begins."
 
 msgid "Cépage"
 msgstr "Grape"
@@ -1206,6 +1257,10 @@ msgstr "DOCG"
 #, python-format
 msgid "Dans %(n)s vins"
 msgstr "In %(n)s wines"
+
+#, python-format
+msgid "Dans ce %(wine)s, aucune molécule n'est un marqueur établi : chaque bulle est une piste, plus ou moins sûre."
+msgstr "In this %(wine)s, no molecule is an established marker: each bubble is a lead, more or less certain."
 
 #, python-format
 msgid "Dans ce %(wine)s, la note %(of_aroma)s vient %(of_mol)s, fruit du long élevage oxydatif."
@@ -1268,16 +1323,6 @@ msgstr "Descriptors it evokes"
 msgid "Deux pyrroleméthanethiols, seuils de 0,7 et 1,4 ng/L, jamais observés jusqu'ici dans un produit naturel."
 msgstr "Two pyrrolemethanethiols, thresholds of 0.7 and 1.4 ng/L, never observed in a natural product until now."
 
-msgid "Deux vins face à face : bouche, arômes, molécules."
-msgstr "Two wines side by side: palate, aromas, molecules."
-
-msgid ""
-"Deux vins mystère, les mêmes pour tout le monde, renouvelés chaque jour. Un résultat par jour et par jeu, "
-"un classement pour les départager."
-msgstr ""
-"Two mystery wines, the same for everyone, renewed every day. One result per day and per game, and a "
-"leaderboard to settle it."
-
 msgid "Discret"
 msgstr "Subtle"
 
@@ -1338,6 +1383,9 @@ msgstr ""
 "Describe what you smell in the glass, then what you feel on the palate. With each descriptor added, we "
 "recalculate the five most likely wines."
 
+msgid "Décrivez ce que vous sentez, nous proposons les vins."
+msgstr "Describe what you smell, we suggest the wines."
+
 msgid "Déduites de son encépagement, de son style et de son nez, chacune avec sa source."
 msgstr "Deduced from its grape varieties, its style and its nose, each with its source."
 
@@ -1351,6 +1399,9 @@ msgstr "Challenge of %(day)s: the same wine for everyone."
 
 msgid "Défi du jour"
 msgstr "Daily challenge"
+
+msgid "Défier un ami"
+msgstr "Challenge a friend"
 
 msgid "Déjà inscrit ?"
 msgstr "Already registered?"
@@ -1472,6 +1523,9 @@ msgstr "Entre-deux-Mers"
 msgid "Environnement de la vigne"
 msgstr "Vineyard environment"
 
+msgid "Envoyer"
+msgstr "Send"
+
 msgid "Espagne (Rioja) / Douro"
 msgstr "Spain (Rioja) / Douro"
 
@@ -1545,9 +1599,6 @@ msgstr "Explore"
 
 msgid "Explorer le vin"
 msgstr "Explore wine"
-
-msgid "Explorer le vin : appellations, cépages, arômes, molécules et blind test."
-msgstr "Explore wine: appellations, grapes, aromas, molecules and a blind tasting game."
 
 msgid "Exporter en PNG"
 msgstr "Export as PNG"
@@ -1695,6 +1746,13 @@ msgstr "Ageing"
 msgid "Garde : %(a)s à %(b)s ans"
 msgstr "Ageing: %(a)s to %(b)s years"
 
+msgid "Garder mes points"
+msgstr "Keep my points"
+
+#, python-format
+msgid "Gardez vos %(points)s points"
+msgstr "Keep your %(points)s points"
+
 msgid "Garrigue et herbes"
 msgstr "Garrigue and herbs"
 
@@ -1822,6 +1880,9 @@ msgstr ""
 "they exceed their threshold. They have never yet been found in a natural product: the hazelnut in the glass"
 " owes nothing to the hazelnut on the tree."
 
+msgid "Image du score"
+msgstr "Score image"
+
 msgid "Importé de Wikidata, non vérifié ·"
 msgstr "Imported from Wikidata, unverified ·"
 
@@ -1839,6 +1900,9 @@ msgid "Indices"
 msgstr "Clues"
 
 msgid "Information"
+msgstr "Information"
+
+msgid "Informations"
 msgstr "Information"
 
 msgid "Initiale de la région"
@@ -1869,11 +1933,21 @@ msgstr ""
 msgid "Italie / Charentes"
 msgstr "Italy / Charentes"
 
+msgid "J'ai déjà un compte"
+msgstr "I already have an account"
+
+msgid "Jamais affichée. Sert seulement à retrouver votre compte."
+msgstr "Never shown. Only used to recover your account."
+
 msgid "Je certifie avoir 18 ans ou plus"
 msgstr "I certify that I am 18 or older"
 
-msgid "Jeu"
-msgstr "Game"
+#, python-format
+msgid "Je viens de jouer le vin du jour n° %(number)s sur %(name)s. À toi de le deviner au nez :"
+msgstr "I just played wine of the day #%(number)s on %(name)s. Your turn to guess it by the nose:"
+
+msgid "Jeu bonus"
+msgstr "Bonus game"
 
 msgid "Jeune"
 msgstr "Young"
@@ -1889,6 +1963,9 @@ msgstr "Play hot-cold"
 
 msgid "Jouer le défi du jour"
 msgstr "Play the daily challenge"
+
+msgid "Jouer le vin du jour"
+msgstr "Play today's wine"
 
 msgid "Joueur"
 msgstr "Player"
@@ -2217,6 +2294,9 @@ msgstr "Pinot Noir"
 msgid "Le Savagnin"
 msgstr "Savagnin"
 
+msgid "Le blind test du jour"
+msgstr "Today's blind tasting"
+
 msgid ""
 "Le bois de tonnellerie apporte au vin des lactones (noix de coco), de la vanilline, de l'eugénol et, une "
 "fois brûlé, des phénols fumés. On y a même trouvé de la rotundone."
@@ -2226,6 +2306,9 @@ msgstr ""
 
 msgid "Le caractère « abricot » du Viognier relié aux monoterpènes géraniol, linalol et nérol."
 msgstr "The \"apricot\" character of Viognier linked to the monoterpenes geraniol, linalool and nerol."
+
+msgid "Le chaud-froid est un jeu bonus : son tableau est séparé du classement du blind test."
+msgstr "Hot and cold is a bonus game: its board is separate from the blind tasting leaderboard."
 
 msgid "Le chaud-froid n'est pas disponible."
 msgstr "Hot-cold is not available."
@@ -2499,9 +2582,8 @@ msgstr ""
 "vintage, but ready sooner and at a gentler price. Black fruit, chocolate and spice, tannins still firm; the"
 " unfiltered version keeps much longer."
 
-#, python-format
-msgid "Le vin du jour est un %(color)s. Au nez : %(aromas)s…"
-msgstr "Today's wine is a %(color)s. On the nose: %(aromas)s…"
+msgid "Le vin du jour"
+msgstr "Today's wine"
 
 #, python-format
 msgid "Le vin est à environ %(km)s km %(direction)s."
@@ -2568,14 +2650,17 @@ msgstr ""
 msgid "Les descripteurs dominants de chaque appellation."
 msgstr "The dominant descriptors of each appellation."
 
+msgid "Les descripteurs du nez, famille par famille."
+msgstr "Nose descriptors, family by family."
+
 #, python-format
 msgid ""
 "Les descripteurs utilisés dans les fiches, le blind test et Trouve mon vin, regroupés en %(families)s "
 "familles."
 msgstr "The descriptors used in the wine pages, the blind test and Find my wine, grouped into %(families)s families."
 
-msgid "Les défis du jour"
-msgstr "Today's challenges"
+msgid "Les fiches des vins, de la Bourgogne au Piémont."
+msgstr "Wine sheets, from Burgundy to Piedmont."
 
 msgid ""
 "Les houblons aromatiques du Nouveau Monde doivent une partie de leur parfum de cassis et de fruit tropical "
@@ -2591,8 +2676,8 @@ msgstr ""
 "Ionones take their name from the violet (ion in Greek): β-ionone carries the violet note of Pinot Noir, "
 "Syrah or Malbec."
 
-msgid "Les liens entre vins, cépages, arômes et régions."
-msgstr "The links between wines, grapes, aromas and regions."
+msgid "Les meilleurs nez du jour et de toujours."
+msgstr "The best noses of the day and of all time."
 
 msgid "Les molécules"
 msgstr "The molecules"
@@ -2636,6 +2721,13 @@ msgstr ""
 msgid "Les pentes du volcan éteint Vulture, terre de l'aglianico."
 msgstr "The slopes of the extinct Vulture volcano, land of aglianico."
 
+msgid ""
+"Les positions ne sont pas dessinées à la main : elles sont apprises à partir des liens entre vins, cépages,"
+" arômes, molécules et régions."
+msgstr ""
+"Positions are not drawn by hand: they are learned from the links between wines, grapes, aromas, molecules "
+"and regions."
+
 msgid "Les publications qui justifient les liens affichés, de la plus citée à la moins citée."
 msgstr "The publications that justify the links shown, from most to least cited."
 
@@ -2654,11 +2746,14 @@ msgstr "The graph vectors have not been learned yet. Run: python manage.py train
 msgid "Les vins qui la rappellent"
 msgstr "Wines that recall it"
 
-msgid "Les vins rapprochés par ressemblance."
-msgstr "Wines placed close together by likeness."
-
 msgid "Les éléments naturels"
 msgstr "Natural sources"
+
+msgid "Lettres, chiffres et . _ - ; visible par tous."
+msgstr "Letters, digits and . _ -; visible to everyone."
+
+msgid "Leurs arômes et les vins qu'ils donnent."
+msgstr "Their aromas and the wines they make."
 
 msgid "Levures d'altération (Brettanomyces)"
 msgstr "Spoilage yeasts (Brettanomyces)"
@@ -2764,6 +2859,21 @@ msgstr "Unsubscribe"
 msgid "Meilleur score du jour : %(points)s points (%(user)s)"
 msgstr "Best score today: %(points)s points (%(user)s)"
 
+msgid "Meilleure piste"
+msgstr "Best lead"
+
+msgid "Mentions légales"
+msgstr "Legal notice"
+
+msgid "Merci, message reçu"
+msgstr "Thank you, message received"
+
+msgid "Mes données personnelles"
+msgstr "My personal data"
+
+msgid "Message envoyé"
+msgstr "Message sent"
+
 msgid "Mille kilomètres de fleuve et de styles, du muscadet océanique aux sauvignons du Centre."
 msgstr "A thousand kilometres of river and styles, from oceanic Muscadet to the Sauvignons of the Centre."
 
@@ -2789,6 +2899,9 @@ msgstr "Medium-sweet"
 
 msgid "Moelleux pyrénéen issu de raisins passerillés sur souche, exotique et épicé, d'une fraîcheur remarquable."
 msgstr "Pyrenean sweet wine made from grapes dried on the vine, exotic and spicy, with remarkable freshness."
+
+msgid "Moins probable"
+msgstr "Less likely"
 
 msgid "Molécule"
 msgstr "Molecule"
@@ -2827,8 +2940,17 @@ msgstr "Montepulciano"
 msgid "Mosaïque de climats où le pinot noir et le chardonnay expriment chaque parcelle."
 msgstr "A mosaic of climats where Pinot Noir and Chardonnay express each plot."
 
+msgid "Mot de passe"
+msgstr "Password"
+
+msgid "Mot de passe incorrect : le compte n'a pas été supprimé."
+msgstr "Wrong password: the account was not deleted."
+
 msgid "Mot de passe incorrect."
 msgstr "Incorrect password."
+
+msgid "Mot de passe, pour confirmer"
+msgstr "Password, to confirm"
 
 msgid "Muscat doux à peine pétillant, très faible en alcool, parfumé comme du raisin frais."
 msgstr "A sweet, barely sparkling muscat, very low in alcohol, as fragrant as fresh grapes."
@@ -2889,6 +3011,9 @@ msgstr "Travel from region to appellation, from grape to aroma. Look for the pat
 msgid "Naît pendant"
 msgstr "Formed during"
 
+msgid "Ne pas remplir"
+msgstr "Leave empty"
+
 msgid "Nebbiolo des sols volcaniques du nord du Piémont, plus fin et plus minéral que celui des Langhe."
 msgstr "Nebbiolo from the volcanic soils of northern Piedmont, finer and more mineral than that of the Langhe."
 
@@ -2898,11 +3023,15 @@ msgstr "A nebbiolo that is earlier-maturing and silkier than its neighbour, from
 msgid "Newsletter"
 msgstr "Newsletter"
 
+#, python-format
+msgid "Ni publicité ni revente : <a href=\"%(url)s\">ce que nous faisons de vos données</a>."
+msgstr "No ads, nothing sold: <a href=\"%(url)s\">what we do with your data</a>."
+
 msgid "Noir"
 msgstr "Black"
 
-msgid "Nom d'utilisateur"
-msgstr "Username"
+msgid "Nom au classement"
+msgstr "Leaderboard name"
 
 msgid "Norisoprénoïde en C13"
 msgstr "C13 norisoprenoid"
@@ -2910,15 +3039,11 @@ msgstr "C13 norisoprenoid"
 msgid "Nos fiches décrivent des"
 msgstr "Our pages describe"
 
+msgid "Nous vous répondrons à l'adresse indiquée."
+msgstr "We will reply to the address you gave."
+
 msgid "Nouveautés, défis et découvertes, environ une fois par mois."
 msgstr "News, challenges and discoveries, about once a month."
-
-msgid ""
-"Nouveautés, défis et découvertes, environ une fois par mois. Désinscription possible à tout moment depuis "
-"votre profil ou d'un clic dans chaque e-mail."
-msgstr ""
-"News, challenges and discoveries, about once a month. You can unsubscribe at any time from your profile or "
-"with one click in every email."
 
 msgid "Nouvelle partie libre"
 msgstr "New free game"
@@ -2932,6 +3057,9 @@ msgid ""
 msgstr ""
 "Born from the pyrolysis of lignin at very high temperature: the more heavily the barrel is toasted, the "
 "more the wine smells of smoke. It is also found in wines from vines exposed to wildfires."
+
+msgid "Objet"
+msgstr "Subject"
 
 msgid "Occurrences importées automatiquement, non vérifiées une à une."
 msgstr "Occurrences imported automatically, not checked one by one."
@@ -2984,8 +3112,9 @@ msgstr "Origin"
 msgid "Origine dans le vin"
 msgstr "Origin in wine"
 
-msgid "Oui, je souhaite recevoir la newsletter de Wine Explorer"
-msgstr "Yes, I would like to receive the Wine Explorer newsletter"
+#, python-format
+msgid "Ou par e-mail : <a href=\"mailto:%(email)s\">%(email)s</a>."
+msgstr "Or by e-mail: <a href=\"mailto:%(email)s\">%(email)s</a>."
 
 #, python-format
 msgid "Oui, nous sommes en %(region)s."
@@ -3012,6 +3141,9 @@ msgstr "Out of %(considered)s wine profiles."
 
 msgid "Partage avec le Gewurztraminer une dizaine de composés odorants, dont l'oxyde de rose cis, le plus actif."
 msgstr "Shares about ten odorous compounds with Gewurztraminer, including cis-rose oxide, the most active."
+
+msgid "Partager mon résultat"
+msgstr "Share my result"
 
 msgid "Partie abandonnée."
 msgstr "Game abandoned."
@@ -3123,6 +3255,9 @@ msgstr "Points"
 msgid "Points de départ"
 msgstr "Starting points"
 
+msgid "Possible"
+msgstr "Possible"
+
 msgid "Pouilles"
 msgstr "Apulia"
 
@@ -3145,6 +3280,9 @@ msgstr "Why a wine contains a molecule"
 msgid "Premier vin"
 msgstr "First wine"
 
+msgid "Presque autant"
+msgstr "Almost as likely"
+
 msgid "Principal constituant de l'huile essentielle des feuilles."
 msgstr "Main constituent of the leaf essential oil."
 
@@ -3157,12 +3295,16 @@ msgstr "Maximum entry price:"
 msgid "Prix indicatif"
 msgstr "Indicative price"
 
-msgid "Prochain défi dans"
-msgstr "Next challenge in"
+#, python-format
+msgid "Probabilité calculée : %(pct)s %%"
+msgstr "Computed probability: %(pct)s%%"
 
 #, python-format
 msgid "Prochain indice au prochain essai manqué : %(next_clue)s."
 msgstr "Next clue after your next missed attempt: %(next_clue)s."
+
+msgid "Prochain vin dans"
+msgstr "Next wine in"
 
 msgid "Proche"
 msgstr "Close"
@@ -3251,11 +3393,17 @@ msgstr ""
 msgid "Pâtisserie et lactique"
 msgstr "Pastry and dairy"
 
+msgid "Quelles données le site collecte, pourquoi, combien de temps, et vos droits."
+msgstr "What data the site collects, why, for how long, and your rights."
+
 msgid "Quels cépages pour quelles appellations."
 msgstr "Which grapes for which appellations."
 
 msgid "Quels vins la rappellent ?"
 msgstr "Which wines recall it?"
+
+msgid "Qui fait le site, d'où viennent les fiches et comment elles sont relues."
+msgstr "Who makes the site, where the wine sheets come from and how they are checked."
 
 msgid "Quitter le plein écran"
 msgstr "Exit full screen"
@@ -3286,6 +3434,9 @@ msgstr "Missed"
 msgid "Recadrer"
 msgstr "Fit to view"
 
+msgid "Recevoir la newsletter (environ une fois par mois, désinscription en un clic)"
+msgstr "Get the newsletter (about once a month, unsubscribe in one click)"
+
 msgid "Reconstituez l'étiquette d'un vin mystère."
 msgstr "Piece together the label of a mystery wine."
 
@@ -3300,6 +3451,9 @@ msgstr "Follow the trail"
 
 msgid "Reprendre"
 msgstr "Resume"
+
+msgid "Reprendre ma partie"
+msgstr "Resume my game"
 
 #, python-format
 msgid "Retirer %(a_name)s"
@@ -3532,6 +3686,9 @@ msgstr "Wine region"
 msgid "Régions"
 msgstr "Regions"
 
+msgid "Régions et appellations"
+msgstr "Regions and appellations"
+
 msgid "Régions, sous-régions et appellations."
 msgstr "Regions, sub-regions and appellations."
 
@@ -3621,6 +3778,9 @@ msgstr "Log out"
 msgid "Second vin"
 msgstr "Second wine"
 
+msgid "Sentir"
+msgstr "Smell"
+
 msgid "Service"
 msgstr "Serving"
 
@@ -3659,6 +3819,9 @@ msgstr "Its marker molecules"
 msgid "Ses molécules, de la plus sûre à la plus hypothétique"
 msgstr "Its molecules, from the most certain to the most speculative"
 
+msgid "Ses voisins sur la carte des goûts"
+msgstr "Its neighbours on the taste map"
+
 msgid "Sesquiterpène"
 msgstr "Sesquiterpene"
 
@@ -3681,6 +3844,9 @@ msgstr "Detection thresholds of guaiacol: 23 µg/L in red wine, 9.5 µg/L in wat
 msgid "Seuils des monoterpènes (nérol, géraniol, α-terpinéol, citronellol, lactone du vin) et des esters."
 msgstr "Thresholds of monoterpenes (nerol, geraniol, α-terpineol, citronellol, wine lactone) and esters."
 
+msgid "Seul le blind test du jour compte, une fois par jour. Les parties libres ne sont pas classées."
+msgstr "Only today's blind tasting counts, once a day. Free games are not ranked."
+
 msgid ""
 "Seul le défi du jour compte, une fois par jour : 100 points si vous trouvez du premier coup, 3 de moins par"
 " essai en plus."
@@ -3691,11 +3857,11 @@ msgstr ""
 msgid "Seul rouge du vignoble, léger et fruité, de plus en plus profond chez les meilleurs producteurs."
 msgstr "The only red of the vineyard, light and fruity, increasingly deep in the hands of the best producers."
 
-msgid "Seuls les défis du jour comptent, une fois par jour et par jeu. Les parties libres ne sont pas classées."
-msgstr "Only the daily challenges count, once a day per game. Free games are not ranked."
-
 msgid "Sicile"
 msgstr "Sicily"
+
+msgid "Signaler une erreur, poser une question, proposer un partenariat."
+msgstr "Report a mistake, ask a question, suggest a partnership."
 
 msgid "Soave"
 msgstr "Soave"
@@ -3775,6 +3941,12 @@ msgstr "South West"
 msgid "Sulfure"
 msgstr "Sulfide"
 
+msgid "Supprimer définitivement"
+msgstr "Delete permanently"
+
+msgid "Supprimer mon compte"
+msgstr "Delete my account"
+
 msgid "Sur la carte"
 msgstr "On the map"
 
@@ -3806,8 +3978,8 @@ msgid "Température"
 msgstr "Temperature"
 
 #, python-format
-msgid "Terminé : %(points)s points"
-msgstr "Done: %(points)s points"
+msgid "Terminé : %(points)s points. Revoir"
+msgstr "Done: %(points)s points. Review"
 
 msgid ""
 "Terpène des Muscats et du Gewurztraminer, qui se forme aussi en bouteille à partir du linalol et du "
@@ -3818,6 +3990,9 @@ msgstr ""
 
 msgid "Terre du sangiovese, des collines du Chianti aux plages de la Maremme où s'installent les cépages bordelais."
 msgstr "Sangiovese country, from the hills of Chianti to the Maremma coast where Bordeaux grapes have settled."
+
+msgid "Texte à partager"
+msgstr "Text to share"
 
 msgid "Thiol"
 msgstr "Thiol"
@@ -3842,9 +4017,6 @@ msgstr "Tuscany / Corsica"
 
 msgid "Total"
 msgstr "Total"
-
-msgid "Total des jeux"
-msgstr "All games"
 
 msgid "Toujours montrer le socle commun"
 msgstr "Always show the common base"
@@ -3905,6 +4077,9 @@ msgstr "Third Thursday of November"
 msgid "Troisième jeudi de novembre · aujourd'hui"
 msgstr "Third Thursday of November · today"
 
+msgid "Trop de messages envoyés d'ici. Réessayez dans une heure."
+msgstr "Too many messages sent from here. Try again in an hour."
+
 msgid "Trouve mon vin"
 msgstr "Find my wine"
 
@@ -3931,6 +4106,9 @@ msgstr "Found in %(attempts_used)s attempt%(s)s."
 msgid "Trouvé en %(n)s proposition%(s)s."
 msgstr "Found in %(n)s guess%(s)s."
 
+msgid "Très probable"
+msgstr "Very likely"
+
 msgid "Très proches"
 msgstr "Very close"
 
@@ -3942,6 +4120,10 @@ msgstr "Unsupported type of guess."
 
 msgid "Tyrol / Alsace"
 msgstr "Tyrol / Alsace"
+
+#, python-format
+msgid "Un %(color)s. Au nez : %(aromas)s…"
+msgstr "A %(color)s. On the nose: %(aromas)s…"
 
 msgid "Un amphithéâtre de garrigues et de schistes, terre de renouveau et de vins doux naturels."
 msgstr "An amphitheatre of garrigue and schist, a land of renewal and of vins doux naturels."
@@ -3965,8 +4147,12 @@ msgstr ""
 msgid "Un compte existe déjà avec cette adresse."
 msgstr "An account already exists with this address."
 
-msgid "Un compte garde votre historique de blind test et vous place au classement du défi du jour."
-msgstr "An account keeps your blind tasting history and puts you on the daily challenge leaderboard."
+msgid ""
+"Un compte garde vos parties, votre série de jours et vous place au classement. Les parties jouées sur cet "
+"appareil y sont rattachées."
+msgstr ""
+"An account keeps your games and your streak, and puts you on the leaderboard. Games played on this device "
+"are added to it."
 
 msgid "Un conservatoire de cépages autochtones, du tannat au manseng."
 msgstr "A conservatory of native grape varieties, from Tannat to Manseng."
@@ -4061,6 +4247,9 @@ msgstr ""
 "Find its region, its appellation and its main grapes. You have %(max_attempts)s attempts; each unsuccessful"
 " attempt reveals a new clue."
 
+msgid "Un vin mystère, le même pour tout le monde. Retrouvez son appellation au nez, en huit essais au plus."
+msgstr "One mystery wine, the same for everyone. Find its appellation by the nose, in eight guesses at most."
+
 msgid ""
 "Un vin mystère, quelques indices : retrouvez sa région, son appellation et ses cépages en un nombre limité "
 "d'essais."
@@ -4071,6 +4260,12 @@ msgstr "A wine drawn at random, as many times as you like. For practice."
 
 msgid "Un vin, une appellation, un cépage…"
 msgstr "A wine, an appellation, a grape…"
+
+msgid "Une erreur dans une fiche"
+msgstr "A mistake in a wine sheet"
+
+msgid "Une erreur dans une fiche, une question sur vos données, une idée de partenariat : nous lisons tout."
+msgstr "A mistake in a sheet, a question about your data, a partnership idea: we read everything."
 
 msgid ""
 "Une molécule n'est reliée à une plante, un fruit, une épice ou un aliment que si une étude l'y a "
@@ -4223,8 +4418,8 @@ msgstr "Wines that show it"
 msgid "Voir dans le graphe"
 msgstr "View in the graph"
 
-msgid "Voir le classement des jeux"
-msgstr "See the games leaderboard"
+msgid "Voir le classement"
+msgstr "See the leaderboard"
 
 msgid "Voir sur Wikidata"
 msgstr "View on Wikidata"
@@ -4243,6 +4438,32 @@ msgstr "Your strengths and weaknesses will appear here."
 
 msgid "Vos propositions, de la plus chaude à la plus froide"
 msgstr "Your guesses, from hottest to coldest"
+
+msgid "Votre adresse e-mail, pour vous répondre"
+msgstr "Your e-mail address, so we can reply"
+
+msgid "Votre compte et vos données ont été supprimés."
+msgstr "Your account and your data have been deleted."
+
+msgid ""
+"Votre compte, vos parties et votre inscription à la newsletter sont effacés aussitôt et définitivement. Vos"
+" scores quittent le classement."
+msgstr ""
+"Your account, your games and your newsletter subscription are erased at once and for good. Your scores "
+"leave the leaderboard."
+
+msgid "Votre grille"
+msgstr "Your grid"
+
+msgid "Votre message"
+msgstr "Your message"
+
+#, python-format
+msgid "Votre message est conservé %(days)s jours au plus, le temps de vous répondre."
+msgstr "Your message is kept %(days)s days at most, long enough to reply."
+
+msgid "Votre nom (facultatif)"
+msgstr "Your name (optional)"
 
 msgid "Votre parcours"
 msgstr "Your trail"
@@ -4303,12 +4524,6 @@ msgstr "Whisky lactones, vanillin, eugenol and guaiacol extracted from wood in t
 
 msgid "Wikidata, non vérifié"
 msgstr "Wikidata, unverified"
-
-msgid "Wine Explorer, accueil"
-msgstr "Wine Explorer, home"
-
-msgid "Wine Explorer. Données de référence sélectionnées pour l'apprentissage ; prix et gardes indicatifs."
-msgstr "Wine Explorer. Reference data selected for learning; prices and ageing potential are indicative."
 
 msgid "a sa propre méthode et sa bibliographie :"
 msgstr "section has its own method and bibliography:"
@@ -4489,6 +4704,9 @@ msgstr "blue cheeses"
 
 msgid "bois brûlé"
 msgstr "charred wood"
+
+msgid "bonus"
+msgstr "bonus"
 
 msgid "botrytisé"
 msgstr "botrytised"
@@ -4705,6 +4923,9 @@ msgstr "cocktails"
 
 msgid "coing"
 msgstr "quince"
+
+msgid "comparer"
+msgstr "compare"
 
 msgid "comté"
 msgstr "Comté cheese"
@@ -6080,20 +6301,23 @@ msgstr "· %(molar_mass)s g/mol"
 msgid "· %(n_sources)s source%(s)s naturelle%(s)s"
 msgstr "· %(n_sources)s natural source%(s)s"
 
-msgid "· Wine Explorer"
-msgstr "· Wine Explorer"
-
 msgid "· importé de Wikidata, non vérifié"
 msgstr "· imported from Wikidata, unverified"
-
-msgid "À jouer"
-msgstr "To play"
 
 msgid "À maturité"
 msgstr "Mature"
 
+msgid "À propos"
+msgstr "About"
+
 msgid "Âge du vin"
 msgstr "Wine age"
+
+msgid "École, club, caviste : un partenariat"
+msgstr "School, club, wine shop: a partnership"
+
+msgid "Éditeur, hébergeur et conditions d'utilisation du site."
+msgstr "Publisher, host and terms of use."
 
 msgid "Élevage"
 msgstr "Ageing"

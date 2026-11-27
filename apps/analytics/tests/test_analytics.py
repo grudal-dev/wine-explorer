@@ -153,8 +153,7 @@ class EventTests(TestCase):
 
     def test_signup_is_tracked(self):
         self.client.post("/compte/inscription/", {"username": "nouveau", "email": "n@exemple.fr", "adult": "on",
-                                                  "password1": "Vin-de-garde-2026",
-                                                  "password2": "Vin-de-garde-2026"}, HTTP_USER_AGENT=CHROME)
+                                                  "password": "Vin-de-garde-2026"}, HTTP_USER_AGENT=CHROME)
         self.assertTrue(User.objects.filter(username="nouveau").exists())
         self.assertTrue(Event.objects.filter(name="signup").exists())
 

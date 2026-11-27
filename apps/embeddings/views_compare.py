@@ -53,15 +53,15 @@ def duel(request, a, b):
     ctx = {"same": wa.pk == wb.pk}
     if not ctx["same"]:
         d = compare.duel(wa, wb)
-        name_a, name_b = tr(wa.name), tr(wb.name)
+        name_a, name_b = compare.short_name(wa), compare.short_name(wb)
         ctx.update(d)
         ctx.update(
-            name_a=name_a, name_b=name_b,
+            name_a=name_a, name_b=name_b, full_a=tr(wa.name), full_b=tr(wb.name),
             gauge=compare_svg.gauge(d["percent"], d["band"]) if d["percent"] is not None else "",
             radar=compare_svg.radar(d["mouth"], name_a, name_b),
             nose_wide=compare_svg.nose_wide(d["nose"], name_a, name_b),
             nose_narrow=compare_svg.nose_narrow(d["nose"], name_a, name_b),
         )
     else:
-        ctx.update(a=wa, b=wb, name_a=tr(wa.name), name_b=tr(wb.name))
+        ctx.update(a=wa, b=wb, name_a=tr(wa.name), name_b=tr(wb.name), full_a=tr(wa.name), full_b=tr(wb.name))
     return render(request, "embeddings/compare.html", ctx)

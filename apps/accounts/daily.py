@@ -57,5 +57,9 @@ def hotcold_card(request, day):
 
 
 def overview(request, day):
-    return {"cards": [blindtest_card(request, day), hotcold_card(request, day)],
-            "reset_at": next_reset()}
+    """Le blind test du jour (le défi) et le chaud-froid (bonus) ; la série de jours du joueur."""
+    from apps.blindtest.share import streak_for
+
+    blind, hot = blindtest_card(request, day), hotcold_card(request, day)
+    return {"cards": [blind, hot], "blindtest": blind, "hotcold": hot,
+            "streak": streak_for(owned_games(request), day), "reset_at": next_reset()}

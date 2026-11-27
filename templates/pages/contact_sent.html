@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Message envoyé" %}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<div class="auth">
+  <h1>{% translate "Merci, message reçu" %}</h1>
+  <p class="muted">{% translate "Nous vous répondrons à l'adresse indiquée." %}</p>
+  <p><a class="btn" href="{% url 'home' %}">{% translate "Retour à l'accueil" %}</a></p>
+</div>
+{% endblock %}

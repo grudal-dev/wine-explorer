@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Contact" %}{% endblock %}
+{% block description %}{% translate "Signaler une erreur, poser une question, proposer un partenariat." %}{% endblock %}
+{% block content %}
+<div class="auth auth--wide">
+  <h1>{% translate "Contact" %}</h1>
+  <p class="muted">{% translate "Une erreur dans une fiche, une question sur vos données, une idée de partenariat : nous lisons tout." %}{% if contact_email %} {% blocktranslate trimmed with email=contact_email %}Ou par e-mail : <a href="mailto:{{ email }}">{{ email }}</a>.{% endblocktranslate %}{% endif %}</p>
+  <form method="post" novalidate>{% csrf_token %}
+    {% include "partials/form_fields.html" %}
+    <button class="btn" type="submit">{% translate "Envoyer" %}</button>
+  </form>
+  <p class="small muted" style="margin-top:1rem">{% blocktranslate trimmed with days=365 %}Votre message est conservé {{ days }} jours au plus, le temps de vous répondre.{% endblocktranslate %} <a href="{% url 'privacy' %}">{% translate "Confidentialité" %}</a></p>
+</div>
+{% endblock %}

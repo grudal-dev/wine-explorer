@@ -14,13 +14,13 @@
     {% for r in result.results %}
     <li class="ranking__item">
       <div class="ranking__head">
-        <span class="ranking__pct">{% widthratio r.probability 1 100 %} %</span>
+        {% widthratio r.probability 1 100 as pct %}<span class="ranking__pct ranking__pct--word" title="{% blocktranslate trimmed %}Probabilité calculée : {{ pct }} %{% endblocktranslate %}">{{ r.likelihood }}</span>
         <div>
           <h3><span class="robe robe--{{ r.profile.color }}"></span> <a href="{{ r.profile.url }}">{{ r.profile.name|tr }}</a></h3>
           <p class="small muted">{{ r.profile.region }}, {{ r.profile.style_label|lower }}. {{ r.profile.grapes|join:", " }}.</p>
         </div>
       </div>
-      <div class="ranking__bar" aria-hidden="true"><span style="width: {% widthratio r.probability 1 100 %}%"></span></div>
+      <div class="ranking__bar" aria-hidden="true"><span style="width: {{ r.relative }}%"></span></div>
       <ul class="matches">
         {% for m in r.matches %}
           <li class="match match--{{ m.match }}{% if m.sense %} match--sense{% endif %}"{% if m.sense %} title="{% blocktranslate trimmed with actual=m.actual %}Ce vin : {{ actual }}{% endblocktranslate %}"{% endif %}>{{ m.name|tr }}{% if m.sense %} <span class="match__actual">({{ m.actual }})</span>{% endif %}{% if m.near %} <span class="match__actual">(≈ {{ m.near }})</span>{% endif %}<span class="visually-hidden"> :

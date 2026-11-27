@@ -18,7 +18,7 @@ class AccountTests(TestCase):
     def test_signup_logs_in(self):
         r = self.client.post(reverse("accounts:signup"), {
             "username": "lucas", "email": "lucas@example.com",
-            "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026", "adult": "on",
+            "password": "Un-Bon-Cru-2026", "adult": "on",
         })
         self.assertRedirects(r, reverse("accounts:profile"))
         self.assertEqual(self.client.get(reverse("accounts:profile")).status_code, 200)
@@ -27,7 +27,7 @@ class AccountTests(TestCase):
         User.objects.create_user("a", "x@example.com", "pw-123456789")
         r = self.client.post(reverse("accounts:signup"), {
             "username": "b", "email": "X@example.com",
-            "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026", "adult": "on",
+            "password": "Un-Bon-Cru-2026", "adult": "on",
         })
         self.assertContains(r, "existe déjà")
 
@@ -175,18 +175,24 @@ class AccountTests(TestCase):
         HotColdResult.objects.create(user=ann, day=today, secret="x", outcome="won", guesses=4, score=91)
         HotColdResult.objects.create(user=bob, day=today, secret="x", outcome="won", guesses=1, score=100)
         Game.objects.create(user=bob, profile=profile, mode=Game.Mode.FREE, status=Game.Status.WON, score=999)
+        # Le classement, c'est le blind test du jour ; le chaud-froid (bonus) a son tableau à part.
         r = self.client.get(reverse("accounts:ranking"))
-        rows = list(r.context["today"])
-        self.assertEqual([(x["username"], x["blindtest"], x["hotcold"], x["points"]) for x in rows],
-                         [("ann", 60, 91, 151), ("bob", 0, 100, 100)])
-        self.assertEqual(list(r.context["all_time"])[0]["points"], 151)
-        self.assertContains(r, "Total des jeux")
+        self.assertEqual(r.context["game"], "blindtest")
+        self.assertEqual([(x["username"], x["points"]) for x in r.context["today"]], [("ann", 60)])
+        hot = self.client.get(reverse("accounts:ranking") + "?jeu=hotcold")
+        self.assertEqual([(x["username"], x["points"]) for x in hot.context["today"]], [("bob", 100), ("ann", 91)])
+        # Le total reste calculé pour l'application mobile.
+        from apps.accounts.rankings import standings
+        total = standings("total", today)["today"]
+        self.assertEqual([(x["username"], x["points"]) for x in total], [("ann", 151), ("bob", 100)])
+        self.assertContains(hot, "bonus")
         bad = self.client.get(reverse("accounts:ranking") + "?jeu=zzz")
-        self.assertEqual(bad.context["game"], "total")
+        self.assertEqual(bad.context["game"], "blindtest")
 
     def test_home_shows_daily_challenges_and_games_menu(self):
         home = self.client.get("/")
-        self.assertContains(home, "Les défis du jour")
+        self.assertContains(home, "Le vin du jour")
+        self.assertContains(home, "Jouer le vin du jour")
         self.assertContains(home, 'data-deadline="')
         self.assertContains(home, 'class="nav-group"')
         self.assertEqual([c["state"] for c in home.context["daily"]["cards"]], ["todo", "todo"])
@@ -199,7 +205,7 @@ class AccountTests(TestCase):
 
 class NewsletterTests(TestCase):
     SIGNUP = {"username": "lucas", "email": "lucas@example.com",
-              "password1": "Un-Bon-Cru-2026", "password2": "Un-Bon-Cru-2026", "adult": "on"}
+              "password": "Un-Bon-Cru-2026", "adult": "on"}
 
     def test_signup_form_asks_and_is_unchecked(self):
         r = self.client.get(reverse("accounts:signup"))
