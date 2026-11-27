@@ -32,8 +32,6 @@ KIND_COLORS = {
 MAX_PROFILES = 18
 AUTO_COMMON_BELOW = 6          # socle commun ajouté d'office sous ce nombre de molécules
 MAX_BUBBLES = 8                # vue d'un vin : au-delà, « Voir tout » (jamais une molécule qui explique un arôme)
-MATURE_FROM = 5                # garde minimale (ans) dès laquelle la vue d'un vin s'ouvre « à maturité »
-AGE_TOGGLE_FROM = 6            # garde maximale (ans) sous laquelle le curseur d'âge n'a pas de sens
 
 
 @dataclass
@@ -316,12 +314,11 @@ def _headline(d: "Data", slug: str, shown: list[dict]) -> str:
 
 def build(kind: str, slug: str, common: bool | None = None,
           imported: bool = True, max_profiles: int = MAX_PROFILES,
-          age: str | None = None, everything: bool = False) -> dict | None:
+          everything: bool = False) -> dict | None:
     """Éléments Cytoscape pour l'entité de départ.
 
     ``common`` : True ou False force le socle commun ; None (défaut) l'ajoute d'office quand
     un vin a peu de molécules propres, pour qu'aucun graphe ne soit vide.
-    ``age`` (vue d'un vin) : « jeune » ou « mature » ; None choisit selon la garde du vin.
     ``everything`` : toutes les bulles, sans la limite de MAX_BUBBLES.
     """
     d = data()
@@ -331,30 +328,11 @@ def build(kind: str, slug: str, common: bool | None = None,
     hidden_sources = 0
     truncated = 0
     aromas_total = aromas_explained = 0
-    age_info: dict = {}
     unexplained: list[dict] = []
     headline = ""
     more = 0
 
-    if kind == "profile" and slug in d.profiles:
-        aging_min, aging_max = d.profiles[slug]["aging"]
-        toggle = (aging_max or 0) >= AGE_TOGGLE_FROM
-        if age not in ("jeune", "mature") or not toggle:
-            age = "mature" if toggle and (aging_min or 0) >= MATURE_FROM else "jeune"
-        age_info = {"age": age, "toggle": toggle, "aging": [aging_min, aging_max]}
     rows_all = d.by_profile.get(slug, []) if kind == "profile" else []
-    by_age: dict[str, list[str]] = {"maturité": [], "jeunesse": []}
-
-    def age_ok(mslug: str) -> bool:
-        """Jeune : sans le bouquet de vieillissement ; à maturité : sans les acétates qui s'estompent."""
-        mage = d.molecules[mslug].get("age", "")
-        if (mage == "maturité" and age == "jeune") or (mage == "jeunesse" and age == "mature"):
-            by_age[mage].append(mslug)
-            return False
-        return True
-
-    if kind == "profile":
-        rows_all = [r for r in rows_all if age_ok(r[0])]
     if common is None:
         if kind == "profile":
             own = [r for r in rows_all if r[3] == "specific"]
@@ -413,19 +391,14 @@ def build(kind: str, slug: str, common: bool | None = None,
                 edges.append(_edge(mid, aid_node, "evokes", intensity))
         aromas_total = len(wine_aromas)
         aromas_explained = sum(1 for n in nodes.values() if n["data"]["type"] == "aroma")
-        # Le reste du nez : ce que la chimie n'explique pas (encore), ou que l'âge choisi masque.
+        # Le reste du nez : ce que la chimie n'explique pas (encore).
         shown = {n["data"]["id"] for n in nodes.values()}
-        aged = {aid: m for m in by_age["maturité"] + by_age["jeunesse"]
-                for aid in d.molecule_aromas.get(m, ()) if aid in wine_aromas}
         notes = unexplained_notes()
         for aid, (intensity, aname, ahue, aslug, fname) in sorted(wine_aromas.items(), key=lambda kv: (-kv[1][0], kv[1][1])):
             if f"aroma:{aslug}" in shown:
                 continue
-            if aid in aged:
-                key, note = ("age" if d.molecules[aged[aid]].get("age") == "maturité" else "young"), ""
-            else:
-                key = notes["aromas"].get(aname, "inconnu")
-                note = _lang(notes["notes"][aname]) if aname in notes.get("notes", {}) else ""
+            key = notes["aromas"].get(aname, "inconnu")
+            note = _lang(notes["notes"][aname]) if aname in notes.get("notes", {}) else ""
             unexplained.append({"label": tr(aname), "slug": aslug, "intensity": intensity, "hue": ahue,
                                 "reason": _lang(notes["reasons"][key]), "note": note})
         headline = _headline(d, slug, [n["data"] for n in nodes.values() if n["data"]["type"] == "molecule"])
@@ -516,14 +489,12 @@ def build(kind: str, slug: str, common: bool | None = None,
     return {
         "elements": ordered + edges,
         "references": references,
-        "age": age_info,
         "unexplained": unexplained,
         "headline": headline,
         "stats": {
             "profiles": counts["profile"], "molecules": counts["molecule"], "sources": counts["source"],
             "hidden_common": hidden_common, "truncated": truncated, "hidden_sources": hidden_sources,
             "aromas": aromas_explained, "aromas_total": aromas_total, "more": more,
-            "hidden_by_age": len(by_age["maturité"]) + len(by_age["jeunesse"]),
             "common": bool(common),
         },
     }

@@ -87,10 +87,9 @@ def api_graph(request):
         max_profiles = max(1, min(int(request.GET.get("vins", graph.MAX_PROFILES)), 60))
     except ValueError:
         max_profiles = graph.MAX_PROFILES
-    age = request.GET.get("age") or None
     everything = request.GET.get("tout", "0") in {"1", "true", "on"}
     result = graph.build(kind, slug, common=common, imported=imported, max_profiles=max_profiles,
-                         age=age, everything=everything)
+                         everything=everything)
     if result is None:
         return JsonResponse({"error": "Entité inconnue."}, status=404)
     return JsonResponse(result)
@@ -240,7 +239,7 @@ ORIGIN_STAGE = {
 def print_sheet(request, slug: str):
     """Fragment HTML : la fiche imprimable d'un vin (A4). Le dessin du bouquet est fait par le
     navigateur (Cytoscape) et posé dans <img data-bouquet> ; le reste vient d'ici, avec les mêmes
-    réglages que le graphe affiché (âge, socle commun, Wikidata, tout)."""
+    réglages que le graphe affiché (socle commun, Wikidata, tout)."""
     profile = get_object_or_404(
         WineProfile.objects.select_related("appellation__region__parent", "appellation__country")
         .prefetch_related("profile_grapes__grape"),
@@ -251,7 +250,6 @@ def print_sheet(request, slug: str):
     result = graph.build(
         "profile", slug, common=common,
         imported=request.GET.get("wikidata", "1") not in {"0", "false", "off"},
-        age=request.GET.get("age") or None,
         everything=request.GET.get("tout", "0") in {"1", "true", "on"},
     )
     if result is None:
@@ -299,6 +297,5 @@ def print_sheet(request, slug: str):
         "rows": rows,
         "unexplained": result["unexplained"],
         "references": result["references"],
-        "age": result["age"],
         "url": request.build_absolute_uri(f"{profile.get_absolute_url()}"),
     })

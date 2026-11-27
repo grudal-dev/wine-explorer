@@ -179,18 +179,6 @@ class WineViewTruthTests(TestCase):
         self.assertEqual((cdp.strength, cr.strength), (2, 3))
         self.assertIn("part variable", next(r["label"] for r in cdp.reasons if r["basis"] == "grape"))
 
-    def test_age_toggle(self):
-        young = graph.build("profile", "barolo-rouge", age="jeune")
-        mature = graph.build("profile", "barolo-rouge", age="mature")
-        ids = lambda g: {e["data"]["id"] for e in g["elements"] if e["group"] == "nodes"}  # noqa: E731
-        self.assertNotIn("molecule:sulfure-de-dimethyle", ids(young))
-        self.assertIn("molecule:sulfure-de-dimethyle", ids(mature))
-        truffe = next(u for u in young["unexplained"] if u["slug"] == "truffe")
-        self.assertIn("maturité", truffe["reason"])
-        # Garde longue : on ouvre « à maturité » ; un vin à boire jeune n'a pas de curseur.
-        self.assertEqual(graph.build("profile", "barolo-rouge")["age"]["age"], "mature")
-        self.assertFalse(graph.build("profile", "beaujolais-rouge")["age"]["toggle"])
-
     def test_bubble_limit_never_hides_an_explained_aroma(self):
         g = graph.build("profile", "pauillac-rouge")
         n = g["stats"]["molecules"]

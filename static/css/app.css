@@ -1177,11 +1177,6 @@ body.map-is-full { overflow: hidden; }
   padding: .6rem 1rem; border-bottom: 1px solid var(--rule); background: rgba(248,248,244,.9); }
 .mol-headline { margin: 0; font-family: var(--serif); font-size: var(--step-1); line-height: 1.35; color: var(--ink); max-width: 62ch; }
 .mol-headline:empty { display: none; }
-.mol-age { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; flex: none; }
-.mol-age__btn { border: 0; background: transparent; padding: .35rem .8rem; font: 500 var(--step--1) var(--sans); color: var(--ink-2); cursor: pointer; }
-.mol-age__btn[aria-pressed="true"] { background: var(--garnet); color: #fff; }
-.mol-age__btn:focus-visible { outline: 2px solid var(--garnet); outline-offset: -2px; }
-.mol-age__years { opacity: .8; font-weight: 400; }
 .mol-more { display: block; margin: 0 1rem .5rem; font-size: var(--step--1); }
 .mol-rest { padding: .6rem 1rem .9rem; border-top: 1px solid var(--rule); }
 .mol-rest__title { margin: 0 0 .15rem; font-size: var(--step-0); }

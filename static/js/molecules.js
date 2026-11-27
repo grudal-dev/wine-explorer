@@ -36,8 +36,8 @@
 
   const measureCtx = document.createElement("canvas").getContext("2d");
   const LINE = 1.15;   // interligne des bulles, partagé par le style et la mesure
-  const state = { start: "", trail: [], common: false, wikidata: true, age: null, everything: false };
-  const query = () => `${state.common ? "&commun=1" : ""}${state.age ? `&age=${state.age}` : ""}${state.everything ? "&tout=1" : ""}${state.wikidata ? "" : "&wikidata=0"}`;
+  const state = { start: "", trail: [], common: false, wikidata: true, everything: false };
+  const query = () => `${state.common ? "&commun=1" : ""}${state.everything ? "&tout=1" : ""}${state.wikidata ? "" : "&wikidata=0"}`;
 
   const cy = cytoscape({
     container: document.getElementById("mol-cy"),
@@ -1030,8 +1030,8 @@
   let seq = 0;
   async function load(id, { push = true } = {}) {
     const [kind, slug] = id.split(":");
-    // Nouveau vin : l'âge et « Voir tout » repartent de zéro (l'âge par défaut suit la garde du vin).
-    if (id !== state.start) { state.age = null; state.everything = false; }
+    // Nouveau vin : « Voir tout » repart de zéro.
+    if (id !== state.start) state.everything = false;
     const mine = ++seq;
     stats.textContent = _("Chargement…");
     let data;
@@ -1083,25 +1083,17 @@
     stats.textContent = text;
   }
 
-  // ── Vue d'un vin : phrase-titre, âge, « Voir tout », le reste du nez ─────
+  // ── Vue d'un vin : phrase-titre, « Voir tout », le reste du nez ─────
   const wineBar = document.getElementById("mol-wine-bar");
   const headlineEl = document.getElementById("mol-headline");
-  const ageBox = document.getElementById("mol-age");
-  const ageYears = document.getElementById("mol-age-years");
   const moreBtn = document.getElementById("mol-more");
   const restBox = document.getElementById("mol-rest");
   const restList = document.getElementById("mol-rest-list");
   function renderWine(data, kind) {
     const isWine = kind === "profile";
-    const age = data.age || {};
     headlineEl.textContent = isWine ? data.headline || "" : "";
-    ageBox.hidden = !(isWine && age.toggle);
-    wineBar.hidden = !(isWine && (data.headline || age.toggle));
+    wineBar.hidden = !(isWine && data.headline);
     printBtn.hidden = !isWine;
-    if (isWine && age.age) state.age = age.age;
-    ageBox.querySelectorAll("[data-age]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.age === age.age)));
-    const [lo, hi] = age.aging || [];
-    ageYears.textContent = lo != null && hi ? _("(%a à %b ans)").replace("%a", lo).replace("%b", hi) : "";
     const s = data.stats || {};
     moreBtn.hidden = !isWine || !(s.more || state.everything);
     moreBtn.textContent = state.everything ? _("Moins de molécules")
@@ -1126,12 +1118,6 @@
     });
     restBox.hidden = !restList.children.length;
   }
-  ageBox.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-age]");
-    if (!b || b.dataset.age === state.age) return;
-    state.age = b.dataset.age;
-    load(state.start, { push: false });
-  });
   moreBtn.addEventListener("click", () => { state.everything = !state.everything; load(state.start, { push: false }); });
 
   // ── Sources du graphe affiché ──────────────────────────────────────────
@@ -1353,8 +1339,7 @@
   state.wikidata = params.get("wikidata") !== "0";
   if (wikiBox) wikiBox.checked = state.wikidata;
   const first = params.get("depart") || root.dataset.start;
-  // L'âge et « Voir tout » de l'adresse valent pour ce premier vin (load ne les remet à zéro qu'au changement).
-  state.age = ["jeune", "mature"].includes(params.get("age")) ? params.get("age") : null;
+  // « Voir tout » de l'adresse vaut pour ce premier vin (load ne le remet à zéro qu'au changement).
   state.everything = params.get("tout") === "1";
   // « ?imprimer=1 » (lien « Fiche à imprimer » d'une fiche vin) : la fiche s'ouvre dès que le bouquet est prêt.
   if (first) {
