@@ -98,10 +98,10 @@
       { selector: "node:selected", style: { "border-width": 4, "border-color": C.garnet, "overlay-opacity": 0 }},
       // ── Bouquet (vue d'un vin, ordinateur) : le verre en bas, les molécules montent en bulles ──
       { selector: "node.bq[type='profile']", style: { "shape": "rectangle", "width": () => 74 * SC, "height": () => 124 * SC,
-        "background-opacity": 0, "border-width": 0, "background-image": (n) => glass(n.data("wine")),
+        "background-opacity": 0, "border-width": 0, "background-image": (n) => glass(n.data("wine"), n.data("sparkling")),
         "background-fit": "contain", "background-clip": "none", "label": "data(label)", "text-valign": "bottom",
         "text-halign": "center", "text-margin-x": 0, "text-margin-y": () => 10 * SC, "font-family": "Fraunces, Georgia, serif",
-        "font-size": () => 21 * SC, "font-weight": 600, "text-background-opacity": 0, "text-max-width": () => 260 * SC }},
+        "font-size": () => 21 * SC, "font-weight": 600, "text-background-opacity": 0, "text-max-width": () => 380 * SC }},
       { selector: "node.bq[type='molecule']", style: { "shape": "ellipse",
         "width": (n) => bubble(n), "height": (n) => bubble(n),
         "padding": "0px", "background-color": "data(hue)", "border-width": 7, "border-color": "data(hue)", "border-opacity": 0.2,
@@ -183,8 +183,22 @@
   // taille : le verre reste net quand on zoome, sans quoi il flou ou se déforme.
   const ROBE = { rouge: "#6E1A33", blanc: "#E2C766", rose: "#E89A8C" };
   const glassCache = {};
-  function glass(wine) {
+  function glass(wine, sparkling) {
     const fill = ROBE[wine] || ROBE.rouge;
+    // Effervescent : une flûte, étroite et haute, avec quelques bulles qui montent.
+    if (sparkling) {
+      const key = `flute|${fill}`;
+      if (!glassCache[key]) {
+        glassCache[key] = "data:image/svg+xml;utf8," + encodeURIComponent(
+          "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='672' viewBox='-50 -116 100 168'>"
+          + "<path d='M-22 -114 H22 C22 -60 16 -26 0 -18 C-16 -26 -22 -60 -22 -114 Z' fill='#fff' stroke='#23262F' stroke-width='2.5' stroke-linejoin='round'/>"
+          + `<path d='M-20 -92 H20 C19 -56 13 -29 0 -21 C-13 -29 -19 -56 -20 -92 Z' fill='${fill}'/>`
+          + "<g fill='#fff' opacity='.85'><circle cx='-6' cy='-40' r='2'/><circle cx='5' cy='-55' r='1.6'/><circle cx='-3' cy='-70' r='1.8'/><circle cx='7' cy='-82' r='1.3'/></g>"
+          + "<path d='M0 -18 V40' stroke='#23262F' stroke-width='2.5'/>"
+          + "<path d='M-26 46 Q0 36 26 46' fill='none' stroke='#23262F' stroke-width='2.5' stroke-linecap='round'/></svg>");
+      }
+      return glassCache[key];
+    }
     if (!glassCache[fill]) {
       glassCache[fill] = "data:image/svg+xml;utf8," + encodeURIComponent(
         "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='672' viewBox='-50 -116 100 168'>"
@@ -232,7 +246,10 @@
     const d = bubble(n);
     return fitAt(n, d, true);
   }
-  // Ajuste le texte à une bulle de diamètre d ; sans « last », renvoie null quand rien ne tient à 8,5 px.
+  // Plancher de lisibilité : sous 11 px (et le dessin est parfois dézoomé), l'italique devient illisible ;
+  // la bulle grandit plutôt que le texte ne rapetisse.
+  const MIN_FS = 11;
+  // Ajuste le texte à une bulle de diamètre d ; sans « last », renvoie null quand rien ne tient à MIN_FS.
   function fitAt(n, d, last) {
     const name = n.data("label") || "";
     const note = n.hasClass("bouquet") ? "" : (n.data("note") || n.data("odor") || "");
@@ -242,7 +259,7 @@
     const r = d / 2 - 3;
     const max = (n.data("strength") || 1) >= 3 ? 14.5 : 12.5;
     let best = null;
-    for (let fs = max; fs >= 8.5 && !best; fs -= 0.5) {
+    for (let fs = max; fs >= MIN_FS && !best; fs -= 0.5) {
       measureCtx.font = `italic 600 ${fs}px Fraunces, Georgia, serif`;
       const measure = (t) => measureCtx.measureText(t).width;
       const room = (k, i) => {   // largeur de la corde du cercle à la hauteur de la ligne i sur k
@@ -256,14 +273,14 @@
       }
     }
     if (!best && !last) { fitCache.set(key, null); return null; }
-    if (!best) {   // dernier recours : 8,5 px, nom sur deux lignes, la seconde abrégée
-      measureCtx.font = "italic 600 8.5px Fraunces, Georgia, serif";
+    if (!best) {   // dernier recours : nom sur deux lignes au plancher, la seconde abrégée
+      measureCtx.font = `italic 600 ${MIN_FS}px Fraunces, Georgia, serif`;
       const measure = (t) => measureCtx.measureText(t).width;
       const lines = wrap(tokens(name), d * 0.78, measure).slice(0, 2);
       let last = lines[lines.length - 1];
       while (last.length > 3 && measure(`${last}…`) > d * 0.72) last = last.slice(0, -1);
       if (lines.join("") !== name.replace(/\s+/g, "")) lines[lines.length - 1] = `${last.replace(/-$/, "")}…`;
-      best = { text: [...head, ...lines].join("\n"), size: 8.5 };
+      best = { text: [...head, ...lines].join("\n"), size: MIN_FS };
     }
     fitCache.set(key, best);
     return best;
@@ -296,10 +313,10 @@
     }
     const d = base * shrink * weight * SC;
     // Un nom long (« pyrroleméthanethiol ») agrandit un peu sa bulle plutôt que d'être abrégé.
-    for (const grow of [1, 1.12, 1.25, 1.38, 1.52]) {
+    for (const grow of [1, 1.12, 1.25, 1.38, 1.52, 1.68]) {
       if (fitAt(n, d * grow, false)) return d * grow;
     }
-    return d * 1.52;
+    return d * 1.68;
   }
   // Une vue par point de départ : un vin en bouquet ; une molécule en couronne de vins ; un élément
   // naturel en soleil (lui au centre, ses molécules, puis leurs vins). Sur téléphone, le bouquet se
@@ -690,7 +707,7 @@
       const p = positions[g.id()];
       if (!p) return;
       measureCtx.font = `600 ${21 * SC}px Fraunces, Georgia, serif`;
-      const lines = wrap(tokens(g.data("label") || ""), 260 * SC, (t) => measureCtx.measureText(t).width).length;
+      const lines = wrap(tokens(g.data("label") || ""), 380 * SC, (t) => measureCtx.measureText(t).width).length;
       bottom = Math.max(bottom, p.y + 62 * SC + 10 * SC + lines * 21 * SC * 1.3);
     });
     const height = Math.round(Math.max(bottom + 26, 420));
@@ -951,7 +968,31 @@
       animate: !reduceMotion && !printing, animationDuration: 380,
     });
     lastLayout.run();
+    if (!fit) keepInView(positions);
     placeColumnLabels();
+  }
+  // Couronne, soleil, bouquet : dessinés pour leur cadre, mais un long nom de vin ou une étiquette poussée
+  // au bord peut déborder (« Muscat de Beaumes-de-Venise blanc » coupé). On dézoome juste assez, jamais
+  // au-delà de 1, d'après les positions d'arrivée (l'animation n'est pas finie quand on décide).
+  function keepInView(positions) {
+    let x1 = Infinity, x2 = -Infinity, y1 = Infinity, y2 = -Infinity;
+    cy.nodes().forEach((n) => {
+      const to = positions[n.id()];
+      if (!to) return;
+      const at = n.position(), bb = n.boundingBox({ includeLabels: true });
+      x1 = Math.min(x1, to.x + bb.x1 - at.x); x2 = Math.max(x2, to.x + bb.x2 - at.x);
+      y1 = Math.min(y1, to.y + bb.y1 - at.y); y2 = Math.max(y2, to.y + bb.y2 - at.y);
+    });
+    if (!Number.isFinite(x1)) return;
+    const W = cy.width(), H = cy.height(), pad = 14;
+    if (x1 >= pad && x2 <= W - pad && y1 >= pad && y2 <= H - pad) return;
+    const zoom = Math.min(1, (W - 2 * pad) / (x2 - x1), (H - 2 * pad) / (y2 - y1));
+    // Dézoomé, le dessin reste centré ; à 1, on ne le décale que de ce qui dépasse.
+    const cxm = (x1 + x2) / 2, cym = (y1 + y2) / 2;
+    const nudge = (lo, hi, size) => Math.min(0, size - pad - hi) + Math.max(0, pad - lo);
+    cy.viewport(zoom < 1
+      ? { zoom, pan: { x: W / 2 - zoom * cxm, y: H / 2 - zoom * cym } }
+      : { zoom: 1, pan: { x: nudge(x1, x2, W), y: nudge(y1, y2, H) } });
   }
   function meanRank(n, rank) {
     const r = n.neighborhood("node").map((m) => rank.get(m.id())).filter((v) => v !== undefined);

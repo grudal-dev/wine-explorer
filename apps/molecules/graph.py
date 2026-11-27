@@ -86,8 +86,8 @@ def data_version() -> tuple:
 def _data(version: tuple) -> Data:
     profiles = {
         p.slug: {"slug": p.slug, "label": p.name, "color": p.color, "url": p.get_absolute_url(),
-                 "aging": (p.aging_min, p.aging_max)}
-        for p in WineProfile.objects.only("slug", "name", "color", "aging_min", "aging_max")
+                 "aging": (p.aging_min, p.aging_max), "sparkling": p.style == "effervescent"}
+        for p in WineProfile.objects.only("slug", "name", "color", "style", "aging_min", "aging_max")
     }
     molecules = {
         m.slug: {"slug": m.slug, "label": m.name, "family": m.family, "family_label": ChemicalFamily(m.family).label,
@@ -188,6 +188,8 @@ def _node(kind: str, info: dict, layer: int, **extra) -> dict:
     payload = {"id": f"{kind}:{info['slug']}", "label": tr(info["label"]), "type": kind, "layer": layer}
     if kind == "profile":
         payload["wine"] = info["color"]
+        if info.get("sparkling"):
+            payload["sparkling"] = True
     elif kind == "molecule":
         payload["family"] = info["family"]
         payload["origin"] = info.get("origin", "")
@@ -248,6 +250,25 @@ def _of(name: str) -> str:
     return f"de la {name}" if feminine else f"du {name}"
 
 
+def _ce(text: str, wine: str) -> str:
+    """« Dans cet Alsace muscat », « dans cet Hermitage » : devant une voyelle ou un h muet (mais « ce
+    Haut-Médoc », h aspiré)."""
+    from django.utils.translation import get_language
+
+    w = wine.lower()
+    if (get_language() or "fr").startswith("fr") and (
+            w[:1] in "aeiouyéèêàâîôœ" or (w[:1] == "h" and not w.startswith("haut"))):
+        return text.replace("Dans ce ", "Dans cet ", 1)
+    return text
+
+
+def _no_marker(d: Data, slug: str) -> str:
+    wine = tr(d.profiles[slug]["label"])
+    text = gettext("Dans ce %(wine)s, aucune molécule n'est un marqueur établi : chaque bulle est une piste, "
+                   "plus ou moins sûre.") % {"wine": wine}
+    return _ce(text, wine)
+
+
 def _headline(d: "Data", slug: str, shown: list[dict]) -> str:
     """Une phrase pour le vin : « Dans ce Côte-Rôtie, la note de poivre noir vient de la rotundone,
     marqueur du cépage Syrah. » On prend la molécule qui explique un arôme avec la plus forte raison."""
@@ -264,8 +285,9 @@ def _headline(d: "Data", slug: str, shown: list[dict]) -> str:
         if best is None or rank > best[0]:
             best = (rank, m, grape, style)
     # Une phrase n'affirme que ce qui est solide : un marqueur de cépage ou de style, ou un lien fort.
+    # Sinon, elle dit franchement qu'il n'y a que des pistes (plutôt qu'un bandeau vide).
     if best is None or not (best[2] or best[3] or best[0][0] >= 2):
-        return ""
+        return _no_marker(d, slug) if shown else ""
     _, m, grape, style = best
     mslug = m["id"].split(":", 1)[1]
     note = d.link_note.get((slug, mslug))

@@ -211,8 +211,10 @@ class WineViewTruthTests(TestCase):
         self.assertEqual(
             graph.build("profile", "cote-rotie-rouge")["headline"],
             "Dans ce Côte-Rôtie rouge, la note de poivre noir vient de la rotundone, marqueur du cépage Syrah.")
-        # Un lien trop faible ne fait pas de phrase.
-        self.assertEqual(graph.build("profile", "champagne-brut")["headline"], "")
+        # Un lien trop faible n'affirme rien : la phrase dit qu'il n'y a que des pistes.
+        self.assertEqual(graph.build("profile", "champagne-brut")["headline"],
+                         "Dans ce Champagne brut, aucune molécule n'est un marqueur établi : chaque bulle est une "
+                         "piste, plus ou moins sûre.")
 
     def test_weak_descriptor_links_removed(self):
         self.assertFalse(ProfileMolecule.objects.filter(profile__slug="cote-rotie-rouge", molecule__slug="4-mmp").exists())
